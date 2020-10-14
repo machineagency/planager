@@ -4,11 +4,7 @@ import './index.css';
 import Main from './Main';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Main />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+
+ReactDOM.render( <Main />, document.getElementById('root'));
 
 serviceWorker.register();
