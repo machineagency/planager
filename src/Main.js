@@ -122,7 +122,7 @@ export default class Main extends React.Component {
   render() {
     return (
       <div className="Main">
-          <div id="editor" ref={this.editorRef} class="the-graph-dark"></div>
+          <div id="editor" ref={this.editorRef} className="the-graph-dark"></div>
           <div id="buttonContainer">
             <button onClick={this.random}>Make a Random Graph</button>
             <button onClick={this.addNode}>Add a Node!</button>
