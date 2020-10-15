@@ -15,3 +15,13 @@ The NoFlo creators made [a series of React components](https://github.com/flowhu
 React developer tools (for [Firefox](https://addons.mozilla.org/en-US/firefox/addon/react-devtools/) or [Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)) are very comprehensive and great for development.
 
 To understand more about how React works, I recommend going through their [Tic Tac Toe tutorial](https://reactjs.org/tutorial/tutorial.html).
+
+## Features
+
+So far, you can create a dummy graph of dummy actions, connect them, and move them around.
+![graph](pics/graph.png)
+
+ You can also get the json that defines this graph, or "workflow".
+![graph json](pics/graph_json.png)
+
+Next steps are to add internal logic to the actions, and create a template action that can be easily copied and modified.
