@@ -18,10 +18,12 @@ To understand more about how React works, I recommend going through their [Tic T
 
 ## Features
 
-So far, you can create a dummy graph of dummy actions, connect them, and move them around.
+So far, you can create a dummy graph of dummy actions, connect them, and move them around. I made a random graph here to demonstrate:
+
 ![graph](pics/graph.png)
 
- You can also get the json that defines this graph, or "workflow".
+ You can also get the json that defines this graph, or "workflow":
+
 ![graph json](pics/graph_json.png)
 
 Next steps are to add internal logic to the actions, and create a template action that can be easily copied and modified.
