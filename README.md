@@ -1,4 +1,5 @@
 # The Planager
+The Planager is a flow-based programming environment that allows you to create workflows that span digital, physical, and human domains.
 
 ## Get started
 I did the development for this on the Ubuntu subsystem for Windows, which means it should work on Unix systems. Ensure you have the latest version of [node](https://nodejs.org/en/) installed before starting. Clone and download this repo. In the top-level directory, run `npm install`. This will install all of the dependencies, which are listed in `package.json`. The dependencies are installed to `/node_modules`, which is in the `.gitignore`.
@@ -27,3 +28,9 @@ So far, you can create a dummy graph of dummy actions, connect them, and move th
 ![graph json](pics/graph_json.png)
 
 Next steps are to add internal logic to the actions, and create a template action that can be easily copied and modified.
+
+## Open Questions
+What are different ways to express control flow logic?
+How do we capture provenance?
+What does feedback look like?
+How do we represent physical objects vs digital info, and how to document changes to physical objects (like the volume of liquid in a well)?
