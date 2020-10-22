@@ -1,9 +1,11 @@
 # The Planager
 
 ## Get started
+
 I did the development for this on the Ubuntu subsystem for Windows, which means it should work on Unix systems. Ensure you have the latest version of [node](https://nodejs.org/en/) installed before starting. Clone and download this repo. In the top-level directory, run `npm install`. This will install all of the dependencies, which are listed in `package.json`. The dependencies are installed to `/node_modules`, which is in the `.gitignore`.
 
 ## To Run the App
+
 Run `npm start` in the top directory. This will initialize the development server and open the app in your browser. It is constantly watching for changes to the code, so every time you save it will refresh the page. Handy!
 
 ## Helpful Resources
@@ -22,7 +24,7 @@ So far, you can create a dummy graph of dummy actions, connect them, and move th
 
 ![graph](pics/graph.png)
 
- You can also get the json that defines this graph, or "workflow":
+You can also get the json that defines this graph, or "workflow":
 
 ![graph json](pics/graph_json.png)
 
