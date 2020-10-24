@@ -7,10 +7,11 @@ import DisplayJson from './components/actions/DisplayJson'
 
 import './Main.css'
 
-import { WorkflowProvider } from './WorkflowContext'
+import WorkflowContext from './WorkflowContext'
 
 
 export default class Main extends React.Component {
+  static contextType = WorkflowContext
   constructor(props) {
     super(props)
     this.state = {
@@ -53,7 +54,7 @@ export default class Main extends React.Component {
   }
 
   run(event) {
-    // console.log(WorkflowContext)
+    this.context.setWorkflow({asdf: "asdfasdf"})
   }
 
   renderActions() {
@@ -62,19 +63,17 @@ export default class Main extends React.Component {
 
   render() {
     return (
-      <WorkflowProvider value={{hello: "world"}}>
-        <div>
-            <div id="buttonContainer">
-              <button onClick={this.run}>Run</button>
-              <button onClick={this.addStart}>Add start action</button>
-              <button onClick={this.addString}>Add string action</button>
-              <button onClick={this.addJson}>Add json action</button>
-            </div>
-            
-              {this.renderActions()}
-            
-        </div>
-      </WorkflowProvider>
+      <div>
+          <div id="buttonContainer">
+            <button onClick={this.run}>Run</button>
+            <button onClick={this.addStart}>Add start action</button>
+            <button onClick={this.addString}>Add string action</button>
+            <button onClick={this.addJson}>Add json action</button>
+          </div>
+          
+            {this.renderActions()}
+          
+      </div>
     );
   }
 }

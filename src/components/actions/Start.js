@@ -21,6 +21,12 @@ export default class Start extends React.Component {
     console.log(user)
   }
 
+  componentDidUpdate() {
+    const user = this.context
+    console.log(user)
+    this.run()
+  }
+
   render() {
     return (
       <Draggable>
