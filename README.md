@@ -30,7 +30,7 @@ So far, you can create a dummy graph of dummy actions, connect them, and move th
 Next steps are to add internal logic to the actions, and create a template action that can be easily copied and modified.
 
 ## Open Questions
-What are different ways to express control flow logic?
-How do we capture provenance?
-What does feedback look like?
-How do we represent physical objects vs digital info, and how to document changes to physical objects (like the volume of liquid in a well)?
+- What are different ways to express control flow logic?
+- How do we capture provenance?
+- What does feedback look like?
+- How do we represent physical objects vs digital info, and how to document changes to physical objects (like the volume of liquid in a well)?
