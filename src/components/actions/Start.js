@@ -1,9 +1,9 @@
 import React from 'react'
 import Draggable from 'react-draggable'
-import WorkflowContext from '../../WorkflowContext'
+import WorkflowContext from '../../utils/WorkflowContext'
 
 export default class Start extends React.Component {
-  static contextType = WorkflowContext
+  static contextType = WorkflowContext // How we access the global context
 
   constructor(props) {
     super(props)
