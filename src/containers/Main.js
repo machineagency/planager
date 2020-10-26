@@ -1,13 +1,13 @@
 import React from 'react'
 
 // Import Components
-import Start from './components/actions/Start'
-import SendString from './components/actions/SendString'
-import DisplayJson from './components/actions/DisplayJson'
+import Start from '../components/actions/Start'
+import SendString from '../components/actions/SendString'
+import DisplayJson from '../components/actions/DisplayJson'
 
 import './Main.css'
 
-import WorkflowContext from './WorkflowContext'
+import WorkflowContext from '../utils/WorkflowContext'
 
 
 export default class Main extends React.Component {
