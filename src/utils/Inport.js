@@ -1,3 +1,1 @@
-class Inport {
-	
-}
+class Inport {}
