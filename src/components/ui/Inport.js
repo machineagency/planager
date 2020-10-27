@@ -1,4 +1,5 @@
 import React from "react";
+import ReactTooltip from 'react-tooltip';
 import "./css/Inport.css";
 
 export default class Inport extends React.Component {
@@ -9,13 +10,14 @@ export default class Inport extends React.Component {
   }
 
   onClick(event) {
-    console.log(this.props);
+    console.log(this.props.name);
   }
 
   render() {
     return (
       <div>
-        <button className="inport" onClick={this.onClick} />
+        <ReactTooltip />
+        <button className="inport" onClick={this.onClick} data-tip={this.props.name} />
       </div>
     );
   }
