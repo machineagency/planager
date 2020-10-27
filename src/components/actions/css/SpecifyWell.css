@@ -5,8 +5,8 @@
   min-width: 200px;
 }
 
-.helpicon {
-  cursor: pointer;
+.portsContainer {
+  cursor: default;
 }
 
 .actionTitle {

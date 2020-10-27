@@ -76,7 +76,7 @@ export default class SpecifyWell extends React.Component {
     let inports = [];
 
     Object.entries(this.state.inports).forEach(([key, value]) => {
-      inports = inports.concat(<Inport key={key} />);
+      inports = inports.concat(<Inport key={key} name={key} />);
     });
 
     return inports;
@@ -86,7 +86,7 @@ export default class SpecifyWell extends React.Component {
     let outports = [];
 
     Object.entries(this.state.outports).forEach(([key, value]) => {
-      outports = outports.concat(<Outport key={key} />);
+      outports = outports.concat(<Outport key={key} name={key} />);
     });
 
     return outports;
@@ -103,9 +103,9 @@ export default class SpecifyWell extends React.Component {
 
   render() {
     return (
-      <Draggable cancel=".inport, .outport, .actionInput">
+      <Draggable cancel=".portsContainer, .actionInput">
         <div className="action row">
-          <div id="inportsContainer" className="column">
+          <div className="column portsContainer">
             {this.renderInports()}
           </div>
           <div className="box column">
@@ -137,7 +137,7 @@ export default class SpecifyWell extends React.Component {
               />
             </div>
           </div>
-          <div id="outportsContainer" className="column">
+          <div className="column portsContainer">
             {this.renderOutports()}
           </div>
         </div>
