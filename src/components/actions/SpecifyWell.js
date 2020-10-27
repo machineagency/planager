@@ -3,6 +3,8 @@ import Draggable from "react-draggable";
 import { Input } from "semantic-ui-react";
 import WorkflowContext from "../../utils/WorkflowContext";
 import "./css/SpecifyWell.css";
+import Inport from "../ui/Inport";
+import Outport from "../ui/Outport";
 
 export default class SpecifyWell extends React.Component {
   static contextType = WorkflowContext; // How we access the global context
@@ -10,38 +12,41 @@ export default class SpecifyWell extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inports: [
-        {
+      inports: {
+        depth: {
           name: "depth",
           value: null,
           type: "float",
           units: "mm",
           hover: "well depth",
+          required: false,
         },
-        {
+        diameter: {
           name: "diameter",
           value: null,
           type: "float",
           units: "mm",
           hover: "well diameter",
+          required: false,
         },
-        {
+        max_volume: {
           name: "max_volume",
           value: null,
           type: "float",
           units: "ml",
           hover: "maximum well volume",
+          required: false,
         },
-      ],
-      outports: [
-        {
+      },
+      outports: {
+        well: {
           name: "well",
           value: null,
           type: "well",
           units: null,
           hover: "a well object",
         },
-      ],
+      },
       volume: null,
       depth: null,
       diameter: null,
@@ -67,6 +72,26 @@ export default class SpecifyWell extends React.Component {
 
   componentDidMount() {}
 
+  renderInports() {
+    let inports = [];
+
+    Object.entries(this.state.inports).forEach(([key, value]) => {
+      inports = inports.concat(<Inport key={key} />);
+    });
+
+    return inports;
+  }
+
+  renderOutports() {
+    let outports = [];
+
+    Object.entries(this.state.outports).forEach(([key, value]) => {
+      outports = outports.concat(<Outport key={key} />);
+    });
+
+    return outports;
+  }
+
   run() {
     const well = {
       max_volume: this.state.volume,
@@ -78,41 +103,43 @@ export default class SpecifyWell extends React.Component {
 
   render() {
     return (
-      <Draggable cancel=".inport, .outport, .helpicon">
-        <div className="action">
-          <span>
-            {/* <button className="inport"></button> */}
-            <div className="box">
-              <div className="actionTitle">Describe Well</div>
-              <div className="actionContent">
-                <Input
-                  fluid
-                  label="Volume"
-                  size="mini"
-                  placeholder="Volume (mL)"
-                  className="actionInput"
-                  onChange={this.volumeChangeHandler}
-                />
-                <Input
-                  fluid
-                  label="Diameter"
-                  size="mini"
-                  placeholder="Diameter (mm)"
-                  className="actionInput"
-                  onChange={this.diameterChangeHandler}
-                />
-                <Input
-                  fluid
-                  label="Depth"
-                  size="mini"
-                  placeholder="Depth (mm)"
-                  className="actionInput"
-                  onChange={this.depthChangeHandler}
-                />
-              </div>
+      <Draggable cancel=".inport, .outport, .actionInput">
+        <div className="action row">
+          <div id="inportsContainer" className="column">
+            {this.renderInports()}
+          </div>
+          <div className="box column">
+            <div className="actionTitle">Describe Well</div>
+            <div className="actionContent">
+              <Input
+                fluid
+                label="Volume"
+                size="mini"
+                placeholder="Volume (mL)"
+                className="actionInput"
+                onChange={this.volumeChangeHandler}
+              />
+              <Input
+                fluid
+                label="Diameter"
+                size="mini"
+                placeholder="Diameter (mm)"
+                className="actionInput"
+                onChange={this.diameterChangeHandler}
+              />
+              <Input
+                fluid
+                label="Depth"
+                size="mini"
+                placeholder="Depth (mm)"
+                className="actionInput"
+                onChange={this.depthChangeHandler}
+              />
             </div>
-            <button className="outport"></button>
-          </span>
+          </div>
+          <div id="outportsContainer" className="column">
+            {this.renderOutports()}
+          </div>
         </div>
       </Draggable>
     );

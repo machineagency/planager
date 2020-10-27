@@ -14,24 +14,6 @@ body {
   margin: 10px;
 }
 
-.inport {
-  background-color: black;
-  height: 15px;
-  width: 15px;
-  border: none;
-  float: left;
-  margin-top: 5px;
-}
-
-.outport {
-  background-color: black;
-  height: 15px;
-  width: 15px;
-  border: none;
-  float: left;
-  margin-top: 5px;
-}
-
 .action {
   position: absolute;
   top: 50%;

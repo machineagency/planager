@@ -1,0 +1,9 @@
+.inport {
+  background-color: gray;
+  height: 15px;
+  width: 15px;
+  border: none;
+  float: left;
+  margin-top: 5px;
+  border-radius: 10px 0 0 10px;
+}
