@@ -1,82 +1,75 @@
 import React from "react";
+import { Button, Icon } from "semantic-ui-react";
+import { v4 as uuidv4 } from 'uuid';
 
 // Import Components
-import Start from "../components/actions/Start";
-import SendString from "../components/actions/SendString";
-import DisplayJson from "../components/actions/DisplayJson";
+import SpecifyWell from "../components/actions/SpecifyWell";
 
-import "./Main.css";
-
+import "./Main.css"; // Top-level styles
 import WorkflowContext from "../utils/WorkflowContext";
 
 export default class Main extends React.Component {
   static contextType = WorkflowContext;
   constructor(props) {
     super(props);
-    this.state = {
-      actions: [],
-      running: false,
-    };
 
-    this.addString = this.addString.bind(this);
-    this.addJson = this.addJson.bind(this);
-    this.addStart = this.addStart.bind(this);
+    this.addWell = this.addWell.bind(this);
     this.run = this.run.bind(this);
   }
 
-  callbackParent(childData) {
-    this.setState({ message: childData });
+  callbackParent(dataFromChild) {
+    this.setState({ message: dataFromChild });
   }
 
-  addStart(event) {
-    // Adds an action to the workspace
-    const actions = this.state.actions;
-    this.setState({
-      actions: actions.concat(
-        <Start
-          parentCallback={this.callbackParent.bind(this)}
-          key={actions.length}
+  addWell() {
+    // Adds a start action to the workspace
+    const { workflow, setWorkflow } = this.context // How to access the context and update method
+
+    // Adding the new action to the list of workflow actions
+    setWorkflow({
+      workflowActions: workflow.workflowActions.concat(
+        <SpecifyWell
+          parentCallback={this.callbackParent.bind(this)} // callback for getting data from child
+          key={uuidv4()} // A unique ID for each action
         />
       ),
     });
   }
 
-  addString(event) {
-    // Adds an action to the workspace
-    const actions = this.state.actions;
-    this.setState({
-      actions: actions.concat(
-        <SendString running={false} key={actions.length} />
-      ),
-    });
-  }
-
-  addJson(event) {
-    // Adds an action to the workspace
-    const actions = this.state.actions;
-    this.setState({
-      actions: actions.concat(
-        <DisplayJson running={false} key={actions.length} />
-      ),
-    });
-  }
-
   run(event) {
-    this.context.setWorkflow({ asdf: "asdfasdf" });
+    const { workflow, setWorkflow } = this.context
+    setWorkflow({actionQueue: "f"})
   }
 
   renderActions() {
-    return this.state.actions;
+    const { workflow } = this.context
+    return workflow.workflowActions;
   }
 
   render() {
     return (
       <div>
-        <div id="buttonContainer">
-          <button onClick={this.run}>Run</button>
-          <button onClick={this.addStart}>Add start action</button>
-          <button onClick={this.addString}>Add string action</button>
-          <button onClick={this.addJson}>Add json action</button>
+        <div className="buttonContainer">
+          <Button icon className="ui teal primary button" onClick={this.run}>
+            <Icon name="play" />
+          </Button>
+          <Button.Group>
+            <Button className="ui button" onClick={this.addWell}>
+              Start
+            </Button>
+            <Button className="ui button" onClick={this.addWell}>
+              Well
+            </Button>
+            <Button className="ui button" onClick={this.addWell}>
+              2d array
+            </Button>
+            <Button className="ui button" onClick={this.addWell}>
+              Sonicate
+            </Button>
+            <Button className="ui button" onClick={this.addWell}>
+              Save to file
+            </Button>
+          </Button.Group>
         </div>
 
         {this.renderActions()}

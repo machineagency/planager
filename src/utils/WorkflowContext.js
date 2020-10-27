@@ -5,7 +5,10 @@ const WorkflowContext = React.createContext()
 class WorkflowProvider extends Component {
   // Context state
   state = {
-    workflow: {},
+    workflow: {
+      workflowActions: [],
+      actionQueue: [],
+    },
   }
 
   // Method to update state
@@ -31,6 +34,7 @@ class WorkflowProvider extends Component {
   }
 }
 
-export { WorkflowProvider }
-
 export default WorkflowContext
+
+
+export { WorkflowProvider }
