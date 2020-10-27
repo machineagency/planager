@@ -8,6 +8,7 @@ class WorkflowProvider extends Component {
     workflow: {
       workflowActions: [],
       actionQueue: [],
+      links: {}
     },
   }
 

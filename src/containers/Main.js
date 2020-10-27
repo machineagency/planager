@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 
 // Import Components
 import SpecifyWell from "../components/actions/SpecifyWell";
+import LinearArray from "../components/actions/LinearArray";
 
 import "./Main.css"; // Top-level styles
 import WorkflowContext from "../utils/WorkflowContext";
@@ -14,6 +15,7 @@ export default class Main extends React.Component {
     super(props);
 
     this.addWell = this.addWell.bind(this);
+    this.addLinArray = this.addLinArray.bind(this);
     this.run = this.run.bind(this);
   }
 
@@ -36,9 +38,24 @@ export default class Main extends React.Component {
     });
   }
 
+  addLinArray() {
+    // Adds a start action to the workspace
+    const { workflow, setWorkflow } = this.context; // How to access the context and update method
+
+    // Adding the new action to the list of workflow actions
+    setWorkflow({
+      workflowActions: workflow.workflowActions.concat(
+        <LinearArray
+          parentCallback={this.callbackParent.bind(this)} // callback for getting data from child
+          key={uuidv4()} // A unique ID for each action
+        />
+      ),
+    });
+  }
+
   run(event) {
-    const { workflow, setWorkflow } = this.context;
-    setWorkflow({ actionQueue: "f" });
+    // const { workflow, setWorkflow } = this.context;
+    // setWorkflow({ actionQueue: "f" });
   }
 
   renderActions() {
@@ -59,19 +76,10 @@ export default class Main extends React.Component {
             <Icon name="play" />
           </Button>
           <Button className="ui button" size="mini" onClick={this.addWell}>
-            Start
-          </Button>
-          <Button className="ui button" size="mini" onClick={this.addWell}>
             Well
           </Button>
-          <Button className="ui button" size="mini" onClick={this.addWell}>
-            2d array
-          </Button>
-          <Button className="ui button" size="mini" onClick={this.addWell}>
-            Sonicate
-          </Button>
-          <Button className="ui button" size="mini" onClick={this.addWell}>
-            Save to file
+          <Button className="ui button" size="mini" onClick={this.addLinArray}>
+            Linear array
           </Button>
         </div>
 
