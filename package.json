@@ -1,5 +1,5 @@
 {
-  "name": "living-workflows",
+  "name": "planager",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -55,11 +55,11 @@
     "semantic-ui-react": "^2.0.0",
     "semver": "6.3.0",
     "style-loader": "0.23.1",
-    "terser-webpack-plugin": "^5.0.1",
+    "terser-webpack-plugin": "2.3.5",
     "ts-pnp": "1.1.6",
     "url-loader": "2.3.0",
-    "webpack": "^5.2.0",
-    "webpack-dev-server": "^3.11.0",
+    "webpack": "4.42.0",
+    "webpack-dev-server": "^3.10.3",
     "webpack-manifest-plugin": "2.2.0",
     "workbox-webpack-plugin": "4.3.1"
   },
