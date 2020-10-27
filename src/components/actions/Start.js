@@ -13,24 +13,21 @@ export default class Start extends React.Component {
   }
 
   run() {
+    const { workflow, setWorkflow } = this.context
+    console.log("in the run method")
     this.props.parentCallback("this is a message from a child");
-  }
-
-  componentDidMount() {
-    const user = this.context;
-    console.log(user);
-  }
-
-  componentDidUpdate() {
-    const user = this.context;
-    console.log(user);
-    this.run();
   }
 
   render() {
     return (
-      <Draggable>
-        <div className="box">start</div>
+      <Draggable cancel=".inport, .outport">
+        <div className="action">
+          <button className="inport"></button>
+          <div className="box">
+            UI Content goes here
+          </div>
+          <button className="outport"></button>
+        </div>
       </Draggable>
     );
   }

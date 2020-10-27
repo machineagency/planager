@@ -1,14 +1,3 @@
-.box {
-  background: #fff;
-  border: 1px solid #999;
-  border-radius: 3px;
-  width: 100px;
-  height: 100px;
-  margin: 10px;
-  padding: 10px;
-  float: left;
-}
-
 .react-draggable,
 .cursor {
   cursor: move;
@@ -18,4 +7,34 @@ body {
   margin: 0;
   font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
     "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  background: #f0f0f0 !important;
+}
+
+.buttonContainer {
+  margin: 10px;
+}
+
+.inport {
+  background-color: black;
+  height: 15px;
+  width: 15px;
+  border: none;
+  float: left;
+  margin-top: 5px;
+}
+
+.outport {
+  background-color: black;
+  height: 15px;
+  width: 15px;
+  border: none;
+  float: left;
+  margin-top: 5px;
+}
+
+.action {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 0%);
 }
