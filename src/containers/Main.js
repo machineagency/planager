@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Icon } from "semantic-ui-react";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 // Import Components
 import SpecifyWell from "../components/actions/SpecifyWell";
@@ -23,7 +23,7 @@ export default class Main extends React.Component {
 
   addWell() {
     // Adds a start action to the workspace
-    const { workflow, setWorkflow } = this.context // How to access the context and update method
+    const { workflow, setWorkflow } = this.context; // How to access the context and update method
 
     // Adding the new action to the list of workflow actions
     setWorkflow({
@@ -37,12 +37,12 @@ export default class Main extends React.Component {
   }
 
   run(event) {
-    const { workflow, setWorkflow } = this.context
-    setWorkflow({actionQueue: "f"})
+    const { workflow, setWorkflow } = this.context;
+    setWorkflow({ actionQueue: "f" });
   }
 
   renderActions() {
-    const { workflow } = this.context
+    const { workflow } = this.context;
     return workflow.workflowActions;
   }
 
@@ -50,26 +50,29 @@ export default class Main extends React.Component {
     return (
       <div>
         <div className="buttonContainer">
-          <Button icon className="ui teal primary button" onClick={this.run}>
+          <Button
+            icon
+            className="ui teal primary button"
+            size="mini"
+            onClick={this.run}
+          >
             <Icon name="play" />
           </Button>
-          <Button.Group>
-            <Button className="ui button" onClick={this.addWell}>
-              Start
-            </Button>
-            <Button className="ui button" onClick={this.addWell}>
-              Well
-            </Button>
-            <Button className="ui button" onClick={this.addWell}>
-              2d array
-            </Button>
-            <Button className="ui button" onClick={this.addWell}>
-              Sonicate
-            </Button>
-            <Button className="ui button" onClick={this.addWell}>
-              Save to file
-            </Button>
-          </Button.Group>
+          <Button className="ui button" size="mini" onClick={this.addWell}>
+            Start
+          </Button>
+          <Button className="ui button" size="mini" onClick={this.addWell}>
+            Well
+          </Button>
+          <Button className="ui button" size="mini" onClick={this.addWell}>
+            2d array
+          </Button>
+          <Button className="ui button" size="mini" onClick={this.addWell}>
+            Sonicate
+          </Button>
+          <Button className="ui button" size="mini" onClick={this.addWell}>
+            Save to file
+          </Button>
         </div>
 
         {this.renderActions()}
