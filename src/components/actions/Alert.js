@@ -81,7 +81,6 @@ export default class LinearArray extends React.Component {
   run() {
     const val = this.props.inports.input.value;
     alert(JSON.stringify(val.value));
-    console.log(val)
 
     var updatedOutports = { ...this.state.outports };
     updatedOutports.output.value = val;

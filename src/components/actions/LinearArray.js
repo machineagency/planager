@@ -103,7 +103,6 @@ export default class LinearArray extends React.Component {
     updatedOutports.array.value = linArray
 
     this.setState({outports:updatedOutports})
-    alert(JSON.stringify(this.state.outports.array))
     this.props.sendOutportData(this.state.outports.array);
   }
 
