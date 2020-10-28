@@ -86,7 +86,7 @@ export default class SpecifyWell extends React.Component {
         <Inport
           key={key}
           name={key}
-          portID={value.inportID}
+          inportID={value.inportID}
           actionID={this.props.actionID}
         />
       );
@@ -126,7 +126,7 @@ export default class SpecifyWell extends React.Component {
     updatedOutports.well.value = well;
 
     this.setState({ outports: updatedOutports });
-    // this.props.sendOutportData(this.state.outports.well);
+    this.props.sendOutportData(this.state.outports.well);
   }
 
   render() {
