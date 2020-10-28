@@ -6,27 +6,33 @@ import "./css/LinearArray.css";
 
 import Inport from "../ui/Inport";
 import Outport from "../ui/Outport";
+import { v4 as uuidv4 } from "uuid";
 
 export default class LinearArray extends React.Component {
   static contextType = WorkflowContext; // How we access the global context
+  static defaultProps = {
+    inports: {
+      item: {
+        name: "item",
+        value: null,
+        type: "any",
+        hover: "item",
+        inportID: uuidv4(),
+      },
+      length: {
+        name: "length",
+        value: null,
+        type: "int",
+        hover: "well diameter",
+        inportID: uuidv4(),
+      },
+    },
+    actionID: uuidv4(),
+  };
 
   constructor(props) {
     super(props);
     this.state = {
-      inports: {
-        item: {
-          name: "item",
-          value: null,
-          type: "any",
-          hover: "item",
-        },
-        length: {
-          name: "length",
-          value: null,
-          type: "int",
-          hover: "well diameter",
-        },
-      },
       outports: {
         array: {
           name: "array",
@@ -50,8 +56,15 @@ export default class LinearArray extends React.Component {
   renderInports() {
     let inports = [];
 
-    Object.entries(this.state.inports).forEach(([key, value]) => {
-      inports = inports.concat(<Inport key={key} name={key} />);
+    Object.entries(this.props.inports).forEach(([key, value]) => {
+      inports = inports.concat(
+        <Inport
+          key={key}
+          name={key}
+          inportID={value.inportID}
+          actionID={this.props.actionID}
+        />
+      );
     });
 
     return inports;
@@ -61,7 +74,14 @@ export default class LinearArray extends React.Component {
     let outports = [];
 
     Object.entries(this.state.outports).forEach(([key, value]) => {
-      outports = outports.concat(<Outport key={key} name={key} />);
+      outports = outports.concat(
+        <Outport
+          key={key}
+          name={key}
+          data={value.value}
+          parentCallback={this.props.parentCallback}
+        />
+      );
     });
 
     return outports;

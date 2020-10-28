@@ -7,7 +7,6 @@ class WorkflowProvider extends Component {
   state = {
     workflow: {
       workflowActions: [],
-      actionQueue: [],
       workflowLinks: [],
     },
   };
