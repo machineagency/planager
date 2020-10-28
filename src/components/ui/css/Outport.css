@@ -1,5 +1,5 @@
 .outport {
-  background-color: #acacac;;
+  background-color: #acacac;
   height: 15px;
   width: 15px;
   border: none;
@@ -10,5 +10,5 @@
 }
 
 .outport:hover {
-    background-color: #575757;
+  background-color: #575757;
 }

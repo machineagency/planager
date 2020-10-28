@@ -27,15 +27,15 @@ export default class Main extends React.Component {
     // Adds a start action to the workspace
     const { workflow, setWorkflow } = this.context; // How to access the context and update method
 
-    // Adding the new action to the list of workflow actions
-    setWorkflow({
-      workflowActions: workflow.workflowActions.concat(
+    setWorkflow(
+      "workflowActions",
+      workflow.workflowActions.concat(
         <SpecifyWell
           parentCallback={this.callbackParent.bind(this)} // callback for getting data from child
           key={uuidv4()} // A unique ID for each action
         />
-      ),
-    });
+      )
+    );
   }
 
   addLinArray() {
@@ -43,14 +43,15 @@ export default class Main extends React.Component {
     const { workflow, setWorkflow } = this.context; // How to access the context and update method
 
     // Adding the new action to the list of workflow actions
-    setWorkflow({
-      workflowActions: workflow.workflowActions.concat(
+    setWorkflow(
+      "workflowActions",
+      workflow.workflowActions.concat(
         <LinearArray
           parentCallback={this.callbackParent.bind(this)} // callback for getting data from child
           key={uuidv4()} // A unique ID for each action
         />
-      ),
-    });
+      )
+    );
   }
 
   run(event) {
@@ -61,6 +62,11 @@ export default class Main extends React.Component {
   renderActions() {
     const { workflow } = this.context;
     return workflow.workflowActions;
+  }
+
+  renderLinks() {
+    const { workflow } = this.context;
+    return workflow.workflowLinks;
   }
 
   render() {
@@ -82,6 +88,8 @@ export default class Main extends React.Component {
             Linear array
           </Button>
         </div>
+
+        {this.renderLinks()}
 
         {this.renderActions()}
       </div>

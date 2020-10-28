@@ -34,7 +34,7 @@ export default class LinearArray extends React.Component {
           type: "array",
           hover: "an array",
         },
-    },
+      },
       item: null,
       length: null,
     };
@@ -77,7 +77,7 @@ export default class LinearArray extends React.Component {
 
   render() {
     return (
-      <Draggable cancel=".portsContainter, .actionInput">
+      <Draggable cancel=".portsContainer, .actionInput">
         <div className="action row">
           <div className="column portsContainer">{this.renderInports()}</div>
           <div className="box column">
