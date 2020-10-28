@@ -26,7 +26,7 @@ export default class Outport extends React.Component {
     this.setState({ xcoord: x, ycoord: y });
 
     // Send it back up to Main via this callback
-    this.props.createLink(x, y, this.props.actionID, this.props.portID);
+    this.props.createLink(x, y, this.props.actionID, this.props.outportID);
   }
 
   render() {
