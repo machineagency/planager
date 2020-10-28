@@ -2,29 +2,22 @@ import React from "react";
 import Draggable from "react-draggable";
 import { Input, Button, Icon } from "semantic-ui-react";
 import WorkflowContext from "../../utils/WorkflowContext";
-import "./css/LinearArray.css";
+import "./css/Sonicate.css";
 
 import Inport from "../ui/Inport";
 import Outport from "../ui/Outport";
 import { v4 as uuidv4 } from "uuid";
 
-export default class LinearArray extends React.Component {
+export default class Sonicate extends React.Component {
   static contextType = WorkflowContext; // How we access the global context
   static defaultProps = {
     inports: {
-      item: {
-        name: "item",
+      wellList: {
+        name: "wellList",
         value: null,
-        type: "any",
-        hover: "item",
-        inportID: uuidv4()
-      },
-      length: {
-        name: "length",
-        value: null,
-        type: "int",
-        hover: "well diameter",
-        inportID: uuidv4()
+        type: "list of wells",
+        hover: "input",
+        inportID: uuidv4(),
       },
     },
   };
@@ -33,11 +26,11 @@ export default class LinearArray extends React.Component {
     super(props);
     this.state = {
       outports: {
-        array: {
-          name: "array",
+        sonicationJson: {
+          name: "sonicationJson",
           value: null,
-          type: "array",
-          hover: "an array",
+          type: "any",
+          hover: "output",
           outportID: uuidv4(),
         },
       },
@@ -45,12 +38,7 @@ export default class LinearArray extends React.Component {
       length: null,
     };
 
-    this.lengthChangeHandler = this.lengthChangeHandler.bind(this);
     this.run = this.run.bind(this);
-  }
-
-  lengthChangeHandler(event) {
-    this.setState({ length: event.target.value });
   }
 
   renderInports() {
@@ -91,20 +79,19 @@ export default class LinearArray extends React.Component {
   }
 
   run() {
-    let linArray = []
+    const wellList = this.props.inports.wellList.value;
+    // alert(JSON.stringify(val.value));
+    console.log(wellList.value.value)
 
-    const val = this.props.inports.item.value
-
-    for (var i=0; i<this.state.length; i++) {
-      linArray = linArray.concat(val)
+    for (const well of wellList.value.value) {
+        
     }
 
-    var updatedOutports = { ...this.state.outports}
-    updatedOutports.array.value = linArray
+    // var updatedOutports = { ...this.state.outports };
+    // updatedOutports.output.value = val;
 
-    this.setState({outports:updatedOutports})
-    alert(JSON.stringify(this.state.outports.array))
-    this.props.sendOutportData(this.state.outports.array);
+    // this.setState({ outports: updatedOutports });
+    // this.props.sendOutportData(this.state.outports.output);
   }
 
   render() {
@@ -113,16 +100,8 @@ export default class LinearArray extends React.Component {
         <div className="action row">
           <div className="column portsContainer">{this.renderInports()}</div>
           <div className="box column">
-            <div className="actionTitle">Linear Array</div>
+            <div className="actionTitle">Sonicate</div>
             <div className="actionContent">
-              <Input
-                fluid
-                label="Length"
-                size="mini"
-                placeholder="Length (int)"
-                className="actionInput"
-                onChange={this.lengthChangeHandler}
-              />
               <Button
                 icon
                 className="ui teal primary button"

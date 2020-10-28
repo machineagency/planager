@@ -18,7 +18,7 @@ export default class SpecifyWell extends React.Component {
         units: "mm",
         hover: "well depth",
         required: false,
-        inportID: uuidv4(),
+        // inportID: uuidv4(),
       },
       diameter: {
         name: "diameter",
@@ -27,7 +27,7 @@ export default class SpecifyWell extends React.Component {
         units: "mm",
         hover: "well diameter",
         required: false,
-        inportID: uuidv4(),
+        // inportID: uuidv4(),
       },
       max_volume: {
         name: "max_volume",
@@ -36,10 +36,10 @@ export default class SpecifyWell extends React.Component {
         units: "ml",
         hover: "maximum well volume",
         required: false,
-        inportID: uuidv4(),
+        // inportID: uuidv4(),
       },
     },
-    actionID: uuidv4()
+    // actionID: uuidv4()
   }
 
   constructor(props) {
@@ -86,7 +86,7 @@ export default class SpecifyWell extends React.Component {
         <Inport
           key={key}
           name={key}
-          inportID={value.inportID}
+          inportID={uuidv4()}
           actionID={this.props.actionID}
         />
       );
@@ -106,7 +106,7 @@ export default class SpecifyWell extends React.Component {
           data={value.value}
           sendOutportData={this.props.sendOutportData}
           createLink={this.props.createLink}
-          portID={value.outportID}
+          outportID={value.outportID}
           actionID={this.props.actionID}
         />
       );
