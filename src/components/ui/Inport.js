@@ -6,21 +6,19 @@ export default class Inport extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      data: null
+    }
+
     this.onClick = this.onClick.bind(this);
-    this.onDragStart = this.onDragStart.bind(this);
-    this.onDragEnd = this.onDragEnd.bind(this);
   }
 
   onClick(event) {
-    console.log(this.props.name);
+
   }
 
-  onDragStart(event) {
-    console.log("drag start");
-  }
+  receiveData() {
 
-  onDragEnd(event) {
-    console.log("drag end");
   }
 
   render() {
@@ -29,8 +27,8 @@ export default class Inport extends React.Component {
         <ReactTooltip />
         <button
           className="inport"
-          onClick={this.onClick}
-          data-tip={this.props.name}
+          data-inportid={this.props.inportID}
+          data-actionid={this.props.actionID}
         />
       </div>
     );

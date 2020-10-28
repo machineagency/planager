@@ -5,9 +5,10 @@ export default class Link extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      color: null,
-    };
+      iterations: 0,
+    }
   }
+
 
   render() {
     return (

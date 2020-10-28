@@ -1,43 +1,50 @@
 import React from "react";
 import Draggable from "react-draggable";
-import { Input } from "semantic-ui-react";
+import { Input, Button, Icon } from "semantic-ui-react";
 import WorkflowContext from "../../utils/WorkflowContext";
 import "./css/SpecifyWell.css";
 import Inport from "../ui/Inport";
 import Outport from "../ui/Outport";
+import { v4 as uuidv4 } from "uuid";
 
 export default class SpecifyWell extends React.Component {
   static contextType = WorkflowContext; // How we access the global context
+  static defaultProps = {
+    inports: {
+      depth: {
+        name: "depth",
+        value: null,
+        type: "float",
+        units: "mm",
+        hover: "well depth",
+        required: false,
+        inportID: uuidv4(),
+      },
+      diameter: {
+        name: "diameter",
+        value: null,
+        type: "float",
+        units: "mm",
+        hover: "well diameter",
+        required: false,
+        inportID: uuidv4(),
+      },
+      max_volume: {
+        name: "max_volume",
+        value: null,
+        type: "float",
+        units: "ml",
+        hover: "maximum well volume",
+        required: false,
+        inportID: uuidv4(),
+      },
+    },
+    actionID: uuidv4()
+  }
 
   constructor(props) {
     super(props);
     this.state = {
-      inports: {
-        depth: {
-          name: "depth",
-          value: null,
-          type: "float",
-          units: "mm",
-          hover: "well depth",
-          required: false,
-        },
-        diameter: {
-          name: "diameter",
-          value: null,
-          type: "float",
-          units: "mm",
-          hover: "well diameter",
-          required: false,
-        },
-        max_volume: {
-          name: "max_volume",
-          value: null,
-          type: "float",
-          units: "ml",
-          hover: "maximum well volume",
-          required: false,
-        },
-      },
       outports: {
         well: {
           name: "well",
@@ -45,6 +52,7 @@ export default class SpecifyWell extends React.Component {
           type: "well",
           units: null,
           hover: "a well object",
+          outportID: uuidv4(),
         },
       },
       volume: null,
@@ -70,13 +78,18 @@ export default class SpecifyWell extends React.Component {
     this.setState({ depth: event.target.value });
   }
 
-  componentDidMount() {}
-
   renderInports() {
     let inports = [];
 
-    Object.entries(this.state.inports).forEach(([key, value]) => {
-      inports = inports.concat(<Inport key={key} name={key} />);
+    Object.entries(this.props.inports).forEach(([key, value]) => {
+      inports = inports.concat(
+        <Inport
+          key={key}
+          name={key}
+          portID={value.inportID}
+          actionID={this.props.actionID}
+        />
+      );
     });
 
     return inports;
@@ -86,7 +99,17 @@ export default class SpecifyWell extends React.Component {
     let outports = [];
 
     Object.entries(this.state.outports).forEach(([key, value]) => {
-      outports = outports.concat(<Outport key={key} name={key} />);
+      outports = outports.concat(
+        <Outport
+          key={key}
+          name={key}
+          data={value.value}
+          sendOutportData={this.props.sendOutportData}
+          createLink={this.props.createLink}
+          portID={value.outportID}
+          actionID={this.props.actionID}
+        />
+      );
     });
 
     return outports;
@@ -98,7 +121,12 @@ export default class SpecifyWell extends React.Component {
       diameter: this.state.diameter,
       depth: this.state.depth,
     };
-    this.props.parentCallback(well);
+
+    var updatedOutports = { ...this.state.outports };
+    updatedOutports.well.value = well;
+
+    this.setState({ outports: updatedOutports });
+    // this.props.sendOutportData(this.state.outports.well);
   }
 
   render() {
@@ -133,6 +161,14 @@ export default class SpecifyWell extends React.Component {
                 className="actionInput"
                 onChange={this.depthChangeHandler}
               />
+              <Button
+                icon
+                className="ui teal primary button"
+                size="mini"
+                onClick={this.run}
+              >
+                <Icon name="play" />
+              </Button>
             </div>
           </div>
           <div className="column portsContainer">{this.renderOutports()}</div>

@@ -2,6 +2,7 @@ import React from "react";
 import ReactTooltip from "react-tooltip";
 import WorkflowContext from "../../utils/WorkflowContext";
 import Link from "./Link";
+import ReactDOM from "react-dom";
 import "./css/Outport.css";
 import { v4 as uuidv4 } from "uuid";
 
@@ -16,38 +17,18 @@ export default class Outport extends React.Component {
     };
 
     this.beginLink = this.beginLink.bind(this);
-    this.endLink = this.endLink.bind(this);
   }
 
   beginLink(event) {
-    this.setState({ linking: true });
-    console.log("begin link");
-    console.log("mouse location:", event.clientX, event.clientY);
-    this.setState({ xcoord: event.clientX });
-    this.setState({ ycoord: event.clientY });
-    document.addEventListener("click", this.endLink);
-  }
+    const { setWorkflow } = this.context;
 
-  drawLink(endx, endy) {
-    const { workflow, setWorkflow } = this.context;
-    setWorkflow(
-      "workflowLinks",
-      workflow.workflowLinks.concat(
-        <Link
-          startx={this.state.xcoord}
-          starty={this.state.ycoord}
-          endx={endx}
-          endy={endy}
-          key={String(this.xcoord)+String(this.ycoord)}
-        />
-      )
-    );
-  }
+    // Record starting point for the link
+    const node = ReactDOM.findDOMNode(this);
+    const x = node.getBoundingClientRect().x + 7;
+    const y = node.getBoundingClientRect().y + 10;
 
-  endLink(event) {
-    this.setState({ linking: false });
-    this.drawLink(event.clientX, event.clientY);
-    document.removeEventListener("click", this.endLink);
+    this.setState({ xcoord: x, ycoord: y });
+    this.props.createLink(x, y, this.props.actionID, this.props.portID);
   }
 
   render() {
