@@ -16,11 +16,7 @@ export default class Inport extends React.Component {
   onClick(event) {
 
   }
-
-  receiveData() {
-
-  }
-
+  
   render() {
     return (
       <div>

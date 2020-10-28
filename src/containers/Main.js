@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from "uuid";
 import SpecifyWell from "../components/actions/SpecifyWell";
 import LinearArray from "../components/actions/LinearArray";
 import Link from "../components/ui/Link";
-import ReactDOM from "react-dom";
 
 import "./Main.css"; // Top-level styles
 import WorkflowContext from "../utils/WorkflowContext";
@@ -22,16 +21,43 @@ export default class Main extends React.Component {
   }
 
   sendOutportData(data) {
-    console.log("Sdf");
-    console.log(data);
-    console.log("DATA RECEIVED");
+    // DONT LOOK AT THIS CODE I'M EMBARASSED
+    // This is a shitty slow way of doing this but it doesn't matter at the moment I'll fix it later
+    const { workflow, setWorkflow } = this.context;
+    for (const link of workflow.workflowLinks) {
+      if (link.props.outportID === data.outportID) {
+        for (const action of workflow.workflowActions) {
+          if (link.props.inportActionID === action.props.actionID) {
+            Object.entries(action.props.inports).forEach(([key, value]) => {
+              if (value.inportID === link.props.inportID) {
+                var propsToPass = { ...action.props.inports };
+                propsToPass[key].value = data;
+                console.log(propsToPass);
+                var newEl = React.cloneElement(action, propsToPass);
+                setWorkflow(
+                  "workflowActions",
+                  workflow.workflowActions.splice(
+                    workflow.workflowActions.indexOf(action),
+                    1
+                  )
+                );
+                setWorkflow(
+                  "workflowActions",
+                  workflow.workflowActions.concat(newEl)
+                );
+                return;
+              }
+            });
+          }
+        }
+      }
+    }
   }
 
   createLink(outportX, outportY, outportActionID, outportID) {
     // Creates a link element and adds it to the context
     const { workflow, setWorkflow } = this.context;
     var nextClickCallback = (e) => {
-
       if (
         e.target.nodeName === "BUTTON" &&
         e.target.classList.contains("inport")
@@ -58,7 +84,6 @@ export default class Main extends React.Component {
       }
       document.removeEventListener("click", nextClickCallback);
     };
-
     document.addEventListener("click", nextClickCallback);
   }
 
@@ -88,6 +113,7 @@ export default class Main extends React.Component {
       workflow.workflowActions.concat(
         <LinearArray
           sendOutportData={this.sendOutportData.bind(this)} // callback for getting data from child
+          createLink={this.createLink.bind(this)} // callback for getting data from child
           key={uuidv4()} // A unique ID for each action
         />
       )
@@ -106,6 +132,7 @@ export default class Main extends React.Component {
 
   renderLinks() {
     const { workflow } = this.context;
+
     return workflow.workflowLinks;
   }
 

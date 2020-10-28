@@ -1,6 +1,6 @@
 import React from "react";
 import Draggable from "react-draggable";
-import { Input } from "semantic-ui-react";
+import { Input, Button, Icon } from "semantic-ui-react";
 import WorkflowContext from "../../utils/WorkflowContext";
 import "./css/LinearArray.css";
 
@@ -39,6 +39,7 @@ export default class LinearArray extends React.Component {
           value: null,
           type: "array",
           hover: "an array",
+          outportID: uuidv4(),
         },
       },
       item: null,
@@ -79,7 +80,10 @@ export default class LinearArray extends React.Component {
           key={key}
           name={key}
           data={value.value}
-          parentCallback={this.props.parentCallback}
+          sendOutportData={this.props.sendOutportData}
+          createLink={this.props.createLink}
+          portID={value.outportID}
+          actionID={this.props.actionID}
         />
       );
     });
@@ -87,12 +91,11 @@ export default class LinearArray extends React.Component {
     return outports;
   }
 
-  componentDidMount() {}
-
   run() {
     const linArray = Array(this.state.length);
     linArray.fill(this.state.item);
-    this.props.parentCallback(linArray);
+    console.log(linArray)
+    this.props.sendOutportData(linArray);
   }
 
   render() {
@@ -111,6 +114,14 @@ export default class LinearArray extends React.Component {
                 className="actionInput"
                 onChange={this.lengthChangeHandler}
               />
+              <Button
+                icon
+                className="ui teal primary button"
+                size="mini"
+                onClick={this.run}
+              >
+                <Icon name="play" />
+              </Button>
             </div>
           </div>
           <div className="column portsContainer">{this.renderOutports()}</div>
