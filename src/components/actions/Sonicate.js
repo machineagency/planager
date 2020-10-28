@@ -80,18 +80,26 @@ export default class Sonicate extends React.Component {
 
   run() {
     const wellList = this.props.inports.wellList.value;
-    // alert(JSON.stringify(val.value));
-    console.log(wellList.value.value)
 
-    for (const well of wellList.value.value) {
-        
+    let instructions = []
+
+    for (const well of wellList.value) {
+        instructions = instructions.concat(
+          {
+            depth: 2,
+            well: well,
+            autoclean: true
+          }
+        )
     }
 
-    // var updatedOutports = { ...this.state.outports };
-    // updatedOutports.output.value = val;
+    alert(JSON.stringify(instructions))
 
-    // this.setState({ outports: updatedOutports });
-    // this.props.sendOutportData(this.state.outports.output);
+    var updatedOutports = { ...this.state.outports };
+    updatedOutports.sonicationJson.value = instructions;
+
+    this.setState({ outports: updatedOutports });
+    this.props.sendOutportData(this.state.outports.sonicationJson.value);
   }
 
   render() {

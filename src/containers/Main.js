@@ -27,22 +27,16 @@ export default class Main extends React.Component {
   sendOutportData(data) {
     // DONT LOOK AT THIS CODE I'M EMBARASSED
     // This is a shitty slow way of doing this but it doesn't matter at the moment I'll fix it later
-    console.log(data);
     const { workflow, setWorkflow } = this.context;
     for (const link of workflow.workflowLinks) {
-      console.log(link.props.outportID, data.outportID);
       if (link.props.outportID === data.outportID) {
         for (const action of workflow.workflowActions) {
           if (link.props.inportActionID === action.props.actionID) {
-            console.log("found action");
-            console.log(action);
             Object.entries(action.props.inports).forEach(([key, value]) => {
               // console.log(action.props.inports)
               if (value.inportID === link.props.inportID) {
                 var propsToPass = { ...action.props.inports };
                 propsToPass[key].value = data;
-                console.log("SDFSDFSDF");
-                console.log(propsToPass);
                 var newEl = React.cloneElement(action, propsToPass);
                 setWorkflow(
                   "workflowActions",
