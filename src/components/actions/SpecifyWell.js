@@ -105,9 +105,7 @@ export default class SpecifyWell extends React.Component {
     return (
       <Draggable cancel=".portsContainer, .actionInput">
         <div className="action row">
-          <div className="column portsContainer">
-            {this.renderInports()}
-          </div>
+          <div className="column portsContainer">{this.renderInports()}</div>
           <div className="box column">
             <div className="actionTitle">Describe Well</div>
             <div className="actionContent">
@@ -137,9 +135,7 @@ export default class SpecifyWell extends React.Component {
               />
             </div>
           </div>
-          <div className="column portsContainer">
-            {this.renderOutports()}
-          </div>
+          <div className="column portsContainer">{this.renderOutports()}</div>
         </div>
       </Draggable>
     );

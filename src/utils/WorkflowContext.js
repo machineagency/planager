@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
-const WorkflowContext = React.createContext()
+const WorkflowContext = React.createContext();
 
 class WorkflowProvider extends Component {
   // Context state
@@ -8,19 +8,21 @@ class WorkflowProvider extends Component {
     workflow: {
       workflowActions: [],
       actionQueue: [],
-      links: {}
+      workflowLinks: [],
     },
-  }
+  };
 
   // Method to update state
-  setWorkflow = (workflow) => {
-    this.setState((prevState) => ({ workflow }))
-  }
+  setWorkflow = (key, val) => {
+    var workflow  = {...this.state.workflow}
+    workflow[key] = val;
+    this.setState({workflow})
+  };
 
   render() {
-    const { children } = this.props
-    const { workflow } = this.state
-    const { setWorkflow } = this
+    const { children } = this.props;
+    const { workflow } = this.state;
+    const { setWorkflow } = this;
 
     return (
       <WorkflowContext.Provider
@@ -31,11 +33,10 @@ class WorkflowProvider extends Component {
       >
         {children}
       </WorkflowContext.Provider>
-    )
+    );
   }
 }
 
-export default WorkflowContext
+export default WorkflowContext;
 
-
-export { WorkflowProvider }
+export { WorkflowProvider };
