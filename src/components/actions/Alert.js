@@ -1,6 +1,6 @@
 // Import modules
 import React from "react";
-import { Button, Icon } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 
 // Import components
 import GenericAction from "./GenericAction";

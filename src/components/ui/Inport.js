@@ -1,5 +1,5 @@
 import React from "react";
-import ReactTooltip from "react-tooltip";
+import { Popup } from "semantic-ui-react";
 import "./css/Inport.css";
 
 export default class Inport extends React.Component {
@@ -7,25 +7,31 @@ export default class Inport extends React.Component {
     this.props.inportCallback(this.props);
   }
 
-  onDoubleClick() {
-    // doubleclick callback
-    console.log("doubleclick")
+  onDragOut(e) {
+    e.stopPropagation();
+    console.log("dragging out");
   }
 
   render() {
     return (
       <>
-        <ReactTooltip />
-        <button
-          className="inport"
-          data-tip={
+        <Popup
+          content={
             `Name: ` +
             this.props.name +
             `\n Value: ` +
             String(this.props.dataVal.value)
           }
-          onClick={this.onClick.bind(this)}
-          onDoubleClick={this.onDoubleClick.bind(this)}
+          trigger={
+            <button
+              className="inport"
+              onClick={this.onClick.bind(this)}
+              onMouseDown={this.onDragOut.bind(this)}
+            />
+          }
+          position="top right"
+          basic
+          size="mini"
         />
       </>
     );

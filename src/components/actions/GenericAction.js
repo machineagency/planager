@@ -56,7 +56,7 @@ export default class GenericAction extends React.Component {
 
   render() {
     return (
-      <Draggable cancel=".portsContainer, .actionInput">
+      <Draggable>
         <div className="action row">
           <div className="column portsContainer">{this.renderInports()}</div>
           <div className="box column">{this.props.children}</div>

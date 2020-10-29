@@ -30,3 +30,13 @@ svg {
   left: 0;
   right: 0;
 }
+
+*:focus,
+*:visited,
+*:active,
+*:hover {
+  outline: 0 !important;
+}
+*::-moz-focus-inner {
+  border: 0;
+}

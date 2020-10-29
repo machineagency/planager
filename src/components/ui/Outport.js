@@ -1,5 +1,5 @@
 import React from "react";
-import ReactTooltip from "react-tooltip";
+import { Popup } from "semantic-ui-react";
 import "./css/Outport.css";
 
 export default class Outport extends React.Component {
@@ -9,23 +9,35 @@ export default class Outport extends React.Component {
 
   onDoubleClick() {
     // doubleclick callback
-    console.log("doubleclick")
+    console.log("doubleclick");
+  }
+
+  onDragOut(e) {
+    e.stopPropagation();
+    console.log("dragging out");
   }
 
   render() {
     return (
       <>
-        <ReactTooltip />
-        <button
-          className="outport"
-          data-tip={
+        <Popup
+          content={
             `Name: ` +
             this.props.name +
             `\n Value: ` +
             String(this.props.dataVal.value)
           }
-          onClick={this.onClick.bind(this)}
-          onDoubleClick={this.onDoubleClick.bind(this)}
+          trigger={
+            <button
+              className="outport"
+              onClick={this.onClick.bind(this)}
+              onDoubleClick={this.onDoubleClick.bind(this)}
+              onMouseDown={this.onDragOut.bind(this)}
+            />
+          }
+          position="top left"
+          basic
+          size="mini"
         />
       </>
     );
