@@ -8,9 +8,10 @@ workflows that span digital, physical, and human domains.
 I did the development for this on the Ubuntu subsystem for Windows, which means
 it should work on Unix systems. Ensure you have the latest version of
 [node](https://nodejs.org/en/) installed before starting. Clone and download
-this repo. In the top-level directory, run `npm install`. This will install all
-of the dependencies, which are listed in `package.json`. The dependencies are
-installed to `/node_modules`, which is in the `.gitignore`.
+this repo. Ensure you're running the latest version of npm: `npm update -g`. In
+the top-level directory, run `npm install`. This will install all of the
+dependencies, which are listed in `package.json`. The dependencies are installed
+to `/node_modules`, which is in the `.gitignore`.
 
 ## To Run the App
 
