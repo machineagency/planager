@@ -47,6 +47,7 @@ export default class GenericAction extends React.Component {
           name={name}
           dataVal={value}
           outportCallback={this.outportCallback.bind(this)}
+          outportLinkStarted={this.props.outportLinkStarted}
         />
       );
     }

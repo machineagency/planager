@@ -1,15 +1,20 @@
 import React from "react";
 import { Popup } from "semantic-ui-react";
 import "./css/Inport.css";
+import GlobalContext from "../../utils/GlobalContext";
 
 export default class Inport extends React.Component {
+  static contextType = GlobalContext;
+
   onClick() {
     this.props.inportCallback(this.props);
   }
 
   onDragOut(e) {
+    const { global } = this.context;
     e.stopPropagation();
-    console.log("dragging out");
+    e.persist();
+    global.startInportLink(e)
   }
 
   render() {

@@ -1,20 +1,20 @@
 import React from "react";
 import { Popup } from "semantic-ui-react";
 import "./css/Outport.css";
+import GlobalContext from "../../utils/GlobalContext";
 
 export default class Outport extends React.Component {
+  static contextType = GlobalContext;
+
   onClick() {
     this.props.outportCallback(this.props);
   }
 
-  onDoubleClick() {
-    // doubleclick callback
-    console.log("doubleclick");
-  }
-
   onDragOut(e) {
+    const { global } = this.context;
     e.stopPropagation();
-    console.log("dragging out");
+    e.persist();
+    global.startOutportLink(e)
   }
 
   render() {
@@ -31,7 +31,6 @@ export default class Outport extends React.Component {
             <button
               className="outport"
               onClick={this.onClick.bind(this)}
-              onDoubleClick={this.onDoubleClick.bind(this)}
               onMouseDown={this.onDragOut.bind(this)}
             />
           }
