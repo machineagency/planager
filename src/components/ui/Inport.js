@@ -3,22 +3,29 @@ import ReactTooltip from "react-tooltip";
 import "./css/Inport.css";
 
 export default class Inport extends React.Component {
-  constructor(props) {
-    super(props);
+  onClick() {
+    this.props.inportCallback(this.props);
   }
 
-  componentDidMount() {
-    console.log("In constructor");
+  onDoubleClick() {
+    // doubleclick callback
+    console.log("doubleclick")
   }
 
   render() {
     return (
       <>
         <ReactTooltip />
-        <div
-          data-tip={this.props.name}
+        <button
           className="inport"
-          onClick={this.props.inportCallback}
+          data-tip={
+            `Name: ` +
+            this.props.name +
+            `\n Value: ` +
+            String(this.props.dataVal.value)
+          }
+          onClick={this.onClick.bind(this)}
+          onDoubleClick={this.onDoubleClick.bind(this)}
         />
       </>
     );

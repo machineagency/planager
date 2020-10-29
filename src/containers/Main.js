@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 // import SpecifyWell from "../components/actions/SpecifyWell";
 // import LinearArray from "../components/actions/LinearArray";
 import Alert from "../components/actions/Alert";
+import Constant from "../components/actions/Constant"
 // import Link from "../components/ui/Link";
 // import Sonicate from "../components/actions/Sonicate";
 
@@ -25,6 +26,7 @@ export default class Main extends React.Component {
     // this.addWell = this.addWell.bind(this);
     // this.addLinArray = this.addLinArray.bind(this);
     this.addAlert = this.addAlert.bind(this);
+    this.addConstant = this.addConstant.bind(this);
     // this.addSonicate = this.addSonicate.bind(this);
     // this.run = this.run.bind(this);
   }
@@ -159,6 +161,16 @@ export default class Main extends React.Component {
     this.setState({ actions: Object.assign(this.state.actions, newAction) });
   }
 
+  addConstant() {
+    // Adds a alert action to the workspace
+
+    // Adding the new action to the list of workflow actions
+    const uniqueID = uuidv4()
+
+    const newAction = { [uniqueID]: <Constant key={uniqueID} id={uniqueID} /> };
+    this.setState({ actions: Object.assign(this.state.actions, newAction) });
+  }
+
   // run(event) {
   //   // const { workflow, setWorkflow } = this.context;
   //   // setWorkflow({ actionQueue: "f" });
@@ -196,6 +208,9 @@ export default class Main extends React.Component {
           </Button> */}
           <Button className="ui button" size="mini" onClick={this.addAlert}>
             Alert
+          </Button>
+          <Button className="ui button" size="mini" onClick={this.addConstant}>
+            Constant
           </Button>
         </div>
         {this.renderActions()}
