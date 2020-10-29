@@ -3,18 +3,15 @@ import { Button } from "semantic-ui-react";
 import { v4 as uuidv4 } from "uuid";
 
 // Import Components
-// import SpecifyWell from "../components/actions/SpecifyWell";
-// import LinearArray from "../components/actions/LinearArray";
 import Alert from "../components/actions/Alert";
-import Constant from "../components/actions/Constant"
-// import Link from "../components/ui/Link";
-// import Sonicate from "../components/actions/Sonicate";
+import Constant from "../components/actions/Constant";
+import Link from "../components/ui/Link";
 
 import "./Main.css"; // Top-level styles
-import WorkflowContext from "../utils/WorkflowContext";
+import GlobalContext from "../utils/GlobalContext";
 
 export default class Main extends React.Component {
-  static contextType = WorkflowContext;
+  static contextType = GlobalContext;
   constructor(props) {
     super(props);
 
@@ -22,172 +19,127 @@ export default class Main extends React.Component {
       actions: {},
       links: {},
     };
-
-    // this.addWell = this.addWell.bind(this);
-    // this.addLinArray = this.addLinArray.bind(this);
-    this.addAlert = this.addAlert.bind(this);
-    this.addConstant = this.addConstant.bind(this);
-    // this.addSonicate = this.addSonicate.bind(this);
-    // this.run = this.run.bind(this);
   }
 
-  sendOutportData(data) {
-    // DONT LOOK AT THIS CODE I'M EMBARASSED
-    // This is a shitty slow way of doing this but it doesn't matter at the moment I'll fix it later
-    const { workflow, setWorkflow } = this.context;
-    for (const link of workflow.workflowLinks) {
-      if (link.props.outportID === data.outportID) {
-        for (const action of workflow.workflowActions) {
-          if (link.props.inportActionID === action.props.actionID) {
-            Object.entries(action.props.inports).forEach(([key, value]) => {
-              // console.log(action.props.inports)
-              if (value.inportID === link.props.inportID) {
-                var propsToPass = { ...action.props.inports };
-                propsToPass[key].value = data;
-                var newEl = React.cloneElement(action, propsToPass);
-                setWorkflow(
-                  "workflowActions",
-                  workflow.workflowActions.splice(
-                    workflow.workflowActions.indexOf(action),
-                    1
-                  )
-                );
-                setWorkflow(
-                  "workflowActions",
-                  workflow.workflowActions.concat(newEl)
-                );
-                return;
-              }
-            });
-          }
-        }
-      }
+  outportLinkStarted(outportEvent) {
+    const uniqueID = uuidv4();
+
+    var mouseupCallback = (e) => {
+      const newLink = {
+        [uniqueID]: (
+          <Link
+            startx={outportEvent.clientX}
+            starty={outportEvent.clientY}
+            endx={e.clientX}
+            endy={e.clientY}
+            key={uuidv4()}
+          />
+        ),
+      };
+      this.setState({ links: Object.assign(this.state.links, newLink) });
+      document.removeEventListener("mouseup", mouseupCallback);
+      document.removeEventListener("mousemove", mousemoveCallback);
+    };
+
+    var mousemoveCallback = (e) => {
+      const newLink = {
+        linkInProgress: (
+          <Link
+            startx={outportEvent.clientX}
+            starty={outportEvent.clientY}
+            endx={e.clientX}
+            endy={e.clientY}
+            key={"inprogress"}
+          />
+        ),
+      };
+      this.setState({ links: Object.assign(this.state.links, newLink) });
     }
+
+    document.addEventListener("mouseup", mouseupCallback);
+    document.addEventListener('mousemove', mousemoveCallback);
   }
 
-  // createLink(outportX, outportY, outportActionID, outportID) {
-  //   // Creates a link element and adds it to the context
-  //   const { workflow, setWorkflow } = this.context;
-  //   var nextClickCallback = (e) => {
-  //     if (
-  //       e.target.nodeName === "BUTTON" &&
-  //       e.target.classList.contains("inport")
-  //     ) {
-  //       const inportActionID = e.target.dataset.actionid;
-  //       const inportID = e.target.dataset.inportid;
+  inportLinkStarted(inportEvent) {
+    const uniqueID = uuidv4();
 
-  //       setWorkflow(
-  //         "workflowLinks",
-  //         workflow.workflowLinks.concat(
-  //           <Link
-  //             startx={outportX}
-  //             starty={outportY}
-  //             endx={e.clientX}
-  //             endy={e.clientY}
-  //             outportActionID={outportActionID}
-  //             inportActionID={inportActionID}
-  //             outportID={outportID}
-  //             inportID={inportID}
-  //             key={uuidv4()}
-  //           />
-  //         )
-  //       );
-  //     }
-  //     document.removeEventListener("click", nextClickCallback);
-  //   };
-  //   document.addEventListener("click", nextClickCallback);
-  // }
+    var mouseupCallback = (e) => {
+      const newLink = {
+        [uniqueID]: (
+          <Link
+            startx={inportEvent.clientX}
+            starty={inportEvent.clientY}
+            endx={e.clientX}
+            endy={e.clientY}
+            key={uuidv4()}
+          />
+        ),
+      };
+      this.setState({ links: Object.assign(this.state.links, newLink) });
+      document.removeEventListener("mouseup", mouseupCallback);
+      document.removeEventListener("mousemove", mousemoveCallback);
+    };
 
-  // addWell() {
-  //   // Adds a start action to the workspace
-  //   const { workflow, setWorkflow } = this.context; // How to access the context and update method
+    var mousemoveCallback = (e) => {
+      const newLink = {
+        linkInProgress: (
+          <Link
+            startx={inportEvent.clientX}
+            starty={inportEvent.clientY}
+            endx={e.clientX}
+            endy={e.clientY}
+            key={"inprogress"}
+          />
+        ),
+      };
+      this.setState({ links: Object.assign(this.state.links, newLink) });
+    }
 
-  //   setWorkflow(
-  //     "workflowActions",
-  //     workflow.workflowActions.concat(
-  //       <SpecifyWell
-  //         sendOutportData={this.sendOutportData.bind(this)}
-  //         createLink={this.createLink.bind(this)} // callback for getting data from child
-  //         key={uuidv4()} // A unique ID for each action
-  //         actionID={uuidv4()}
-  //       />
-  //     )
-  //   );
-  // }
-
-  // addLinArray() {
-  //   // Adds a start action to the workspace
-  //   const { workflow, setWorkflow } = this.context; // How to access the context and update method
-
-  //   // Adding the new action to the list of workflow actions
-  //   setWorkflow(
-  //     "workflowActions",
-  //     workflow.workflowActions.concat(
-  //       <LinearArray
-  //         sendOutportData={this.sendOutportData.bind(this)} // callback for getting data from child
-  //         createLink={this.createLink.bind(this)} // callback for getting data from child
-  //         key={uuidv4()} // A unique ID for each action
-  //         actionID={uuidv4()}
-  //       />
-  //     )
-  //   );
-  // }
-
-  // addSonicate() {
-  //   // Adds a start action to the workspace
-  //   const { workflow, setWorkflow } = this.context; // How to access the context and update method
-
-  //   // Adding the new action to the list of workflow actions
-  //   setWorkflow(
-  //     "workflowActions",
-  //     workflow.workflowActions.concat(
-  //       <Sonicate
-  //         sendOutportData={this.sendOutportData.bind(this)} // callback for getting data from child
-  //         createLink={this.createLink.bind(this)} // callback for getting data from child
-  //         key={uuidv4()} // A unique ID for each action
-  //         actionID={uuidv4()}
-  //       />
-  //     )
-  //   );
-  // }
+    document.addEventListener("mouseup", mouseupCallback);
+    document.addEventListener('mousemove', mousemoveCallback);
+  }
 
   addAlert() {
-    // Adds a alert action to the workspace
-
-    // Adding the new action to the list of workflow actions
-    const uniqueID = uuidv4()
-
+    const uniqueID = uuidv4();
     const newAction = { [uniqueID]: <Alert key={uniqueID} id={uniqueID} /> };
     this.setState({ actions: Object.assign(this.state.actions, newAction) });
   }
 
   addConstant() {
-    // Adds a alert action to the workspace
-
-    // Adding the new action to the list of workflow actions
-    const uniqueID = uuidv4()
-
+    const uniqueID = uuidv4();
     const newAction = { [uniqueID]: <Constant key={uniqueID} id={uniqueID} /> };
     this.setState({ actions: Object.assign(this.state.actions, newAction) });
   }
 
-  // run(event) {
-  //   // const { workflow, setWorkflow } = this.context;
-  //   // setWorkflow({ actionQueue: "f" });
-  // }
-
   renderActions() {
-    let actionList = []
+    let actionList = [];
     for (let [key, value] of Object.entries(this.state.actions)) {
-      actionList = actionList.concat(value)
+      actionList = actionList.concat(value);
     }
 
     return actionList;
   }
 
   renderLinks() {
-    const { workflow } = this.context;
-    return workflow.workflowLinks;
+    let linkList = [];
+    for (let [key, value] of Object.entries(this.state.links)) {
+      linkList = linkList.concat(value);
+    }
+
+    return linkList;
+  }
+
+  componentDidMount() {
+    const { global, setGlobal } = this.context;
+    var newGlobal = { ...global }; // Create a shallow copy of the global context
+
+    Object.assign(newGlobal, {
+      // Assign the linking functions to it so they can be accessed anywhere
+      startOutportLink: this.outportLinkStarted.bind(this),
+      startInportLink: this.inportLinkStarted.bind(this),
+    });
+
+    setGlobal(newGlobal); // Replace the old global context with the new one
   }
 
   render() {
@@ -197,19 +149,18 @@ export default class Main extends React.Component {
         {/* This is react fragment syntax, which prevents extra divs from being added to the DOM}*/}
         {this.renderLinks()}
         <div className="buttonContainer">
-          {/* <Button className="ui button" size="mini" onClick={this.addWell}>
-            Well
-          </Button>
-          <Button className="ui button" size="mini" onClick={this.addLinArray}>
-            Linear array
-          </Button>
-          <Button className="ui button" size="mini" onClick={this.addSonicate}>
-            Sonicate
-          </Button> */}
-          <Button className="ui button" size="mini" onClick={this.addAlert}>
+          <Button
+            className="ui button"
+            size="mini"
+            onClick={this.addAlert.bind(this)}
+          >
             Alert
           </Button>
-          <Button className="ui button" size="mini" onClick={this.addConstant}>
+          <Button
+            className="ui button"
+            size="mini"
+            onClick={this.addConstant.bind(this)}
+          >
             Constant
           </Button>
         </div>
