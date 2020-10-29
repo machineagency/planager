@@ -3,11 +3,11 @@ import { Button } from "semantic-ui-react";
 import { v4 as uuidv4 } from "uuid";
 
 // Import Components
-import SpecifyWell from "../components/actions/SpecifyWell";
-import LinearArray from "../components/actions/LinearArray";
+// import SpecifyWell from "../components/actions/SpecifyWell";
+// import LinearArray from "../components/actions/LinearArray";
 import Alert from "../components/actions/Alert";
-import Link from "../components/ui/Link";
-import Sonicate from "../components/actions/Sonicate";
+// import Link from "../components/ui/Link";
+// import Sonicate from "../components/actions/Sonicate";
 
 import "./Main.css"; // Top-level styles
 import WorkflowContext from "../utils/WorkflowContext";
@@ -17,11 +17,16 @@ export default class Main extends React.Component {
   constructor(props) {
     super(props);
 
-    this.addWell = this.addWell.bind(this);
-    this.addLinArray = this.addLinArray.bind(this);
+    this.state = {
+      actions: {},
+      links: {},
+    };
+
+    // this.addWell = this.addWell.bind(this);
+    // this.addLinArray = this.addLinArray.bind(this);
     this.addAlert = this.addAlert.bind(this);
-    this.addSonicate = this.addSonicate.bind(this);
-    this.run = this.run.bind(this);
+    // this.addSonicate = this.addSonicate.bind(this);
+    // this.run = this.run.bind(this);
   }
 
   sendOutportData(data) {
@@ -58,118 +63,114 @@ export default class Main extends React.Component {
     }
   }
 
-  createLink(outportX, outportY, outportActionID, outportID) {
-    // Creates a link element and adds it to the context
-    const { workflow, setWorkflow } = this.context;
-    var nextClickCallback = (e) => {
-      if (
-        e.target.nodeName === "BUTTON" &&
-        e.target.classList.contains("inport")
-      ) {
-        const inportActionID = e.target.dataset.actionid;
-        const inportID = e.target.dataset.inportid;
+  // createLink(outportX, outportY, outportActionID, outportID) {
+  //   // Creates a link element and adds it to the context
+  //   const { workflow, setWorkflow } = this.context;
+  //   var nextClickCallback = (e) => {
+  //     if (
+  //       e.target.nodeName === "BUTTON" &&
+  //       e.target.classList.contains("inport")
+  //     ) {
+  //       const inportActionID = e.target.dataset.actionid;
+  //       const inportID = e.target.dataset.inportid;
 
-        setWorkflow(
-          "workflowLinks",
-          workflow.workflowLinks.concat(
-            <Link
-              startx={outportX}
-              starty={outportY}
-              endx={e.clientX}
-              endy={e.clientY}
-              outportActionID={outportActionID}
-              inportActionID={inportActionID}
-              outportID={outportID}
-              inportID={inportID}
-              key={uuidv4()}
-            />
-          )
-        );
-      }
-      document.removeEventListener("click", nextClickCallback);
-    };
-    document.addEventListener("click", nextClickCallback);
-  }
+  //       setWorkflow(
+  //         "workflowLinks",
+  //         workflow.workflowLinks.concat(
+  //           <Link
+  //             startx={outportX}
+  //             starty={outportY}
+  //             endx={e.clientX}
+  //             endy={e.clientY}
+  //             outportActionID={outportActionID}
+  //             inportActionID={inportActionID}
+  //             outportID={outportID}
+  //             inportID={inportID}
+  //             key={uuidv4()}
+  //           />
+  //         )
+  //       );
+  //     }
+  //     document.removeEventListener("click", nextClickCallback);
+  //   };
+  //   document.addEventListener("click", nextClickCallback);
+  // }
 
-  addWell() {
-    // Adds a start action to the workspace
-    const { workflow, setWorkflow } = this.context; // How to access the context and update method
+  // addWell() {
+  //   // Adds a start action to the workspace
+  //   const { workflow, setWorkflow } = this.context; // How to access the context and update method
 
-    setWorkflow(
-      "workflowActions",
-      workflow.workflowActions.concat(
-        <SpecifyWell
-          sendOutportData={this.sendOutportData.bind(this)}
-          createLink={this.createLink.bind(this)} // callback for getting data from child
-          key={uuidv4()} // A unique ID for each action
-          actionID={uuidv4()}
-        />
-      )
-    );
-  }
+  //   setWorkflow(
+  //     "workflowActions",
+  //     workflow.workflowActions.concat(
+  //       <SpecifyWell
+  //         sendOutportData={this.sendOutportData.bind(this)}
+  //         createLink={this.createLink.bind(this)} // callback for getting data from child
+  //         key={uuidv4()} // A unique ID for each action
+  //         actionID={uuidv4()}
+  //       />
+  //     )
+  //   );
+  // }
 
-  addLinArray() {
-    // Adds a start action to the workspace
-    const { workflow, setWorkflow } = this.context; // How to access the context and update method
+  // addLinArray() {
+  //   // Adds a start action to the workspace
+  //   const { workflow, setWorkflow } = this.context; // How to access the context and update method
 
-    // Adding the new action to the list of workflow actions
-    setWorkflow(
-      "workflowActions",
-      workflow.workflowActions.concat(
-        <LinearArray
-          sendOutportData={this.sendOutportData.bind(this)} // callback for getting data from child
-          createLink={this.createLink.bind(this)} // callback for getting data from child
-          key={uuidv4()} // A unique ID for each action
-          actionID={uuidv4()}
-        />
-      )
-    );
-  }
+  //   // Adding the new action to the list of workflow actions
+  //   setWorkflow(
+  //     "workflowActions",
+  //     workflow.workflowActions.concat(
+  //       <LinearArray
+  //         sendOutportData={this.sendOutportData.bind(this)} // callback for getting data from child
+  //         createLink={this.createLink.bind(this)} // callback for getting data from child
+  //         key={uuidv4()} // A unique ID for each action
+  //         actionID={uuidv4()}
+  //       />
+  //     )
+  //   );
+  // }
 
-  addSonicate() {
-    // Adds a start action to the workspace
-    const { workflow, setWorkflow } = this.context; // How to access the context and update method
+  // addSonicate() {
+  //   // Adds a start action to the workspace
+  //   const { workflow, setWorkflow } = this.context; // How to access the context and update method
 
-    // Adding the new action to the list of workflow actions
-    setWorkflow(
-      "workflowActions",
-      workflow.workflowActions.concat(
-        <Sonicate
-          sendOutportData={this.sendOutportData.bind(this)} // callback for getting data from child
-          createLink={this.createLink.bind(this)} // callback for getting data from child
-          key={uuidv4()} // A unique ID for each action
-          actionID={uuidv4()}
-        />
-      )
-    );
-  }
+  //   // Adding the new action to the list of workflow actions
+  //   setWorkflow(
+  //     "workflowActions",
+  //     workflow.workflowActions.concat(
+  //       <Sonicate
+  //         sendOutportData={this.sendOutportData.bind(this)} // callback for getting data from child
+  //         createLink={this.createLink.bind(this)} // callback for getting data from child
+  //         key={uuidv4()} // A unique ID for each action
+  //         actionID={uuidv4()}
+  //       />
+  //     )
+  //   );
+  // }
 
   addAlert() {
     // Adds a alert action to the workspace
-    const { workflow, setWorkflow } = this.context; // How to access the context and update method
 
     // Adding the new action to the list of workflow actions
-    setWorkflow(
-      "workflowActions",
-      workflow.workflowActions.concat(
-        <Alert
-          sendOutportData={this.sendOutportData.bind(this)} // callback for getting data from child
-          createLink={this.createLink.bind(this)} // callback for getting data from child
-          key={uuidv4()} // A unique ID for each action
-          actionID={uuidv4()}
-        />
-      )
-    );
+    const uniqueID = uuidv4()
+
+    const newAction = { [uniqueID]: <Alert key={uniqueID} id={uniqueID} /> };
+    this.setState({ actions: Object.assign(this.state.actions, newAction) });
   }
 
-  run(event) {
-    // const { workflow, setWorkflow } = this.context;
-    // setWorkflow({ actionQueue: "f" });
-  }
+  // run(event) {
+  //   // const { workflow, setWorkflow } = this.context;
+  //   // setWorkflow({ actionQueue: "f" });
+  // }
 
   renderActions() {
-    const { workflow } = this.context;
-    return workflow.workflowActions;
+    let actionList = []
+    for (let [key, value] of Object.entries(this.state.actions)) {
+      actionList = actionList.concat(value)
+    }
+
+    return actionList;
   }
 
   renderLinks() {
@@ -179,24 +180,26 @@ export default class Main extends React.Component {
 
   render() {
     return (
-      <div>
+      <>
+        {" "}
+        {/* This is react fragment syntax, which prevents extra divs from being added to the DOM}*/}
         {this.renderLinks()}
         <div className="buttonContainer">
-          <Button className="ui button" size="mini" onClick={this.addWell}>
+          {/* <Button className="ui button" size="mini" onClick={this.addWell}>
             Well
           </Button>
           <Button className="ui button" size="mini" onClick={this.addLinArray}>
             Linear array
           </Button>
+          <Button className="ui button" size="mini" onClick={this.addSonicate}>
+            Sonicate
+          </Button> */}
           <Button className="ui button" size="mini" onClick={this.addAlert}>
             Alert
           </Button>
-          <Button className="ui button" size="mini" onClick={this.addSonicate}>
-            Sonicate
-          </Button>
         </div>
         {this.renderActions()}
-      </div>
+      </>
     );
   }
 }
