@@ -1,24 +1,18 @@
 import React from "react";
-import "./css/Link.css";
 
 export default class Link extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      iterations: 0,
-    }
-  }
-
-
   render() {
     return (
       <div>
         <svg>
-          <line className="link"
-            x1={this.props.startx}
-            y1={this.props.starty}
-            x2={this.props.endx}
-            y2={this.props.endy}
+          <path
+            stroke="gray"
+            fill="none"
+            strokeWidth="5"
+            d={`M${this.props.startx},${this.props.starty} 
+              C${this.props.startx + 100},${this.props.starty} 
+              ${this.props.endx - 100},${this.props.endy}
+              ${this.props.endx},${this.props.endy}`}
           />
         </svg>
       </div>
