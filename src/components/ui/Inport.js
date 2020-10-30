@@ -1,34 +1,39 @@
 import React from "react";
-import ReactTooltip from "react-tooltip";
+import { Popup } from "semantic-ui-react";
 import "./css/Inport.css";
-import { v4 as uuidv4 } from "uuid";
-
+import GlobalContext from "../../utils/GlobalContext";
 
 export default class Inport extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      data: null
-    }
-
-    this.onClick = this.onClick.bind(this);
+  static contextType = GlobalContext;
+  onDragOut(e) {
+    const { global } = this.context;
+    e.stopPropagation();
+    e.persist();
+    global.startInportLink(e, this.props.id);
   }
 
-  onClick(event) {
-
-  }
-  
   render() {
     return (
-      <div>
-        <ReactTooltip />
-        <button
-          className="inport"
-          data-inportid={this.props.inportID}
-          data-actionid={this.props.actionID}
+      <>
+        <Popup
+          content={
+            `Name: ` +
+            this.props.name +
+            `\n Value: ` +
+            String(this.props.data.value)
+          }
+          trigger={
+            <button
+              className="inport"
+              onMouseDown={this.onDragOut.bind(this)}
+              data-id={this.props.id}
+            />
+          }
+          position="top right"
+          basic
+          size="mini"
         />
-      </div>
+      </>
     );
   }
 }

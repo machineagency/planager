@@ -1,20 +1,15 @@
 // Import modules
 import React from "react";
-import { Button } from "semantic-ui-react";
+import { Input } from "semantic-ui-react";
 
 // Import components
 import GenericAction from "./GenericAction";
 
 // Import styles
-import "./css/Alert.css";
+import "./css/constant.css";
 
 const PORTS = {
-  inports: {
-    itemIn: {
-      type: "any",
-      value: null,
-    },
-  },
+  inports: {},
   outports: {
     itemOut: {
       type: "any",
@@ -23,34 +18,34 @@ const PORTS = {
   },
 };
 
-export default class Alert extends React.Component {
+export default class Constant extends React.Component {
   constructor(props) {
     super(props);
     this.state = PORTS;
   }
 
-  run() {
-    alert(`Value: ${this.props.inportData.itemIn.value}`);
+  updateConstant(e) {
+    let newOutports = this.state.outports;
+    newOutports.itemOut.value = e.target.value;
+
+    this.setState({ outports: newOutports });
   }
 
   render() {
     return (
       <GenericAction
         inports={this.state.inports}
-        inportData={this.props.inportData}
         outports={this.state.outports}
         actionID={this.props.id}
       >
-        <div className="actionTitle">Alert</div>
+        <div className="actionTitle">Constant</div>
         <div className="actionContent">
-          <Button
-            icon
-            className="ui teal primary button"
+          <Input
+            fluid
+            label="Constant"
             size="mini"
-            onClick={this.run.bind(this)}
-          >
-            Click me!
-          </Button>
+            onChange={this.updateConstant.bind(this)}
+          />
         </div>
       </GenericAction>
     );
