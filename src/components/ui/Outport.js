@@ -14,7 +14,7 @@ export default class Outport extends React.Component {
     const { global } = this.context;
     e.stopPropagation();
     e.persist();
-    global.startOutportLink(e)
+    global.startOutportLink(e, this.props.id);
   }
 
   render() {
@@ -32,6 +32,7 @@ export default class Outport extends React.Component {
               className="outport"
               onClick={this.onClick.bind(this)}
               onMouseDown={this.onDragOut.bind(this)}
+              data-id={this.props.id}
             />
           }
           position="top left"

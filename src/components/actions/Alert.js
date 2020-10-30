@@ -26,7 +26,7 @@ const PORTS = {
 export default class Alert extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = PORTS;
   }
 
   run() {
@@ -35,7 +35,11 @@ export default class Alert extends React.Component {
 
   render() {
     return (
-      <GenericAction inports={PORTS.inports} outports={PORTS.outports}>
+      <GenericAction
+        inports={this.state.inports}
+        outports={this.state.outports}
+        actionID={this.props.id}
+      >
         <div className="actionTitle">Alert</div>
         <div className="actionContent">
           <Button
