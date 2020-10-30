@@ -30,13 +30,14 @@ export default class Alert extends React.Component {
   }
 
   run() {
-    console.log("alert thing CLICKED");
+    alert(`Value: ${this.props.inportData.itemIn.value}`);
   }
 
   render() {
     return (
       <GenericAction
         inports={this.state.inports}
+        inportData={this.props.inportData}
         outports={this.state.outports}
         actionID={this.props.id}
       >
@@ -46,7 +47,7 @@ export default class Alert extends React.Component {
             icon
             className="ui teal primary button"
             size="mini"
-            onClick={this.run}
+            onClick={this.run.bind(this)}
           >
             Click me!
           </Button>

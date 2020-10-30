@@ -5,9 +5,9 @@ import GlobalContext from "../../utils/GlobalContext";
 
 export default class Outport extends React.Component {
   static contextType = GlobalContext;
-
-  onClick() {
-    this.props.outportCallback(this.props);
+  componentDidUpdate() {
+    const { global } = this.context;
+    global.outportUpdatedCallback(this.props.id, this.props.data)
   }
 
   onDragOut(e) {
@@ -25,12 +25,11 @@ export default class Outport extends React.Component {
             `Name: ` +
             this.props.name +
             `\n Value: ` +
-            String(this.props.dataVal.value)
+            String(this.props.data.value)
           }
           trigger={
             <button
               className="outport"
-              onClick={this.onClick.bind(this)}
               onMouseDown={this.onDragOut.bind(this)}
               data-id={this.props.id}
             />

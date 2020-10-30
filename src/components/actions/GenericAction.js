@@ -10,14 +10,6 @@ import Inport from "../ui/Inport";
 import Outport from "../ui/Outport";
 
 export default class GenericAction extends React.Component {
-  inportCallback(inport) {
-    console.log("Inport was clicked!", inport);
-  }
-
-  outportCallback(outport) {
-    console.log("Outport was clicked!", outport);
-  }
-
   renderInports() {
     if (!this.props.inports) return;
     let inportList = [];
@@ -28,8 +20,10 @@ export default class GenericAction extends React.Component {
           key={name}
           name={name}
           id={`${this.props.actionID}_inport_${name}`}
-          dataVal={value}
-          inportCallback={this.inportCallback.bind(this)}
+          data={value}
+          receivedData={
+            this.props.inportData ? this.props.inportData[name] : {}
+          }
         />
       );
     }
@@ -47,9 +41,7 @@ export default class GenericAction extends React.Component {
           key={name}
           name={name}
           id={`${this.props.actionID}_outport_${name}`}
-          dataVal={value}
-          outportCallback={this.outportCallback.bind(this)}
-          outportLinkStarted={this.props.outportLinkStarted}
+          data={value}
         />
       );
     }

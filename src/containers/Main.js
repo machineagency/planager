@@ -1,8 +1,6 @@
 import React from "react";
 import { Button } from "semantic-ui-react";
 import { v4 as uuidv4 } from "uuid";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 // Import Components
 import Alert from "../components/actions/Alert";
@@ -21,6 +19,55 @@ export default class Main extends React.Component {
       actions: {},
       links: {},
     };
+
+    this.getLinks = this.getLinks.bind(this);
+    this.updateLinksWithOutportData = this.updateLinksWithOutportData.bind(
+      this
+    );
+    this.updateConnectedInports = this.updateConnectedInports.bind(this);
+  }
+
+  getLinks(outportID) {
+    // Returns all of the links connected to an outport
+    let linkList = [];
+    for (const link of Object.keys(this.state.links)) {
+      let split = link.split("_");
+      if (split[3] === outportID.split("_")[0]) linkList.push(link);
+    }
+    return linkList;
+  }
+
+  updateLinksWithOutportData(connectedLinks, outportData) {
+    // Adds the data to each connected link as a prop
+    for (const linkID of connectedLinks) {
+      let newLink = React.cloneElement(this.state.links[linkID], {
+        data: outportData,
+      });
+      this.setState({
+        links: Object.assign(this.state.links, { [linkID]: newLink }),
+      });
+    }
+  }
+
+  updateConnectedInports(connectedLinks, data) {
+    // Sends the data to the connected inports
+    for (const link of connectedLinks) {
+      let split = link.split("_");
+      const actionID = split[0];
+      const inportID = split[2];
+      let newAction = React.cloneElement(this.state.actions[actionID], {
+        inportData: { [inportID]: data },
+      });
+      this.setState({
+        actions: Object.assign(this.state.actions, { [actionID]: newAction }),
+      });
+    }
+  }
+
+  outportUpdatedCallback(outportID, outportData) {
+    const connectedLinks = this.getLinks(outportID);
+    this.updateLinksWithOutportData(connectedLinks, outportData);
+    this.updateConnectedInports(connectedLinks, outportData);
   }
 
   outportLinkStarted(outportEvent, outportID) {
@@ -34,7 +81,7 @@ export default class Main extends React.Component {
         return;
       }
 
-      const linkID = `${e.target.dataset.id}_${outportID}`
+      const linkID = `${e.target.dataset.id}_${outportID}`;
       const newLink = {
         [linkID]: (
           <Link
@@ -87,7 +134,7 @@ export default class Main extends React.Component {
         return;
       }
 
-      const linkID = `${inportID}_${e.target.dataset.id}`
+      const linkID = `${inportID}_${e.target.dataset.id}`;
       const newLink = {
         [linkID]: (
           <Link
@@ -154,7 +201,6 @@ export default class Main extends React.Component {
     for (let [key, value] of Object.entries(this.state.links)) {
       linkList = linkList.concat(value);
     }
-
     return linkList;
   }
 
@@ -166,6 +212,7 @@ export default class Main extends React.Component {
     Object.assign(newGlobal, {
       startOutportLink: this.outportLinkStarted.bind(this),
       startInportLink: this.inportLinkStarted.bind(this),
+      outportUpdatedCallback: this.outportUpdatedCallback.bind(this),
     });
 
     setGlobal(newGlobal); // Replace the old global context with the new one
@@ -193,7 +240,6 @@ export default class Main extends React.Component {
           </Button>
         </div>
         {this.renderActions()}
-        <ToastContainer />
       </>
     );
   }
