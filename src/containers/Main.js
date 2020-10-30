@@ -23,20 +23,9 @@ export default class Main extends React.Component {
     };
   }
 
-  outportLinkStarted(outportEvent) {
-    const uniqueID = uuidv4();
-
+  outportLinkStarted(outportEvent, outportID) {
     var mouseupCallback = (e) => {
       if (e.target.classList[0] !== "inport") {
-        toast.error("Outports must connect to inports!", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
         document.removeEventListener("mousemove", mousemoveCallback);
         document.removeEventListener("mouseup", mouseupCallback);
         let temp = this.state.links;
@@ -45,14 +34,16 @@ export default class Main extends React.Component {
         return;
       }
 
+      const linkID = `${e.target.dataset.id}_${outportID}`
       const newLink = {
-        [uniqueID]: (
+        [linkID]: (
           <Link
             startx={outportEvent.clientX}
             starty={outportEvent.clientY}
             endx={e.clientX}
             endy={e.clientY}
             key={uuidv4()}
+            id={linkID}
           />
         ),
       };
@@ -85,20 +76,9 @@ export default class Main extends React.Component {
     document.addEventListener("mouseup", mouseupCallback);
   }
 
-  inportLinkStarted(inportEvent) {
-    const uniqueID = uuidv4();
-
+  inportLinkStarted(inportEvent, inportID) {
     var mouseupCallback = (e) => {
       if (e.target.classList[0] !== "outport") {
-        toast.error("Inports must connect to outports!", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
         document.removeEventListener("mousemove", mousemoveCallback);
         document.removeEventListener("mouseup", mouseupCallback);
         let temp = this.state.links;
@@ -106,14 +86,17 @@ export default class Main extends React.Component {
         this.setState({ links: temp });
         return;
       }
+
+      const linkID = `${inportID}_${e.target.dataset.id}`
       const newLink = {
-        [uniqueID]: (
+        [linkID]: (
           <Link
             startx={inportEvent.clientX}
             starty={inportEvent.clientY}
             endx={e.clientX}
             endy={e.clientY}
             key={uuidv4()}
+            id={linkID}
           />
         ),
       };
@@ -179,8 +162,8 @@ export default class Main extends React.Component {
     const { global, setGlobal } = this.context;
     var newGlobal = { ...global }; // Create a shallow copy of the global context
 
+    // Assign the linking functions to it so they can be accessed anywhere without prop drilling
     Object.assign(newGlobal, {
-      // Assign the linking functions to it so they can be accessed anywhere
       startOutportLink: this.outportLinkStarted.bind(this),
       startInportLink: this.inportLinkStarted.bind(this),
     });
@@ -191,7 +174,6 @@ export default class Main extends React.Component {
   render() {
     return (
       <>
-        {" "}
         {/* This is react fragment syntax, which prevents extra divs from being added to the DOM}*/}
         {this.renderLinks()}
         <div className="buttonContainer">

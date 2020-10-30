@@ -14,7 +14,7 @@ export default class Inport extends React.Component {
     const { global } = this.context;
     e.stopPropagation();
     e.persist();
-    global.startInportLink(e)
+    global.startInportLink(e, this.props.id)
   }
 
   render() {
@@ -32,6 +32,7 @@ export default class Inport extends React.Component {
               className="inport"
               onClick={this.onClick.bind(this)}
               onMouseDown={this.onDragOut.bind(this)}
+              data-id={this.props.id}
             />
           }
           position="top right"

@@ -6,7 +6,7 @@ import { Input } from "semantic-ui-react";
 import GenericAction from "./GenericAction";
 
 // Import styles
-import "./css/constant.css"
+import "./css/constant.css";
 
 const PORTS = {
   inports: {},
@@ -33,7 +33,11 @@ export default class Constant extends React.Component {
 
   render() {
     return (
-      <GenericAction inports={PORTS.inports} outports={PORTS.outports}>
+      <GenericAction
+        inports={this.state.inports}
+        outports={this.state.outports}
+        actionID={this.props.id}
+      >
         <div className="actionTitle">Constant</div>
         <div className="actionContent">
           <Input

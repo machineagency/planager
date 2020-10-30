@@ -27,6 +27,7 @@ export default class GenericAction extends React.Component {
         <Inport
           key={name}
           name={name}
+          id={`${this.props.actionID}_inport_${name}`}
           dataVal={value}
           inportCallback={this.inportCallback.bind(this)}
         />
@@ -45,6 +46,7 @@ export default class GenericAction extends React.Component {
         <Outport
           key={name}
           name={name}
+          id={`${this.props.actionID}_outport_${name}`}
           dataVal={value}
           outportCallback={this.outportCallback.bind(this)}
           outportLinkStarted={this.props.outportLinkStarted}
