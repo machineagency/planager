@@ -1,6 +1,8 @@
 import React from "react";
 import { Button } from "semantic-ui-react";
 import { v4 as uuidv4 } from "uuid";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Import Components
 import Alert from "../components/actions/Alert";
@@ -25,6 +27,24 @@ export default class Main extends React.Component {
     const uniqueID = uuidv4();
 
     var mouseupCallback = (e) => {
+      if (e.target.classList[0] !== "inport") {
+        toast.error("Outports must connect to inports!", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        document.removeEventListener("mousemove", mousemoveCallback);
+        document.removeEventListener("mouseup", mouseupCallback);
+        let temp = this.state.links;
+        delete temp.linkInProgress;
+        this.setState({ links: temp });
+        return;
+      }
+
       const newLink = {
         [uniqueID]: (
           <Link
@@ -36,9 +56,14 @@ export default class Main extends React.Component {
           />
         ),
       };
-      this.setState({ links: Object.assign(this.state.links, newLink) });
-      document.removeEventListener("mouseup", mouseupCallback);
+
+      let temp = this.state.links;
+      delete temp.linkInProgress;
+      temp = Object.assign(this.state.links, newLink);
+
+      this.setState({ links: temp });
       document.removeEventListener("mousemove", mousemoveCallback);
+      document.removeEventListener("mouseup", mouseupCallback);
     };
 
     var mousemoveCallback = (e) => {
@@ -54,16 +79,33 @@ export default class Main extends React.Component {
         ),
       };
       this.setState({ links: Object.assign(this.state.links, newLink) });
-    }
+    };
 
+    document.addEventListener("mousemove", mousemoveCallback);
     document.addEventListener("mouseup", mouseupCallback);
-    document.addEventListener('mousemove', mousemoveCallback);
   }
 
   inportLinkStarted(inportEvent) {
     const uniqueID = uuidv4();
 
     var mouseupCallback = (e) => {
+      if (e.target.classList[0] !== "outport") {
+        toast.error("Inports must connect to outports!", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        document.removeEventListener("mousemove", mousemoveCallback);
+        document.removeEventListener("mouseup", mouseupCallback);
+        let temp = this.state.links;
+        delete temp.linkInProgress;
+        this.setState({ links: temp });
+        return;
+      }
       const newLink = {
         [uniqueID]: (
           <Link
@@ -75,9 +117,13 @@ export default class Main extends React.Component {
           />
         ),
       };
-      this.setState({ links: Object.assign(this.state.links, newLink) });
-      document.removeEventListener("mouseup", mouseupCallback);
+      let temp = this.state.links;
+      delete temp.linkInProgress;
+      temp = Object.assign(this.state.links, newLink);
+
+      this.setState({ links: temp });
       document.removeEventListener("mousemove", mousemoveCallback);
+      document.removeEventListener("mouseup", mouseupCallback);
     };
 
     var mousemoveCallback = (e) => {
@@ -93,10 +139,10 @@ export default class Main extends React.Component {
         ),
       };
       this.setState({ links: Object.assign(this.state.links, newLink) });
-    }
+    };
 
     document.addEventListener("mouseup", mouseupCallback);
-    document.addEventListener('mousemove', mousemoveCallback);
+    document.addEventListener("mousemove", mousemoveCallback);
   }
 
   addAlert() {
@@ -165,6 +211,7 @@ export default class Main extends React.Component {
           </Button>
         </div>
         {this.renderActions()}
+        <ToastContainer />
       </>
     );
   }
