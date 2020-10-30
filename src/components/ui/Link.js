@@ -1,4 +1,5 @@
 import React from "react";
+import "./css/Link.css";
 
 export default class Link extends React.Component {
   render() {
