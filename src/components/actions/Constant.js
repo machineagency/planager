@@ -8,7 +8,6 @@ import GenericAction from "./GenericAction";
 // Import styles
 import "./css/constant.css";
 
-
 export default class Constant extends React.Component {
   constructor(props) {
     super(props);
@@ -24,10 +23,9 @@ export default class Constant extends React.Component {
   }
 
   updateConstant(e) {
-    console.log("SDF")
     let newOutports = this.state.outports;
     newOutports.itemOut.value = e.target.value;
-    console.log(newOutports)
+    console.log(newOutports);
 
     this.setState({ outports: newOutports });
   }
