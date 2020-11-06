@@ -8,25 +8,26 @@ import GenericAction from "./GenericAction";
 // Import styles
 import "./css/constant.css";
 
-const PORTS = {
-  inports: {},
-  outports: {
-    itemOut: {
-      type: "any",
-      value: null,
-    },
-  },
-};
 
 export default class Constant extends React.Component {
   constructor(props) {
     super(props);
-    this.state = PORTS;
+    this.state = {
+      inports: {},
+      outports: {
+        itemOut: {
+          type: "any",
+          value: null,
+        },
+      },
+    };
   }
 
   updateConstant(e) {
+    console.log("SDF")
     let newOutports = this.state.outports;
     newOutports.itemOut.value = e.target.value;
+    console.log(newOutports)
 
     this.setState({ outports: newOutports });
   }

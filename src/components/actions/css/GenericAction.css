@@ -28,9 +28,13 @@
   padding-bottom: 5px;
 }
 
+.row {
+  width: 100%;
+}
+
 .row:after {
   content: "";
-  display: table;
+  /* display: table; */
   clear: both;
 }
 

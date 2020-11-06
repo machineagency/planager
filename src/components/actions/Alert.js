@@ -8,29 +8,41 @@ import GenericAction from "./GenericAction";
 // Import styles
 import "./css/Alert.css";
 
-const PORTS = {
-  inports: {
-    itemIn: {
-      type: "any",
-      value: null,
-    },
-  },
-  outports: {
-    itemOut: {
-      type: "any",
-      value: null,
-    },
-  },
-};
-
 export default class Alert extends React.Component {
+  static defaultProps = {
+    inportData: {
+      itemIn: {
+        type: "any",
+        value: null,
+      },
+    },
+  };
+
   constructor(props) {
     super(props);
-    this.state = PORTS;
+    this.state = {
+      inports: {
+        itemIn: {
+          type: "any",
+          value: null,
+        },
+      },
+      outports: {
+        itemOut: {
+          type: "any",
+          value: null,
+        },
+      },
+    };
   }
 
   run() {
     alert(`Value: ${this.props.inportData.itemIn.value}`);
+    this.setState({
+      outports: {
+        itemOut: { type: "any", value: this.props.inportData.itemIn.value },
+      },
+    });
   }
 
   render() {

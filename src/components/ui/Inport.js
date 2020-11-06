@@ -14,17 +14,17 @@ export default class Inport extends React.Component {
 
   render() {
     return (
-      <>
+      <div>
         <Popup
           content={
             `Name: ` +
             this.props.name +
             `\n Value: ` +
-            String(this.props.data.value)
+            String(this.props.data ? this.props.data.value : {})
           }
           trigger={
             <button
-              className="inport"
+              className="inport row"
               onMouseDown={this.onDragOut.bind(this)}
               data-id={this.props.id}
             />
@@ -33,7 +33,7 @@ export default class Inport extends React.Component {
           basic
           size="mini"
         />
-      </>
+      </div>
     );
   }
 }

@@ -9,6 +9,7 @@ import Link from "../components/ui/Link";
 
 import "./Main.css"; // Top-level styles
 import GlobalContext from "../utils/GlobalContext";
+import LinearArray from "../components/actions/LinearArray";
 
 export default class Main extends React.Component {
   static contextType = GlobalContext;
@@ -43,6 +44,7 @@ export default class Main extends React.Component {
       let newLink = React.cloneElement(this.state.links[linkID], {
         data: outportData,
       });
+
       this.setState({
         links: Object.assign(this.state.links, { [linkID]: newLink }),
       });
@@ -53,10 +55,16 @@ export default class Main extends React.Component {
     // Sends the data to the connected inports
     for (const link of connectedLinks) {
       let split = link.split("_");
+
+      // Extract the action and inport IDs
       const actionID = split[0];
       const inportID = split[2];
+      let inportData = this.state.actions[actionID].props.inportData;
+
+      Object.assign(inportData, { [inportID]: data });
+
       let newAction = React.cloneElement(this.state.actions[actionID], {
-        inportData: { [inportID]: data },
+        inportData: inportData,
       });
       this.setState({
         actions: Object.assign(this.state.actions, { [actionID]: newAction }),
@@ -177,13 +185,23 @@ export default class Main extends React.Component {
 
   addAlert() {
     const uniqueID = uuidv4();
-    const newAction = { [uniqueID]: <Alert key={uniqueID} id={uniqueID} /> };
+    const newAction = {
+      [uniqueID]: <Alert key={uniqueID} id={uniqueID} inportData={{}} />,
+    };
     this.setState({ actions: Object.assign(this.state.actions, newAction) });
   }
 
   addConstant() {
     const uniqueID = uuidv4();
     const newAction = { [uniqueID]: <Constant key={uniqueID} id={uniqueID} /> };
+    this.setState({ actions: Object.assign(this.state.actions, newAction) });
+  }
+
+  addLinearArray() {
+    const uniqueID = uuidv4();
+    const newAction = {
+      [uniqueID]: <LinearArray key={uniqueID} id={uniqueID} inportData={{}} />,
+    };
     this.setState({ actions: Object.assign(this.state.actions, newAction) });
   }
 
@@ -237,6 +255,13 @@ export default class Main extends React.Component {
             onClick={this.addConstant.bind(this)}
           >
             Constant
+          </Button>
+          <Button
+            className="ui button"
+            size="mini"
+            onClick={this.addLinearArray.bind(this)}
+          >
+            Linear Array
           </Button>
         </div>
         {this.renderActions()}
