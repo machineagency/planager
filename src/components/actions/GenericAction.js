@@ -20,9 +20,7 @@ export default class GenericAction extends React.Component {
           key={name}
           name={name}
           id={`${this.props.actionID}_inport_${name}`}
-          data={
-            this.props.inportData ? this.props.inportData[name] : {}
-          }
+          data={this.props.inportData ? this.props.inportData[name] : {}}
         />
       );
     }
@@ -33,7 +31,6 @@ export default class GenericAction extends React.Component {
   renderOutports() {
     if (!this.props.outports) return;
     let outportList = [];
-    console.log("SDFSDFSDF")
 
     for (let [name, value] of Object.entries(this.props.outports)) {
       outportList = outportList.concat(
