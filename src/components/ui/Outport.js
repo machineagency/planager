@@ -7,7 +7,7 @@ export default class Outport extends React.Component {
   static contextType = GlobalContext;
   componentDidUpdate() {
     const { global } = this.context;
-    global.outportUpdatedCallback(this.props.id, this.props.data)
+    global.outportUpdatedCallback(this.props.id, this.props.data);
   }
 
   onDragOut(e) {
@@ -19,7 +19,7 @@ export default class Outport extends React.Component {
 
   render() {
     return (
-      <>
+      <div>
         <Popup
           content={
             `Name: ` +
@@ -38,7 +38,7 @@ export default class Outport extends React.Component {
           basic
           size="mini"
         />
-      </>
+      </div>
     );
   }
 }
