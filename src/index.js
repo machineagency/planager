@@ -1,10 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import Main from './Main';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import Main from "./containers/Main";
+import { GlobalProvider } from "./utils/GlobalContext";
+import 'semantic-ui-css/semantic.min.css'
 
-
-ReactDOM.render( <Main />, document.getElementById('root'));
-
-serviceWorker.register();
+ReactDOM.render(
+  <GlobalProvider>
+    <Main />
+  </GlobalProvider>,
+  document.getElementById("root")
+);

@@ -1,0 +1,42 @@
+.react-draggable,
+.cursor {
+  cursor: move;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  background: #f0f0f0 !important;
+}
+
+.buttonContainer {
+  margin: 10px;
+  z-index: 100;
+  position: absolute;
+}
+
+.action {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+svg {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+*:focus,
+*:visited,
+*:active,
+*:hover {
+  outline: 0 !important;
+}
+*::-moz-focus-inner {
+  border: 0;
+}
