@@ -3,10 +3,14 @@ import "./css/Link.css";
 
 export default class Link extends React.Component {
   calculateBezier() {
-    return `M${this.props.startx},${this.props.starty} 
-    C${this.props.startx + 100},${this.props.starty} 
-    ${this.props.endx - 100},${this.props.endy}
-    ${this.props.endx},${this.props.endy}`;
+    let x1 = this.props.startx + this.props.deltastartx;
+    let y1 = this.props.starty + this.props.deltastarty;
+    let x2 = this.props.endx + this.props.deltaendx;
+    let y2 = this.props.endy + this.props.deltaendy;
+    return `M${x1},${y1} 
+    C${x1 + 100},${y1} 
+    ${x2 - 100},${y2}
+    ${x2},${y2}`;
   }
 
   render() {

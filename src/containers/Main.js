@@ -21,28 +21,52 @@ export default class Main extends React.Component {
       links: {},
     };
 
-    this.getLinks = this.getLinks.bind(this);
-    this.updateLinksWithOutportData = this.updateLinksWithOutportData.bind(
-      this
-    );
+    this.getOutportLinks = this.getOutportLinks.bind(this);
+    this.updateLinks = this.updateLinks.bind(this);
     this.updateConnectedInports = this.updateConnectedInports.bind(this);
   }
 
-  getLinks(outportID) {
+  getOutportLinks(outportID) {
     // Returns all of the links connected to an outport
     let linkList = [];
     for (const link of Object.keys(this.state.links)) {
       let split = link.split("_");
-      if (split[3] === outportID.split("_")[0]) linkList.push(link);
+      if (split.slice(3).join("_") === outportID) linkList.push(link);
     }
     return linkList;
   }
 
-  updateLinksWithOutportData(connectedLinks, outportData) {
+  getInportLinks(inportID) {
+    // Returns all of the links connected to an inport
+    let linkList = [];
+    for (const link of Object.keys(this.state.links)) {
+      let split = link.split("_");
+      if (split.slice(0, 3).join("_") === inportID) linkList.push(link);
+    }
+    return linkList;
+  }
+
+  updateLinks(connectedLinks, outportData, deltas) {
     // Adds the data to each connected link as a prop
     for (const linkID of connectedLinks) {
       let newLink = React.cloneElement(this.state.links[linkID], {
         data: outportData,
+        deltastartx: deltas.x,
+        deltastarty: deltas.y,
+      });
+
+      this.setState({
+        links: Object.assign(this.state.links, { [linkID]: newLink }),
+      });
+    }
+  }
+
+  updateInportLinks(connectedLinks, deltas) {
+    // Adds the data to each connected link as a prop
+    for (const linkID of connectedLinks) {
+      let newLink = React.cloneElement(this.state.links[linkID], {
+        deltaendx: deltas.x,
+        deltaendy: deltas.y,
       });
 
       this.setState({
@@ -72,13 +96,66 @@ export default class Main extends React.Component {
     }
   }
 
-  outportUpdatedCallback(outportID, outportData) {
-    const connectedLinks = this.getLinks(outportID);
-    this.updateLinksWithOutportData(connectedLinks, outportData);
+  inportUpdatedCallback(inportID, deltas) {
+    const connectedLinks = this.getInportLinks(inportID);
+    this.updateInportLinks(connectedLinks, deltas);
+  }
+
+  outportUpdatedCallback(outportID, outportData, deltas) {
+    const connectedLinks = this.getOutportLinks(outportID);
+    this.updateLinks(connectedLinks, outportData, deltas);
     this.updateConnectedInports(connectedLinks, outportData);
   }
 
-  outportLinkStarted(outportEvent, outportID) {
+  /**
+   * Gets computed translate values
+   * @param {HTMLElement} element
+   * @returns {Object}
+   */
+  getTranslateValues(element) {
+    const style = window.getComputedStyle(element);
+    const matrix =
+      style["transform"] || style.webkitTransform || style.mozTransform;
+
+    // No transform property. Simply return 0 values.
+    if (matrix === "none") {
+      return {
+        x: 0,
+        y: 0,
+        z: 0,
+      };
+    }
+
+    // Can either be 2d or 3d transform
+    const matrixType = matrix.includes("3d") ? "3d" : "2d";
+    const matrixValues = matrix.match(/matrix.*\((.+)\)/)[1].split(", ");
+
+    // 2d matrices have 6 values
+    // Last 2 values are X and Y.
+    // 2d matrices does not have Z value.
+    if (matrixType === "2d") {
+      return {
+        x: Number(matrixValues[4]),
+        y: Number(matrixValues[5]),
+        z: 0,
+      };
+    }
+
+    // 3d matrices have 16 values
+    // The 13th, 14th, and 15th values are X, Y, and Z
+    if (matrixType === "3d") {
+      return {
+        x: Number(matrixValues[12]),
+        y: Number(matrixValues[13]),
+        z: Number(matrixValues[14]),
+      };
+    }
+  }
+
+  outportLinkStarted(outportEvent, outportID, deltas) {
+    // outportEvent: the drag event from the outport
+    // outportID: the outport ID of the the outport we are dragging out of
+    // deltas: the Deltaposition of the generic action
     var mouseupCallback = (e) => {
       if (e.target.classList[0] !== "inport") {
         document.removeEventListener("mousemove", mousemoveCallback);
@@ -90,13 +167,19 @@ export default class Main extends React.Component {
       }
 
       const linkID = `${e.target.dataset.id}_${outportID}`;
+      const inportDeltas = this.getTranslateValues(e.target.offsetParent);
+
       const newLink = {
         [linkID]: (
           <Link
-            startx={outportEvent.clientX}
-            starty={outportEvent.clientY}
-            endx={e.clientX}
-            endy={e.clientY}
+            startx={outportEvent.clientX - deltas.x}
+            starty={outportEvent.clientY - deltas.y}
+            deltastartx={deltas.x}
+            deltastarty={deltas.y}
+            endx={e.clientX - inportDeltas.x} //change these deltas to the deltas of the inport
+            endy={e.clientY - inportDeltas.y}
+            deltaendx={inportDeltas.x}
+            deltaendy={inportDeltas.y}
             key={uuidv4()}
             id={linkID}
           />
@@ -116,10 +199,14 @@ export default class Main extends React.Component {
       const newLink = {
         linkInProgress: (
           <Link
-            startx={outportEvent.clientX}
-            starty={outportEvent.clientY}
+            startx={outportEvent.clientX - deltas.x}
+            starty={outportEvent.clientY - deltas.y}
+            deltastartx={deltas.x}
+            deltastarty={deltas.y}
             endx={e.clientX}
             endy={e.clientY}
+            deltaendx={0}
+            deltaendy={0}
             key={"inprogress"}
           />
         ),
@@ -131,7 +218,7 @@ export default class Main extends React.Component {
     document.addEventListener("mouseup", mouseupCallback);
   }
 
-  inportLinkStarted(inportEvent, inportID) {
+  inportLinkStarted(inportEvent, inportID, deltas) {
     var mouseupCallback = (e) => {
       if (e.target.classList[0] !== "outport") {
         document.removeEventListener("mousemove", mousemoveCallback);
@@ -143,13 +230,23 @@ export default class Main extends React.Component {
       }
 
       const linkID = `${inportID}_${e.target.dataset.id}`;
+      const outportDeltas = this.getTranslateValues(e.target.offsetParent);
+
       const newLink = {
         [linkID]: (
           <Link
-            startx={inportEvent.clientX}
-            starty={inportEvent.clientY}
-            endx={e.clientX}
-            endy={e.clientY}
+            // startx={inportEvent.clientX}
+            // starty={inportEvent.clientY}
+            // endx={e.clientX}
+            // endy={e.clientY}
+            startx={e.clientX - outportDeltas.x}
+            starty={e.clientY - outportDeltas.y}
+            deltastartx={outportDeltas.x}
+            deltastarty={outportDeltas.y}
+            endx={inportEvent.clientX - deltas.x}
+            endy={inportEvent.clientY - deltas.y}
+            deltaendx={deltas.x}
+            deltaendy={deltas.y}
             key={uuidv4()}
             id={linkID}
           />
@@ -168,10 +265,14 @@ export default class Main extends React.Component {
       const newLink = {
         linkInProgress: (
           <Link
-            startx={inportEvent.clientX}
-            starty={inportEvent.clientY}
-            endx={e.clientX}
-            endy={e.clientY}
+            startx={e.clientX}
+            starty={e.clientY}
+            deltastartx={0}
+            deltastarty={0}
+            endx={inportEvent.clientX - deltas.x}
+            endy={inportEvent.clientY - deltas.y}
+            deltaendx={deltas.x}
+            deltaendy={deltas.y}
             key={"inprogress"}
           />
         ),
@@ -231,6 +332,7 @@ export default class Main extends React.Component {
       startOutportLink: this.outportLinkStarted.bind(this),
       startInportLink: this.inportLinkStarted.bind(this),
       outportUpdatedCallback: this.outportUpdatedCallback.bind(this),
+      inportUpdatedCallback: this.inportUpdatedCallback.bind(this),
     });
 
     setGlobal(newGlobal); // Replace the old global context with the new one

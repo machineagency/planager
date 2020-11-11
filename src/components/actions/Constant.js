@@ -25,8 +25,6 @@ export default class Constant extends React.Component {
   updateConstant(e) {
     let newOutports = this.state.outports;
     newOutports.itemOut.value = e.target.value;
-    console.log(newOutports);
-
     this.setState({ outports: newOutports });
   }
 

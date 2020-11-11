@@ -5,11 +5,19 @@ import GlobalContext from "../../utils/GlobalContext";
 
 export default class Inport extends React.Component {
   static contextType = GlobalContext;
+  componentDidUpdate() {
+    const { global } = this.context;
+    global.inportUpdatedCallback(
+      this.props.id,
+      this.props.deltaPosition
+    );
+  }
+
   onDragOut(e) {
     const { global } = this.context;
     e.stopPropagation();
     e.persist();
-    global.startInportLink(e, this.props.id);
+    global.startInportLink(e, this.props.id, this.props.deltaPosition);
   }
 
   render() {
