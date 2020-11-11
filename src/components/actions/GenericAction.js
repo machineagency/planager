@@ -2,7 +2,7 @@
 import React from "react";
 import Draggable from "react-draggable";
 
-// Import Style
+// Import Stylesheet
 import "./css/GenericAction.css";
 
 // Import Components
@@ -10,6 +10,23 @@ import Inport from "../ui/Inport";
 import Outport from "../ui/Outport";
 
 export default class GenericAction extends React.Component {
+  state = {
+    deltaPosition: {
+      x: 0,
+      y: 0,
+    },
+  };
+
+  handleDrag(e, ui) {
+    const { x, y } = this.state.deltaPosition;
+    this.setState({
+      deltaPosition: {
+        x: x + ui.deltaX,
+        y: y + ui.deltaY,
+      },
+    });
+  }
+
   renderInports() {
     if (!this.props.inports) return;
     let inportList = [];
@@ -20,6 +37,7 @@ export default class GenericAction extends React.Component {
           key={name}
           name={name}
           id={`${this.props.actionID}_inport_${name}`}
+          deltaPosition={this.state.deltaPosition}
           data={this.props.inportData ? this.props.inportData[name] : {}}
         />
       );
@@ -37,6 +55,7 @@ export default class GenericAction extends React.Component {
         <Outport
           key={name}
           name={name}
+          deltaPosition={this.state.deltaPosition}
           id={`${this.props.actionID}_outport_${name}`}
           data={value}
         />
@@ -48,7 +67,7 @@ export default class GenericAction extends React.Component {
 
   render() {
     return (
-      <Draggable>
+      <Draggable onDrag={this.handleDrag.bind(this)}>
         <div className="action row">
           <div className="column portsContainer">{this.renderInports()}</div>
           <div className="column box">{this.props.children}</div>

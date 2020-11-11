@@ -52,7 +52,6 @@ export default class LinearArray extends React.Component {
 
   componentDidUpdate() {
     let ar = null;
-    // if (typeof this.state.outports.itemIn === "undefined") return;
     if (typeof this.props.inportData.length !== "undefined") {
       ar = this.fillArray(
         this.props.inportData.itemIn.value,

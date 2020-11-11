@@ -7,14 +7,18 @@ export default class Outport extends React.Component {
   static contextType = GlobalContext;
   componentDidUpdate() {
     const { global } = this.context;
-    global.outportUpdatedCallback(this.props.id, this.props.data);
+    global.outportUpdatedCallback(
+      this.props.id,
+      this.props.data,
+      this.props.deltaPosition
+    );
   }
 
   onDragOut(e) {
     const { global } = this.context;
     e.stopPropagation();
     e.persist();
-    global.startOutportLink(e, this.props.id);
+    global.startOutportLink(e, this.props.id, this.props.deltaPosition);
   }
 
   render() {
