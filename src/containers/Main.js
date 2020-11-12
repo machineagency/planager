@@ -1,15 +1,10 @@
 import React from "react";
 import { Button } from "semantic-ui-react";
 import { v4 as uuidv4 } from "uuid";
-
-// Import Components
-import Alert from "../components/actions/Alert";
-import Constant from "../components/actions/Constant";
 import Link from "../components/ui/Link";
-
-import "./Main.css"; // Top-level styles
+import * as Actions from "../components/ActionLoader";
+import "./Main.css";
 import GlobalContext from "../utils/GlobalContext";
-import LinearArray from "../components/actions/LinearArray";
 
 export default class Main extends React.Component {
   static contextType = GlobalContext;
@@ -284,26 +279,36 @@ export default class Main extends React.Component {
     document.addEventListener("mousemove", mousemoveCallback);
   }
 
-  addAlert() {
+  addAction(action) {
     const uniqueID = uuidv4();
     const newAction = {
-      [uniqueID]: <Alert key={uniqueID} id={uniqueID} inportData={{}} />,
+      [uniqueID]: React.createElement(
+        action,
+        { key: uniqueID, id: uniqueID, inportData: {} },
+        null
+      ),
     };
+
     this.setState({ actions: Object.assign(this.state.actions, newAction) });
   }
 
-  addConstant() {
-    const uniqueID = uuidv4();
-    const newAction = { [uniqueID]: <Constant key={uniqueID} id={uniqueID} /> };
-    this.setState({ actions: Object.assign(this.state.actions, newAction) });
-  }
+  renderButtons() {
+    let buttonList = [];
 
-  addLinearArray() {
-    const uniqueID = uuidv4();
-    const newAction = {
-      [uniqueID]: <LinearArray key={uniqueID} id={uniqueID} inportData={{}} />,
-    };
-    this.setState({ actions: Object.assign(this.state.actions, newAction) });
+    for (let [key, value] of Object.entries(Actions)) {
+      buttonList.push(
+        <Button
+          className="ui button"
+          size="mini"
+          onClick={this.addAction.bind(this, value)}
+          key={value.name}
+        >
+          {value.name}
+        </Button>
+      );
+    }
+
+    return buttonList;
   }
 
   renderActions() {
@@ -343,29 +348,7 @@ export default class Main extends React.Component {
       <>
         {/* This is react fragment syntax, which prevents extra divs from being added to the DOM}*/}
         {this.renderLinks()}
-        <div className="buttonContainer">
-          <Button
-            className="ui button"
-            size="mini"
-            onClick={this.addAlert.bind(this)}
-          >
-            Alert
-          </Button>
-          <Button
-            className="ui button"
-            size="mini"
-            onClick={this.addConstant.bind(this)}
-          >
-            Constant
-          </Button>
-          <Button
-            className="ui button"
-            size="mini"
-            onClick={this.addLinearArray.bind(this)}
-          >
-            Linear Array
-          </Button>
-        </div>
+        <div className="buttonContainer">{this.renderButtons()}</div>
         {this.renderActions()}
       </>
     );
