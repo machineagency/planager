@@ -26,11 +26,11 @@
 .actionContent {
   padding: 10px;
   padding-bottom: 5px;
+  cursor: default;
 }
 
 .row:after {
   content: "";
-  /* display: table; */
   clear: both;
 }
 

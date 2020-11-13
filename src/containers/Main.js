@@ -147,7 +147,7 @@ export default class Main extends React.Component {
     }
   }
 
-  outportLinkStarted(outportEvent, outportID, deltas) {
+  outportLinkStarted(outportEvent, outportID, deltas, data) {
     // outportEvent: the drag event from the outport
     // outportID: the outport ID of the the outport we are dragging out of
     // deltas: the Deltaposition of the generic action
@@ -188,6 +188,8 @@ export default class Main extends React.Component {
       this.setState({ links: temp });
       document.removeEventListener("mousemove", mousemoveCallback);
       document.removeEventListener("mouseup", mouseupCallback);
+
+      this.updateConnectedInports([linkID], data);
     };
 
     var mousemoveCallback = (e) => {
