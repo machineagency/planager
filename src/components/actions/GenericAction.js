@@ -67,7 +67,7 @@ export default class GenericAction extends React.Component {
 
   render() {
     return (
-      <Draggable onDrag={this.handleDrag.bind(this)}>
+      <Draggable onDrag={this.handleDrag.bind(this)} cancel=".actionContent">
         <div className="action row">
           <div className="column portsContainer">{this.renderInports()}</div>
           <div className="column box">{this.props.children}</div>

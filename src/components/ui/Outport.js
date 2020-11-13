@@ -18,7 +18,7 @@ export default class Outport extends React.Component {
     const { global } = this.context;
     e.stopPropagation();
     e.persist();
-    global.startOutportLink(e, this.props.id, this.props.deltaPosition);
+    global.startOutportLink(e, this.props.id, this.props.deltaPosition, this.props.data);
   }
 
   render() {
