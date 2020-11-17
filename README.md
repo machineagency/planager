@@ -3,6 +3,8 @@
 The Planager is a flow-based programming environment that allows you to create
 workflows that span digital, physical, and human domains.
 
+![](docs/evolution/2020_11_17.png)
+
 ## Get started
 
 Ensure you have the latest version of [node](https://nodejs.org/en/) installed
