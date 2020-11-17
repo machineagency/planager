@@ -297,7 +297,7 @@ export default class Main extends React.Component {
   renderButtons() {
     let buttonList = [];
 
-    for (let [key, value] of Object.entries(Actions)) {
+    for (const value of Object.values(Actions)) {
       buttonList.push(
         <Button
           className="ui button"
@@ -315,7 +315,7 @@ export default class Main extends React.Component {
 
   renderActions() {
     let actionList = [];
-    for (let [key, value] of Object.entries(this.state.actions)) {
+    for (const value of Object.values(this.state.actions)) {
       actionList = actionList.concat(value);
     }
 
@@ -324,7 +324,7 @@ export default class Main extends React.Component {
 
   renderLinks() {
     let linkList = [];
-    for (let [key, value] of Object.entries(this.state.links)) {
+    for (const value of Object.values(this.state.links)) {
       linkList = linkList.concat(value);
     }
     return linkList;
@@ -342,7 +342,7 @@ export default class Main extends React.Component {
       inportUpdatedCallback: this.inportUpdatedCallback.bind(this),
     });
 
-    setGlobal(newGlobal); // Replace the old global context with the new one
+    setGlobal(newGlobal); // Set the global context
   }
 
   render() {
