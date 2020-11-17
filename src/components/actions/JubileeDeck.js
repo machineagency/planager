@@ -12,12 +12,12 @@ export default class JubileeDeck extends React.Component {
     super(props);
     this.state = {
       inports: {
-        slot1: { value: { name: "none", x: 0, y: 0 } },
-        slot2: { value: { name: "none", x: 0, y: 0 } },
-        slot3: { value: { name: "none", x: 0, y: 0 } },
-        slot4: { value: { name: "none", x: 0, y: 0 } },
-        slot5: { value: { name: "none", x: 0, y: 0 } },
-        slot6: { value: { name: "none", x: 0, y: 0 } },
+        slot1: {},
+        slot2: {},
+        slot3: {},
+        slot4: {},
+        slot5: {},
+        slot6: {},
       },
       outports: {
         deck: {},
@@ -25,12 +25,20 @@ export default class JubileeDeck extends React.Component {
     };
   }
 
+  updateDeckOutport() {
+    if (!this.haveSameData(this.state.inports, this.state.outports.deck)) {
+      this.setState({ outports: { deck: { ...this.state.inports } } });
+    }
+  }
+
   renderPreview() {
     let preview = [];
     for (const slot of Object.keys(this.state.inports)) {
       preview.push(
         <div className="deckSlot" key={slot}>
-          {`${this.state.inports[slot].value.name}, ${this.state.inports[slot].value.x}x${this.state.inports[slot].value.y}`}
+          {Object.entries(this.state.inports[slot]).length === 0
+            ? `${slot}: empty`
+            : `${this.state.inports[slot].name},${this.state.inports[slot].xWells}x${this.state.inports[slot].yWells}`}
         </div>
       );
     }
@@ -38,7 +46,7 @@ export default class JubileeDeck extends React.Component {
     preview.splice(2, 0, <br key={`break1`} />);
     preview.splice(5, 0, <br key={`break2`} />);
 
-    // this.setState({ outports: { deck: { value: {...this.state.inports} } } });
+    this.updateDeckOutport();
     return preview;
   }
 
@@ -54,8 +62,16 @@ export default class JubileeDeck extends React.Component {
     return false;
   }
 
-  componentDidUpdate() {
-    Object.assign(this.state.inports, this.props.inportData);
+  componentDidUpdate(prevState) {
+    const newDat = Object.assign(
+      { ...this.state.inports },
+      this.props.inportData
+    );
+    if (!this.haveSameData(newDat, this.state.inports)) {
+      this.setState({
+        inports: newDat,
+      });
+    }
   }
 
   render() {

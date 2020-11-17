@@ -18,19 +18,21 @@ export default class Outport extends React.Component {
     const { global } = this.context;
     e.stopPropagation();
     e.persist();
-    global.startOutportLink(e, this.props.id, this.props.deltaPosition, this.props.data);
+    global.startOutportLink(
+      e,
+      this.props.id,
+      this.props.deltaPosition,
+      this.props.data
+    );
   }
 
   render() {
     return (
       <div>
         <Popup
-          content={
-            `Name: ` +
-            this.props.name +
-            `\n Value: ` +
-            String(this.props.data.value)
-          }
+          content={`Name: ${this.props.name}\n Value: ${String(
+            this.props.data
+          )}`}
           trigger={
             <button
               className="outport"

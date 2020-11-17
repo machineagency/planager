@@ -31,7 +31,7 @@ export default class GenericAction extends React.Component {
     if (!this.props.inports) return;
     let inportList = [];
 
-    for (let [name, value] of Object.entries(this.props.inports)) {
+    for (const name of Object.keys(this.props.inports)) {
       inportList = inportList.concat(
         <Inport
           key={name}
