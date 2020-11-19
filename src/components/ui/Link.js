@@ -18,9 +18,9 @@ export default class Link extends React.Component {
       <div>
         <svg>
           <path
-            stroke="gray"
+            stroke="lightgray"
             fill="none"
-            strokeWidth="5"
+            strokeWidth="2"
             d={this.calculateBezier.bind(this)()}
           />
         </svg>

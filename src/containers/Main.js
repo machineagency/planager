@@ -1,10 +1,11 @@
 import React from "react";
-import { Button } from "semantic-ui-react";
 import { v4 as uuidv4 } from "uuid";
 import Link from "../components/ui/Link";
 import * as Actions from "../components/ActionLoader";
 import "./Main.css";
 import GlobalContext from "../utils/GlobalContext";
+import { Button } from "semantic-ui-react";
+
 
 export default class Main extends React.Component {
   static contextType = GlobalContext;
@@ -72,21 +73,33 @@ export default class Main extends React.Component {
 
   updateConnectedInports(connectedLinks, data) {
     // Sends the data to the connected inports
-    for (const link of connectedLinks) {
-      let split = link.split("_");
+    for (const linkID of connectedLinks) {
+      let split = linkID.split("_");
 
       // Extract the action and inport IDs
-      const actionID = split[0];
+      const targetActionID = split[0];
       const inportID = split[2];
-      let inportData = this.state.actions[actionID].props.inportData;
 
-      Object.assign(inportData, { [inportID]: data });
+      let inportData = {
+        ...this.state.actions[targetActionID].props.inportData,
+      };
+      const thisData = {[linkID]: data}
 
-      let newAction = React.cloneElement(this.state.actions[actionID], {
+      // console.log(inportID)
+      // console.log(this.state.actions[targetActionID].props.inportData)
+      // console.log(thisData)`
+
+      Object.assign(inportData[inportID], thisData)
+
+      // inportData[inportID][linkID] = data;
+
+      let newAction = React.cloneElement(this.state.actions[targetActionID], {
         inportData: inportData,
       });
       this.setState({
-        actions: Object.assign(this.state.actions, { [actionID]: newAction }),
+        actions: Object.assign(this.state.actions, {
+          [targetActionID]: newAction,
+        }),
       });
     }
   }
@@ -286,7 +299,7 @@ export default class Main extends React.Component {
     const newAction = {
       [uniqueID]: React.createElement(
         action,
-        { key: uniqueID, id: uniqueID, inportData: {} },
+        { key: uniqueID, id: uniqueID },
         null
       ),
     };
@@ -300,7 +313,7 @@ export default class Main extends React.Component {
     for (const value of Object.values(Actions)) {
       buttonList.push(
         <Button
-          className="ui button"
+          className="ui inverted violet button"
           size="mini"
           onClick={this.addAction.bind(this, value)}
           key={value.name}
