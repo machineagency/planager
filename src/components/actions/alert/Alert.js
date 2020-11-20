@@ -3,10 +3,10 @@ import React from "react";
 import { Button } from "semantic-ui-react";
 
 // Import components
-import GenericAction from "./GenericAction";
+import GenericAction from "../GenericAction";
 
 // Import styles
-import "./css/Alert.css";
+import "./Alert.css";
 
 export default class Alert extends React.Component {
   static defaultProps = {

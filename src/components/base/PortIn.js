@@ -1,8 +1,8 @@
 import React from "react";
-import "./css/ports.css";
+import "./styles/ports.css";
 import GlobalContext from "../../utils/GlobalContext";
 
-export default class Inport extends React.Component {
+export default class PortIn extends React.Component {
   static contextType = GlobalContext;
   componentDidUpdate() {
     const { global } = this.context;

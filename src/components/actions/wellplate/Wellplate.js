@@ -1,8 +1,8 @@
 import React from "react";
 import GenericAction from "../GenericAction";
 import "./Wellplate.css";
-import "./Plate";
 import Plate from "./Plate";
+import Outport from "../../base/Outport";
 
 export default class Wellplate extends React.Component {
   static defaultProps = {
@@ -11,37 +11,55 @@ export default class Wellplate extends React.Component {
 
   constructor(props) {
     super(props);
-    let plate = new Plate(12, 8, "name", true)
+    let plate = new Plate(12, 8, "name", true);
     this.state = {
       inports: {},
-      outports: {plate: plate},
+      outports: {
+        plate: new Outport("Plate", Plate, plate, "The created wellplate."),
+      },
       plate: plate,
     };
   }
 
   xwellsHandler(e) {
-    let plate = this.state.plate;
-    plate.xWells = Number(e.target.value);
-    this.setState({ outports: { plate: plate } });
+    this.setState(
+      (state) => (
+        (state.outports.plate.data.xWells = Number(e.target.value)), state
+      )
+    );
+
+    // this.setState((state) => {
+    //   state.outports.plate.data.xWells = Number(e.target.value);
+    //   return state;
+    // });
   }
 
   ywellsHandler(e) {
-    let plate = this.state.plate;
-    plate.yWells = Number(e.target.value);
-    this.setState({ outports: { plate: plate } });
+    this.setState(
+      (state) => (
+        (state.outports.plate.data.yWells = Number(e.target.value)), state
+      )
+    );
+    // let plate = this.state.plate;
+    // plate.yWells = Number(e.target.value);
+    // this.setState({ outports: { plate: plate } });
   }
 
   nameHandler(e) {
-    let plate = this.state.plate;
-    plate.name = e.target.value;
-    this.setState({ outports: { plate: plate } });
+    // let plate = this.state.plate;
+    // plate.name = e.target.value;
+    // this.setState({ outports: { plate: plate } });
+    this.setState(
+      (state) => (
+        (state.outports.plate.data.name = e.target.value), state
+      )
+    );
   }
-  
-  // shapeChange() {}
 
   renderPreview() {
-    const xWells = this.state.plate.xWells;
-    const yWells = this.state.plate.yWells;
+    console.log(this.state.outports)
+    const xWells = this.state.outports.plate.data.xWells;
+    const yWells = this.state.outports.plate.data.yWells;
 
     let preview = [];
     for (let y = 0; y < yWells; y++) {
@@ -59,29 +77,35 @@ export default class Wellplate extends React.Component {
     return preview;
   }
 
-  minusx() {
-    let plate = this.state.plate;
-    plate.xWells = plate.xWells - 1;
-    this.setState({ outports: { plate: plate } });
-  }
+  // minusx() {
+  //   let plate = this.state.plate;
+  //   plate.xWells = plate.xWells - 1;
+  //   this.setState({ outports: { plate: plate } });
+  // }
 
   plusx() {
-    let plate = this.state.plate;
-    plate.xWells = plate.xWells + 1;
-    this.setState({ outports: { plate: plate } });
+    // let plate = this.state.plate;
+    // plate.xWells = plate.xWells + 1;
+    // this.setState({ outports: { plate: plate } });
+
+    this.setState(
+      (state) => (
+        (state.outports.plate.data.xWells++), state
+      )
+    );
   }
 
-  minusy() {
-    let plate = this.state.plate;
-    plate.yWells = plate.yWells - 1;
-    this.setState({ outports: { plate: plate } });
-  }
+  // minusy() {
+  //   let plate = this.state.plate;
+  //   plate.yWells = plate.yWells - 1;
+  //   this.setState({ outports: { plate: plate } });
+  // }
 
-  plusy() {
-    let plate = this.state.plate;
-    plate.yWells = plate.yWells + 1;
-    this.setState({ outports: { plate: plate } });
-  }
+  // plusy() {
+  //   let plate = this.state.plate;
+  //   plate.yWells = plate.yWells + 1;
+  //   this.setState({ outports: { plate: plate } });
+  // }
 
   render() {
     return (
@@ -125,7 +149,10 @@ export default class Wellplate extends React.Component {
           </div>
           <span className="desc">Rows</span>
           <div className="wellinputcontainer">
-            <button className="inputbuttonleft" onClick={this.minusx.bind(this)}>
+            <button
+              className="inputbuttonleft"
+              onClick={this.minusx.bind(this)}
+            >
               -
             </button>
             <input
@@ -136,7 +163,10 @@ export default class Wellplate extends React.Component {
               value={this.state.plate.xWells}
               onChange={this.xwellsHandler.bind(this)}
             />
-            <button className="inputbuttonright" onClick={this.plusx.bind(this)}>
+            <button
+              className="inputbuttonright"
+              onClick={this.plusx.bind(this)}
+            >
               +
             </button>
           </div>

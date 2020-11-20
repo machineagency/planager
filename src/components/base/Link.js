@@ -1,5 +1,5 @@
 import React from "react";
-import "./css/Link.css";
+import "./styles/link.css";
 
 export default class Link extends React.Component {
   calculateBezier() {

@@ -3,10 +3,10 @@ import React from "react";
 import { Input, Dropdown } from "semantic-ui-react";
 
 // Import components
-import GenericAction from "./GenericAction";
+import GenericAction from "../GenericAction";
 
 // Import styles
-import "./css/constant.css";
+import "./constant.css";
 
 const types = [
   {
