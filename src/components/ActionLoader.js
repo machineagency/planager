@@ -6,6 +6,7 @@ import Wellplate from "./actions/wellplate/Wellplate";
 import TextStep from "./actions/textstep/TextStep";
 import FirstStep from "./actions/firststep/FirstStep";
 import Merge from "./actions/merge/Merge";
+import Conditional from "./actions/conditional/Conditional";
 
 // In order for an action to show up on the main page, it must be imported
 // and exported here. This is much easier to manage than trying to import
@@ -20,4 +21,5 @@ export {
   TextStep,
   FirstStep,
   Merge,
+  Conditional,
 };

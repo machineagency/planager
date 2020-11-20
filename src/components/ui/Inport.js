@@ -1,16 +1,12 @@
 import React from "react";
-import { Popup } from "semantic-ui-react";
-import "./css/Inport.css";
+import "./css/ports.css";
 import GlobalContext from "../../utils/GlobalContext";
 
 export default class Inport extends React.Component {
   static contextType = GlobalContext;
   componentDidUpdate() {
     const { global } = this.context;
-    global.inportUpdatedCallback(
-      this.props.id,
-      this.props.deltaPosition
-    );
+    global.inportUpdatedCallback(this.props.id, this.props.deltaPosition);
   }
 
   onDragOut(e) {
@@ -23,24 +19,17 @@ export default class Inport extends React.Component {
   render() {
     return (
       <div>
-        <Popup
-          content={
-            `Name: ` +
-            this.props.name +
-            `\n Value: ` +
-            String(this.props.data ? this.props.data.value : {})
-          }
-          trigger={
-            <button
-              className="inport row"
-              onMouseDown={this.onDragOut.bind(this)}
-              data-id={this.props.id}
-            />
-          }
-          position="top right"
-          basic
-          size="mini"
-        />
+        <button
+          className="inport port tooltip"
+          onMouseDown={this.onDragOut.bind(this)}
+          data-id={this.props.id}
+        >
+          <span className="tooltiptext">
+            <b>{this.props.name}</b>
+            <br />
+            {JSON.stringify(this.props.data ? this.props.data.value : {})}
+          </span>
+        </button>
       </div>
     );
   }

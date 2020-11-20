@@ -53,14 +53,10 @@ export default class Constant extends React.Component {
         outports={this.state.outports}
         actionID={this.props.id}
       >
-        <div className="actionTitle">Constant</div>
+        <div className="actionTitle">
+          <Dropdown placeholder="select type" floating inline options={types} />
+        </div>
         <div className="actionContent">
-          <Dropdown
-            placeholder="Type"
-            floating
-            inline
-            options={types}
-          />
           <Input
             fluid
             label="Constant"

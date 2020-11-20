@@ -1,6 +1,5 @@
 import React from "react";
-import { Popup } from "semantic-ui-react";
-import "./css/Outport.css";
+import "./css/ports.css";
 import GlobalContext from "../../utils/GlobalContext";
 
 export default class Outport extends React.Component {
@@ -29,21 +28,17 @@ export default class Outport extends React.Component {
   render() {
     return (
       <div>
-        <Popup
-          content={`Name: ${this.props.name}\n Value: ${String(
-            this.props.data
-          )}`}
-          trigger={
-            <button
-              className="outport"
-              onMouseDown={this.onDragOut.bind(this)}
-              data-id={this.props.id}
-            />
-          }
-          position="top left"
-          basic
-          size="mini"
-        />
+        <button
+          className="outport port tooltip"
+          onMouseDown={this.onDragOut.bind(this)}
+          data-id={this.props.id}
+        >
+          <span className="tooltiptext">
+            <b>{this.props.name}</b>
+            <br />
+            {JSON.stringify(this.props.data)}
+          </span>
+        </button>
       </div>
     );
   }

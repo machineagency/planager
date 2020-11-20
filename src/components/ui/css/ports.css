@@ -1,0 +1,61 @@
+/* Base port styling */
+.port {
+  background-color: var(--base01);
+  height: 15px;
+  width: 15px;
+  border: none;
+  float: left;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.port:hover {
+  background-color: var(--base2);
+}
+
+/* Outport-specific Styling */
+.port.outport {
+  border-radius: 0 10px 10px 0;
+}
+
+/* Inport-specific styling */
+.port.inport {
+  border-radius: 10px 0 0 10px;
+}
+
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: max-content;
+  background-color: var(--base1);
+  color: var(--base03);
+  padding: 5px;
+  padding-left: 8px;
+  padding-right: 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  font-family: monospace;
+}
+
+.tooltip.inport .tooltiptext {
+  right: 50%;
+  text-align: right;
+}
+
+.tooltip.outport .tooltiptext {
+  left: 50%;
+  text-align: left;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}

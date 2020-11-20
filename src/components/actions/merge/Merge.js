@@ -9,6 +9,7 @@ export default class Merge extends React.Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (Object.entries(nextProps.inportData.inputData).length) {
+      console.log(nextProps)
       let mergedOutput = [];
       for (const data of Object.keys(nextProps.inportData.inputData)) {
         mergedOutput.push(nextProps.inportData.inputData[data].value);

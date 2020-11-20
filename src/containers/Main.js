@@ -6,7 +6,6 @@ import "./Main.css";
 import GlobalContext from "../utils/GlobalContext";
 import { Button } from "semantic-ui-react";
 
-
 export default class Main extends React.Component {
   static contextType = GlobalContext;
   constructor(props) {
@@ -83,15 +82,8 @@ export default class Main extends React.Component {
       let inportData = {
         ...this.state.actions[targetActionID].props.inportData,
       };
-      const thisData = {[linkID]: data}
-
-      // console.log(inportID)
-      // console.log(this.state.actions[targetActionID].props.inportData)
-      // console.log(thisData)`
-
-      Object.assign(inportData[inportID], thisData)
-
-      // inportData[inportID][linkID] = data;
+      const thisData = { [linkID]: data };
+      Object.assign(inportData[inportID], thisData);
 
       let newAction = React.cloneElement(this.state.actions[targetActionID], {
         inportData: inportData,
@@ -313,7 +305,7 @@ export default class Main extends React.Component {
     for (const value of Object.values(Actions)) {
       buttonList.push(
         <Button
-          className="ui inverted violet button"
+          className="ui compact inverted violet button mine"
           size="mini"
           onClick={this.addAction.bind(this, value)}
           key={value.name}
