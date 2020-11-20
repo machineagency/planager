@@ -1,8 +1,8 @@
 .box {
-  background: #fff;
+  background: var(--base3);
   border-radius: 5px;
-  float: left;
   min-width: 150px;
+  border: 2px var(--base03) solid;
 }
 
 .portsContainer {
@@ -13,9 +13,9 @@
   padding: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
-  background-color: #008080 ;
+  background-color: var(--green) ;
   border-radius: 4px 4px 0px 0px;
-  color: white;
+  color: var(--base3);
   font-weight: bolder;
 }
 

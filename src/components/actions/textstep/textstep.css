@@ -1,0 +1,19 @@
+textarea {
+    background-color: var(--base3);
+    resize: vertical;
+    border: 2px solid var(--base0);
+    border-radius: 3px;
+    padding: 0.25em 0.5em;
+    font-size: 16px;
+    font-size: max(16px, 1em);
+    font-family: monospace;
+}
+
+.continuebutton {
+	background-color: var(--cyan);
+	border: none;
+	border-radius: 2px;
+	color: var(--base3);
+	padding: 5px 10px 5px 10px;
+	margin-top: 5px;
+}

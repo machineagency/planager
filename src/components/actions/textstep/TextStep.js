@@ -1,6 +1,8 @@
 import React from "react";
 import GenericAction from "../GenericAction";
 
+import "./textstep.css"
+
 export default class TextStep extends React.Component {
   // Specify default inputs here
   static defaultProps = {
@@ -34,16 +36,16 @@ export default class TextStep extends React.Component {
           <textarea
             rows="4"
             cols="30"
-            defaultValue="Enter step instructions here"
+            placeholder="Enter step instructions here"
           ></textarea>
           <br />
           <textarea
             rows="4"
             cols="30"
-            defaultValue="Notes in this box are recorded in the protocol."
+            placeholder="Notes in this box are recorded in the protocol."
           ></textarea>
           <br />
-          <button>Continue</button>
+          <button className="continuebutton">Continue</button>
         </div>
       </GenericAction>
     );

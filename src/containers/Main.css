@@ -1,3 +1,23 @@
+/* Solarized color variables. */
+:root {
+  --base03: #002b36;
+  --base02: #073642;
+  --base01: #586e75;
+  --base00: #657b83;
+  --base0: #839496;
+  --base1: #93a1a1;
+  --base2: #eee8d5;
+  --base3: #fdf6e3;
+  --yellow: #b58900;
+  --orange: #cb4b16;
+  --red: #dc322f;
+  --magenta: #d33682;
+  --violet: #6c71c4;
+  --blue: #268bd2;
+  --cyan: #2aa198;
+  --green: #859900;
+}
+
 .react-draggable,
 .cursor {
   cursor: move;
@@ -5,9 +25,10 @@
 
 body {
   margin: 0;
-  font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
-    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  background: #111111 !important;
+  /* font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; */
+  font-family: monospace !important;
+  background: var(--base03) !important;
 }
 
 .buttonContainer {
@@ -43,10 +64,32 @@ svg {
 
 input[type="number"] {
   -webkit-appearance: textfield;
-     -moz-appearance: textfield;
-          appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
+}
+
+.ui.inverted.violet.button.mine {
+  color: var(--base2);
+  background-color: transparent;
+  box-shadow: 0 0 0 2px var(--base2) inset !important;
+}
+
+.ui.inverted.violet.button.mine:hover,
+.ui.inverted.violet.buttons .button:hover {
+  background-color: var(--base2);
+  color: var(--base03);
+}
+
+.ui.inverted.violet.button.mine:active,
+.ui.inverted.violet.buttons .button:active {
+  background-color: var(--base2);
+}
+
+.ui.inverted.violet.button.mine:focus,
+.ui.inverted.violet.buttons .button:focus {
+  background-color: var(--base2);
 }

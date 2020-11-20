@@ -8,6 +8,11 @@ import GenericAction from "./GenericAction";
 import "./css/LinearArray.css";
 
 export default class LinearArray extends React.Component {
+  // Specify default inputs here
+  static defaultProps = {
+    inportData: {},
+  };
+
   constructor(props) {
     super(props);
     this.state = {
