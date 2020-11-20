@@ -1,5 +1,5 @@
 import React from "react";
-import GenericAction from "./GenericAction";
+import GenericAction from "../GenericAction";
 
 export default class Template extends React.Component {
   // Specify default inputs here

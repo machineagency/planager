@@ -10,11 +10,8 @@
 }
 
 .actionTitle {
-  padding: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 3px 10px;
   background-color: var(--green) ;
-  border-radius: 4px 4px 0px 0px;
   color: var(--base3);
   font-weight: bolder;
 }

@@ -2,10 +2,10 @@
 import React from "react";
 
 // Import components
-import GenericAction from "./GenericAction";
+import GenericAction from "../GenericAction";
 
 // Import styles
-import "./css/LinearArray.css";
+import "./LinearArray.css";
 
 export default class LinearArray extends React.Component {
   // Specify default inputs here

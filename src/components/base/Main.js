@@ -1,9 +1,9 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
-import Link from "../components/ui/Link";
-import * as Actions from "../components/ActionLoader";
-import "./Main.css";
-import GlobalContext from "../utils/GlobalContext";
+import Link from "./Link";
+import * as Actions from "../actions/ActionLoader";
+import "./styles/main.css";
+import GlobalContext from "../../utils/GlobalContext";
 import { Button } from "semantic-ui-react";
 
 export default class Main extends React.Component {

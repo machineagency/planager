@@ -1,6 +1,6 @@
 import React from "react";
-import GenericAction from "./GenericAction";
-import "./css/JubileeDeck.css";
+import GenericAction from "../GenericAction";
+import "./JubileeDeck.css";
 
 export default class JubileeDeck extends React.Component {
   // Specify default inputs here

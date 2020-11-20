@@ -3,11 +3,11 @@ import React from "react";
 import Draggable from "react-draggable";
 
 // Import Stylesheet
-import "./css/GenericAction.css";
+import "./GenericAction.css";
 
 // Import Components
-import Inport from "../ui/Inport";
-import Outport from "../ui/Outport";
+import PortIn from "../base/PortIn";
+import PortOut from "../base/PortOut";
 
 export default class GenericAction extends React.Component {
   state = {
@@ -33,7 +33,7 @@ export default class GenericAction extends React.Component {
 
     for (const name of Object.keys(this.props.inports)) {
       inportList = inportList.concat(
-        <Inport
+        <PortIn
           key={name}
           name={name}
           id={`${this.props.actionID}_inport_${name}`}
@@ -52,7 +52,7 @@ export default class GenericAction extends React.Component {
 
     for (let [name, value] of Object.entries(this.props.outports)) {
       outportList = outportList.concat(
-        <Outport
+        <PortOut
           key={name}
           name={name}
           deltaPosition={this.state.deltaPosition}
