@@ -1,3 +1,5 @@
+/* Base styles for the planager */
+
 /* Solarized color variables. */
 :root {
   --base03: #002b36;
@@ -25,8 +27,6 @@
 
 body {
   margin: 0;
-  /* font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
-    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; */
   font-family: monospace !important;
   background: var(--base03) !important;
 }
@@ -52,6 +52,42 @@ svg {
   right: 0;
 }
 
+.planagerButton {
+  background-color: var(--green);
+  color: var(--base3);
+  border: None;
+  padding: 3px 7px;
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 2px;
+  font-weight: 900;
+}
+
+.planagerButton:hover {
+  background-color: #647300;
+}
+
+.planagerButton.cancel {
+  background-color: var(--red);
+}
+
+.planagerButton.blue {
+  background-color: var(--blue);
+}
+
+.planagerButton.violet {
+  background-color: var(--violet);
+}
+
+.planagerButton.violet:hover {
+  background-color: #4f5391;
+}
+
+.addActionButton {
+  margin-left: 5px;
+}
+
+/* These prevent the dashed line around buttons. */
 *:focus,
 *:visited,
 *:active,
@@ -70,26 +106,4 @@ input[type="number"] {
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
-}
-
-.ui.inverted.violet.button.mine {
-  color: var(--base2);
-  background-color: transparent;
-  box-shadow: 0 0 0 2px var(--base2) inset !important;
-}
-
-.ui.inverted.violet.button.mine:hover,
-.ui.inverted.violet.buttons .button:hover {
-  background-color: var(--base2);
-  color: var(--base03);
-}
-
-.ui.inverted.violet.button.mine:active,
-.ui.inverted.violet.buttons .button:active {
-  background-color: var(--base2);
-}
-
-.ui.inverted.violet.button.mine:focus,
-.ui.inverted.violet.buttons .button:focus {
-  background-color: var(--base2);
 }

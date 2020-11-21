@@ -23,26 +23,29 @@
 }
 
 .wellinput {
-  padding: 4px;
   width: 25px;
   border: 1px solid gray;
-  height: 20px;
+  font-family: inherit;
+  padding: 0;
+  line-height: 20px;
+  vertical-align: bottom;
+  text-align: center;
 }
 
 .inputbuttonleft {
   border: 1px solid gray;
   border-right: 0;
 	padding: 0;
-	height: 20px;
+  line-height: 20px;
 	width: 14px;
-	border-radius: 3px 0 0 3px;
+  border-radius: 3px 0 0 3px;
 }
 
 .inputbuttonright {
   border: 1px solid gray;
   border-left: 0;
 	padding: 0;
-	height: 20px;
+  line-height: 20px;
 	width: 14px;
 	border-radius: 0 3px 3px 0;
 }
@@ -55,12 +58,15 @@
   background-color: lightgray;
 }
 
-.welltext {
-  border: 1px solid gray;
-  border-radius: 2px;
+.wellText {
+  background-color: inherit;
+  border: none;
+  font-family: inherit;
+  width: 100px;
   margin-bottom: 5px;
   padding-left: 6px;
 }
+
 
 .wellinputcontainer {
   display: inline-block;

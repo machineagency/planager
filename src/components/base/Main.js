@@ -4,7 +4,6 @@ import Link from "./Link";
 import * as Actions from "../actions/ActionLoader";
 import "./styles/main.css";
 import GlobalContext from "../../utils/GlobalContext";
-import { Button } from "semantic-ui-react";
 
 export default class Main extends React.Component {
   static contextType = GlobalContext;
@@ -73,24 +72,25 @@ export default class Main extends React.Component {
   updateConnectedInports(connectedLinks, data) {
     // Sends the data to the connected inports
     for (const linkID of connectedLinks) {
-      let split = linkID.split("_");
+      const split = linkID.split("_");
 
-      // Extract the action and inport IDs
-      const targetActionID = split[0];
-      const inportID = split[2];
-
-      let inportData = {
-        ...this.state.actions[targetActionID].props.inportData,
+      const payload = {
+        targetActionID: split[0],
+        targetInportID: split[2],
+        data: data,
+        timestamp: Math.floor(Date.now()),
       };
-      const thisData = { [linkID]: data };
-      Object.assign(inportData[inportID], thisData);
 
-      let newAction = React.cloneElement(this.state.actions[targetActionID], {
-        inportData: inportData,
-      });
+      let newAction = React.cloneElement(
+        this.state.actions[payload.targetActionID],
+        {
+          payload: payload,
+        }
+      );
+
       this.setState({
         actions: Object.assign(this.state.actions, {
-          [targetActionID]: newAction,
+          [payload.targetActionID]: newAction,
         }),
       });
     }
@@ -162,6 +162,7 @@ export default class Main extends React.Component {
         document.removeEventListener("mouseup", mouseupCallback);
         let temp = this.state.links;
         delete temp.linkInProgress;
+        // here's where we should do a type check
         this.setState({ links: temp });
         return;
       }
@@ -176,7 +177,7 @@ export default class Main extends React.Component {
             starty={outportEvent.clientY - deltas.y}
             deltastartx={deltas.x}
             deltastarty={deltas.y}
-            endx={e.clientX - inportDeltas.x} //change these deltas to the deltas of the inport
+            endx={e.clientX - inportDeltas.x}
             endy={e.clientY - inportDeltas.y}
             deltaendx={inportDeltas.x}
             deltaendy={inportDeltas.y}
@@ -237,10 +238,6 @@ export default class Main extends React.Component {
       const newLink = {
         [linkID]: (
           <Link
-            // startx={inportEvent.clientX}
-            // starty={inportEvent.clientY}
-            // endx={e.clientX}
-            // endy={e.clientY}
             startx={e.clientX - outportDeltas.x}
             starty={e.clientY - outportDeltas.y}
             deltastartx={outportDeltas.x}
@@ -304,14 +301,13 @@ export default class Main extends React.Component {
 
     for (const value of Object.values(Actions)) {
       buttonList.push(
-        <Button
-          className="ui compact inverted violet button mine"
-          size="mini"
+        <input
+          type="button"
+          className="addActionButton planagerButton"
           onClick={this.addAction.bind(this, value)}
           key={value.name}
-        >
-          {value.name}
-        </Button>
+          value={value.name}
+        />
       );
     }
 
@@ -337,7 +333,7 @@ export default class Main extends React.Component {
 
   componentDidMount() {
     const { global, setGlobal } = this.context;
-    var newGlobal = { ...global }; // Create a shallow copy of the global context
+    var newGlobal = { ...global }; // Create a deep copy of the global context
 
     // Assign the linking functions to it so they can be accessed anywhere without prop drilling
     Object.assign(newGlobal, {

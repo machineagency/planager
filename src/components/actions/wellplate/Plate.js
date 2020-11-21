@@ -12,6 +12,10 @@ export default class Plate {
     this._name = name;
   }
 
+  toJSON() {
+    return `Plate object with dimensions ${this._yWells}x${this._xWells}.`
+  }
+
   /**
    * @param {Number} xWells
    */
