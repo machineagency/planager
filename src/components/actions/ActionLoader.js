@@ -1,7 +1,7 @@
 import Alert from "./alert/Alert";
 import Constant from "./constant/Constant";
 // import LinearArray from "./lineararray/LinearArray";
-// import JubileeDeck from "./jubileedeck/JubileeDeck";
+import JubileeDeck from "./jubileedeck/JubileeDeck";
 import Wellplate from "./wellplate/Wellplate";
 // import TextStep from "./textstep/TextStep";
 // import FirstStep from "./firststep/FirstStep";
@@ -16,7 +16,7 @@ export {
   Alert,
   Constant,
   // LinearArray,
-  // JubileeDeck,
+  JubileeDeck,
   Wellplate,
   // TextStep,
   // FirstStep,
