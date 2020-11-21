@@ -46,7 +46,7 @@
 
 .tooltip.inport .tooltiptext {
   right: 50%;
-  text-align: right;
+  text-align: left;
 }
 
 .tooltip.outport .tooltiptext {

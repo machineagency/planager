@@ -25,9 +25,17 @@ export default class PortIn extends React.Component {
           data-id={this.props.id}
         >
           <span className="tooltiptext">
-            <b>{this.props.name}</b>
+            <b>Name:</b>
+            {this.props.port.name}
             <br />
-            {JSON.stringify(this.props.data ? this.props.data.value : {})}
+            <b>Type:</b>
+            {this.props.port.type}
+            <br />
+            <b>Description:</b>
+            {this.props.port.description}
+            <br />
+            <b>Data:</b>
+            {this.props.port.data}
           </span>
         </button>
       </div>
