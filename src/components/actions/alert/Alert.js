@@ -7,7 +7,9 @@ export default class Alert extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inports: [new Inport("Input", "any", null, "The data to be displayed.")],
+      inports: [
+        new Inport("Input", "any", null, "The data to be displayed.")
+      ],
       outports: [
         new Outport("Output", "any", null, "The data that was displayed."),
       ],

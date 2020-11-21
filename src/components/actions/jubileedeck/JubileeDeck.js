@@ -34,8 +34,6 @@ export default class JubileeDeck extends React.Component {
 
     // This is where data comes in from a link and is assigned to a port
     // This is where you should do anything that should happen when a link is connected
-    // prevState.inports[0].data = nextProps.payload.data.data;
-    // prevState.outports[0].data = nextProps.payload.data.data;
 
     for (var port = 0; port < prevState.inports.length; port++) {
       if (prevState.inports[port].name === nextProps.payload.targetInportID) {
