@@ -29,13 +29,13 @@ export default class PortIn extends React.Component {
             {this.props.port.name}
             <br />
             <b>Type:</b>
-            {this.props.port.type}
+            {typeof this.props.port.data}
             <br />
             <b>Description:</b>
             {this.props.port.description}
             <br />
             <b>Data:</b>
-            {this.props.port.data}
+            {JSON.stringify(this.props.port.data)}
           </span>
         </button>
       </div>
