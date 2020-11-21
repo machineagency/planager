@@ -8,7 +8,7 @@ export default class PortOut extends React.Component {
     const { global } = this.context;
     global.outportUpdatedCallback(
       this.props.id,
-      this.props.data,
+      this.props.port,
       this.props.deltaPosition
     );
   }
@@ -21,7 +21,7 @@ export default class PortOut extends React.Component {
       e,
       this.props.id,
       this.props.deltaPosition,
-      this.props.data
+      this.props.port
     );
   }
 
@@ -34,9 +34,14 @@ export default class PortOut extends React.Component {
           data-id={this.props.id}
         >
           <span className="tooltiptext">
-            <b>{this.props.name}</b>
+            <b>Name:</b>{this.props.port.name}
             <br />
-            {JSON.stringify(this.props.data)}
+            <b>Type:</b>{typeof this.props.port.data}
+            <br />
+            <b>Description:</b>{this.props.port.description}
+            <br />
+            <b>Data:</b>
+            {JSON.stringify(this.props.port.data)}
           </span>
         </button>
       </div>

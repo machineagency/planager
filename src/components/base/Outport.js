@@ -16,9 +16,9 @@ export default class Outport {
   }
   set type(type) {
     if (this._type === type) {
-        this._type = type;
+      this._type = type;
     } else {
-        console.error("Error: could not set type.")
+      console.error("Error: could not set type.");
     }
   }
   get name() {

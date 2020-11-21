@@ -1,12 +1,11 @@
 import Alert from "./alert/Alert";
 import Constant from "./constant/Constant";
-import LinearArray from "./lineararray/LinearArray";
 import JubileeDeck from "./jubileedeck/JubileeDeck";
 import Wellplate from "./wellplate/Wellplate";
-import TextStep from "./textstep/TextStep";
-import FirstStep from "./firststep/FirstStep";
-import Merge from "./merge/Merge";
-import Conditional from "./conditional/Conditional";
+// import TextStep from "./textstep/TextStep";
+// import FirstStep from "./firststep/FirstStep";
+import Zip from "./zip/Zip";
+// import Conditional from "./conditional/Conditional";
 
 // In order for an action to show up on the main page, it must be imported
 // and exported here. This is much easier to manage than trying to import
@@ -15,11 +14,10 @@ import Conditional from "./conditional/Conditional";
 export {
   Alert,
   Constant,
-  LinearArray,
   JubileeDeck,
   Wellplate,
-  TextStep,
-  FirstStep,
-  Merge,
-  Conditional,
+  // TextStep,
+  // FirstStep,
+  Zip,
+  // Conditional,
 };

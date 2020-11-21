@@ -11,55 +11,64 @@ export default class Wellplate extends React.Component {
 
   constructor(props) {
     super(props);
-    let plate = new Plate(12, 8, "name", true);
     this.state = {
-      inports: {},
-      outports: {
-        plate: new Outport("Plate", Plate, plate, "The created wellplate."),
-      },
-      plate: plate,
+      inports: [],
+      outports: [
+        new Outport(
+          "Plate",
+          Plate,
+          new Plate(12, 8, "", true),
+          "The created wellplate."
+        ),
+      ],
     };
   }
 
   xwellsHandler(e) {
-    this.setState(
-      (state) => (
-        (state.outports.plate.data.xWells = Number(e.target.value)), state
-      )
-    );
-
-    // this.setState((state) => {
-    //   state.outports.plate.data.xWells = Number(e.target.value);
-    //   return state;
-    // });
+    let port = this.state.outports[0];
+    port.data.xWells = e.target.value;
+    this.setState({ outports: [port] });
   }
 
   ywellsHandler(e) {
-    this.setState(
-      (state) => (
-        (state.outports.plate.data.yWells = Number(e.target.value)), state
-      )
-    );
-    // let plate = this.state.plate;
-    // plate.yWells = Number(e.target.value);
-    // this.setState({ outports: { plate: plate } });
+    let port = this.state.outports[0];
+    port.data.yWells = e.target.value;
+    this.setState({ outports: [port] });
   }
 
   nameHandler(e) {
-    // let plate = this.state.plate;
-    // plate.name = e.target.value;
-    // this.setState({ outports: { plate: plate } });
-    this.setState(
-      (state) => (
-        (state.outports.plate.data.name = e.target.value), state
-      )
-    );
+    let port = this.state.outports[0];
+    port.data.name = e.target.value;
+    this.setState({ outports: [port] });
+  }
+
+  minusx() {
+    let port = this.state.outports[0];
+    port.data.xWells = port.data.xWells - 1;
+    this.setState({ outports: [port] });
+  }
+
+  plusx() {
+    let port = this.state.outports[0];
+    port.data.xWells = port.data.xWells + 1;
+    this.setState({ outports: [port] });
+  }
+
+  minusy() {
+    let port = this.state.outports[0];
+    port.data.yWells = port.data.yWells - 1;
+    this.setState({ outports: [port] });
+  }
+
+  plusy() {
+    let port = this.state.outports[0];
+    port.data.yWells = port.data.yWells + 1;
+    this.setState({ outports: [port] });
   }
 
   renderPreview() {
-    console.log(this.state.outports)
-    const xWells = this.state.outports.plate.data.xWells;
-    const yWells = this.state.outports.plate.data.yWells;
+    const xWells = this.state.outports[0].data.xWells;
+    const yWells = this.state.outports[0].data.yWells;
 
     let preview = [];
     for (let y = 0; y < yWells; y++) {
@@ -77,36 +86,6 @@ export default class Wellplate extends React.Component {
     return preview;
   }
 
-  // minusx() {
-  //   let plate = this.state.plate;
-  //   plate.xWells = plate.xWells - 1;
-  //   this.setState({ outports: { plate: plate } });
-  // }
-
-  plusx() {
-    // let plate = this.state.plate;
-    // plate.xWells = plate.xWells + 1;
-    // this.setState({ outports: { plate: plate } });
-
-    this.setState(
-      (state) => (
-        (state.outports.plate.data.xWells++), state
-      )
-    );
-  }
-
-  // minusy() {
-  //   let plate = this.state.plate;
-  //   plate.yWells = plate.yWells - 1;
-  //   this.setState({ outports: { plate: plate } });
-  // }
-
-  // plusy() {
-  //   let plate = this.state.plate;
-  //   plate.yWells = plate.yWells + 1;
-  //   this.setState({ outports: { plate: plate } });
-  // }
-
   render() {
     return (
       <GenericAction
@@ -120,76 +99,61 @@ export default class Wellplate extends React.Component {
           <span>Name: </span>
           <input
             type="text"
-            className="welltext"
-            value={this.state.plate.name}
+            className="wellText"
+            placeholder="Enter name"
+            value={this.state.outports[0].data.name}
             onChange={this.nameHandler.bind(this)}
           />
           <br />
-          <div className="wellinputcontainer">
-            <button
-              className="inputbuttonleft"
-              onClick={this.minusy.bind(this)}
-            >
-              -
-            </button>
-            <input
-              type="number"
-              min="1"
-              max="20"
-              className="wellinput"
-              value={this.state.plate.yWells}
-              onChange={this.ywellsHandler.bind(this)}
-            />
-            <button
-              className="inputbuttonright"
-              onClick={this.plusy.bind(this)}
-            >
-              +
-            </button>
-          </div>
-          <span className="desc">Rows</span>
-          <div className="wellinputcontainer">
-            <button
-              className="inputbuttonleft"
-              onClick={this.minusx.bind(this)}
-            >
-              -
-            </button>
-            <input
-              type="number"
-              min="1"
-              max="20"
-              className="wellinput"
-              value={this.state.plate.xWells}
-              onChange={this.xwellsHandler.bind(this)}
-            />
-            <button
-              className="inputbuttonright"
-              onClick={this.plusx.bind(this)}
-            >
-              +
-            </button>
+          <div>
+            <div className="wellinputcontainer">
+              <button
+                className="inputbuttonleft"
+                onClick={this.minusy.bind(this)}
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                max="20"
+                className="wellinput"
+                value={this.state.outports[0].data.yWells}
+                onChange={this.ywellsHandler.bind(this)}
+              />
+              <button
+                className="inputbuttonright"
+                onClick={this.plusy.bind(this)}
+              >
+                +
+              </button>
+            </div>
+            <span className="desc">Rows</span>
+            <div className="wellinputcontainer">
+              <button
+                className="inputbuttonleft"
+                onClick={this.minusx.bind(this)}
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                max="20"
+                className="wellinput"
+                value={this.state.outports[0].data.xWells}
+                onChange={this.xwellsHandler.bind(this)}
+              />
+              <button
+                className="inputbuttonright"
+                onClick={this.plusx.bind(this)}
+              >
+                +
+              </button>
+            </div>
           </div>
           <span className="desc">Columns</span>
           <br />
-          {/* <form>
-            <label>Well shape: </label>
-            <input
-              type="radio"
-              id="round"
-              value="round"
-              onChange={this.shapeChange.bind(this)}
-              checked={true}
-            />
-            <label htmlFor="round">Round</label>
-            <input
-              type="radio"
-              id="square"
-              value="square"
-              onChange={this.shapeChange.bind(this)}
-            />
-            <label htmlFor="square">Square</label>
-          </form> */}
           <b>Preview:</b>
           <br />
           <div className="wellplate">{this.renderPreview.bind(this)()}</div>

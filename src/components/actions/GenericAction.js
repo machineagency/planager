@@ -31,14 +31,13 @@ export default class GenericAction extends React.Component {
     if (!this.props.inports) return;
     let inportList = [];
 
-    for (const name of Object.keys(this.props.inports)) {
+    for (const port of this.props.inports) {
       inportList = inportList.concat(
         <PortIn
-          key={name}
-          name={name}
-          id={`${this.props.actionID}_inport_${name}`}
+          key={port.name}
+          port={port}
+          id={`${this.props.actionID}_inport_${port.name}`}
           deltaPosition={this.state.deltaPosition}
-          data={this.props.inportData ? this.props.inportData[name] : {}}
         />
       );
     }
@@ -50,14 +49,13 @@ export default class GenericAction extends React.Component {
     if (!this.props.outports) return;
     let outportList = [];
 
-    for (let [name, value] of Object.entries(this.props.outports)) {
+    for (const port of this.props.outports) {
       outportList = outportList.concat(
         <PortOut
-          key={name}
-          name={name}
+          key={port.name}
+          port={port}
           deltaPosition={this.state.deltaPosition}
-          id={`${this.props.actionID}_outport_${name}`}
-          data={value}
+          id={`${this.props.actionID}_outport_${port.name}`}
         />
       );
     }
