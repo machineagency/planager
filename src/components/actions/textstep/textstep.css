@@ -8,12 +8,3 @@ textarea {
     font-size: max(16px, 1em);
     font-family: monospace;
 }
-
-.continuebutton {
-	background-color: var(--cyan);
-	border: none;
-	border-radius: 2px;
-	color: var(--base3);
-	padding: 5px 10px 5px 10px;
-	margin-top: 5px;
-}
