@@ -2,9 +2,9 @@ import Alert from "./alert/Alert";
 import Constant from "./constant/Constant";
 import JubileeDeck from "./jubileedeck/JubileeDeck";
 import Wellplate from "./wellplate/Wellplate";
-// import TextStep from "./textstep/TextStep";
+import TextStep from "./textstep/TextStep";
 // import FirstStep from "./firststep/FirstStep";
-import Zip from "./zip/Zip";
+// import Zip from "./zip/Zip";
 // import Conditional from "./conditional/Conditional";
 
 // In order for an action to show up on the main page, it must be imported
@@ -16,8 +16,8 @@ export {
   Constant,
   JubileeDeck,
   Wellplate,
-  // TextStep,
+  TextStep,
   // FirstStep,
-  Zip,
+  // Zip,
   // Conditional,
 };
