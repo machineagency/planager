@@ -17,6 +17,7 @@ export default class TextStep extends React.Component {
       instructionText: "Add some instructions!",
       buttonText: "Edit",
       notes: "",
+      current: false,
     };
   }
 
@@ -24,6 +25,7 @@ export default class TextStep extends React.Component {
     if (!nextProps.payload) return null;
 
     prevState.inports[0].data = nextProps.payload.data.data;
+    prevState.current = nextProps.payload.data.data;
 
     return prevState;
   }
@@ -32,6 +34,7 @@ export default class TextStep extends React.Component {
     let outports = [...this.state.outports];
     outports[0].data = true;
     this.setState({ outports: outports });
+    this.setState({ current: false });
   }
 
   toggleEdit() {
@@ -46,6 +49,10 @@ export default class TextStep extends React.Component {
 
   notesChanged(event) {
     this.setState({ notes: event.target.value });
+  }
+
+  toggleCurrent() {
+    this.setState({ current: !this.state.current });
   }
 
   renderTextarea() {
@@ -75,8 +82,20 @@ export default class TextStep extends React.Component {
         outports={this.state.outports}
         actionID={this.props.id}
       >
-        <div className="actionTitle">Text Step</div>
+        <div
+          className={
+            this.state.current ? "actionTitle blueTitle" : "actionTitle"
+          }
+        >
+          Text Step
+        </div>
         <div className="actionContent">
+          <button
+            className="planagerButton"
+            onClick={this.toggleCurrent.bind(this)}
+          >
+            Toggle Current
+          </button>
           <button
             className="planagerButton"
             onClick={this.toggleEdit.bind(this)}
