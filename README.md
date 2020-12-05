@@ -1,18 +1,21 @@
 # The Planager
 
-The Planager is a flow-based programming environment that allows you to create
-workflows that span digital, physical, and human domains.
+The Planager is a flow-based, end-user programming environment that allows you
+to create workflows that span digital, physical, and human domains. Here is an
+example workflow for scintillation with a Jubilee CNC that is configured for
+pipetting:
 
-![](docs/evolution/2020_11_17.png)
+![](docs/evolution/2020_12_4.png)
 
 ## Get started
 
-Ensure you have the latest version of [node](https://nodejs.org/en/) installed
-before starting. Clone and download this repo. Ensure you're running the latest
-version of npm: `npm update -g`. In the top-level directory, run
-`sudo npm install`. This will install all of the dependencies, which are listed
-in `package.json`. The dependencies are installed to `/node_modules`, which is
-in the `.gitignore` so it will not be committed to github.
+To run the planager, first ensure you have the latest version of
+[node](https://nodejs.org/en/) installed before starting. Clone and download
+this repo. Ensure you're running the latest version of npm: `npm update -g`. In
+the top-level directory, run `sudo npm install`. This will install all of the
+dependencies, which are listed in `package.json`. The dependencies are installed
+to `/node_modules`, which is in the `.gitignore` so it will not be committed to
+github.
 
 ## To Run the App
 

@@ -11,12 +11,12 @@ export default class JubileeDeck extends React.Component {
     super(props);
     this.state = {
       inports: [
-        new Inport("Slot 1", Plate, null, "Jubilee deck slot one."),
-        new Inport("Slot 2", Plate, null, "Jubilee deck slot two."),
-        new Inport("Slot 3", Plate, null, "Jubilee deck slot three."),
         new Inport("Slot 4", Plate, null, "Jubilee deck slot four."),
         new Inport("Slot 5", Plate, null, "Jubilee deck slot five."),
-        new Inport("Slot 6", Plate, null, "Jubilee deck slot six."),
+        new Inport("Slot 2", Plate, null, "Jubilee deck slot two."),
+        new Inport("Slot 3", Plate, null, "Jubilee deck slot three."),
+        new Inport("Slot 0", Plate, null, "Jubilee deck slot zero."),
+        new Inport("Slot 1", Plate, null, "Jubilee deck slot one."),
       ],
       outports: [
         new Outport(
