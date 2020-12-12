@@ -77,6 +77,7 @@ svg {
 
 .planagerButton.violet {
   background-color: var(--violet);
+  margin-bottom: 5px;
 }
 
 .planagerButton.violet:hover {
@@ -84,7 +85,7 @@ svg {
 }
 
 .addActionButton {
-  margin-left: 5px;
+  margin-bottom: 5px;
 }
 
 /* These prevent the dashed line around buttons. */
