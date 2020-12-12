@@ -20,6 +20,57 @@ export default class Main extends React.Component {
     this.updateConnectedInports = this.updateConnectedInports.bind(this);
   }
 
+  saveToFile(event) {
+    event.preventDefault();
+    let workspace = { actions: [], links: [] };
+
+    for (const action of Object.values(this.state.actions)) {
+      workspace.actions.push({
+        type: action.type.name,
+        props: action.props,
+      });
+    }
+
+    for (const link of Object.values(this.state.links)) {
+      workspace.links.push({
+        props: link.props,
+      });
+    }
+  }
+
+  loadFromFile(event) {
+    console.log(this.state);
+    var reader = new FileReader();
+
+    // This callback is run when the file loads
+    reader.onload = (event) => {
+      const workflow = JSON.parse(event.target.result);
+      let newActionObject = {};
+      let newLinkObject = {};
+
+      // Load the actions
+      for (const action of workflow.actions) {
+        newActionObject[action.props.id] = React.createElement(
+          Actions[action.type],
+          action.props
+        );
+      }
+
+      // Load the links
+      for (const link of workflow.links) {
+        newLinkObject[link.props.id] = React.createElement(
+          Link,
+          link.props
+        );
+      }
+
+      this.setState({ actions: newActionObject });
+      this.setState({ links: newLinkObject });
+    };
+
+    reader.readAsText(event.target.files[0]);
+  }
+
   getOutportLinks(outportID) {
     // Returns all of the links connected to an outport
     let linkList = [];
@@ -301,13 +352,16 @@ export default class Main extends React.Component {
 
     for (const value of Object.values(Actions)) {
       buttonList.push(
-        <input
-          type="button"
-          className="addActionButton planagerButton"
-          onClick={this.addAction.bind(this, value)}
-          key={value.name}
-          value={value.name}
-        />
+        <>
+          <input
+            type="button"
+            className="addActionButton planagerButton"
+            onClick={this.addAction.bind(this, value)}
+            key={value.name}
+            value={value.name}
+          />
+          <br />
+        </>
       );
     }
 
@@ -351,7 +405,23 @@ export default class Main extends React.Component {
       <>
         {/* This is react fragment syntax, which prevents extra divs from being added to the DOM}*/}
         {this.renderLinks()}
-        <div className="buttonContainer">{this.renderButtons()}</div>
+
+        <div className="buttonContainer">
+          <input
+            type="button"
+            className="planagerButton violet"
+            onClick={this.saveToFile.bind(this)}
+            key="save"
+            value="Save Workflow"
+          />
+          <input
+            type="file"
+            onChange={this.loadFromFile.bind(this)}
+            key="load"
+          />
+          <br />
+          {this.renderButtons()}
+        </div>
         {this.renderActions()}
       </>
     );
