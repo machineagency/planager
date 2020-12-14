@@ -36,10 +36,11 @@ export default class Main extends React.Component {
         props: link.props,
       });
     }
+
+    console.log(workspace);
   }
 
   loadFromFile(event) {
-    console.log(this.state);
     var reader = new FileReader();
 
     // This callback is run when the file loads
@@ -58,10 +59,7 @@ export default class Main extends React.Component {
 
       // Load the links
       for (const link of workflow.links) {
-        newLinkObject[link.props.id] = React.createElement(
-          Link,
-          link.props
-        );
+        newLinkObject[link.props.id] = React.createElement(Link, link.props);
       }
 
       this.setState({ actions: newActionObject });
@@ -69,6 +67,25 @@ export default class Main extends React.Component {
     };
 
     reader.readAsText(event.target.files[0]);
+  }
+  /**
+   * @param {Object} position
+   * @param {String} actionID
+   *
+   * Allows us to keep track of the action positioning so we can place them
+   * correctly when loading a saved workflow. Adds the position deltas as
+   * an action property.
+   */
+  actionPositionCallback(position, actionID) {
+    // Clone the action element and add the position deltas as a prop
+    let newAction = React.cloneElement(this.state.actions[actionID], {
+      positionDeltas: position,
+    });
+
+    // Update the action object in the state
+    this.setState({
+      actions: Object.assign(this.state.actions, { [actionID]: newAction }),
+    });
   }
 
   getOutportLinks(outportID) {
@@ -334,12 +351,13 @@ export default class Main extends React.Component {
     document.addEventListener("mousemove", mousemoveCallback);
   }
 
+  // TODO: We could modify the position deltas here to stagger the components as they are added
   addAction(action) {
     const uniqueID = uuidv4();
     const newAction = {
       [uniqueID]: React.createElement(
         action,
-        { key: uniqueID, id: uniqueID },
+        { key: uniqueID, id: uniqueID, positionDeltas: { x: 0, y: 0 } },
         null
       ),
     };
@@ -389,12 +407,15 @@ export default class Main extends React.Component {
     const { global, setGlobal } = this.context;
     var newGlobal = { ...global }; // Create a deep copy of the global context
 
-    // Assign the linking functions to it so they can be accessed anywhere without prop drilling
+    // These are callbacks that should be global, because we don't want to have to access
+    // them via prop drilling. You also will not have to deal with them when adding new
+    // actions because they're global.
     Object.assign(newGlobal, {
       startOutportLink: this.outportLinkStarted.bind(this),
       startInportLink: this.inportLinkStarted.bind(this),
       outportUpdatedCallback: this.outportUpdatedCallback.bind(this),
       inportUpdatedCallback: this.inportUpdatedCallback.bind(this),
+      actionPositionCallback: this.actionPositionCallback.bind(this),
     });
 
     setGlobal(newGlobal); // Set the global context
@@ -403,7 +424,7 @@ export default class Main extends React.Component {
   render() {
     return (
       <>
-        {/* This is react fragment syntax, which prevents extra divs from being added to the DOM}*/}
+        {/* the <> and </> is react fragment syntax, which prevents extra divs from being added to the DOM.*/}
         {this.renderLinks()}
 
         <div className="buttonContainer">

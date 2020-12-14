@@ -9,7 +9,11 @@ import "./GenericAction.css";
 import PortIn from "../base/PortIn";
 import PortOut from "../base/PortOut";
 
+import GlobalContext from "../../utils/GlobalContext";
+
 export default class GenericAction extends React.Component {
+  static contextType = GlobalContext;
+
   state = {
     deltaPosition: {
       x: 0,
@@ -18,13 +22,18 @@ export default class GenericAction extends React.Component {
   };
 
   handleDrag(e, ui) {
-    const { x, y } = this.state.deltaPosition;
-    this.setState({
-      deltaPosition: {
-        x: x + ui.deltaX,
-        y: y + ui.deltaY,
-      },
-    });
+    const { global } = this.context;
+    const { x, y } = this.props.positionDeltas;
+
+    let newPositionDeltas = {
+      x: x + ui.deltaX,
+      y: y + ui.deltaY,
+    };
+    
+    global.actionPositionCallback(
+      newPositionDeltas,
+      this.props.actionID
+    );
   }
 
   renderInports() {
@@ -37,7 +46,7 @@ export default class GenericAction extends React.Component {
           key={port.name}
           port={port}
           id={`${this.props.actionID}_inport_${port.name}`}
-          deltaPosition={this.state.deltaPosition}
+          deltaPosition={this.props.positionDeltas}
         />
       );
     }
@@ -54,7 +63,7 @@ export default class GenericAction extends React.Component {
         <PortOut
           key={port.name}
           port={port}
-          deltaPosition={this.state.deltaPosition}
+          deltaPosition={this.props.positionDeltas}
           id={`${this.props.actionID}_outport_${port.name}`}
         />
       );
@@ -65,7 +74,11 @@ export default class GenericAction extends React.Component {
 
   render() {
     return (
-      <Draggable onDrag={this.handleDrag.bind(this)} cancel=".actionContent">
+      <Draggable
+        onDrag={this.handleDrag.bind(this)}
+        cancel=".actionContent"
+        defaultPosition={this.props.positionDeltas}
+      >
         <div className="action row">
           <div className="column portsContainer">{this.renderInports()}</div>
           <div className="column box">{this.props.children}</div>

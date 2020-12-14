@@ -93,6 +93,7 @@ export default class Wellplate extends React.Component {
         inportData={this.props.inportData}
         outports={this.state.outports}
         actionID={this.props.id}
+        positionDeltas={this.props.positionDeltas}
       >
         <div className="actionTitle">Create Wellplate</div>
         <div className="actionContent nodrag">

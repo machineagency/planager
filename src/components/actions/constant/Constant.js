@@ -23,6 +23,7 @@ export default class Constant extends React.Component {
         inports={[]}
         outports={this.state.outports}
         actionID={this.props.id}
+        positionDeltas={this.props.positionDeltas}
       >
         <div className="actionTitle">Constant</div>
         <div className="actionContent">

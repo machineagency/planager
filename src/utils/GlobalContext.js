@@ -6,12 +6,8 @@ class GlobalProvider extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      global: {
-        workflowLinks: [],
-        workflowActions: [],
-      },
+      global: {},
     };
-
   }
 
   // Method for updating the global state
