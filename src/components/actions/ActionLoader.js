@@ -3,7 +3,7 @@ import Constant from "./constant/Constant";
 import JubileeDeck from "./jubileedeck/JubileeDeck";
 import Wellplate from "./wellplate/Wellplate";
 import BuildSonicationProtocol from "./buildSonicationProtocol/BuildSonicationProtocol";
-import TextStep from "./textstep/TextStep";
+// import TextStep from "./textstep/TextStep";
 import ProtocolViewer from "./protocolViewer/ProtocolViewer";
 import DownloadFile from "./downloadFile/DownloadFile";
 // import FirstStep from "./firststep/FirstStep";
