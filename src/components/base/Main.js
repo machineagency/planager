@@ -22,22 +22,30 @@ export default class Main extends React.Component {
 
   saveToFile(event) {
     event.preventDefault();
-    let workspace = { actions: [], links: [] };
+    let workflow = { actions: [], links: [] };
 
     for (const action of Object.values(this.state.actions)) {
-      workspace.actions.push({
+      workflow.actions.push({
         type: action.type.name,
         props: action.props,
       });
     }
 
     for (const link of Object.values(this.state.links)) {
-      workspace.links.push({
+      workflow.links.push({
         props: link.props,
       });
     }
 
-    console.log(workspace);
+    var dataStr =
+      "data:text/json;charset=utf-8," +
+      encodeURIComponent(JSON.stringify(workflow));
+
+    var link = document.createElement("a");
+    link.download = "workflow.json";
+    link.href = dataStr;
+    link.click();
+    link.remove();
   }
 
   loadFromFile(event) {
@@ -435,11 +443,15 @@ export default class Main extends React.Component {
             key="save"
             value="Save Workflow"
           />
-          <input
-            type="file"
-            onChange={this.loadFromFile.bind(this)}
-            key="load"
-          />
+          <label className="planagerButton violet">
+            Load Workflow
+            <input
+              type="file"
+              name="resume"
+              onChange={this.loadFromFile.bind(this)}
+              key="load"
+            />
+          </label>
           <br />
           {this.renderButtons()}
         </div>

@@ -78,6 +78,7 @@ svg {
 .planagerButton.violet {
   background-color: var(--violet);
   margin-bottom: 5px;
+  margin-right: 5px;
 }
 
 .planagerButton.violet:hover {
@@ -107,4 +108,9 @@ input[type="number"] {
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
+}
+
+/* The normal html file input element is really ugly so we don't show it and make our own. */
+input[type="file"] {
+  display: none;
 }
