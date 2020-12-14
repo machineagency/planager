@@ -22,6 +22,7 @@ export default class Template extends React.Component {
         inportData={this.props.inportData}
         outports={this.state.outports}
         actionID={this.props.id}
+        positionDeltas={this.props.positionDeltas}
       >
         <div className="actionTitle">Template Action</div>
         <div className="actionContent">Content goes here!</div>

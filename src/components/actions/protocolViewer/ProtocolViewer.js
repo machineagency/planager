@@ -44,6 +44,7 @@ export default class ProtocolViewer extends React.Component {
         inports={this.state.inports}
         outports={this.state.outports}
         actionID={this.props.id}
+        positionDeltas={this.props.positionDeltas}
       >
         <div className="actionTitle">Protocol Viewer</div>
         <div className="actionContent">

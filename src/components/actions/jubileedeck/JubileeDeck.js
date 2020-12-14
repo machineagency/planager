@@ -80,6 +80,7 @@ export default class JubileeDeck extends React.Component {
         inportData={this.props.inportData}
         outports={this.state.outports}
         actionID={this.props.id}
+        positionDeltas={this.props.positionDeltas}
       >
         <div className="actionTitle">Jubilee Deck Setup</div>
         <div className="actionContent jubileecontent">

@@ -95,6 +95,7 @@ export default class BuildSonicationProtocol extends React.Component {
         inports={this.state.inports}
         outports={this.state.outports}
         actionID={this.props.id}
+        positionDeltas={this.props.positionDeltas}
       >
         <div className="actionTitle">Create Sonication Protocol</div>
         <div className="actionContent">
