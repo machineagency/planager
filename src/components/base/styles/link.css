@@ -5,3 +5,27 @@ svg {
   height: 100%;
   width: 100%;
 }
+
+.linkPath {
+  stroke: var(--base1);
+}
+
+.linkPath:hover {
+  stroke: var(--orange);
+  cursor: pointer;
+}
+
+#component .tooltip {
+  visibility: hidden;
+}
+#component:hover .tooltip {
+  visibility: visible;
+}
+.tooltip text {
+  fill: black;
+  font-size: 12px;
+  font-family: sans-serif;
+}
+.tooltip rect {
+  fill: var(--base0);
+}
