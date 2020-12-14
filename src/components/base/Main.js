@@ -378,16 +378,14 @@ export default class Main extends React.Component {
 
     for (const value of Object.values(Actions)) {
       buttonList.push(
-        <>
+        <div key={value.name}>
           <input
             type="button"
             className="addActionButton planagerButton"
             onClick={this.addAction.bind(this, value)}
-            key={value.name}
             value={value.name}
           />
-          <br />
-        </>
+        </div>
       );
     }
 
@@ -440,7 +438,6 @@ export default class Main extends React.Component {
             type="button"
             className="planagerButton violet"
             onClick={this.saveToFile.bind(this)}
-            key="save"
             value="Save Workflow"
           />
           <label className="planagerButton violet">
@@ -449,7 +446,6 @@ export default class Main extends React.Component {
               type="file"
               name="resume"
               onChange={this.loadFromFile.bind(this)}
-              key="load"
             />
           </label>
           <br />
