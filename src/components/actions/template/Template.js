@@ -1,17 +1,18 @@
 import React from "react";
 import GenericAction from "../GenericAction";
+import Inport from "../../base/Inport";
+import Outport from "../../base/Outport";
 
 export default class Template extends React.Component {
-  // Specify default inputs here
-  static defaultProps = {
-    inportData: {},
-  };
-
   constructor(props) {
     super(props);
     this.state = {
-      inports: {},
-      outports: {},
+      inports: [
+        new Inport("name", "type", "data", "description")
+      ],
+      outports: [
+        new Outport("name", "type", "data", "description"),
+      ],
     };
   }
 
