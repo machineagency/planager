@@ -7,6 +7,10 @@ pipetting:
 
 ![](docs/evolution/2020_12_4.png)
 
+Here is an example workflow for incrementing a counter:
+![](docs/evolution/2020_12_14.png)
+
+
 ## Get started
 
 To run the planager, first ensure you have the latest version of
