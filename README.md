@@ -4,6 +4,10 @@ The Planager is a flow-based, end-user programming environment that allows you t
 
 ![](docs/evolution/2020_12_4.png)
 
+Here is an example workflow for incrementing a counter:
+![](docs/evolution/2020_12_14.png)
+
+
 ## Get started
 
 To run the planager, first ensure you have the latest version of [node](https://nodejs.org/en/) installed before starting. Clone and download this repo. Ensure you're running the latest version of npm: `npm update -g`. In the top-level directory, run `sudo npm install`. This will install all of the dependencies, which are listed in `package.json`. The dependencies are installed to `/node_modules`, which is in the `.gitignore` so it will not be committed to github.
