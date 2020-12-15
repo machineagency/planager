@@ -33,7 +33,7 @@ export default class Button extends React.Component {
         <div className="actionContent">
         <input
             type="button"
-            value="Click me to send a signal!"
+            value="Send signal"
             className="planagerButton violet"
             onClick={this.clicked.bind(this)}
           />
