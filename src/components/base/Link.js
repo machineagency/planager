@@ -57,7 +57,7 @@ export default class Link extends React.Component {
             >
               <rect rx="5" width="100" height="25"></rect>
               <text x="15" y="16">
-                Data: {this.props.data ? this.props.data.data : "none"}
+                Data: {this.props.data ? JSON.stringify(this.props.data.data) : "none"}
               </text>
             </g>
           </g>
