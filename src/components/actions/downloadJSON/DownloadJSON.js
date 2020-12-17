@@ -39,7 +39,7 @@ export default class DownloadJSON extends React.Component {
     }
     var dataStr =
       "data:text/json;charset=utf-8," +
-      encodeURIComponent(JSON.stringify(this.state.inports[0].data.protocol));
+      encodeURIComponent(JSON.stringify(this.state.inports[0].data));
 
     var link = document.createElement("a");
 
