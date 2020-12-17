@@ -16,7 +16,7 @@ export default class Button extends React.Component {
 
   clicked() {
     let outports = [...this.state.outports];
-    outports[0].data = new Signal();
+    outports[0].data = new Signal("click");
     this.setState({ outports: outports });
   }
 

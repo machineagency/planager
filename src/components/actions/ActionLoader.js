@@ -2,11 +2,13 @@ import Alert from "./alert/Alert";
 import Constant from "./constant/Constant";
 import JubileeDeck from "./jubileedeck/JubileeDeck";
 import Wellplate from "./wellplate/Wellplate";
-import BuildSonicationProtocol from "./buildSonicationProtocol/BuildSonicationProtocol";
 import ProtocolViewer from "./protocolViewer/ProtocolViewer";
-import DownloadFile from "./downloadFile/DownloadFile";
+import DownloadJSON from "./downloadJSON/DownloadJSON";
 import Button from "./button/Button";
 import Counter from "./counter/Counter";
+// import InputJSON from "./inputJSON/InputJSON";
+import SonicationPlan from "./sonicationPlan/SonicationPlan";
+import AssignPlan from "./assignPlan/AssignPlan";
 
 // In order for an action to show up on the main page, it must be imported
 // and exported here. This is much easier to manage than trying to import
@@ -17,9 +19,11 @@ export {
   Constant,
   JubileeDeck,
   Wellplate,
-  BuildSonicationProtocol,
   ProtocolViewer,
-  DownloadFile,
+  DownloadJSON,
   Button,
   Counter,
+  // InputJSON,
+  SonicationPlan,
+  AssignPlan,
 };

@@ -1,9 +1,9 @@
 export default class Signal {
-  constructor(name, data = null) {
+  constructor(data = null, name = "") {
     this._name = name;
     this._data = data;
-    let d = new Date()
-    this._originTime = d.getTime()
+    let d = new Date();
+    this._originTime = d.getTime();
   }
 
   toJSON() {
@@ -23,6 +23,6 @@ export default class Signal {
     return this._name;
   }
   get originTime() {
-      return this._originTime;
+    return this._originTime;
   }
 }
