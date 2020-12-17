@@ -4,10 +4,14 @@ export default class SonicationPlanObject {
     this._startTime = 0;
     this._varyTime = false;
     this._varyDepth = false;
-    this._varyTimeIterations = 0;
-    this._varyDepthIterations = 0;
+    this._varyTimeIterations = 1;
+    this._varyDepthIterations = 1;
     this._varyTimeIncrement = 0;
     this._varyDepthIncrement = 0;
+    this._sampleTotal = 0;
+  }
+  toJSON() {
+    return `Sonication plan for ${this._sampleTotal} samples`;
   }
   get startDepth() {
     return this._startDepth;
@@ -33,6 +37,9 @@ export default class SonicationPlanObject {
   get varyDepthIncrement() {
     return this._varyDepthIncrement;
   }
+  get sampleTotal() {
+    return this._sampleTotal;
+  }
   set startDepth(value) {
     this._startDepth = value;
   }
@@ -56,5 +63,8 @@ export default class SonicationPlanObject {
   }
   set varyDepthIncrement(value) {
     this._varyDepthIncrement = value;
+  }
+  set sampleTotal(value) {
+    this._sampleTotal = value;
   }
 }

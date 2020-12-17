@@ -25,7 +25,7 @@ export default class SonicationPlan extends React.Component {
   handleChange(param, event) {
     if (isNaN(event.target.value)) return;
     let plan = this.state.plan;
-    plan[param] = event.target.value;
+    plan[param] = Number(event.target.value);
     this.setState({ plan: plan });
   }
 
@@ -36,9 +36,24 @@ export default class SonicationPlan extends React.Component {
   }
 
   savePlan() {
+    const plan = this.state.plan;
+    let sampleTotal = 0;
+
+    if (plan.varyTime && plan.varyDepth) {
+      sampleTotal = plan.varyTimeIterations * plan.varyDepthIterations;
+    } else if (plan.varyTime) {
+      sampleTotal = plan.varyTimeIterations;
+    } else if (plan.varyDepth) {
+      sampleTotal = plan.varyDepthIterations;
+    }
+
+    plan.sampleTotal = sampleTotal;
+
     let newOutports = [...this.state.outports];
-    newOutports[0].data = this.state.plan;
-    this.setState({ outports: newOutports, editing: false });
+    newOutports[0].data = plan;
+    this.setState({ outports: newOutports });
+
+    this.setState({ editing: false });
   }
 
   startEdit() {
@@ -171,17 +186,8 @@ export default class SonicationPlan extends React.Component {
   renderTextProtocol() {
     const sonicationPlan = this.state.outports[0].data;
     const plan = this.state.plan;
-    let sampleTotal = 0;
 
-    if (plan.varyTime && plan.varyDepth) {
-      sampleTotal = plan.varyTimeIterations * plan.varyDepthIterations;
-    } else if (plan.varyTime) {
-      sampleTotal = plan.varyTimeIterations;
-    } else if (plan.varyDepth) {
-      sampleTotal = plan.varyDepthIterations;
-    }
-
-    let textPlan = `${sampleTotal} sonication instances.\n`;
+    let textPlan = `${plan.sampleTotal} sonication instances.\n`;
     if (plan.varyTime)
       textPlan += `${plan.varyTimeIterations} durations, ${plan.varyTimeIncrement}ms increment.\n`;
     if (plan.varyDepth)
@@ -189,7 +195,7 @@ export default class SonicationPlan extends React.Component {
     if (!sonicationPlan) textPlan = "No plan defined";
     return (
       <div>
-        <p style={{maxWidth: "200px"}}>
+        <p>
         {textPlan}
         </p>
         <button
@@ -212,7 +218,7 @@ export default class SonicationPlan extends React.Component {
         positionDeltas={this.props.positionDeltas}
       >
         <div className="actionTitle">Sonication Plan</div>
-        <div className="actionContent">
+        <div className="actionContent" style={{width: "200px"}}>
           {this.state.editing
             ? this.renderEntryForm.bind(this)()
             : this.renderTextProtocol.bind(this)()}

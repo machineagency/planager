@@ -17,7 +17,7 @@ export default class Wellplate extends React.Component {
         new Outport(
           "Plate",
           Plate,
-          new Plate(12, 8, "", true),
+          new Plate(3, 2, "", true),
           "The created wellplate."
         ),
       ],

@@ -7,9 +7,9 @@ export default class ProtocolViewer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inports: [new Inport("Input", "any", null, "The data to be displayed.")],
+      inports: [new Inport("Protocols", Array, null, "an array of protocols")],
       outports: [
-        new Outport("Output", "any", null, "The data that was displayed."),
+        new Outport("Protocols", Array, null, "an array of protocols"),
       ],
     };
   }
@@ -27,13 +27,13 @@ export default class ProtocolViewer extends React.Component {
 
   formatSteps() {
     let steps = [];
-    const protocol = this.state.inports[0].data.protocol.protocol;
-    for (let step = 0; step < protocol.length; step++) {
+    const protocolArray = this.state.inports[0].data[0];
+    for (const protocol of protocolArray) {
       steps.push(
-        <div key={step}>
-          <span>{`${step}. Sonicate well ${protocol[step].specs.row_letter}${step+1}\n`}</span>
+        <div>
+          Sonicate {protocol.protocol.length} samples.
         </div>
-      );
+      )
     }
     return steps;
   }
