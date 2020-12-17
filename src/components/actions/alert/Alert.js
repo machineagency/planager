@@ -2,36 +2,47 @@ import React from "react";
 import GenericAction from "../GenericAction";
 import Inport from "../../base/Inport";
 import Outport from "../../base/Outport";
+import Signal from "../../base/Signal";
 
 export default class Alert extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       inports: [
-        new Inport("Input", "any", null, "The data to be displayed.")
+        new Inport(
+          "Input",
+          Signal,
+          new Signal(),
+          "A signal with data to display"
+        ),
       ],
       outports: [
-        new Outport("Output", "any", null, "The data that was displayed."),
+        new Outport("Output", Signal, null, "The data that was displayed."),
       ],
+      alertQueue: null,
     };
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (!nextProps.payload) return null;
+    if (!nextProps.payload.data.data) return null;
 
-    // This is where data comes in from a link and is assigned to a port
-    // This is where you should do anything that should happen when a link is connected
-    prevState.inports[0].data = nextProps.payload.data.data;
-    prevState.outports[0].data = nextProps.payload.data.data;
+    if (
+      prevState.inports[0].data.originTime !==
+      nextProps.payload.data.data.originTime
+    ) {
+      prevState.alertQueue = nextProps.payload.data.data.data;
+      prevState.inports[0].data = nextProps.payload.data.data;
+    }
 
     return prevState;
   }
 
-  run() {
-    alert(`Value: ${this.state.inports[0].data}`);
-  }
-
   render() {
+    if (this.state.alertQueue) {
+      alert(this.state.alertQueue);
+      this.setState({ alertQueue: null });
+    }
     return (
       <GenericAction
         inports={this.state.inports}
@@ -41,12 +52,7 @@ export default class Alert extends React.Component {
       >
         <div className="actionTitle">Alert</div>
         <div className="actionContent">
-          <input
-            type="button"
-            value="Click me!"
-            className="planagerButton"
-            onClick={this.run.bind(this)}
-          />
+          I will alert when I recieve a signal.
         </div>
       </GenericAction>
     );
