@@ -2,14 +2,13 @@
 
 The Planager is a flow-based, end-user programming environment that allows you
 to create workflows that span digital, physical, and human domains. Here is an
-example workflow for scintillation with a Jubilee CNC that is configured for
-pipetting:
+example workflow for scintillation with a tool-changing Jubilee CNC that is
+configured for pipetting:
 
 ![](docs/evolution/2020_12_4.png)
 
 Here is an example workflow for incrementing a counter:
 ![](docs/evolution/2020_12_14.png)
-
 
 ## Get started
 
