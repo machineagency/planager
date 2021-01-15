@@ -6,7 +6,6 @@ import ProtocolViewer from "./protocolViewer/ProtocolViewer";
 import DownloadJSON from "./downloadJSON/DownloadJSON";
 import Button from "./button/Button";
 import Counter from "./counter/Counter";
-// import InputJSON from "./inputJSON/InputJSON";
 import SonicationPlan from "./sonicationPlan/SonicationPlan";
 import AssignPlan from "./assignPlan/AssignPlan";
 
@@ -23,7 +22,6 @@ export {
   DownloadJSON,
   Button,
   Counter,
-  // InputJSON,
   SonicationPlan,
   AssignPlan,
 };
