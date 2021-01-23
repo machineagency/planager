@@ -1,0 +1,9 @@
+.incubateInput {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  width: 75%;
+  padding: 5px 10px;
+  float: left;
+  font-family: monospace;
+}
