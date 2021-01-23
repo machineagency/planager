@@ -2,6 +2,7 @@ import React from "react";
 import GenericAction from "../GenericAction";
 import Inport from "../../base/Inport";
 import Outport from "../../base/Outport";
+import "./pickcolonies.css";
 
 export default class PickColonies extends React.Component {
   constructor(props) {
@@ -10,7 +11,6 @@ export default class PickColonies extends React.Component {
       inports: [
         new Inport("Signal", "type", null, "start signal"),
         new Inport("Plate", "type", null, "plate"),
-        new Inport("Media", "type", "data", "Media")
       ],
       outports: [
         new Outport("strain in media", "type", null, "strain in media"),
@@ -28,7 +28,36 @@ export default class PickColonies extends React.Component {
         positionDeltas={this.props.positionDeltas}
       >
         <div className="actionTitle">PickColonies</div>
-        <div className="actionContent">Content goes here!</div>
+        <div className="actionContent">
+          <div className="colonyContainer">
+            <span class="inputLabel">From:</span>
+            <input
+              type="text"
+              className="colonyInput"
+              placeholder="YPAD-plate_1"
+            />
+          </div>
+          <div className="colonyContainer">
+            <span class="inputLabel">To:</span>
+            <input
+              type="text"
+              className="colonyInput"
+              placeholder="96_flat_1"
+            />
+          </div>
+          <div className="colonyContainer">
+            <span class="inputLabel">Media:</span>
+            <input
+              type="text"
+              className="colonyInput"
+              placeholder="200 uL SC"
+            />
+          </div>
+          <div>
+            <div className="notesTitle">Notes</div>
+            <div className="notesContent">Take 6 replicates</div>
+          </div>
+        </div>
       </GenericAction>
     );
   }

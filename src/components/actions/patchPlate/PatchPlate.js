@@ -2,6 +2,7 @@ import React from "react";
 import GenericAction from "../GenericAction";
 import Inport from "../../base/Inport";
 import Outport from "../../base/Outport";
+import "./patchplate.css";
 
 export default class PatchPlate extends React.Component {
   constructor(props) {
@@ -12,9 +13,7 @@ export default class PatchPlate extends React.Component {
         new Inport("Volume", "type", null, "volume"),
         new Inport("blank plate", "type", null, "blank plate"),
       ],
-      outports: [
-        new Outport("Growth Plate", "type", null, "Growth Plate"),
-      ],
+      outports: [new Outport("Growth Plate", "type", null, "Growth Plate")],
     };
   }
 
@@ -27,8 +26,24 @@ export default class PatchPlate extends React.Component {
         actionID={this.props.id}
         positionDeltas={this.props.positionDeltas}
       >
-        <div className="actionTitle">PatchPlate</div>
-        <div className="actionContent">Content goes here!</div>
+        <div className="actionTitle">Streak</div>
+        <div className="actionContent">
+          <div>
+            <input
+              type="text"
+              className="volumeInput"
+              placeholder="volume..."
+            />
+            <span class="addBtn">uL</span>
+          </div>
+          <div>
+            <input
+              type="text"
+              className="volumeInput"
+              placeholder="Yeast Innoculum"
+            />
+          </div>
+        </div>
       </GenericAction>
     );
   }

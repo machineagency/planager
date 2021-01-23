@@ -2,7 +2,8 @@ import React from "react";
 import GenericAction from "../GenericAction";
 import Inport from "../../base/Inport";
 import Outport from "../../base/Outport";
-import Signal from "../../base/Signal"
+import Signal from "../../base/Signal";
+import "./MeasureOD.css"
 
 export default class MeasureOD extends React.Component {
   constructor(props) {
@@ -11,7 +12,6 @@ export default class MeasureOD extends React.Component {
       inports: [
         new Inport("start signal", Signal, null, "start signal"),
         new Inport("sample", "sample", null, "sample"),
-
       ],
       outports: [
         new Outport("OD measurement", "type", null, "measurement"),
@@ -30,7 +30,12 @@ export default class MeasureOD extends React.Component {
         positionDeltas={this.props.positionDeltas}
       >
         <div className="actionTitle">MeasureOD</div>
-        <div className="actionContent">Content goes here!</div>
+        <div className="actionContent">
+          <div className="measurementContent">
+            96 flat 1 measure OD600 - OD conversion determined cellometer or
+            flow cytometer
+          </div>
+        </div>
       </GenericAction>
     );
   }
