@@ -26,9 +26,9 @@ export default class ProvisionPlate extends React.Component {
       >
         <div className="actionTitle">Provision</div>
         <div className="actionContent">
-          <div class="header">
+          <div className="header">
             <input type="text" className="provisionInput" placeholder="Add item..." />
-            <span onclick="newElement()" class="addBtn">
+            <span onClick="newElement()" className="addBtn">
               Add
             </span>
           </div>
