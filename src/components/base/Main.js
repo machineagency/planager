@@ -18,6 +18,7 @@ export default class Main extends React.Component {
     this.getOutportLinks = this.getOutportLinks.bind(this);
     this.updateLinks = this.updateLinks.bind(this);
     this.updateConnectedInports = this.updateConnectedInports.bind(this);
+    this.getActionLinks = this.getActionLinks.bind(this);
   }
 
   saveToFile(event) {
@@ -113,6 +114,18 @@ export default class Main extends React.Component {
       let split = link.split("_");
       if (split.slice(0, 3).join("_") === inportID) linkList.push(link);
     }
+    return linkList;
+  }
+
+  getActionLinks(actionID) {
+    // Returns all of the links connected to an action
+    let linkList = [];
+    for (const link of Object.keys(this.state.links)) {
+      let split = link.split("_");
+      if (split[0] === actionID) linkList.push(link);
+      if (split[3] === actionID) linkList.push(link);
+    }
+
     return linkList;
   }
 
@@ -373,6 +386,21 @@ export default class Main extends React.Component {
     this.setState({ actions: Object.assign(this.state.actions, newAction) });
   }
 
+  removeAction(actionID) {
+    let actions = this.state.actions;
+    delete actions[actionID];
+    // Remove the action from the action state
+    this.setState({ actions: actions });
+
+    // Remove links connected to it
+    const linksToRemove = this.getActionLinks(actionID);
+    let links = this.state.links;
+    for (const link of linksToRemove) {
+      delete links[link];
+    }
+    this.setState({ links: links });
+  }
+
   renderButtons() {
     let buttonList = [];
 
@@ -422,6 +450,7 @@ export default class Main extends React.Component {
       outportUpdatedCallback: this.outportUpdatedCallback.bind(this),
       inportUpdatedCallback: this.inportUpdatedCallback.bind(this),
       actionPositionCallback: this.actionPositionCallback.bind(this),
+      removeAction: this.removeAction.bind(this),
     });
 
     setGlobal(newGlobal); // Set the global context
@@ -430,7 +459,7 @@ export default class Main extends React.Component {
   render() {
     return (
       <>
-        {/* the <> and </> is react fragment syntax, which prevents extra divs from being added to the DOM.*/}
+        {/* the <> and </> is react fragment syntax, which prevents unnecessary divs from being added to the DOM.*/}
         {this.renderLinks()}
 
         <div className="buttonContainer">
