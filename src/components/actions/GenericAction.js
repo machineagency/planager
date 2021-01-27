@@ -29,11 +29,8 @@ export default class GenericAction extends React.Component {
       x: x + ui.deltaX,
       y: y + ui.deltaY,
     };
-    
-    global.actionPositionCallback(
-      newPositionDeltas,
-      this.props.actionID
-    );
+
+    global.actionPositionCallback(newPositionDeltas, this.props.actionID);
   }
 
   renderInports() {
@@ -72,6 +69,12 @@ export default class GenericAction extends React.Component {
     return outportList;
   }
 
+  removeAction() {
+    const { global } = this.context;
+
+    global.removeAction(this.props.actionID);
+  }
+
   render() {
     return (
       <Draggable
@@ -80,9 +83,18 @@ export default class GenericAction extends React.Component {
         defaultPosition={this.props.positionDeltas}
       >
         <div className="action row">
-          <div className="column portsContainer">{this.renderInports()}</div>
-          <div className="column box">{this.props.children}</div>
-          <div className="column portsContainer">{this.renderOutports()}</div>
+          <div >
+            <input
+              type="button"
+              onClick={this.removeAction.bind(this)}
+              value="Remove"
+            />
+          </div>
+          <div>
+            <div className="column portsContainer">{this.renderInports()}</div>
+            <div className="column box">{this.props.children}</div>
+            <div className="column portsContainer">{this.renderOutports()}</div>
+          </div>
         </div>
       </Draggable>
     );

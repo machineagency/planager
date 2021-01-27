@@ -1,5 +1,5 @@
 .box {
-  background: var(--base3);
+  background: white;
   border-radius: 5px;
   border: 2px var(--base03) solid;
 }
@@ -20,7 +20,6 @@
 }
 
 .actionContent {
-  padding: 10px;
   cursor: default;
 }
 
