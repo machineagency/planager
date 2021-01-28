@@ -43,7 +43,7 @@ export default class Link extends React.Component {
   render() {
     return (
       <div>
-        <svg>
+        <svg className="wire">
           <g id="component">
             <path
               className="linkPath"

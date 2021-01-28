@@ -44,6 +44,7 @@
     "react-dom": "^16.14.0",
     "react-draggable": "^4.4.3",
     "react-dropdown": "^1.9.0",
+    "react-icons": "^4.1.0",
     "react-tooltip": "^4.2.10",
     "resolve": "1.15.0",
     "resolve-url-loader": "^3.1.2",

@@ -43,52 +43,88 @@ body {
   left: 50%;
   transform: translate(-50%, 0%);
 }
-
-svg {
+/* 
+.wire {
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-}
+} */
+
+/* Global Planager button styles */
 
 .planagerButton {
-  background-color: var(--green);
-  color: var(--base3);
+  background-color: var(--base3);
+  color: var(--base03);
   border: None;
   padding: 3px 7px;
   font-family: inherit;
   cursor: pointer;
-  border-radius: 2px;
   font-weight: 900;
 }
 
 .planagerButton:hover {
-  background-color: #647300;
+  background-color: var(--base1);
 }
 
-.planagerButton.cancel {
-  background-color: var(--red);
+.planagerButton.green {
+  background-color: var(--green);
+  color: var(--base3);
+}
+
+.planagerButton.green:hover {
+  background-color: #647300;
 }
 
 .planagerButton.blue {
   background-color: var(--blue);
+  color: var(--base3);
+}
+
+.planagerButton.blue:hover {
+  background-color: #146197;
 }
 
 .planagerButton.violet {
   background-color: var(--violet);
-  margin-bottom: 5px;
-  margin-right: 5px;
+  color: var(--base3);
 }
 
 .planagerButton.violet:hover {
   background-color: #4f5391;
 }
 
+.planagerButton.red {
+  background-color: var(--red);
+  color: var(--base3);
+}
+
+.planagerButton.orange {
+  background-color: var(--orange);
+  color: var(--base3);
+}
+
+.planagerButton.cyan {
+  background-color: var(--cyan);
+  color: var(--base3);
+}
+
+.planagerButton.yellow {
+  background-color: var(--yellow);
+  color: var(--base3);
+}
+
+.planagerButton.magenta {
+  background-color: var(--magenta);
+  color: var(--base3);
+}
+
 .addActionButton {
   margin-bottom: 5px;
 }
 
+/* MISCELLANEOUS STYLES */
 /* These prevent the dashed line around buttons. */
 *:focus,
 *:visited,

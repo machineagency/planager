@@ -1,6 +1,7 @@
 // Import Libraries
 import React from "react";
 import Draggable from "react-draggable";
+import { VscClose } from "react-icons/vsc";
 
 // Import Stylesheet
 import "./GenericAction.css";
@@ -86,12 +87,13 @@ export default class GenericAction extends React.Component {
           <div className="actionGridContainer">
             {/* Put any generic action buttons in the toolbar container */}
             <div className="toolbarContainer">
-              <input
-                type="button"
+              <span
                 onClick={this.removeAction.bind(this)}
-                value="x"
                 className="removeActionButton"
-              />
+                title="Remove action"
+              >
+                <VscClose className="closeIcon" />
+              </span>
             </div>
             <div className="leftPortsContainer">
               <div className="leftPorts">{this.renderInports()}</div>
