@@ -72,7 +72,6 @@ export default class GenericAction extends React.Component {
 
   removeAction() {
     const { global } = this.context;
-
     global.removeAction(this.props.actionID);
   }
 
@@ -86,7 +85,7 @@ export default class GenericAction extends React.Component {
         <div>
           <div className="actionGridContainer">
             {/* Put any generic action buttons in the toolbar container */}
-            <div className="toolbarContainer">
+            <div className="actionToolbarContainer">
               <span
                 onClick={this.removeAction.bind(this)}
                 className="removeActionButton"

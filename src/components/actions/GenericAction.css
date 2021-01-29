@@ -6,7 +6,7 @@
 }
 
 /* Styling for the action top toolbar */
-.toolbarContainer {
+.actionToolbarContainer {
   grid-column: 2;
   grid-row: 1;
 }
