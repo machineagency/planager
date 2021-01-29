@@ -1,6 +1,7 @@
 // Import Libraries
 import React from "react";
 import Draggable from "react-draggable";
+import { VscClose } from "react-icons/vsc";
 
 // Import Stylesheet
 import "./GenericAction.css";
@@ -71,7 +72,6 @@ export default class GenericAction extends React.Component {
 
   removeAction() {
     const { global } = this.context;
-
     global.removeAction(this.props.actionID);
   }
 
@@ -82,18 +82,27 @@ export default class GenericAction extends React.Component {
         cancel=".actionContent"
         defaultPosition={this.props.positionDeltas}
       >
-        <div className="action row">
-          <div >
-            <input
-              type="button"
-              onClick={this.removeAction.bind(this)}
-              value="Remove"
-            />
-          </div>
-          <div>
-            <div className="column portsContainer">{this.renderInports()}</div>
-            <div className="column box">{this.props.children}</div>
-            <div className="column portsContainer">{this.renderOutports()}</div>
+        <div>
+          <div className="actionGridContainer">
+            {/* Put any generic action buttons in the toolbar container */}
+            <div className="actionToolbarContainer">
+              <span
+                onClick={this.removeAction.bind(this)}
+                className="removeActionButton"
+                title="Remove action"
+              >
+                <VscClose className="closeIcon" />
+              </span>
+            </div>
+            <div className="leftPortsContainer">
+              <div className="leftPorts">{this.renderInports()}</div>
+            </div>
+            <div className="mainActionContainer">
+              <div className="mainAction">{this.props.children}</div>
+            </div>
+            <div className="rightPortsContainer">
+              <div className="rightPorts">{this.renderOutports()}</div>
+            </div>
           </div>
         </div>
       </Draggable>
