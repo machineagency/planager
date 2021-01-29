@@ -5,6 +5,15 @@ import * as Actions from "../actions/ActionLoader";
 import "./styles/main.css";
 import GlobalContext from "../../utils/GlobalContext";
 
+// Icon imports
+import {
+  VscCloudUpload,
+  VscSave,
+  VscAdd,
+  VscGithubInverted,
+} from "react-icons/vsc";
+import { BsGearFill } from "react-icons/bs";
+
 export default class Main extends React.Component {
   static contextType = GlobalContext;
   constructor(props) {
@@ -407,12 +416,13 @@ export default class Main extends React.Component {
     for (const value of Object.values(Actions)) {
       buttonList.push(
         <div key={value.name}>
-          <input
+          <div
             type="button"
-            className="addActionButton planagerButton"
+            className="dropdownAction"
             onClick={this.addAction.bind(this, value)}
-            value={value.name}
-          />
+          >
+            {value.name}
+          </div>
         </div>
       );
     }
@@ -462,25 +472,43 @@ export default class Main extends React.Component {
         {/* the <> and </> is react fragment syntax, which prevents unnecessary divs from being added to the DOM.*/}
         {this.renderLinks()}
 
-        <div className="buttonContainer">
-          <input
-            type="button"
-            className="planagerButton violet"
+        <div className="toolbarContainer">
+          <span id="toolbarTitle" className="unselectable">
+            planager
+          </span>
+          <span
+            className="toolbarButton"
             onClick={this.saveToFile.bind(this)}
-            value="Save Workflow"
-          />
-          <label className="planagerButton violet">
-            Load Workflow
+            title="Save workflow"
+          >
+            <VscSave className="toolbarIcon" />
+          </span>
+          <label className="toolbarButton" title="Load workflow">
+            <VscCloudUpload className="toolbarIcon" />
             <input
               type="file"
               name="resume"
               onChange={this.loadFromFile.bind(this)}
             />
           </label>
-          <br />
-          {this.renderButtons()}
+          <span className="toolbarButton addAction" title="Add an action">
+            <VscAdd className="toolbarIcon" />
+            <div className="actionDropdownContainer">
+              {this.renderButtons()}
+            </div>
+          </span>
+          <span className="toolbarButton" title="Settings" id="toolbarSettings">
+            <BsGearFill className="toolbarIcon" />
+          </span>
+          <span
+            className="toolbarButton"
+            title="View source"
+            id="toolbarGithub"
+          >
+            <VscGithubInverted className="toolbarIcon" />
+          </span>
         </div>
-        {this.renderActions()}
+        <div>{this.renderActions()}</div>
       </>
     );
   }
