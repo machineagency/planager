@@ -8,7 +8,9 @@ export default class Counter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inports: [new Inport("Signal input", Signal, new Signal(), "a signal object")],
+      inports: [
+        new Inport("Signal input", Signal, new Signal(), "a signal object"),
+      ],
       outports: [new Outport("Output", Number, 0, "A count of signals.")],
     };
   }
@@ -22,7 +24,7 @@ export default class Counter extends React.Component {
       nextProps.payload.data.data.originTime
     ) {
       prevState.outports[0].data += 1;
-      prevState.inports[0].data = nextProps.payload.data.data
+      prevState.inports[0].data = nextProps.payload.data.data;
     }
 
     return prevState;
@@ -38,7 +40,12 @@ export default class Counter extends React.Component {
         positionDeltas={this.props.positionDeltas}
       >
         <div className="actionTitle">Counter</div>
-        <div className="actionContent">{this.state.outports[0].data}</div>
+        <div
+          className="actionContent"
+          style={{ maxWidth: "175px", padding: "10px", fontSize: "20px" }}
+        >
+          <center><b>{this.state.outports[0].data}</b></center>
+        </div>
       </GenericAction>
     );
   }

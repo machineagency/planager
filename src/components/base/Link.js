@@ -13,10 +13,10 @@ export default class Link extends React.Component {
   }
 
   static getDerivedStateFromProps(nextProps) {
-    let x1 = nextProps.startx + nextProps.deltastartx;
-    let y1 = nextProps.starty + nextProps.deltastarty;
-    let x2 = nextProps.endx + nextProps.deltaendx;
-    let y2 = nextProps.endy + nextProps.deltaendy;
+    let x1 = nextProps.startx;
+    let y1 = nextProps.starty;
+    let x2 = nextProps.endx;
+    let y2 = nextProps.endy;
 
     const state = {
       tooltipPosition: {
@@ -29,10 +29,10 @@ export default class Link extends React.Component {
   }
 
   calculateBezier() {
-    let x1 = this.props.startx + this.props.deltastartx;
-    let y1 = this.props.starty + this.props.deltastarty;
-    let x2 = this.props.endx + this.props.deltaendx;
-    let y2 = this.props.endy + this.props.deltaendy;
+    let x1 = this.props.startx;
+    let y1 = this.props.starty;
+    let x2 = this.props.endx;
+    let y2 = this.props.endy;
 
     return `M${x1},${y1} 
     C${x1 + 100},${y1} 

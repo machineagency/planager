@@ -1,16 +1,11 @@
 /* Base port styling */
 .port {
-  background-color: var(--base01);
   height: 15px;
   width: 15px;
   border: none;
   float: left;
   margin-top: 5px;
   cursor: pointer;
-}
-
-.port:hover {
-  background-color: var(--base2);
 }
 
 /* Outport-specific Styling */

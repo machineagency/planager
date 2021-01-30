@@ -51,7 +51,10 @@ export default class Alert extends React.Component {
         positionDeltas={this.props.positionDeltas}
       >
         <div className="actionTitle">Alert</div>
-        <div className="actionContent">
+        <div
+          className="actionContent"
+          style={{ maxWidth: "175px", padding: "10px" }}
+        >
           I will alert when I recieve a signal.
         </div>
       </GenericAction>

@@ -26,12 +26,15 @@ export default class Constant extends React.Component {
         positionDeltas={this.props.positionDeltas}
       >
         <div className="actionTitle">Constant</div>
-        <div className="actionContent">
-          <input
-            placeholder="enter constant"
-            className="constantText"
-            onChange={this.updateConstant.bind(this)}
-          />
+        <div
+          className="actionContent"
+          style={{ maxWidth: "175px", padding: "10px" }}
+        >
+            <input
+              className="constantText"
+              onChange={this.updateConstant.bind(this)}
+              style={{ textAlign: "center", fontSize: "24px"  }}
+            />
         </div>
       </GenericAction>
     );

@@ -1,7 +1,9 @@
+/** @jsx jsx */
 // Import Libraries
 import React from "react";
 import Draggable from "react-draggable";
 import { VscClose } from "react-icons/vsc";
+import { jsx } from "theme-ui";
 
 // Import Stylesheet
 import "./GenericAction.css";
@@ -14,14 +16,6 @@ import GlobalContext from "../../utils/GlobalContext";
 
 export default class GenericAction extends React.Component {
   static contextType = GlobalContext;
-
-  state = {
-    deltaPosition: {
-      x: 0,
-      y: 0,
-    },
-  };
-
   handleDrag(e, ui) {
     const { global } = this.context;
     const { x, y } = this.props.positionDeltas;
@@ -44,7 +38,6 @@ export default class GenericAction extends React.Component {
           key={port.name}
           port={port}
           id={`${this.props.actionID}_inport_${port.name}`}
-          deltaPosition={this.props.positionDeltas}
         />
       );
     }
@@ -61,7 +54,6 @@ export default class GenericAction extends React.Component {
         <PortOut
           key={port.name}
           port={port}
-          deltaPosition={this.props.positionDeltas}
           id={`${this.props.actionID}_outport_${port.name}`}
         />
       );
@@ -97,8 +89,14 @@ export default class GenericAction extends React.Component {
             <div className="leftPortsContainer">
               <div className="leftPorts">{this.renderInports()}</div>
             </div>
-            <div className="mainActionContainer">
-              <div className="mainAction">{this.props.children}</div>
+            <div
+              className="mainActionContainer"
+              sx={{
+                backgroundColor: "actionBackground",
+                color: "toolbarText",
+              }}
+            >
+              <div>{this.props.children}</div>
             </div>
             <div className="rightPortsContainer">
               <div className="rightPorts">{this.renderOutports()}</div>
