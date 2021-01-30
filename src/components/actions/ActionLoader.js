@@ -5,7 +5,7 @@ import Constant from "./constant/Constant";
 // import ProtocolViewer from "./protocolViewer/ProtocolViewer";
 // import DownloadJSON from "./downloadJSON/DownloadJSON";
 import Button from "./button/Button";
-// import Counter from "./counter/Counter";
+import Counter from "./counter/Counter";
 // import SonicationPlan from "./sonicationPlan/SonicationPlan";
 // import AssignPlan from "./assignPlan/AssignPlan";
 
@@ -32,7 +32,7 @@ export {
   // ProtocolViewer,
   // DownloadJSON,
   Button,
-  // Counter,
+  Counter,
   // SonicationPlan,
   // AssignPlan,
   // ProvisionPlate,

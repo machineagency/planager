@@ -1,18 +1,16 @@
+/** @jsx jsx */
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import Link from "./Link";
 import * as Actions from "../actions/ActionLoader";
 import "./styles/main.css";
 import GlobalContext from "../../utils/GlobalContext";
+import { jsx } from "theme-ui";
 
 // Icon imports
-import {
-  VscCloudUpload,
-  VscSave,
-  VscAdd,
-  VscGithubInverted,
-} from "react-icons/vsc";
+import { VscCloudUpload, VscSave, VscAdd } from "react-icons/vsc";
 import { BsGearFill } from "react-icons/bs";
+import ToggleColorMode from "./ToggleColorMode";
 
 export default class Main extends React.Component {
   static contextType = GlobalContext;
@@ -25,7 +23,6 @@ export default class Main extends React.Component {
     };
 
     this.getOutportLinks = this.getOutportLinks.bind(this);
-    this.updateLinks = this.updateLinks.bind(this);
     this.updateConnectedInports = this.updateConnectedInports.bind(this);
     this.getActionLinks = this.getActionLinks.bind(this);
   }
@@ -138,13 +135,13 @@ export default class Main extends React.Component {
     return linkList;
   }
 
-  updateLinks(connectedLinks, outportData, deltas) {
+  updateOutportLinks(connectedLinks, outportData, centerPt) {
     // Adds the data to each connected link as a prop
     for (const linkID of connectedLinks) {
       let newLink = React.cloneElement(this.state.links[linkID], {
         data: outportData,
-        deltastartx: deltas.x,
-        deltastarty: deltas.y,
+        startx: centerPt.x,
+        starty: centerPt.y,
       });
 
       this.setState({
@@ -153,12 +150,12 @@ export default class Main extends React.Component {
     }
   }
 
-  updateInportLinks(connectedLinks, deltas) {
+  updateInportLinks(connectedLinks, centerPt) {
     // Adds the data to each connected link as a prop
     for (const linkID of connectedLinks) {
       let newLink = React.cloneElement(this.state.links[linkID], {
-        deltaendx: deltas.x,
-        deltaendy: deltas.y,
+        endx: centerPt.x,
+        endy: centerPt.y,
       });
 
       this.setState({
@@ -194,63 +191,18 @@ export default class Main extends React.Component {
     }
   }
 
-  inportUpdatedCallback(inportID, deltas) {
+  inportUpdatedCallback(inportID, centerPt) {
     const connectedLinks = this.getInportLinks(inportID);
-    this.updateInportLinks(connectedLinks, deltas);
+    this.updateInportLinks(connectedLinks, centerPt);
   }
 
-  outportUpdatedCallback(outportID, outportData, deltas) {
+  outportUpdatedCallback(outportID, outportData, centerPt) {
     const connectedLinks = this.getOutportLinks(outportID);
-    this.updateLinks(connectedLinks, outportData, deltas);
+    this.updateOutportLinks(connectedLinks, outportData, centerPt);
     this.updateConnectedInports(connectedLinks, outportData);
   }
 
-  /**
-   * Gets computed translate values
-   * @param {HTMLElement} element
-   * @returns {Object}
-   */
-  getTranslateValues(element) {
-    const style = window.getComputedStyle(element);
-    const matrix =
-      style["transform"] || style.webkitTransform || style.mozTransform;
-
-    // No transform property. Simply return 0 values.
-    if (matrix === "none") {
-      return {
-        x: 0,
-        y: 0,
-        z: 0,
-      };
-    }
-
-    // Can either be 2d or 3d transform
-    const matrixType = matrix.includes("3d") ? "3d" : "2d";
-    const matrixValues = matrix.match(/matrix.*\((.+)\)/)[1].split(", ");
-
-    // 2d matrices have 6 values
-    // Last 2 values are X and Y.
-    // 2d matrices does not have Z value.
-    if (matrixType === "2d") {
-      return {
-        x: Number(matrixValues[4]),
-        y: Number(matrixValues[5]),
-        z: 0,
-      };
-    }
-
-    // 3d matrices have 16 values
-    // The 13th, 14th, and 15th values are X, Y, and Z
-    if (matrixType === "3d") {
-      return {
-        x: Number(matrixValues[12]),
-        y: Number(matrixValues[13]),
-        z: Number(matrixValues[14]),
-      };
-    }
-  }
-
-  outportLinkStarted(outportEvent, outportID, deltas, data) {
+  outportLinkStarted(outportID, centerPt, data) {
     // outportEvent: the drag event from the outport
     // outportID: the outport ID of the the outport we are dragging out of
     // deltas: the Deltaposition of the generic action
@@ -266,19 +218,15 @@ export default class Main extends React.Component {
       }
 
       const linkID = `${e.target.dataset.id}_${outportID}`;
-      const inportDeltas = this.getTranslateValues(e.target.offsetParent);
+      let rect = e.target.getBoundingClientRect();
 
       const newLink = {
         [linkID]: (
           <Link
-            startx={outportEvent.clientX - deltas.x}
-            starty={outportEvent.clientY - deltas.y}
-            deltastartx={deltas.x}
-            deltastarty={deltas.y}
-            endx={e.clientX - inportDeltas.x}
-            endy={e.clientY - inportDeltas.y}
-            deltaendx={inportDeltas.x}
-            deltaendy={inportDeltas.y}
+            startx={centerPt.x}
+            starty={centerPt.y}
+            endx={rect.left + rect.width / 2}
+            endy={rect.top + rect.height / 2}
             key={uuidv4()}
             id={linkID}
           />
@@ -300,14 +248,10 @@ export default class Main extends React.Component {
       const newLink = {
         linkInProgress: (
           <Link
-            startx={outportEvent.clientX - deltas.x}
-            starty={outportEvent.clientY - deltas.y}
-            deltastartx={deltas.x}
-            deltastarty={deltas.y}
+            startx={centerPt.x}
+            starty={centerPt.y}
             endx={e.clientX}
             endy={e.clientY}
-            deltaendx={0}
-            deltaendy={0}
             key={"inprogress"}
           />
         ),
@@ -319,7 +263,7 @@ export default class Main extends React.Component {
     document.addEventListener("mouseup", mouseupCallback);
   }
 
-  inportLinkStarted(inportEvent, inportID, deltas) {
+  inportLinkStarted(inportID, centerPt) {
     var mouseupCallback = (e) => {
       if (e.target.classList[0] !== "outport") {
         document.removeEventListener("mousemove", mousemoveCallback);
@@ -331,19 +275,15 @@ export default class Main extends React.Component {
       }
 
       const linkID = `${inportID}_${e.target.dataset.id}`;
-      const outportDeltas = this.getTranslateValues(e.target.offsetParent);
+      let rect = e.target.getBoundingClientRect();
 
       const newLink = {
         [linkID]: (
           <Link
-            startx={e.clientX - outportDeltas.x}
-            starty={e.clientY - outportDeltas.y}
-            deltastartx={outportDeltas.x}
-            deltastarty={outportDeltas.y}
-            endx={inportEvent.clientX - deltas.x}
-            endy={inportEvent.clientY - deltas.y}
-            deltaendx={deltas.x}
-            deltaendy={deltas.y}
+            startx={rect.left + rect.width / 2}
+            starty={rect.top + rect.height / 2}
+            endx={centerPt.x}
+            endy={centerPt.y}
             key={uuidv4()}
             id={linkID}
           />
@@ -364,12 +304,8 @@ export default class Main extends React.Component {
           <Link
             startx={e.clientX}
             starty={e.clientY}
-            deltastartx={0}
-            deltastarty={0}
-            endx={inportEvent.clientX - deltas.x}
-            endy={inportEvent.clientY - deltas.y}
-            deltaendx={deltas.x}
-            deltaendy={deltas.y}
+            endx={centerPt.x}
+            endy={centerPt.y}
             key={"inprogress"}
           />
         ),
@@ -468,11 +404,16 @@ export default class Main extends React.Component {
 
   render() {
     return (
-      <>
-        {/* the <> and </> is react fragment syntax, which prevents unnecessary divs from being added to the DOM.*/}
+      <React.Fragment>
         {this.renderLinks()}
 
-        <div className="toolbarContainer">
+        <div
+          className="toolbarContainer"
+          sx={{
+            backgroundColor: "toolbar",
+            color: "toolbarText",
+          }}
+        >
           <span id="toolbarTitle" className="unselectable">
             planager
           </span>
@@ -480,10 +421,25 @@ export default class Main extends React.Component {
             className="toolbarButton"
             onClick={this.saveToFile.bind(this)}
             title="Save workflow"
+            sx={{
+              ":hover": {
+                backgroundColor: "toolbarText",
+                color: "toolbar",
+              },
+            }}
           >
             <VscSave className="toolbarIcon" />
           </span>
-          <label className="toolbarButton" title="Load workflow">
+          <label
+            className="toolbarButton"
+            title="Load workflow"
+            sx={{
+              ":hover": {
+                backgroundColor: "toolbarText",
+                color: "toolbar",
+              },
+            }}
+          >
             <VscCloudUpload className="toolbarIcon" />
             <input
               type="file"
@@ -491,25 +447,38 @@ export default class Main extends React.Component {
               onChange={this.loadFromFile.bind(this)}
             />
           </label>
-          <span className="toolbarButton addAction" title="Add an action">
+          <span
+            className="toolbarButton addAction"
+            title="Add an action"
+            sx={{
+              ":hover": {
+                backgroundColor: "toolbarText",
+                color: "toolbar",
+              },
+            }}
+          >
             <VscAdd className="toolbarIcon" />
             <div className="actionDropdownContainer">
               {this.renderButtons()}
             </div>
           </span>
-          <span className="toolbarButton" title="Settings" id="toolbarSettings">
-            <BsGearFill className="toolbarIcon" />
-          </span>
           <span
             className="toolbarButton"
-            title="View source"
-            id="toolbarGithub"
+            id="toolbarSettings"
+            sx={{
+              ":hover": {
+                backgroundColor: "toolbarText",
+                color: "toolbar",
+              },
+            }}
           >
-            <VscGithubInverted className="toolbarIcon" />
+            <ToggleColorMode>
+              <BsGearFill className="toolbarIcon" />
+            </ToggleColorMode>
           </span>
         </div>
         <div>{this.renderActions()}</div>
-      </>
+      </React.Fragment>
     );
   }
 }

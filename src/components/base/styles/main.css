@@ -29,15 +29,12 @@
 body {
   margin: 0;
   font-family: monospace;
-  background: var(--base03) !important;
   overflow: hidden;
 }
 
 /* Global Planager button styles */
 
 .planagerButton {
-  background-color: var(--base3);
-  color: var(--base03);
   border: None;
   padding: 3px 7px;
   font-family: inherit;
@@ -111,19 +108,18 @@ body {
   z-index: 100;
   position: sticky;
   width: 100%;
-  background-color: var(--base1);
 }
 
 .toolbarButton {
-  font-size: 24px;
-  color: var(--base03);
+  font-size: 34px;
+  /* color: var(--base03); */
   cursor: pointer;
   display: inline-block;
 }
 
 .toolbarButton:hover {
-  color: var(--base1);
-  background-color: var(--base03);
+  /* color: var(--base1); */
+  /* background-color: var(--base03); */
 }
 
 .toolbarIcon {
@@ -132,17 +128,12 @@ body {
 }
 
 #toolbarTitle {
-  vertical-align: super;
   padding: 10px;
-  color: var(--base03);
+  vertical-align: super;
   font-weight: bold;
   font-size: 20px;
   cursor: default;
   font-family: sans-serif;
-}
-
-#toolbarGithub {
-  float: right;
 }
 
 #toolbarSettings {
