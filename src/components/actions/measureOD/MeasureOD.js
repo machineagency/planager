@@ -3,7 +3,6 @@ import GenericAction from "../GenericAction";
 import Inport from "../../base/Inport";
 import Outport from "../../base/Outport";
 import Signal from "../../base/Signal";
-import "./MeasureOD.css"
 
 export default class MeasureOD extends React.Component {
   constructor(props) {
@@ -31,7 +30,7 @@ export default class MeasureOD extends React.Component {
       >
         <div className="actionTitle">MeasureOD</div>
         <div className="actionContent">
-          <div className="measurementContent">
+          <div style={{padding: "10px", maxWidth: "250px"}}>
             96 flat 1 measure OD600 - OD conversion determined cellometer or
             flow cytometer
           </div>

@@ -10,15 +10,15 @@ import Counter from "./counter/Counter";
 // import AssignPlan from "./assignPlan/AssignPlan";
 
 // Harmonized Yeast gates
-// import ProvisionPlate from "./provisionPlate/ProvisionPlate";
-// import PatchPlate from "./patchPlate/PatchPlate";
-// import Incubate from "./incubate/Incubate";
-// import PickColonies from "./pickColonies/PickColonies";
-// import MeasureOD from "./measureOD/MeasureOD";
-// import Agitate from "./agitate/Agitate";
-// import Dilute from "./dilute/Dilute";
-// import Transfer from "./transfer/Transfer";
-// import FlowCytometryMeasurement from "./flowCytometryMeasurement/FlowCytometryMeasurement";
+import ProvisionPlate from "./provisionPlate/ProvisionPlate";
+import PatchPlate from "./patchPlate/PatchPlate";
+import Incubate from "./incubate/Incubate";
+import PickColonies from "./pickColonies/PickColonies";
+import MeasureOD from "./measureOD/MeasureOD";
+import Agitate from "./agitate/Agitate";
+import Dilute from "./dilute/Dilute";
+import Transfer from "./transfer/Transfer";
+import FlowCytometryMeasurement from "./flowCytometryMeasurement/FlowCytometryMeasurement";
 
 // In order for an action to show up on the main page, it must be imported
 // and exported here. This is much easier to manage than trying to import
@@ -35,13 +35,13 @@ export {
   Counter,
   // SonicationPlan,
   // AssignPlan,
-  // ProvisionPlate,
-  // PatchPlate,
-  // Incubate,
-  // PickColonies,
-  // MeasureOD,
-  // Agitate,
-  // Dilute,
-  // Transfer,
-  // FlowCytometryMeasurement,
+  ProvisionPlate,
+  PatchPlate,
+  Incubate,
+  PickColonies,
+  MeasureOD,
+  Agitate,
+  Dilute,
+  Transfer,
+  FlowCytometryMeasurement,
 };
