@@ -203,9 +203,8 @@ export default class Main extends React.Component {
   }
 
   outportLinkStarted(outportID, centerPt, data) {
-    // outportEvent: the drag event from the outport
     // outportID: the outport ID of the the outport we are dragging out of
-    // deltas: the Deltaposition of the generic action
+    // centerPt: the center point of the outport
     var mouseupCallback = (e) => {
       if (e.target.classList[0] !== "inport") {
         document.removeEventListener("mousemove", mousemoveCallback);
