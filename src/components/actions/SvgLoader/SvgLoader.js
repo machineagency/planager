@@ -1,27 +1,33 @@
 import React from "react";
 import GenericAction from "../GenericAction";
-import Inport from "../../base/Inport";
 import Outport from "../../base/Outport";
+import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
+import { ReactSvgPanZoomLoader } from "react-svg-pan-zoom-loader";
+import "./SvgLoader.css";
 
 export default class SvgLoader extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inports: [new Inport("name", "type", "data", "description")],
-      outports: [new Outport("SVG file", "SVG", "data", "description")],
+      outports: [
+        new Outport(
+          "SVG URL",
+          String,
+          null,
+          "The url to the SVG that was loaded."
+        ),
+      ],
       svg: null,
+      tool: TOOL_AUTO,
+      value: {},
     };
   }
 
   loadSVG(event) {
-    var reader = new FileReader();
-
-    // This callback is run when the file loads
-    reader.onload = (event) => {
-      this.setState({ svg: event.target.result });
-    };
-
-    reader.readAsText(event.target.files[0]);
+    const svgurl = window.URL.createObjectURL(event.target.files[0]);
+    let outports = [...this.state.outports];
+    outports[0].data = svgurl;
+    this.setState({ outports: outports, svg: svgurl });
   }
 
   render() {
@@ -34,35 +40,35 @@ export default class SvgLoader extends React.Component {
         positionDeltas={this.props.positionDeltas}
       >
         <div className="actionTitle">SVG Loader</div>
-        <div className="actionContent">
-          <label
-            className="toolbarButton"
-            title="Load workflow"
-            sx={{
-              ":hover": {
-                backgroundColor: "toolbarText",
-                color: "toolbar",
-              },
-            }}
-          >
-            <span>Upload SVG</span>
+        <div className="actionContent" style={{ minWidth: "130px" }}>
+          <label title="Load workflow" className="svgLoadButton">
+            <div>Upload SVG...</div>
             <input
               type="file"
-              name="resume"
+              accept=".svg"
               onChange={this.loadSVG.bind(this)}
             />
           </label>
-          <br />
           {this.state.svg ? (
-            <svg
-              width="100%"
-              height="100%"
-              viewBox="0 0 640 480"
-              preserveAspectRatio="xMaxYMax"
-              dangerouslySetInnerHTML={{ __html: this.state.svg }}
+            <ReactSvgPanZoomLoader
+              src={this.state.svg}
+              render={(content) => (
+                <ReactSVGPanZoom
+                  width={500}
+                  height={500}
+                  tool={this.state.tool}
+                  onChangeTool={(tool) => this.setState({ tool })}
+                  value={this.state.value}
+                  onChangeValue={(value) => this.setState({ value })}
+                >
+                  <svg width={500} height={500}>
+                    {content}
+                  </svg>
+                </ReactSVGPanZoom>
+              )}
             />
           ) : (
-            <br />
+            ""
           )}
         </div>
       </GenericAction>

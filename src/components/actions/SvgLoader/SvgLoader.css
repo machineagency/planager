@@ -1,0 +1,13 @@
+.svgLoadButton {
+  position: absolute;
+  z-index: 100;
+  background-color: var(--violet);
+  color: var(--base3);
+  padding: 5px 10px;
+  width: 130px;
+} 
+
+.svgLoadButton:hover {
+    background-color: var(--violetHover);
+    cursor: pointer;
+}
