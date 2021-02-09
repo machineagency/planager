@@ -91,6 +91,33 @@ export default class Axidraw extends React.Component {
     };
   }
 
+  reset() {
+    const Http = new XMLHttpRequest();
+    const url = "http://localhost:4242/v1/motors";
+
+    Http.open("PUT", url);
+    Http.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    Http.send(JSON.stringify({ reset: 1 }));
+
+    Http.onreadystatechange = (e) => {
+      this.setState({ penInfo: Http.responseText });
+    };
+  }
+
+  turnOffMotors() {
+    const Http = new XMLHttpRequest();
+    const url = "http://localhost:4242/v1/motors";
+
+    Http.open("DELETE", url);
+    Http.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    Http.send(JSON.stringify({ status: "Disabled" }));
+
+    Http.onreadystatechange = (e) => {
+      this.setState({ penInfo: Http.responseText });
+    };
+  }
+
+
   render() {
     return (
       <GenericAction
@@ -141,6 +168,18 @@ export default class Axidraw extends React.Component {
             type="button"
             value="Settings: Bot"
             onClick={this.settingsBot.bind(this)}
+          />
+          <br />
+          <input
+            type="button"
+            value="Reset to parked position"
+            onClick={this.reset.bind(this)}
+          />
+          <br />
+          <input
+            type="button"
+            value="Turn off Motors"
+            onClick={this.turnOffMotors.bind(this)}
           />
           <br />
           {JSON.stringify(this.state.penInfo)}

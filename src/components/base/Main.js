@@ -180,6 +180,7 @@ export default class Main extends React.Component {
         this.state.actions[payload.targetActionID],
         {
           payload: payload,
+          key: payload.targetActionID + "_" + String(Date.now()),
         }
       );
 
@@ -322,7 +323,12 @@ export default class Main extends React.Component {
     const newAction = {
       [uniqueID]: React.createElement(
         action,
-        { key: uniqueID, id: uniqueID, positionDeltas: { x: 0, y: 0 } },
+        {
+          key: uniqueID + "_" + String(Date.now()),
+          id: uniqueID,
+          positionDeltas: { x: 0, y: 0 },
+          payload: { data: { data: null } },
+        },
         null
       ),
     };
