@@ -1,5 +1,6 @@
 import Axidraw from "./axidraw/Axidraw";
 import SvgLoader from "./SvgLoader/SvgLoader"
+import SvgParser from "./SvgParser/SvgParser"
 import Alert from "./alert/Alert";
 import Constant from "./constant/Constant";
 // import JubileeDeck from "./jubileedeck/JubileeDeck";
@@ -31,6 +32,7 @@ export {
   Alert,
   Constant,
   SvgLoader,
+  SvgParser,
   // JubileeDeck,
   // Wellplate,
   // ProtocolViewer,

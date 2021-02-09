@@ -27,7 +27,9 @@ export default class SvgLoader extends React.Component {
     const svgurl = window.URL.createObjectURL(event.target.files[0]);
     let outports = [...this.state.outports];
     outports[0].data = svgurl;
-    this.setState({ outports: outports, svg: svgurl });
+    this.setState({ outports: outports, svg: svgurl }, () => {
+      console.log("SVG Loaded!");
+    });
   }
 
   render() {
