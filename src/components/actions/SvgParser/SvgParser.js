@@ -11,46 +11,71 @@ export default class SvgParser extends React.Component {
     const SVGURL = this.props.payload.data.data;
 
     this.state = {
-      inports: [new Inport("name", String, SVGURL, "SVG Object URL")],
+      inports: [new Inport("SVG Object URL", String, SVGURL, "SVG Object URL")],
       svgurl: SVGURL,
       outports: [
-        new Outport("name", SVGPathData, null, "SVG PathData object."),
+        new Outport(
+          "SVG PathData object",
+          SVGPathData,
+          null,
+          "SVG PathData object."
+        ),
       ],
       path: null,
       parsed: false,
     };
   }
 
-  async componentDidMount() {
-    if (!this.state.inports[0].data) {
-      return;
+  scale(path) {
+    console.log(path.getBounds().maxX, path.getBounds().maxY);
+
+    const xbounds = path.getBounds().maxX / 100;
+    const ybounds = path.getBounds().maxY / 100;
+
+    let factor = xbounds > ybounds ? xbounds : ybounds;
+
+    if (ybounds > xbounds) {
+      for (const command of path.commands) {
+        command.x = (command.x / factor) * (xbounds / ybounds);
+        command.y = command.y / factor;
+      }
+    } else {
+      for (const command of path.commands) {
+        command.x = command.x / factor;
+        command.y = (command.y / factor) * (xbounds / ybounds);
+      }
     }
+    return path;
+  }
+
+  async componentDidMount() {
+    if (!this.state.inports[0].data) return;
 
     let blob = await fetch(this.state.inports[0].data).then((r) => r.blob());
     let reader = new FileReader();
-    reader.onload = (event) => {
-      // Extract path data from the svg, convert to a PathData object, and convert to absolute
-      const path = new SVGPathData(parse(event.target.result)).toAbs();
-      console.log(path.getBounds());
-      this.setState({ path: path, parsed: true });
-    };
-    reader.readAsText(blob);
-  }
 
-  parsePath() {
-    console.log("hello");
-    const pathData = new SVGPathData(this.state.svg);
-    console.log(pathData);
+    reader.onload = (event) => {
+      // Extract path data from the svg, convert to a PathData object,
+      // convert to absolute, and store the result in the state.
+      const path = new SVGPathData(parse(event.target.result)).toAbs();
+      const scaled = this.scale(path);
+      let newOutports = [...this.state.outports];
+      newOutports[0].data = scaled;
+      this.setState({ path: scaled, parsed: true, outports: newOutports });
+    };
+
+    reader.readAsText(blob);
   }
 
   renderSVG() {
     if (!this.state.parsed) return "No SVG loaded!";
     return (
       <div>
-        Bounds: {this.state.path.getBounds()}<br />
-        Paths: {this.state.path.commands.length}
+        Bounds: {Math.ceil(this.state.path.getBounds().maxX)} by{" "}
+        {Math.ceil(this.state.path.getBounds().maxY)} <br />
+        Commands: {this.state.path.commands.length}
       </div>
-    )
+    );
   }
 
   render() {

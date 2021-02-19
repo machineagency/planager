@@ -3,14 +3,15 @@ import SvgLoader from "./SvgLoader/SvgLoader"
 import SvgParser from "./SvgParser/SvgParser"
 import Alert from "./alert/Alert";
 import Constant from "./constant/Constant";
-// import JubileeDeck from "./jubileedeck/JubileeDeck";
-// import Wellplate from "./wellplate/Wellplate";
-// import ProtocolViewer from "./protocolViewer/ProtocolViewer";
-// import DownloadJSON from "./downloadJSON/DownloadJSON";
+import SvgToAxidraw from "./SvgToAxidraw/SvgToAxidraw"
+import JubileeDeck from "./jubileedeck/JubileeDeck";
+import Wellplate from "./wellplate/Wellplate";
+import ProtocolViewer from "./protocolViewer/ProtocolViewer";
+import DownloadJSON from "./downloadJSON/DownloadJSON";
 import Button from "./button/Button";
 import Counter from "./counter/Counter";
-// import SonicationPlan from "./sonicationPlan/SonicationPlan";
-// import AssignPlan from "./assignPlan/AssignPlan";
+import SonicationPlan from "./sonicationPlan/SonicationPlan";
+import AssignPlan from "./assignPlan/AssignPlan";
 
 // Harmonized Yeast gates
 // import ProvisionPlate from "./provisionPlate/ProvisionPlate";
@@ -33,14 +34,15 @@ export {
   Constant,
   SvgLoader,
   SvgParser,
-  // JubileeDeck,
-  // Wellplate,
-  // ProtocolViewer,
-  // DownloadJSON,
+  SvgToAxidraw,
+  JubileeDeck,
+  Wellplate,
+  ProtocolViewer,
+  DownloadJSON,
   Button,
   Counter,
-  // SonicationPlan,
-  // AssignPlan,
+  SonicationPlan,
+  AssignPlan,
   // ProvisionPlate,
   // PatchPlate,
   // Incubate,

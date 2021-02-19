@@ -68,13 +68,16 @@ export default class Main extends React.Component {
       for (const action of workflow.actions) {
         newActionObject[action.props.id] = React.createElement(
           Actions[action.type],
-          action.props
+          Object.assign(action.props, { key: action.props.id })
         );
       }
 
       // Load the links
       for (const link of workflow.links) {
-        newLinkObject[link.props.id] = React.createElement(Link, link.props);
+        newLinkObject[link.props.id] = React.createElement(
+          Link,
+          Object.assign(link.props, { key: link.props.id })
+        );
       }
 
       this.setState({ actions: newActionObject });

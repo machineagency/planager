@@ -32,6 +32,12 @@ export default class SvgLoader extends React.Component {
     });
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.positionDeltas !== nextProps.positionDeltas) return true;
+    // if (this.state.svg === nextState.svg) return false;
+    return true;
+  }
+
   render() {
     return (
       <GenericAction
@@ -63,7 +69,7 @@ export default class SvgLoader extends React.Component {
                   value={this.state.value}
                   onChangeValue={(value) => this.setState({ value })}
                 >
-                  <svg width={500} height={500}>
+                  <svg width={2000} height={2000}>
                     {content}
                   </svg>
                 </ReactSVGPanZoom>
