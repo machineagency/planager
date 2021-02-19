@@ -83,7 +83,7 @@ export default class JubileeDeck extends React.Component {
         positionDeltas={this.props.positionDeltas}
       >
         <div className="actionTitle">Jubilee Deck Setup</div>
-        <div className="actionContent jubileecontent">
+        <div className="actionContent jubileecontent" style={{padding: "5px"}}>
           <b>Preview:</b>
           <br />
           <div className="deck">{this.renderPreview.bind(this)()}</div>

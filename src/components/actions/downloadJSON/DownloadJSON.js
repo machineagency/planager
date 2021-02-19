@@ -62,12 +62,16 @@ export default class DownloadJSON extends React.Component {
         positionDeltas={this.props.positionDeltas}
       >
         <div className="actionTitle">Download JSON</div>
-        <div className="actionContent">
+        <div
+          className="actionContent"
+          
+        >
           <input
             type="button"
             value="Download"
             className="planagerButton"
             onClick={this.download.bind(this)}
+            style={{ backgroundColor: "var(--violet)", color:"white", width: "100%" }}
           />
         </div>
       </GenericAction>
