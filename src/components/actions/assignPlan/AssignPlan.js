@@ -132,7 +132,7 @@ export default class AssignPlan extends React.Component {
         positionDeltas={this.props.positionDeltas}
       >
         <div className="actionTitle">Assign Plan</div>
-        <div className="actionContent" style={{ width: "200px" }}>
+        <div className="actionContent" style={{ width: "200px", padding: "10px" }}>
           <span>
             <b>Agent: </b>
             {this.renderAgent.bind(this)()}

@@ -47,8 +47,8 @@ export default class ProtocolViewer extends React.Component {
         positionDeltas={this.props.positionDeltas}
       >
         <div className="actionTitle">Protocol Viewer</div>
-        <div className="actionContent">
-          {this.state.inports[0].data ? this.formatSteps.bind(this)() : "Empty"}
+        <div className="actionContent" style={{padding: "10px"}}>
+          {this.state.inports[0].data ? this.formatSteps.bind(this)() : "No protocol created"}
         </div>
       </GenericAction>
     );

@@ -68,13 +68,16 @@ export default class Main extends React.Component {
       for (const action of workflow.actions) {
         newActionObject[action.props.id] = React.createElement(
           Actions[action.type],
-          action.props
+          Object.assign(action.props, { key: action.props.id })
         );
       }
 
       // Load the links
       for (const link of workflow.links) {
-        newLinkObject[link.props.id] = React.createElement(Link, link.props);
+        newLinkObject[link.props.id] = React.createElement(
+          Link,
+          Object.assign(link.props, { key: link.props.id })
+        );
       }
 
       this.setState({ actions: newActionObject });
@@ -180,6 +183,7 @@ export default class Main extends React.Component {
         this.state.actions[payload.targetActionID],
         {
           payload: payload,
+          key: payload.targetActionID + "_" + String(Date.now()),
         }
       );
 
@@ -203,9 +207,8 @@ export default class Main extends React.Component {
   }
 
   outportLinkStarted(outportID, centerPt, data) {
-    // outportEvent: the drag event from the outport
     // outportID: the outport ID of the the outport we are dragging out of
-    // deltas: the Deltaposition of the generic action
+    // centerPt: the center point of the outport
     var mouseupCallback = (e) => {
       if (e.target.classList[0] !== "inport") {
         document.removeEventListener("mousemove", mousemoveCallback);
@@ -323,7 +326,12 @@ export default class Main extends React.Component {
     const newAction = {
       [uniqueID]: React.createElement(
         action,
-        { key: uniqueID, id: uniqueID, positionDeltas: { x: 0, y: 0 } },
+        {
+          key: uniqueID + "_" + String(Date.now()),
+          id: uniqueID,
+          positionDeltas: { x: 0, y: 0 },
+          payload: { data: { data: null } },
+        },
         null
       ),
     };

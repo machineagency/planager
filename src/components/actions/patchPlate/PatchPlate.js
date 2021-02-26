@@ -26,23 +26,26 @@ export default class PatchPlate extends React.Component {
         actionID={this.props.id}
         positionDeltas={this.props.positionDeltas}
       >
-        <div className="actionTitle">Streak</div>
-        <div className="actionContent">
-          <div>
-            <input
-              type="text"
-              className="volumeInput"
-              placeholder="volume..."
-            />
-            <span class="addBtn">uL</span>
-          </div>
-          <div>
-            <input
-              type="text"
-              className="volumeInput"
-              placeholder="Yeast Innoculum"
-            />
-          </div>
+        <div className="actionTitle">Patch Plate</div>
+        <div
+          className="actionContent"
+          style={{ display: "grid", gridAutoColumns: "min-content" }}
+        >
+          <input
+            type="text"
+            className="volumeInput"
+            placeholder="volume..."
+            style={{ gridColumn: 1, gridRow: 1, width: "150px"}}
+          />
+          <span className="addBtn" style={{ gridColumn: 2, gridRow: 1, width: "50px"}}>
+            uL
+          </span>
+          <input
+            type="text"
+            className="volumeInput"
+            placeholder="Yeast Innoculum"
+            style={{ gridColumnStart: 1, gridColumnEnd: 3, gridRow: 2 }}
+          />
         </div>
       </GenericAction>
     );

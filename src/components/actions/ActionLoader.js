@@ -1,13 +1,17 @@
+import Axidraw from "./axidraw/Axidraw";
+import SvgLoader from "./SvgLoader/SvgLoader"
+import SvgParser from "./SvgParser/SvgParser"
 import Alert from "./alert/Alert";
 import Constant from "./constant/Constant";
-// import JubileeDeck from "./jubileedeck/JubileeDeck";
-// import Wellplate from "./wellplate/Wellplate";
-// import ProtocolViewer from "./protocolViewer/ProtocolViewer";
-// import DownloadJSON from "./downloadJSON/DownloadJSON";
+import SvgToAxidraw from "./SvgToAxidraw/SvgToAxidraw"
+import JubileeDeck from "./jubileedeck/JubileeDeck";
+import Wellplate from "./wellplate/Wellplate";
+import ProtocolViewer from "./protocolViewer/ProtocolViewer";
+import DownloadJSON from "./downloadJSON/DownloadJSON";
 import Button from "./button/Button";
 import Counter from "./counter/Counter";
-// import SonicationPlan from "./sonicationPlan/SonicationPlan";
-// import AssignPlan from "./assignPlan/AssignPlan";
+import SonicationPlan from "./sonicationPlan/SonicationPlan";
+import AssignPlan from "./assignPlan/AssignPlan";
 
 // Harmonized Yeast gates
 // import ProvisionPlate from "./provisionPlate/ProvisionPlate";
@@ -25,16 +29,20 @@ import Counter from "./counter/Counter";
 // them all in Main. We could also define subcategories here for
 // better organization of actions.
 export {
+  Axidraw,
   Alert,
   Constant,
-  // JubileeDeck,
-  // Wellplate,
-  // ProtocolViewer,
-  // DownloadJSON,
+  SvgLoader,
+  SvgParser,
+  SvgToAxidraw,
+  JubileeDeck,
+  Wellplate,
+  ProtocolViewer,
+  DownloadJSON,
   Button,
   Counter,
-  // SonicationPlan,
-  // AssignPlan,
+  SonicationPlan,
+  AssignPlan,
   // ProvisionPlate,
   // PatchPlate,
   // Incubate,

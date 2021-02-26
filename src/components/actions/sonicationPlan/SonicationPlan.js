@@ -176,6 +176,7 @@ export default class SonicationPlan extends React.Component {
         <button
           className="planagerButton violet"
           onClick={this.savePlan.bind(this)}
+          style={{width:"100%"}}
         >
           Save Plan
         </button>
@@ -195,12 +196,13 @@ export default class SonicationPlan extends React.Component {
     if (!sonicationPlan) textPlan = "No plan defined";
     return (
       <div>
-        <p>
+        <p style={{padding: "5px"}}>
         {textPlan}
         </p>
         <button
           className="planagerButton violet"
           onClick={this.startEdit.bind(this)}
+          style={{width:"100%"}}
         >
           Edit Plan
         </button>
