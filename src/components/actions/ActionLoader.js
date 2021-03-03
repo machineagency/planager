@@ -1,9 +1,9 @@
 import Axidraw from "./axidraw/Axidraw";
-import SvgLoader from "./SvgLoader/SvgLoader"
-import SvgParser from "./SvgParser/SvgParser"
+import SvgLoader from "./SvgLoader/SvgLoader";
+import SvgParser from "./SvgParser/SvgParser";
 import Alert from "./alert/Alert";
 import Constant from "./constant/Constant";
-import SvgToAxidraw from "./SvgToAxidraw/SvgToAxidraw"
+import SvgToAxidraw from "./SvgToAxidraw/SvgToAxidraw";
 import JubileeDeck from "./jubileedeck/JubileeDeck";
 import Wellplate from "./wellplate/Wellplate";
 import ProtocolViewer from "./protocolViewer/ProtocolViewer";
@@ -12,6 +12,7 @@ import Button from "./button/Button";
 import Counter from "./counter/Counter";
 import SonicationPlan from "./sonicationPlan/SonicationPlan";
 import AssignPlan from "./assignPlan/AssignPlan";
+import Toolpath from "./toolpath/Toolpath";
 
 // Harmonized Yeast gates
 // import ProvisionPlate from "./provisionPlate/ProvisionPlate";
@@ -43,6 +44,7 @@ export {
   Counter,
   SonicationPlan,
   AssignPlan,
+  Toolpath
   // ProvisionPlate,
   // PatchPlate,
   // Incubate,
