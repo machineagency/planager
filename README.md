@@ -1,5 +1,7 @@
 # The Planager
 
+![](docs/evolution/2021_03_03.png)
+
 The Planager is a flow-based, end-user programming environment that allows you
 to create workflows that span digital, physical, and human domains. Here is an
 example workflow for scintillation with a tool-changing Jubilee CNC that is
