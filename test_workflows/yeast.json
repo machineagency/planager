@@ -1,0 +1,576 @@
+{
+    "actions": [
+    {
+        "type": "FlowCytometryMeasurement",
+        "props":
+        {
+            "id": "8f0c1bf6-006a-4387-8214-2dad026c6d71",
+            "positionDeltas":
+            {
+                "x": 916,
+                "y": -135
+            },
+            "children": null,
+            "payload":
+            {
+                "targetActionID": "8f0c1bf6-006a-4387-8214-2dad026c6d71",
+                "targetInportID": "signal",
+                "data":
+                {
+                    "_name": "signal",
+                    "_data": null,
+                    "_description": "signal when finished"
+                },
+                "timestamp": 1611361183977
+            }
+        }
+    },
+    {
+        "type": "Incubate",
+        "props":
+        {
+            "id": "4b8fe134-4c40-4a3c-8dee-6ad8ac20b070",
+            "positionDeltas":
+            {
+                "x": -859,
+                "y": -333
+            },
+            "children": null,
+            "payload":
+            {
+                "targetActionID": "4b8fe134-4c40-4a3c-8dee-6ad8ac20b070",
+                "targetInportID": "Object",
+                "data":
+                {
+                    "_name": "Growth Plate",
+                    "_type": "type",
+                    "_data": null,
+                    "_description": "Growth Plate"
+                },
+                "timestamp": 1611361130334
+            }
+        }
+    },
+    {
+        "type": "ProvisionPlate",
+        "props":
+        {
+            "id": "37b6b541-e5cf-4dbf-8189-041a64e4de3c",
+            "positionDeltas":
+            {
+                "x": -1249,
+                "y": -106
+            },
+            "children": null
+        }
+    },
+    {
+        "type": "PatchPlate",
+        "props":
+        {
+            "id": "1c200cbe-08b0-4371-abe4-a0644905b40c",
+            "positionDeltas":
+            {
+                "x": -920,
+                "y": -104
+            },
+            "children": null,
+            "payload":
+            {
+                "targetActionID": "1c200cbe-08b0-4371-abe4-a0644905b40c",
+                "targetInportID": "Yeast Innoculum",
+                "data":
+                {
+                    "_name": "Blank Plate",
+                    "_type": "plate",
+                    "_data": null,
+                    "_description": "Blank Plate"
+                },
+                "timestamp": 1611361130328
+            }
+        }
+    },
+    {
+        "type": "PickColonies",
+        "props":
+        {
+            "id": "5df955fd-46ef-445a-8030-a9dd6bd84849",
+            "positionDeltas":
+            {
+                "x": -616,
+                "y": -109
+            },
+            "children": null,
+            "payload":
+            {
+                "targetActionID": "5df955fd-46ef-445a-8030-a9dd6bd84849",
+                "targetInportID": "Signal",
+                "data":
+                {
+                    "_name": "done signal",
+                    "_data": null,
+                    "_description": "done signal"
+                },
+                "timestamp": 1611361140901
+            }
+        }
+    },
+    {
+        "type": "Incubate",
+        "props":
+        {
+            "id": "9b7cf213-c28e-4b5b-84bc-08c013859bf6",
+            "positionDeltas":
+            {
+                "x": -499,
+                "y": -451
+            },
+            "children": null,
+            "payload":
+            {
+                "targetActionID": "9b7cf213-c28e-4b5b-84bc-08c013859bf6",
+                "targetInportID": "Object",
+                "data":
+                {
+                    "_name": "strain in media",
+                    "_type": "type",
+                    "_data": null,
+                    "_description": "strain in media"
+                },
+                "timestamp": 1611361140905
+            }
+        }
+    },
+    {
+        "type": "MeasureOD",
+        "props":
+        {
+            "id": "7b16b55a-04e1-484f-8d4c-889924dd4586",
+            "positionDeltas":
+            {
+                "x": -317,
+                "y": -290
+            },
+            "children": null,
+            "payload":
+            {
+                "targetActionID": "7b16b55a-04e1-484f-8d4c-889924dd4586",
+                "targetInportID": "start signal",
+                "data":
+                {
+                    "_name": "done signal",
+                    "_data": null,
+                    "_description": "done signal"
+                },
+                "timestamp": 1611361150752
+            }
+        }
+    },
+    {
+        "type": "Dilute",
+        "props":
+        {
+            "id": "86a2edcf-a35f-4e7a-a476-78dfc23476a8",
+            "positionDeltas":
+            {
+                "x": -58,
+                "y": -83
+            },
+            "children": null,
+            "payload":
+            {
+                "targetActionID": "86a2edcf-a35f-4e7a-a476-78dfc23476a8",
+                "targetInportID": "strain in media",
+                "data":
+                {
+                    "_name": "signal",
+                    "_data": null,
+                    "_description": "signal when finished"
+                },
+                "timestamp": 1611361181620
+            }
+        }
+    },
+    {
+        "type": "Incubate",
+        "props":
+        {
+            "id": "fe92ad9e-24ef-43cc-9695-74647ad12c6a",
+            "positionDeltas":
+            {
+                "x": 179,
+                "y": -313
+            },
+            "children": null,
+            "payload":
+            {
+                "targetActionID": "fe92ad9e-24ef-43cc-9695-74647ad12c6a",
+                "targetInportID": "Object",
+                "data":
+                {
+                    "_name": "diluted strain",
+                    "_type": "type",
+                    "_data": "data",
+                    "_description": "diluted strain"
+                },
+                "timestamp": 1611361181623
+            }
+        }
+    },
+    {
+        "type": "Transfer",
+        "props":
+        {
+            "id": "6865d2ec-1af2-4b67-b5f4-4888545a5395",
+            "positionDeltas":
+            {
+                "x": 418,
+                "y": -118
+            },
+            "children": null,
+            "payload":
+            {
+                "targetActionID": "6865d2ec-1af2-4b67-b5f4-4888545a5395",
+                "targetInportID": "signal",
+                "data":
+                {
+                    "_name": "done signal",
+                    "_data": null,
+                    "_description": "done signal"
+                },
+                "timestamp": 1611361183972
+            }
+        }
+    },
+    {
+        "type": "MeasureOD",
+        "props":
+        {
+            "id": "5b8892bc-78bb-40e4-b434-64d03e0d7ebe",
+            "positionDeltas":
+            {
+                "x": 609,
+                "y": -308
+            },
+            "children": null,
+            "payload":
+            {
+                "targetActionID": "5b8892bc-78bb-40e4-b434-64d03e0d7ebe",
+                "targetInportID": "start signal",
+                "data":
+                {
+                    "_name": "measurement sample",
+                    "_type": "type",
+                    "_data": "data",
+                    "_description": "measurement sample"
+                },
+                "timestamp": 1611361183974
+            }
+        }
+    }],
+    "links": [
+    {
+        "props":
+        {
+            "startx": 1537,
+            "starty": 674,
+            "deltastartx": -1249,
+            "deltastarty": -106,
+            "endx": 1291,
+            "endy": 716,
+            "deltaendx": -920,
+            "deltaendy": -104,
+            "id": "1c200cbe-08b0-4371-abe4-a0644905b40c_inport_blank plate_37b6b541-e5cf-4dbf-8189-041a64e4de3c_outport_Blank Plate"
+        }
+    },
+    {
+        "props":
+        {
+            "startx": 1522,
+            "starty": 683,
+            "deltastartx": -920,
+            "deltastarty": -104,
+            "endx": 1289,
+            "endy": 675,
+            "deltaendx": -859,
+            "deltaendy": -333,
+            "id": "4b8fe134-4c40-4a3c-8dee-6ad8ac20b070_inport_Object_1c200cbe-08b0-4371-abe4-a0644905b40c_outport_Growth Plate"
+        }
+    },
+    {
+        "props":
+        {
+            "startx": 1556,
+            "starty": 679,
+            "deltastartx": -859,
+            "deltastarty": -333,
+            "endx": 1286,
+            "endy": 680,
+            "deltaendx": -616,
+            "deltaendy": -109,
+            "id": "5df955fd-46ef-445a-8030-a9dd6bd84849_inport_Signal_4b8fe134-4c40-4a3c-8dee-6ad8ac20b070_outport_done signal",
+            "data":
+            {
+                "_name": "done signal",
+                "_data": null,
+                "_description": "done signal"
+            }
+        }
+    },
+    {
+        "props":
+        {
+            "startx": 1523,
+            "starty": 683,
+            "deltastartx": -920,
+            "deltastarty": -104,
+            "endx": 1283,
+            "endy": 697,
+            "deltaendx": -616,
+            "deltaendy": -109,
+            "id": "5df955fd-46ef-445a-8030-a9dd6bd84849_inport_Plate_1c200cbe-08b0-4371-abe4-a0644905b40c_outport_Growth Plate"
+        }
+    },
+    {
+        "props":
+        {
+            "startx": 1554,
+            "starty": 680,
+            "deltastartx": -499,
+            "deltastarty": -451,
+            "endx": 1289,
+            "endy": 683,
+            "deltaendx": -317,
+            "deltaendy": -290,
+            "id": "7b16b55a-04e1-484f-8d4c-889924dd4586_inport_start signal_9b7cf213-c28e-4b5b-84bc-08c013859bf6_outport_done signal"
+        }
+    },
+    {
+        "props":
+        {
+            "startx": 1554,
+            "starty": 678,
+            "deltastartx": -616,
+            "deltastarty": -109,
+            "endx": 1283,
+            "endy": 681,
+            "deltaendx": -499,
+            "deltaendy": -451,
+            "id": "9b7cf213-c28e-4b5b-84bc-08c013859bf6_inport_Object_5df955fd-46ef-445a-8030-a9dd6bd84849_outport_strain in media"
+        }
+    },
+    {
+        "props":
+        {
+            "startx": 1605,
+            "starty": 702,
+            "deltastartx": -317,
+            "deltastarty": -290,
+            "endx": 1286,
+            "endy": 681,
+            "deltaendx": -58,
+            "deltaendy": -83,
+            "id": "86a2edcf-a35f-4e7a-a476-78dfc23476a8_inport_strain in media_7b16b55a-04e1-484f-8d4c-889924dd4586_outport_signal",
+            "data":
+            {
+                "_name": "signal",
+                "_data": null,
+                "_description": "signal when finished"
+            }
+        }
+    },
+    {
+        "props":
+        {
+            "startx": 1564,
+            "starty": 680,
+            "deltastartx": -616,
+            "deltastarty": -109,
+            "endx": 1291,
+            "endy": 678,
+            "deltaendx": -58,
+            "deltaendy": -83,
+            "id": "86a2edcf-a35f-4e7a-a476-78dfc23476a8_inport_strain in media_5df955fd-46ef-445a-8030-a9dd6bd84849_outport_strain in media"
+        }
+    },
+    {
+        "props":
+        {
+            "startx": 1537,
+            "starty": 682,
+            "deltastartx": -1249,
+            "deltastarty": -106,
+            "endx": 1292,
+            "endy": 679,
+            "deltaendx": -920,
+            "deltaendy": -104,
+            "id": "1c200cbe-08b0-4371-abe4-a0644905b40c_inport_Yeast Innoculum_37b6b541-e5cf-4dbf-8189-041a64e4de3c_outport_Blank Plate"
+        }
+    },
+    {
+        "props":
+        {
+            "startx": 1611,
+            "starty": 678,
+            "deltastartx": -317,
+            "deltastarty": -290,
+            "endx": 1289,
+            "endy": 682,
+            "deltaendx": -58,
+            "deltaendy": -83,
+            "id": "86a2edcf-a35f-4e7a-a476-78dfc23476a8_inport_strain in media_7b16b55a-04e1-484f-8d4c-889924dd4586_outport_OD measurement",
+            "data":
+            {
+                "_name": "OD measurement",
+                "_type": "type",
+                "_data": null,
+                "_description": "measurement"
+            }
+        }
+    },
+    {
+        "props":
+        {
+            "startx": 1609,
+            "starty": 676,
+            "deltastartx": -58,
+            "deltastarty": -83,
+            "endx": 1287,
+            "endy": 677,
+            "deltaendx": 179,
+            "deltaendy": -313,
+            "id": "fe92ad9e-24ef-43cc-9695-74647ad12c6a_inport_Object_86a2edcf-a35f-4e7a-a476-78dfc23476a8_outport_diluted strain",
+            "data":
+            {
+                "_name": "diluted strain",
+                "_type": "type",
+                "_data": "data",
+                "_description": "diluted strain"
+            }
+        }
+    },
+    {
+        "props":
+        {
+            "startx": 1554,
+            "starty": 683,
+            "deltastartx": 179,
+            "deltastarty": -313,
+            "endx": 1290,
+            "endy": 683,
+            "deltaendx": 418,
+            "deltaendy": -118,
+            "id": "6865d2ec-1af2-4b67-b5f4-4888545a5395_inport_signal_fe92ad9e-24ef-43cc-9695-74647ad12c6a_outport_done signal",
+            "data":
+            {
+                "_name": "done signal",
+                "_data": null,
+                "_description": "done signal"
+            }
+        }
+    },
+    {
+        "props":
+        {
+            "startx": 1602,
+            "starty": 675,
+            "deltastartx": -58,
+            "deltastarty": -83,
+            "endx": 1284,
+            "endy": 701,
+            "deltaendx": 418,
+            "deltaendy": -118,
+            "id": "6865d2ec-1af2-4b67-b5f4-4888545a5395_inport_diluted strain_86a2edcf-a35f-4e7a-a476-78dfc23476a8_outport_diluted strain",
+            "data":
+            {
+                "_name": "diluted strain",
+                "_type": "type",
+                "_data": "data",
+                "_description": "diluted strain"
+            }
+        }
+    },
+    {
+        "props":
+        {
+            "startx": 1551,
+            "starty": 678,
+            "deltastartx": 418,
+            "deltastarty": -118,
+            "endx": 1286,
+            "endy": 673,
+            "deltaendx": 609,
+            "deltaendy": -308,
+            "id": "5b8892bc-78bb-40e4-b434-64d03e0d7ebe_inport_start signal_6865d2ec-1af2-4b67-b5f4-4888545a5395_outport_measurement sample",
+            "data":
+            {
+                "_name": "measurement sample",
+                "_type": "type",
+                "_data": "data",
+                "_description": "measurement sample"
+            }
+        }
+    },
+    {
+        "props":
+        {
+            "startx": 1614,
+            "starty": 699,
+            "deltastartx": 609,
+            "deltastarty": -308,
+            "endx": 1288,
+            "endy": 682,
+            "deltaendx": 916,
+            "deltaendy": -135,
+            "id": "8f0c1bf6-006a-4387-8214-2dad026c6d71_inport_signal_5b8892bc-78bb-40e4-b434-64d03e0d7ebe_outport_signal",
+            "data":
+            {
+                "_name": "signal",
+                "_data": null,
+                "_description": "signal when finished"
+            }
+        }
+    },
+    {
+        "props":
+        {
+            "startx": 1604,
+            "starty": 681,
+            "deltastartx": 609,
+            "deltastarty": -308,
+            "endx": 1287,
+            "endy": 722,
+            "deltaendx": 916,
+            "deltaendy": -135,
+            "id": "8f0c1bf6-006a-4387-8214-2dad026c6d71_inport_OD_5b8892bc-78bb-40e4-b434-64d03e0d7ebe_outport_OD measurement",
+            "data":
+            {
+                "_name": "OD measurement",
+                "_type": "type",
+                "_data": null,
+                "_description": "measurement"
+            }
+        }
+    },
+    {
+        "props":
+        {
+            "startx": 1565,
+            "starty": 681,
+            "deltastartx": 418,
+            "deltastarty": -118,
+            "endx": 1289,
+            "endy": 703,
+            "deltaendx": 916,
+            "deltaendy": -135,
+            "id": "8f0c1bf6-006a-4387-8214-2dad026c6d71_inport_sample_6865d2ec-1af2-4b67-b5f4-4888545a5395_outport_measurement sample",
+            "data":
+            {
+                "_name": "measurement sample",
+                "_type": "type",
+                "_data": "data",
+                "_description": "measurement sample"
+            }
+        }
+    }]
+}

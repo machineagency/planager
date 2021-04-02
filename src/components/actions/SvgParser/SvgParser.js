@@ -36,15 +36,15 @@ export default class SvgParser extends React.Component {
 
     if (ybounds > xbounds) {
       for (const command of path.commands) {
-        // command.x = (command.x / factor) * (xbounds / ybounds);
-        // command.y = command.y / factor;
-        command.x = (command.x / factor) //* (xbounds / ybounds);
+        command.x = (command.x / factor) * (xbounds / ybounds);
         command.y = command.y / factor;
+        // command.x = (command.x / factor) //* (xbounds / ybounds);
+        // command.y = command.y / factor;
       }
     } else {
       for (const command of path.commands) {
         command.x = command.x / factor;
-        command.y = (command.y / factor) //* (xbounds / ybounds);
+        command.y = (command.y / factor) * (xbounds / ybounds);
       }
     }
     return path;
