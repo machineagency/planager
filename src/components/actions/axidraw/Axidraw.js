@@ -19,7 +19,7 @@ export default class Axidraw extends React.Component {
 
     Http.open("PUT", url);
     Http.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-    Http.send(JSON.stringify({ state: 1 }));
+    Http.send(JSON.stringify({ state: 0 }));
 
     Http.onreadystatechange = (e) => {
       this.setState({ penInfo: Http.responseText });
@@ -32,7 +32,7 @@ export default class Axidraw extends React.Component {
 
     Http.open("PUT", url);
     Http.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-    Http.send(JSON.stringify({ state: 0 }));
+    Http.send(JSON.stringify({ state: 1 }));
 
     Http.onreadystatechange = (e) => {
       this.setState({ penInfo: Http.responseText });

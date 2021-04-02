@@ -27,7 +27,7 @@ export default class SvgToAxidraw extends React.Component {
 
     Http.open("PUT", url);
     Http.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-    Http.send(JSON.stringify({ state: 1 }));
+    Http.send(JSON.stringify({ state: 0 }));
 
     Http.onreadystatechange = (e) => {
       this.setState({ buffer: this.state.buffer.slice(1) });
@@ -41,7 +41,7 @@ export default class SvgToAxidraw extends React.Component {
 
     Http.open("PUT", url);
     Http.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-    Http.send(JSON.stringify({ state: 0 }));
+    Http.send(JSON.stringify({ state: 1 }));
 
     Http.onreadystatechange = (e) => {
       this.setState({ buffer: this.state.buffer.slice(1) });
@@ -70,6 +70,13 @@ export default class SvgToAxidraw extends React.Component {
     let commandList = [];
 
     for (const command of scaled) {
+      let lastCommand;
+      if (commandList.length) {
+        lastCommand = commandList[commandList.length - 1];
+      } else {
+        lastCommand = { x: 0, y: 0};
+      }
+
       switch (command.type) {
         case SVGPathData.LINE_TO:
           commandList.push({
@@ -79,6 +86,7 @@ export default class SvgToAxidraw extends React.Component {
           });
           break;
         case SVGPathData.MOVE_TO:
+          if (lastCommand.x === command.x && lastCommand.y === command.y) break;
           commandList.push({ type: "up" });
           commandList.push({
             type: "move",
