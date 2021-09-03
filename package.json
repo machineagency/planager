@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack --progress --config webpack.config.js",
     "dev-build": "webpack --progress --config webpack.config.js",
-    "watch": "webpack --progress --config webpack.config.js --watch"
+    "watch": "webpack --progress --config webpack.config.js --watch",
+    "postinstall": "npm run build"
   },
   "author": "Hannah Twigg-Smith",
   "license": "MIT",
