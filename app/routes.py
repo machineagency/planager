@@ -5,12 +5,20 @@ from . import app
 
 @app.get("/")
 def home():
+    """
+    Index route for the planager.
+
+    Returns:
+        [template]: index.html template
+    """
     return render_template("index.html")
 
 
 @app.get("/input")
 def handleInput():
-    """Endpoint for handling input to the frontend."""
+    """
+    Handles input to the planager.
+    """
     print("input")
     return
 
@@ -42,12 +50,21 @@ def updateCoords():
 
 @app.post("/uploadPlan")
 def uploadPlan():
+    """
+    Adds a plan to the session.
+
+    Returns:
+        Dict: contains ok message
+    """
     session["plan"] = request.get_json()
     return "OK"
 
 
 @app.get("/clearPlan")
 def clearPlan():
+    """
+    Removes the plan from the current session.
+    """
     session["plan"] = None
     return
 
