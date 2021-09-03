@@ -1,4 +1,6 @@
 {
-    "editor.formatOnPaste": true,
-    "editor.minimap.enabled": false
+    "prettier.jsxBracketSameLine": true,
+    "editor.formatOnSave": true,
+    "prettier.useEditorConfig": false,
+    "prettier.vueIndentScriptAndStyle": true
 }
