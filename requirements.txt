@@ -10,7 +10,6 @@ Jinja2==3.0.1
 lxml==4.6.3
 MarkupSafe==2.0.1
 plotink==1.2.4
-pyaxidraw==2.7.5
 pyserial==3.5
 requests==2.26.0
 urllib3==1.26.6
