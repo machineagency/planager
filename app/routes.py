@@ -1,10 +1,6 @@
 from flask import request, render_template, session
 
-# from flask_session import Session
-
 from . import app
-
-# server_session = Session(app)
 
 
 @app.get("/")
@@ -29,13 +25,13 @@ def updateCoords():
 
 @app.post("/uploadPlan")
 def uploadPlan():
-    session["plan"] = request.get_json()
+    # session["plan"] = request.get_json()
     return "OK"
 
 
 @app.get("/clearPlan")
 def clearPlan():
-    session["plan"] = None
+    # session["plan"] = None
     return
 
 
