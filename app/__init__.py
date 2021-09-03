@@ -22,10 +22,10 @@ app.register_blueprint(paml_blueprint, url_prefix="/paml")
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 # Configure Redis for storing the session data on the server-side
-app.config["SESSION_TYPE"] = "redis"
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_USE_SIGNER"] = True
-app.config["SESSION_REDIS"] = redis.from_url("redis://localhost:6379")
+# app.config["SESSION_TYPE"] = "redis"
+# app.config["SESSION_PERMANENT"] = False
+# app.config["SESSION_USE_SIGNER"] = True
+# app.config["SESSION_REDIS"] = redis.from_url("redis://localhost:6379")
 
 # Create and initialize the Flask-Session object. Allows for server-side sessions, rather than Flask's default client-side sessions
-server_session = Session(app)
+# server_session = Session(app)
