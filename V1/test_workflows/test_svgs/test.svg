@@ -1,7 +1,0 @@
-<?xml version="1.0" standalone="no"?>
-<svg width="4cm" height="4cm" viewBox="0 0 100 100"
-     xmlns="http://www.w3.org/2000/svg" version="1.1">
-  <desc>A path that draws a triangle</desc>
-  <path d="M 50 50 L 20 20 L 40 30 z" style="stroke:#000000;stroke-width:0.936231;stroke-miterlimit:4;stroke-dasharray:none" fill="none"/>
-  <path d="M 40 60 L 20 90 L 90 10 z" style="stroke:#000000;stroke-width:0.936231;stroke-miterlimit:4;stroke-dasharray:none" fill="none"/>
-</svg>
