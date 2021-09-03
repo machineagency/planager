@@ -1,0 +1,82 @@
+/* Base styles for the planager */
+
+/* Solarized color variables. */
+:root {
+  --base03: #002b36;
+  --base02: #073642;
+  --base01: #586e75;
+  --base00: #657b83;
+  --base0: #839496;
+  --base1: #93a1a1;
+  --base2: #eee8d5;
+  --base3: #fdf6e3;
+  --yellow: #b58900;
+  --orange: #cb4b16;
+  --red: #dc322f;
+  --magenta: #d33682;
+  --violet: #6c71c4;
+  --violetHover: #444779;
+  --blue: #268bd2;
+  --cyan: #2aa198;
+  --green: #859900;
+  --greenHover: #647300;
+}
+
+body {
+  margin: 0;
+  font-family: monospace;
+  overflow: hidden;
+  background-color: var(--base3);
+}
+
+/* Toolbar Styles */
+#toolbarContainer {
+  z-index: 100;
+  width: 100%;
+  background-color: var(--base03);
+}
+
+#toolbarTitle {
+  font-weight: bold;
+  font-size: 32px;
+  cursor: default;
+  font-family: sans-serif;
+  color: var(--base3);
+  display: inline-block;
+  margin: 5px 10px;
+}
+
+/* For making text unselectable */
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* The normal html file input element is really ugly so we don't show it and make our own. */
+input[type="file"] {
+  display: none;
+}
+
+.toolbarButton {
+  font-size: 18px;
+  font-family: inherit;
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px;
+  vertical-align: bottom;
+  background-color: var(--base3);
+  border: None;
+}
+
+.toolbarButton:hover {
+  background-color: var(--cyan);
+}
+
+.react-draggable,
+.cursor {
+  cursor: move;
+}

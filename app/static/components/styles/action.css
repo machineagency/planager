@@ -1,0 +1,89 @@
+#action {
+  /* height: 200px;
+    width: 200px; */
+  background-color: var(--base1);
+}
+
+/* Top-level styling for the grid container. */
+.actionGridContainer {
+  position: absolute;
+  display: grid;
+  grid-auto-columns: auto;
+}
+
+/* Styling for the action top toolbar */
+.actionToolbarContainer {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.removeActionButton {
+  float: right;
+  background-color: var(--base01);
+  border: none;
+  padding: 0;
+}
+
+.removeActionButton:hover {
+  background-color: var(--red);
+  cursor: pointer;
+  color: white;
+}
+
+.closeIcon {
+  display: block;
+  font-size: 14px;
+}
+
+/* Styling for the action content */
+.mainActionContainer {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.actionTitle {
+  padding: 3px 10px;
+  background-color: var(--green);
+  color: var(--base3);
+  font-weight: bolder;
+  display: block;
+  width: auto;
+}
+
+.actionContent {
+  cursor: default;
+  background-color: var(--base1);
+  display: block;
+  width: 100%;
+}
+
+/* Styling for the ports */
+.leftPortsContainer {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.rightPortsContainer {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.leftPorts {
+  float: right;
+  cursor: default;
+}
+
+.rightPorts {
+  float: left;
+  cursor: default;
+}
+
+.port {
+  height: 20px;
+  width: 20px;
+  background-color: var(--base01);
+}
+
+.port:hover {
+  background-color: var(--base02);
+}

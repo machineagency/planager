@@ -1,24 +1,18 @@
-# The Planager
+# Planager
 
-![](docs/evolution/2021_03_03.png)
+## Installation
 
-The Planager is a flow-based, end-user programming environment that allows you to create workflows that span digital, physical, and human domains. Here is an example workflow for scintillation with a tool-changing Jubilee CNC that is configured for pipetting:
+1. Clone and download this repository. Create a new python virtual environment in the top-level directory: ```python -m venv .venv```. This makes development and managing dependencies MUCH easier; I always recommend working within virtual environments for Python development. To activate your environment, run the activation script: ```source .venv/bin/activate```.
+2. Inside your environment, run ```pip install -r requirements.txt``` to install the python requirements.
+3. In ```app/static```, run ```npm install``` to install frontend requirements from package.json. This will create ```package-lock.json``` and the ```node_modules``` directory, which are both included in the ```.gitignore```.
+4. That's it!
 
-![](docs/evolution/2020_12_4.png)
+## Run
 
-Here is an example workflow for incrementing a counter:
-![](docs/evolution/2020_12_14.png)
+1. To start the flask server, run ```python app/webapp.py```.
+2. To start frontend server: navigate to ```app/static``` and run ```npm run watch```.
 
+## Development
 
-## Get started
-
-To run the planager, first ensure you have the latest version of [node](https://nodejs.org/en/) installed before starting. Clone and download this repo. Ensure you're running the latest version of npm: `npm update -g`. In the top-level directory, run `sudo npm install`. This will install all of the dependencies, which are listed in `package.json`. The dependencies are installed to `/node_modules`, which is in the `.gitignore` so it will not be committed to github.
-
-## To Run the App
-
-Run `npm start` in the top directory. This will initialize the development server and open the app in your browser. It is constantly watching for changes to the code, so every time you save it will refresh the page. Handy!
-
-## Helpful Resources
-
-- React developer tools (for [Firefox](https://addons.mozilla.org/en-US/firefox/addon/react-devtools/) or [Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)) are very comprehensive and great for development.
-- To understand more about how React works, I recommend going through their [Tic Tac Toe tutorial](https://reactjs.org/tutorial/tutorial.html).
+1. Create a virtual environment if you haven't already! I like to name mine ```.venv```. It is included in the ```.gitignore``` because any developer can recreate it on their machine. IDEs such as VScode can automatically source the python interpreter from your virtual environment. I had installed the most up-to-date version of Python in mine at time of writing, which was 3.9.6.
+2. To record any additional Python libraries that you may have installed, run ```pip freeze > requirements.txt``` to update the requirements file. Ensure you are working within your virtual environment, otherwise this command with include all of the packages installed globally on your system!
