@@ -21,4 +21,4 @@
 
  I have deployed this app on Heroku. There are a few gotchas:
  Ensure that the appropriate buildpacks are added. Heroku will automatically detect and use the python buildpack, but the nodejs buildpack needs to run first in order to call "npm run build" (specified in the package.json postinstall script) and create the bundle.js file.
- To push a build to Heroku, run ```git push heroku master```. To then open the app in browser, run ```heroku open```.
+ To push a build to Heroku, run ```git push heroku main```. To then open the app in browser, run ```heroku open```.

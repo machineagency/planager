@@ -5,8 +5,6 @@ from . import app
 
 @app.get("/")
 def home():
-    # if 'plan' in session:
-    #     return session["plan"]
     return render_template("index.html")
 
 
@@ -17,6 +15,19 @@ def handleInput():
     return
 
 
+@app.get("/getplan")
+def loadPlan():
+    """
+    Checks to see if there is a plan in the session. If not, creates and returns a new plan.
+
+    Returns:
+        JSON: The JSON specification for the planager plan.
+    """
+    if "plan" in session:
+        return session["plan"]
+    return {}
+
+
 @app.post("/updateCoords")
 def updateCoords():
     print(request.get_json())
@@ -25,13 +36,13 @@ def updateCoords():
 
 @app.post("/uploadPlan")
 def uploadPlan():
-    # session["plan"] = request.get_json()
+    session["plan"] = request.get_json()
     return "OK"
 
 
 @app.get("/clearPlan")
 def clearPlan():
-    # session["plan"] = None
+    session["plan"] = None
     return
 
 
