@@ -57,7 +57,7 @@ def uploadPlan():
         Dict: contains ok message
     """
     session["plan"] = request.get_json()
-    return "OK"
+    return {"message": "OK"}
 
 
 @app.get("/clearPlan")

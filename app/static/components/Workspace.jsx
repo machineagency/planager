@@ -28,12 +28,7 @@ export default class Workspace extends React.Component {
       })
         .then((res) => res.json())
         .then((result) => {
-          this.setState(
-            {
-              plan: result,
-            },
-            this.updatePlan
-          );
+          console.log(result)
         });
     };
 
