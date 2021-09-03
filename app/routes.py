@@ -30,6 +30,12 @@ def loadPlan():
 
 @app.post("/updateCoords")
 def updateCoords():
+    """
+    Updates the xy coordinates of an action on the Planager canvas.
+
+    Returns:
+        dictionary: a dictionary containing a message
+    """
     print(request.get_json())
     return {"message": "success"}
 
@@ -48,5 +54,10 @@ def clearPlan():
 
 @app.get("/actions")
 def actions():
-    # Should return a dictionary of packages with their included actions
+    """
+    Endpoint for retreiving the available actions.
+
+    Returns:
+        [dict]: A dictionary containing the available actions.
+    """
     return {}
