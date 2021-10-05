@@ -1,0 +1,1868 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="6in"
+   height="4in"
+   viewBox="0 0 152.4 101.6"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="axidraw_grid_connections.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="4.6536458"
+     inkscape:cx="283.59485"
+     inkscape:cy="192"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="in"
+     inkscape:window-width="3840"
+     inkscape:window-height="2081"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:snap-to-guides="false" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-195.39998)">
+    <g
+       style="fill:none;stroke:#000000;stroke-width:0.5"
+       id="g2287"
+       transform="translate(1.2,196.19998)">
+      <polyline
+         id="polyline935"
+         points="14.25 17.375 12.0 17.375 12.0 21.875 14.25 21.875 14.25 19.625 16.5 19.625 16.5 17.375"
+         style="fill:none" />
+      <polyline
+         id="polyline937"
+         points="16.5 19.625 16.5 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline939"
+         points="18.75 17.375 21.0 17.375 21.0 19.625 18.75 19.625 18.75 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline941"
+         points="21.0 17.375 23.25 17.375 23.25 21.875 21.0 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline943"
+         points="25.5 17.375 25.5 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline945"
+         points="25.5 19.625 30.0 19.625 30.0 21.875 27.75 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline947"
+         points="30.0 17.375 27.75 17.375 27.75 19.625"
+         style="fill:none" />
+      <polyline
+         id="polyline949"
+         points="32.25 17.375 36.75 17.375 36.75 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline951"
+         points="32.25 19.625 36.75 19.625"
+         style="fill:none" />
+      <polyline
+         id="polyline953"
+         points="34.5 19.625 34.5 21.875 32.25 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline955"
+         points="39.0 17.375 39.0 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline957"
+         points="39.0 19.625 43.5 19.625 43.5 17.375"
+         style="fill:none" />
+      <polyline
+         id="polyline959"
+         points="41.25 17.375 41.25 21.875 43.5 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline961"
+         points="45.75 17.375 50.25 17.375 50.25 21.875 48.0 21.875 48.0 19.625 45.75 19.625 45.75 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline963"
+         points="52.5 17.375 52.5 19.625 54.75 19.625 54.75 17.375"
+         style="fill:none" />
+      <polyline
+         id="polyline965"
+         points="52.5 19.625 52.5 21.875 57.0 21.875 57.0 17.375"
+         style="fill:none" />
+      <polyline
+         id="polyline967"
+         points="59.25 21.875 61.5 21.875 61.5 19.625 59.25 19.625 59.25 17.375 63.75 17.375 63.75 19.625"
+         style="fill:none" />
+      <polyline
+         id="polyline969"
+         points="61.5 21.875 63.75 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline971"
+         points="66.0 21.875 66.0 17.375 68.25 17.375 68.25 21.875 70.5 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline973"
+         points="68.25 19.625 70.5 19.625 70.5 17.375"
+         style="fill:none" />
+      <polyline
+         id="polyline975"
+         points="77.25 17.375 72.75 17.375 72.75 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline977"
+         points="75.0 17.375 75.0 19.625 77.25 19.625 77.25 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline979"
+         points="75.0 19.625 75.0 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline981"
+         points="79.5 17.375 79.5 19.625 84.0 19.625 84.0 17.375 81.75 17.375"
+         style="fill:none" />
+      <polyline
+         id="polyline983"
+         points="81.75 19.625 81.75 21.875 79.5 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline985"
+         points="84.0 19.625 84.0 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline987"
+         points="86.25 17.375 86.25 21.875 90.75 21.875 90.75 19.625 88.5 19.625 88.5 17.375 90.75 17.375"
+         style="fill:none" />
+      <polyline
+         id="polyline989"
+         points="95.25 17.375 93.0 17.375 93.0 19.625 97.5 19.625 97.5 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline991"
+         points="95.25 19.625 95.25 21.875 93.0 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline993"
+         points="97.5 19.625 97.5 17.375"
+         style="fill:none" />
+      <polyline
+         id="polyline995"
+         points="99.75 17.375 104.25 17.375 104.25 19.625 99.75 19.625 99.75 21.875 104.25 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline997"
+         points="111.0 17.375 106.5 17.375 106.5 19.625 111.0 19.625 111.0 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline999"
+         points="106.5 19.625 106.5 21.875 108.75 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1001"
+         points="113.25 17.375 113.25 19.625 115.5 19.625 115.5 21.875 113.25 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1003"
+         points="115.5 17.375 115.5 19.625 117.75 19.625 117.75 17.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1005"
+         points="117.75 19.625 117.75 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1007"
+         points="120.0 19.625 120.0 17.375 122.25 17.375 122.25 21.875 124.5 21.875 124.5 17.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1009"
+         points="122.25 21.875 120.0 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1011"
+         points="126.75 17.375 129.0 17.375 129.0 19.625 131.25 19.625 131.25 21.875 126.75 21.875 126.75 19.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1013"
+         points="131.25 19.625 131.25 17.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1015"
+         points="133.5 21.875 133.5 17.375 135.75 17.375 135.75 19.625 138.0 19.625 138.0 17.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1017"
+         points="138.0 19.625 138.0 21.875 135.75 21.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1019"
+         points="12.0 24.125 16.5 24.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1021"
+         points="14.25 24.125 14.25 26.375 16.5 26.375 16.5 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1023"
+         points="14.25 26.375 12.0 26.375 12.0 28.625 14.25 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1025"
+         points="23.25 24.125 21.0 24.125 21.0 28.625 23.25 28.625 23.25 26.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1027"
+         points="21.0 24.125 18.75 24.125 18.75 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1029"
+         points="27.75 24.125 25.5 24.125 25.5 26.375 27.75 26.375 27.75 28.625 30.0 28.625 30.0 24.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1031"
+         points="25.5 26.375 25.5 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1033"
+         points="32.25 24.125 32.25 28.625 34.5 28.625 34.5 26.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1035"
+         points="34.5 24.125 36.75 24.125 36.75 28.625 34.5 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1037"
+         points="39.0 24.125 39.0 28.625 41.25 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1039"
+         points="39.0 26.375 41.25 26.375 41.25 24.125 43.5 24.125 43.5 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1041"
+         points="45.75 24.125 50.25 24.125 50.25 26.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1043"
+         points="48.0 24.125 48.0 26.375 45.75 26.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1045"
+         points="48.0 26.375 48.0 28.625 50.25 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1047"
+         points="48.0 28.625 45.75 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1049"
+         points="52.5 24.125 54.75 24.125 54.75 26.375 57.0 26.375 57.0 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1051"
+         points="52.5 28.625 52.5 26.375 54.75 26.375 54.75 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1053"
+         points="57.0 26.375 57.0 24.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1055"
+         points="59.25 28.625 59.25 26.375 61.5 26.375 61.5 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1057"
+         points="59.25 26.375 59.25 24.125 63.75 24.125 63.75 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1059"
+         points="66.0 24.125 66.0 28.625 68.25 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1061"
+         points="66.0 26.375 68.25 26.375 68.25 24.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1063"
+         points="68.25 26.375 70.5 26.375 70.5 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1065"
+         points="70.5 26.375 70.5 24.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1067"
+         points="72.75 28.625 72.75 24.125 75.0 24.125 75.0 26.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1069"
+         points="75.0 24.125 77.25 24.125 77.25 28.625 75.0 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1071"
+         points="84.0 24.125 79.5 24.125 79.5 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1073"
+         points="79.5 26.375 81.75 26.375 81.75 28.625 84.0 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1075"
+         points="81.75 26.375 84.0 26.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1077"
+         points="86.25 28.625 86.25 24.125 90.75 24.125 90.75 26.375 88.5 26.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1079"
+         points="90.75 26.375 90.75 28.625 88.5 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1081"
+         points="93.0 24.125 93.0 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1083"
+         points="93.0 26.375 97.5 26.375 97.5 24.125 95.25 24.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1085"
+         points="95.25 26.375 95.25 28.625 97.5 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1087"
+         points="99.75 24.125 99.75 28.625 104.25 28.625 104.25 26.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1089"
+         points="99.75 26.375 102.0 26.375 102.0 24.125 104.25 24.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1091"
+         points="111.0 24.125 108.75 24.125 108.75 26.375 111.0 26.375 111.0 28.625 108.75 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1093"
+         points="108.75 24.125 106.5 24.125 106.5 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1095"
+         points="113.25 24.125 113.25 28.625 115.5 28.625 115.5 24.125 117.75 24.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1097"
+         points="115.5 26.375 117.75 26.375 117.75 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1099"
+         points="120.0 24.125 124.5 24.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1101"
+         points="122.25 24.125 122.25 26.375 124.5 26.375 124.5 28.625 120.0 28.625 120.0 26.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1103"
+         points="126.75 24.125 126.75 28.625 129.0 28.625 129.0 26.375 131.25 26.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1105"
+         points="131.25 24.125 129.0 24.125 129.0 26.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1107"
+         points="129.0 28.625 131.25 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1109"
+         points="135.75 24.125 133.5 24.125 133.5 26.375 135.75 26.375 135.75 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1111"
+         points="133.5 26.375 133.5 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1113"
+         points="135.75 26.375 138.0 26.375 138.0 24.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1115"
+         points="138.0 26.375 138.0 28.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1117"
+         points="12.0 30.875 14.25 30.875 14.25 33.125 16.5 33.125 16.5 30.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1119"
+         points="12.0 33.125 14.25 33.125 14.25 35.375 16.5 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1121"
+         points="14.25 35.375 12.0 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1123"
+         points="21.0 30.875 18.75 30.875 18.75 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1125"
+         points="18.75 33.125 23.25 33.125 23.25 30.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1127"
+         points="21.0 33.125 21.0 35.375 23.25 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1129"
+         points="25.5 30.875 27.75 30.875 27.75 33.125 25.5 33.125 25.5 35.375 27.75 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1131"
+         points="27.75 33.125 30.0 33.125 30.0 30.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1133"
+         points="30.0 33.125 30.0 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1135"
+         points="36.75 30.875 34.5 30.875 34.5 33.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1137"
+         points="34.5 30.875 32.25 30.875 32.25 35.375 36.75 35.375 36.75 33.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1139"
+         points="39.0 33.125 39.0 30.875 43.5 30.875 43.5 33.125 41.25 33.125 41.25 35.375 43.5 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1141"
+         points="41.25 35.375 39.0 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1143"
+         points="45.75 30.875 50.25 30.875 50.25 33.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1145"
+         points="48.0 30.875 48.0 35.375 50.25 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1147"
+         points="45.75 35.375 45.75 33.125 48.0 33.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1149"
+         points="52.5 30.875 54.75 30.875 54.75 33.125 52.5 33.125 52.5 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1151"
+         points="54.75 30.875 57.0 30.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1153"
+         points="54.75 33.125 57.0 33.125 57.0 35.375 54.75 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1155"
+         points="59.25 30.875 63.75 30.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1157"
+         points="61.5 30.875 61.5 35.375 63.75 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1159"
+         points="59.25 35.375 59.25 33.125 63.75 33.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1161"
+         points="66.0 30.875 66.0 35.375 70.5 35.375 70.5 30.875 68.25 30.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1163"
+         points="68.25 33.125 70.5 33.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1165"
+         points="72.75 33.125 72.75 30.875 77.25 30.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1167"
+         points="75.0 30.875 75.0 33.125 77.25 33.125 77.25 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1169"
+         points="75.0 33.125 75.0 35.375 72.75 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1171"
+         points="79.5 35.375 79.5 33.125 81.75 33.125 81.75 35.375 84.0 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1173"
+         points="79.5 33.125 79.5 30.875 84.0 30.875 84.0 33.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1175"
+         points="86.25 33.125 86.25 30.875 90.75 30.875 90.75 35.375 88.5 35.375 88.5 33.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1177"
+         points="88.5 35.375 86.25 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1179"
+         points="93.0 30.875 95.25 30.875 95.25 33.125 93.0 33.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1181"
+         points="95.25 33.125 95.25 35.375 97.5 35.375 97.5 30.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1183"
+         points="95.25 35.375 93.0 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1185"
+         points="104.25 30.875 99.75 30.875 99.75 35.375 104.25 35.375 104.25 33.125 102.0 33.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1187"
+         points="106.5 30.875 106.5 35.375 108.75 35.375 108.75 33.125 111.0 33.125 111.0 30.875 108.75 30.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1189"
+         points="108.75 35.375 111.0 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1191"
+         points="115.5 33.125 115.5 30.875 113.25 30.875 113.25 35.375 115.5 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1193"
+         points="115.5 30.875 117.75 30.875 117.75 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1195"
+         points="120.0 35.375 120.0 30.875 124.5 30.875 124.5 33.125 122.25 33.125 122.25 35.375 124.5 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1197"
+         points="126.75 35.375 126.75 30.875 131.25 30.875 131.25 33.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1199"
+         points="129.0 30.875 129.0 35.375 131.25 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1201"
+         points="133.5 33.125 133.5 30.875 138.0 30.875 138.0 35.375 133.5 35.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1203"
+         points="135.75 30.875 135.75 33.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1205"
+         points="12.0 37.625 12.0 39.875 14.25 39.875 14.25 42.125 12.0 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1207"
+         points="14.25 39.875 14.25 37.625 16.5 37.625 16.5 39.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1209"
+         points="14.25 42.125 16.5 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1211"
+         points="18.75 37.625 23.25 37.625 23.25 39.875 21.0 39.875 21.0 42.125 18.75 42.125 18.75 39.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1213"
+         points="21.0 42.125 23.25 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1215"
+         points="25.5 37.625 30.0 37.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1217"
+         points="27.75 37.625 27.75 42.125 25.5 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1219"
+         points="25.5 39.875 27.75 39.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1221"
+         points="27.75 42.125 30.0 42.125 30.0 39.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1223"
+         points="36.75 37.625 32.25 37.625 32.25 39.875 34.5 39.875 34.5 42.125 32.25 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1225"
+         points="34.5 42.125 36.75 42.125 36.75 39.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1227"
+         points="39.0 39.875 39.0 37.625 43.5 37.625 43.5 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1229"
+         points="41.25 37.625 41.25 42.125 39.0 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1231"
+         points="45.75 37.625 48.0 37.625 48.0 42.125 45.75 42.125 45.75 39.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1233"
+         points="48.0 39.875 50.25 39.875 50.25 37.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1235"
+         points="50.25 39.875 50.25 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1237"
+         points="52.5 37.625 52.5 39.875 57.0 39.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1239"
+         points="52.5 39.875 52.5 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1241"
+         points="57.0 37.625 54.75 37.625 54.75 42.125 57.0 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1243"
+         points="59.25 37.625 61.5 37.625 61.5 42.125 59.25 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1245"
+         points="61.5 37.625 63.75 37.625 63.75 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1247"
+         points="59.25 39.875 61.5 39.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1249"
+         points="66.0 37.625 68.25 37.625 68.25 42.125 66.0 42.125 66.0 39.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1251"
+         points="68.25 37.625 70.5 37.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1253"
+         points="68.25 39.875 70.5 39.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1255"
+         points="68.25 42.125 70.5 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1257"
+         points="77.25 37.625 72.75 37.625 72.75 42.125 75.0 42.125 75.0 39.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1259"
+         points="75.0 42.125 77.25 42.125 77.25 39.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1261"
+         points="79.5 37.625 79.5 39.875 81.75 39.875 81.75 42.125 79.5 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1263"
+         points="81.75 37.625 84.0 37.625 84.0 42.125 81.75 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1265"
+         points="86.25 37.625 86.25 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1267"
+         points="86.25 39.875 88.5 39.875 88.5 42.125 90.75 42.125 90.75 37.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1269"
+         points="88.5 39.875 88.5 37.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1271"
+         points="93.0 42.125 95.25 42.125 95.25 39.875 93.0 39.875 93.0 37.625 97.5 37.625 97.5 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1273"
+         points="104.25 37.625 99.75 37.625 99.75 42.125 104.25 42.125 104.25 39.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1275"
+         points="99.75 39.875 102.0 39.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1277"
+         points="106.5 37.625 108.75 37.625 108.75 42.125 111.0 42.125 111.0 39.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1279"
+         points="108.75 37.625 111.0 37.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1281"
+         points="106.5 42.125 106.5 39.875 108.75 39.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1283"
+         points="113.25 37.625 113.25 39.875 117.75 39.875 117.75 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1285"
+         points="113.25 39.875 113.25 42.125 115.5 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1287"
+         points="115.5 37.625 117.75 37.625 117.75 39.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1289"
+         points="120.0 37.625 120.0 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1291"
+         points="120.0 39.875 122.25 39.875 122.25 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1293"
+         points="122.25 37.625 124.5 37.625 124.5 39.875 122.25 39.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1295"
+         points="124.5 39.875 124.5 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1297"
+         points="126.75 37.625 129.0 37.625 129.0 39.875 131.25 39.875 131.25 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1299"
+         points="126.75 39.875 129.0 39.875 129.0 42.125 126.75 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1301"
+         points="131.25 39.875 131.25 37.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1303"
+         points="133.5 37.625 133.5 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1305"
+         points="133.5 39.875 135.75 39.875 135.75 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1307"
+         points="138.0 37.625 135.75 37.625 135.75 39.875 138.0 39.875 138.0 42.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1309"
+         points="14.25 44.375 12.0 44.375 12.0 46.625 14.25 46.625 14.25 48.875 12.0 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1311"
+         points="14.25 48.875 16.5 48.875 16.5 44.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1313"
+         points="18.75 44.375 21.0 44.375 21.0 46.625 23.25 46.625 23.25 44.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1315"
+         points="21.0 46.625 18.75 46.625 18.75 48.875 23.25 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1317"
+         points="25.5 44.375 25.5 46.625 27.75 46.625 27.75 44.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1319"
+         points="25.5 46.625 25.5 48.875 30.0 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1321"
+         points="27.75 46.625 30.0 46.625 30.0 44.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1323"
+         points="34.5 44.375 32.25 44.375 32.25 46.625 36.75 46.625 36.75 44.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1325"
+         points="32.25 46.625 32.25 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1327"
+         points="36.75 46.625 36.75 48.875 34.5 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1329"
+         points="39.0 46.625 39.0 44.375 41.25 44.375 41.25 48.875 39.0 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1331"
+         points="41.25 46.625 43.5 46.625 43.5 44.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1333"
+         points="41.25 48.875 43.5 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1335"
+         points="45.75 48.875 45.75 44.375 50.25 44.375 50.25 48.875 48.0 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1337"
+         points="45.75 46.625 48.0 46.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1339"
+         points="54.75 44.375 52.5 44.375 52.5 48.875 57.0 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1341"
+         points="52.5 46.625 57.0 46.625 57.0 44.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1343"
+         points="61.5 46.625 63.75 46.625 63.75 44.375 59.25 44.375 59.25 48.875 61.5 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1345"
+         points="63.75 46.625 63.75 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1347"
+         points="66.0 48.875 66.0 44.375 68.25 44.375 68.25 46.625 70.5 46.625 70.5 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1349"
+         points="68.25 46.625 68.25 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1351"
+         points="70.5 46.625 70.5 44.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1353"
+         points="72.75 44.375 72.75 46.625 75.0 46.625 75.0 44.375 77.25 44.375 77.25 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1355"
+         points="75.0 46.625 75.0 48.875 72.75 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1357"
+         points="79.5 44.375 79.5 48.875 81.75 48.875 81.75 44.375 84.0 44.375 84.0 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1359"
+         points="86.25 46.625 86.25 44.375 90.75 44.375 90.75 46.625 88.5 46.625 88.5 48.875 86.25 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1361"
+         points="90.75 46.625 90.75 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1363"
+         points="93.0 44.375 97.5 44.375 97.5 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1365"
+         points="95.25 44.375 95.25 46.625 93.0 46.625 93.0 48.875 95.25 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1367"
+         points="102.0 46.625 102.0 44.375 99.75 44.375 99.75 48.875 104.25 48.875 104.25 44.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1369"
+         points="106.5 44.375 106.5 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1371"
+         points="106.5 46.625 111.0 46.625 111.0 44.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1373"
+         points="108.75 46.625 108.75 44.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1375"
+         points="111.0 46.625 111.0 48.875 108.75 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1377"
+         points="113.25 48.875 113.25 44.375 115.5 44.375 115.5 48.875 117.75 48.875 117.75 44.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1379"
+         points="120.0 44.375 122.25 44.375 122.25 48.875 124.5 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1381"
+         points="122.25 44.375 124.5 44.375 124.5 46.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1383"
+         points="120.0 46.625 120.0 48.875 122.25 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1385"
+         points="131.25 44.375 129.0 44.375 129.0 46.625 131.25 46.625 131.25 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1387"
+         points="129.0 44.375 126.75 44.375 126.75 48.875 129.0 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1389"
+         points="133.5 44.375 133.5 46.625 138.0 46.625 138.0 48.875 133.5 48.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1391"
+         points="135.75 44.375 138.0 44.375 138.0 46.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1393"
+         points="12.0 51.125 16.5 51.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1395"
+         points="14.25 51.125 14.25 53.375 16.5 53.375 16.5 55.625 12.0 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1397"
+         points="12.0 53.375 14.25 53.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1399"
+         points="18.75 53.375 18.75 51.125 21.0 51.125 21.0 53.375 23.25 53.375 23.25 55.625 18.75 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1401"
+         points="23.25 53.375 23.25 51.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1403"
+         points="25.5 51.125 25.5 55.625 30.0 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1405"
+         points="27.75 51.125 27.75 53.375 30.0 53.375 30.0 51.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1407"
+         points="27.75 53.375 27.75 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1409"
+         points="34.5 51.125 32.25 51.125 32.25 53.375 34.5 53.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1411"
+         points="32.25 53.375 32.25 55.625 36.75 55.625 36.75 51.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1413"
+         points="39.0 51.125 43.5 51.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1415"
+         points="41.25 51.125 41.25 55.625 43.5 55.625 43.5 53.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1417"
+         points="39.0 53.375 39.0 55.625 41.25 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1419"
+         points="45.75 51.125 50.25 51.125 50.25 53.375 45.75 53.375 45.75 55.625 48.0 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1421"
+         points="50.25 53.375 50.25 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1423"
+         points="57.0 51.125 52.5 51.125 52.5 53.375 54.75 53.375 54.75 55.625 57.0 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1425"
+         points="54.75 53.375 57.0 53.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1427"
+         points="54.75 55.625 52.5 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1429"
+         points="59.25 51.125 61.5 51.125 61.5 53.375 59.25 53.375 59.25 55.625 63.75 55.625 63.75 51.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1431"
+         points="66.0 51.125 70.5 51.125 70.5 53.375 66.0 53.375 66.0 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1433"
+         points="68.25 53.375 68.25 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1435"
+         points="70.5 53.375 70.5 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1437"
+         points="72.75 51.125 72.75 53.375 75.0 53.375 75.0 51.125 77.25 51.125 77.25 55.625 72.75 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1439"
+         points="79.5 51.125 84.0 51.125 84.0 55.625 79.5 55.625 79.5 53.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1441"
+         points="81.75 53.375 84.0 53.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1443"
+         points="90.75 51.125 88.5 51.125 88.5 53.375 90.75 53.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1445"
+         points="88.5 51.125 86.25 51.125 86.25 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1447"
+         points="88.5 53.375 88.5 55.625 90.75 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1449"
+         points="93.0 55.625 93.0 51.125 97.5 51.125 97.5 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1451"
+         points="95.25 51.125 95.25 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1453"
+         points="99.75 53.375 99.75 51.125 102.0 51.125 102.0 55.625 99.75 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1455"
+         points="102.0 53.375 104.25 53.375 104.25 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1457"
+         points="104.25 53.375 104.25 51.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1459"
+         points="106.5 51.125 106.5 53.375 108.75 53.375 108.75 51.125 111.0 51.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1461"
+         points="106.5 53.375 106.5 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1463"
+         points="108.75 53.375 108.75 55.625 111.0 55.625 111.0 53.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1465"
+         points="115.5 53.375 113.25 53.375 113.25 55.625 115.5 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1467"
+         points="113.25 53.375 113.25 51.125 117.75 51.125 117.75 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1469"
+         points="124.5 51.125 120.0 51.125 120.0 55.625 124.5 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1471"
+         points="120.0 53.375 124.5 53.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1473"
+         points="129.0 53.375 129.0 55.625 131.25 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1475"
+         points="129.0 55.625 126.75 55.625 126.75 51.125 131.25 51.125 131.25 53.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1477"
+         points="133.5 51.125 135.75 51.125 135.75 53.375 138.0 53.375 138.0 51.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1479"
+         points="133.5 53.375 133.5 55.625 138.0 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1481"
+         points="135.75 53.375 135.75 55.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1483"
+         points="12.0 57.875 12.0 62.375 16.5 62.375 16.5 60.125 14.25 60.125 14.25 57.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1485"
+         points="16.5 60.125 16.5 57.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1487"
+         points="18.75 57.875 18.75 62.375 23.25 62.375 23.25 57.875 21.0 57.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1489"
+         points="18.75 60.125 21.0 60.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1491"
+         points="25.5 57.875 30.0 57.875 30.0 60.125 25.5 60.125 25.5 62.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1493"
+         points="27.75 60.125 27.75 62.375 30.0 62.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1495"
+         points="32.25 60.125 32.25 57.875 36.75 57.875 36.75 60.125 34.5 60.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1497"
+         points="36.75 60.125 36.75 62.375 32.25 62.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1499"
+         points="39.0 57.875 43.5 57.875 43.5 62.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1501"
+         points="41.25 57.875 41.25 62.375 39.0 62.375 39.0 60.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1503"
+         points="45.75 57.875 48.0 57.875 48.0 62.375 45.75 62.375 45.75 60.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1505"
+         points="48.0 62.375 50.25 62.375 50.25 57.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1507"
+         points="52.5 57.875 54.75 57.875 54.75 60.125 52.5 60.125 52.5 62.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1509"
+         points="54.75 60.125 57.0 60.125 57.0 57.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1511"
+         points="57.0 60.125 57.0 62.375 54.75 62.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1513"
+         points="59.25 57.875 59.25 62.375 61.5 62.375 61.5 57.875 63.75 57.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1515"
+         points="61.5 62.375 63.75 62.375 63.75 60.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1517"
+         points="66.0 57.875 68.25 57.875 68.25 60.125 70.5 60.125 70.5 62.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1519"
+         points="68.25 57.875 70.5 57.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1521"
+         points="66.0 60.125 66.0 62.375 68.25 62.375 68.25 60.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1523"
+         points="72.75 57.875 72.75 62.375 77.25 62.375 77.25 57.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1525"
+         points="75.0 57.875 75.0 62.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1527"
+         points="79.5 60.125 79.5 57.875 81.75 57.875 81.75 62.375 79.5 62.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1529"
+         points="81.75 57.875 84.0 57.875 84.0 60.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1531"
+         points="81.75 62.375 84.0 62.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1533"
+         points="86.25 57.875 86.25 60.125 90.75 60.125 90.75 62.375 86.25 62.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1535"
+         points="90.75 57.875 88.5 57.875 88.5 60.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1537"
+         points="93.0 57.875 93.0 62.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1539"
+         points="93.0 60.125 97.5 60.125 97.5 62.375 95.25 62.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1541"
+         points="95.25 57.875 97.5 57.875 97.5 60.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1543"
+         points="104.25 57.875 99.75 57.875 99.75 60.125 104.25 60.125 104.25 62.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1545"
+         points="102.0 60.125 102.0 62.375 99.75 62.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1547"
+         points="108.75 57.875 106.5 57.875 106.5 60.125 108.75 60.125 108.75 62.375 106.5 62.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1549"
+         points="108.75 60.125 111.0 60.125 111.0 57.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1551"
+         points="108.75 62.375 111.0 62.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1553"
+         points="113.25 57.875 113.25 62.375 115.5 62.375 115.5 57.875 117.75 57.875 117.75 60.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1555"
+         points="115.5 62.375 117.75 62.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1557"
+         points="120.0 57.875 120.0 62.375 124.5 62.375 124.5 57.875 122.25 57.875 122.25 60.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1559"
+         points="129.0 60.125 129.0 57.875 126.75 57.875 126.75 62.375 131.25 62.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1561"
+         points="129.0 57.875 131.25 57.875 131.25 60.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1563"
+         points="133.5 57.875 135.75 57.875 135.75 60.125 133.5 60.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1565"
+         points="135.75 60.125 138.0 60.125 138.0 57.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1567"
+         points="138.0 60.125 138.0 62.375 133.5 62.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1569"
+         points="12.0 64.625 12.0 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1571"
+         points="12.0 66.875 14.25 66.875 14.25 64.625 16.5 64.625 16.5 66.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1573"
+         points="14.25 66.875 14.25 69.125 16.5 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1575"
+         points="18.75 64.625 23.25 64.625 23.25 69.125 18.75 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1577"
+         points="18.75 66.875 21.0 66.875 21.0 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1579"
+         points="25.5 64.625 25.5 66.875 27.75 66.875 27.75 64.625 30.0 64.625 30.0 66.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1581"
+         points="25.5 66.875 25.5 69.125 30.0 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1583"
+         points="32.25 64.625 34.5 64.625 34.5 69.125 36.75 69.125 36.75 64.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1585"
+         points="32.25 69.125 32.25 66.875 34.5 66.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1587"
+         points="39.0 66.875 39.0 64.625 41.25 64.625 41.25 69.125 39.0 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1589"
+         points="41.25 64.625 43.5 64.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1591"
+         points="41.25 69.125 43.5 69.125 43.5 66.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1593"
+         points="45.75 64.625 45.75 66.875 48.0 66.875 48.0 64.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1595"
+         points="48.0 66.875 48.0 69.125 45.75 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1597"
+         points="48.0 69.125 50.25 69.125 50.25 64.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1599"
+         points="52.5 64.625 57.0 64.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1601"
+         points="54.75 64.625 54.75 69.125 52.5 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1603"
+         points="52.5 66.875 57.0 66.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1605"
+         points="54.75 69.125 57.0 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1607"
+         points="59.25 64.625 59.25 66.875 63.75 66.875 63.75 64.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1609"
+         points="61.5 64.625 61.5 69.125 59.25 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1611"
+         points="61.5 69.125 63.75 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1613"
+         points="66.0 69.125 66.0 64.625 70.5 64.625 70.5 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1615"
+         points="70.5 66.875 68.25 66.875 68.25 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1617"
+         points="72.75 64.625 77.25 64.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1619"
+         points="75.0 64.625 75.0 66.875 77.25 66.875 77.25 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1621"
+         points="72.75 66.875 75.0 66.875 75.0 69.125 72.75 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1623"
+         points="79.5 64.625 79.5 66.875 81.75 66.875 81.75 64.625 84.0 64.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1625"
+         points="81.75 66.875 81.75 69.125 79.5 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1627"
+         points="81.75 69.125 84.0 69.125 84.0 66.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1629"
+         points="90.75 64.625 86.25 64.625 86.25 66.875 90.75 66.875 90.75 69.125 88.5 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1631"
+         points="86.25 66.875 86.25 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1633"
+         points="93.0 64.625 93.0 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1635"
+         points="93.0 66.875 95.25 66.875 95.25 69.125 97.5 69.125 97.5 64.625 95.25 64.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1637"
+         points="99.75 64.625 104.25 64.625 104.25 66.875 99.75 66.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1639"
+         points="102.0 66.875 102.0 69.125 99.75 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1641"
+         points="102.0 69.125 104.25 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1643"
+         points="106.5 64.625 111.0 64.625 111.0 69.125 106.5 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1645"
+         points="108.75 64.625 108.75 66.875 106.5 66.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1647"
+         points="113.25 64.625 113.25 69.125 115.5 69.125 115.5 66.875 117.75 66.875 117.75 64.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1649"
+         points="115.5 64.625 115.5 66.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1651"
+         points="117.75 66.875 117.75 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1653"
+         points="120.0 64.625 120.0 69.125 122.25 69.125 122.25 66.875 124.5 66.875 124.5 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1655"
+         points="122.25 64.625 124.5 64.625 124.5 66.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1657"
+         points="131.25 64.625 126.75 64.625 126.75 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1659"
+         points="126.75 66.875 131.25 66.875 131.25 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1661"
+         points="129.0 66.875 129.0 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1663"
+         points="133.5 64.625 138.0 64.625 138.0 66.875 133.5 66.875 133.5 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1665"
+         points="138.0 66.875 138.0 69.125 135.75 69.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1667"
+         points="12.0 71.375 12.0 75.875 14.25 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1669"
+         points="12.0 73.625 14.25 73.625 14.25 71.375 16.5 71.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1671"
+         points="14.25 73.625 16.5 73.625 16.5 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1673"
+         points="21.0 71.375 18.75 71.375 18.75 75.875 21.0 75.875 21.0 73.625 23.25 73.625 23.25 71.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1675"
+         points="21.0 75.875 23.25 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1677"
+         points="25.5 71.375 30.0 71.375 30.0 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1679"
+         points="27.75 71.375 27.75 73.625 25.5 73.625 25.5 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1681"
+         points="27.75 73.625 27.75 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1683"
+         points="36.75 71.375 32.25 71.375 32.25 75.875 34.5 75.875 34.5 73.625 36.75 73.625 36.75 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1685"
+         points="39.0 73.625 39.0 71.375 41.25 71.375 41.25 73.625 43.5 73.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1687"
+         points="41.25 71.375 43.5 71.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1689"
+         points="41.25 73.625 41.25 75.875 43.5 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1691"
+         points="41.25 75.875 39.0 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1693"
+         points="48.0 71.375 45.75 71.375 45.75 73.625 50.25 73.625 50.25 71.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1695"
+         points="50.25 73.625 50.25 75.875 45.75 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1697"
+         points="52.5 71.375 54.75 71.375 54.75 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1699"
+         points="54.75 71.375 57.0 71.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1701"
+         points="52.5 75.875 52.5 73.625 57.0 73.625 57.0 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1703"
+         points="61.5 71.375 59.25 71.375 59.25 73.625 63.75 73.625 63.75 71.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1705"
+         points="59.25 73.625 59.25 75.875 61.5 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1707"
+         points="63.75 73.625 63.75 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1709"
+         points="66.0 71.375 66.0 73.625 68.25 73.625 68.25 71.375 70.5 71.375 70.5 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1711"
+         points="66.0 73.625 66.0 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1713"
+         points="68.25 73.625 68.25 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1715"
+         points="72.75 71.375 77.25 71.375 77.25 75.875 72.75 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1717"
+         points="72.75 73.625 77.25 73.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1719"
+         points="84.0 71.375 79.5 71.375 79.5 75.875 84.0 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1721"
+         points="81.75 71.375 81.75 73.625 84.0 73.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1723"
+         points="86.25 71.375 86.25 75.875 90.75 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1725"
+         points="86.25 73.625 90.75 73.625 90.75 71.375 88.5 71.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1727"
+         points="93.0 71.375 93.0 73.625 95.25 73.625 95.25 75.875 93.0 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1729"
+         points="97.5 71.375 95.25 71.375 95.25 73.625 97.5 73.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1731"
+         points="95.25 75.875 97.5 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1733"
+         points="99.75 71.375 102.0 71.375 102.0 73.625 99.75 73.625 99.75 75.875 104.25 75.875 104.25 73.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1735"
+         points="102.0 71.375 104.25 71.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1737"
+         points="106.5 71.375 108.75 71.375 108.75 73.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1739"
+         points="108.75 71.375 111.0 71.375 111.0 75.875 106.5 75.875 106.5 73.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1741"
+         points="113.25 71.375 113.25 73.625 115.5 73.625 115.5 71.375 117.75 71.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1743"
+         points="113.25 73.625 113.25 75.875 117.75 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1745"
+         points="115.5 73.625 117.75 73.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1747"
+         points="122.25 71.375 120.0 71.375 120.0 75.875 124.5 75.875 124.5 71.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1749"
+         points="122.25 73.625 124.5 73.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1751"
+         points="126.75 75.875 126.75 71.375 131.25 71.375 131.25 75.875 129.0 75.875 129.0 73.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1753"
+         points="138.0 71.375 133.5 71.375 133.5 75.875 138.0 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1755"
+         points="138.0 73.625 135.75 73.625 135.75 75.875"
+         style="fill:none" />
+      <polyline
+         id="polyline1757"
+         points="12.0 78.125 16.5 78.125 16.5 82.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1759"
+         points="12.0 80.375 12.0 82.625 14.25 82.625 14.25 80.375 16.5 80.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1761"
+         points="23.25 78.125 23.25 80.375 21.0 80.375 21.0 78.125 18.75 78.125 18.75 82.625 23.25 82.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1763"
+         points="25.5 80.375 25.5 78.125 30.0 78.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1765"
+         points="27.75 78.125 27.75 80.375 30.0 80.375 30.0 82.625 25.5 82.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1767"
+         points="32.25 78.125 32.25 80.375 34.5 80.375 34.5 82.625 32.25 82.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1769"
+         points="34.5 78.125 36.75 78.125 36.75 80.375 34.5 80.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1771"
+         points="34.5 82.625 36.75 82.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1773"
+         points="41.25 80.375 41.25 82.625 39.0 82.625 39.0 78.125 43.5 78.125 43.5 82.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1775"
+         points="50.25 78.125 45.75 78.125 45.75 80.375 50.25 80.375 50.25 82.625 45.75 82.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1777"
+         points="54.75 80.375 57.0 80.375 57.0 78.125 52.5 78.125 52.5 82.625 57.0 82.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1779"
+         points="59.25 78.125 59.25 80.375 61.5 80.375 61.5 78.125 63.75 78.125 63.75 82.625 61.5 82.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1781"
+         points="59.25 80.375 59.25 82.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1783"
+         points="66.0 78.125 70.5 78.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1785"
+         points="68.25 78.125 68.25 80.375 70.5 80.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1787"
+         points="68.25 80.375 66.0 80.375 66.0 82.625 70.5 82.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1789"
+         points="75.0 80.375 72.75 80.375 72.75 78.125 77.25 78.125 77.25 80.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1791"
+         points="72.75 80.375 72.75 82.625 77.25 82.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1793"
+         points="81.75 78.125 79.5 78.125 79.5 82.625 81.75 82.625 81.75 80.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1795"
+         points="81.75 82.625 84.0 82.625 84.0 78.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1797"
+         points="90.75 78.125 86.25 78.125 86.25 82.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1799"
+         points="86.25 80.375 88.5 80.375 88.5 82.625 90.75 82.625 90.75 80.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1801"
+         points="93.0 78.125 93.0 82.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1803"
+         points="93.0 80.375 97.5 80.375 97.5 78.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1805"
+         points="95.25 78.125 95.25 82.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1807"
+         points="97.5 80.375 97.5 82.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1809"
+         points="102.0 82.625 99.75 82.625 99.75 78.125 102.0 78.125 102.0 80.375 104.25 80.375 104.25 82.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1811"
+         points="104.25 80.375 104.25 78.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1813"
+         points="106.5 78.125 111.0 78.125 111.0 82.625 106.5 82.625 106.5 80.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1815"
+         points="108.75 80.375 108.75 82.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1817"
+         points="113.25 78.125 113.25 80.375 115.5 80.375 115.5 78.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1819"
+         points="115.5 80.375 117.75 80.375 117.75 82.625 113.25 82.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1821"
+         points="117.75 80.375 117.75 78.125"
+         style="fill:none" />
+      <polyline
+         id="polyline1823"
+         points="120.0 78.125 124.5 78.125 124.5 80.375"
+         style="fill:none" />
+      <polyline
+         id="polyline1825"
+         points="122.25 78.125 122.25 80.375 120.0 80.375 120.0 82.625 124.5 82.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1827"
+         points="129.0 80.375 126.75 80.375 126.75 78.125 131.25 78.125 131.25 82.625 126.75 82.625"
+         style="fill:none" />
+      <polyline
+         id="polyline1829"
+         points="133.5 78.125 138.0 78.125 138.0 82.625 133.5 82.625 133.5 80.375 135.75 80.375"
+         style="fill:none" />
+    </g>
+  </g>
+  <WCB
+     application="Axidraw"
+     row="0"
+     randseed="0"
+     pausedposy="0"
+     pausedposx="0"
+     lastknownposy="0"
+     lastknownposx="0"
+     lastpathnc="0"
+     lastpath="0"
+     node="0"
+     layer="0" />
+</svg>
