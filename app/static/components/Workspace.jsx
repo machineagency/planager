@@ -27,11 +27,12 @@ export default class Workspace extends React.Component {
         body: JSON.stringify(workflow),
       })
         .then((res) => res.json())
+        // Todo: check for plan correctness in the backend and return the appropriate code
         .then((result) => {
           console.log(result)
+          this.setState({ plan: workflow }, this.updatePlan);
         });
     };
-
     reader.readAsText(event.target.files[0]);
   }
   updatePlan() {
@@ -51,17 +52,17 @@ export default class Workspace extends React.Component {
   }
   render() {
     return (
-      <div id="container">
-        <div id="toolbarContainer">
-          <div id="toolbarTitle" className="unselectable">
+      <div id='container'>
+        <div id='toolbarContainer'>
+          <div id='toolbarTitle' className='unselectable'>
             Planager
           </div>
-          <label className="toolbarButton" title="Load plan">
+          <label className='toolbarButton' title='Load plan'>
             Upload Plan
-            <input type="file" onChange={this.uploadPlan.bind(this)} />
+            <input type='file' onChange={this.uploadPlan.bind(this)} />
           </label>
         </div>
-        <div id="workflowCanvas">{this.state.actions}</div>
+        <div id='workflowCanvas'>{this.state.actions}</div>
       </div>
     );
   }
