@@ -1,4 +1,5 @@
 from flask import request, render_template, session
+from inspect import issubclass
 
 from . import app
 

@@ -11,7 +11,19 @@ export default class Workspace extends React.Component {
       plan: "undefined",
       actions: [],
       links: [],
+      blocks: [
+        "Condition",
+        "ForEach",
+        "Exception",
+        "LogicalAnd",
+        "LogicalOr",
+        "LogicalNot",
+        "LogicalXor",
+        "Integer",
+        "Boolean"
+      ],
     };
+    // TODO: Make a request to get the available blocks
   }
   uploadPlan(event) {
     var reader = new FileReader();
@@ -29,7 +41,7 @@ export default class Workspace extends React.Component {
         .then((res) => res.json())
         // Todo: check for plan correctness in the backend and return the appropriate code
         .then((result) => {
-          console.log(result)
+          console.log(result);
           this.setState({ plan: workflow }, this.updatePlan);
         });
     };
