@@ -1,7 +1,6 @@
 from flask import request, render_template, session
-from inspect import issubclass
 
-from . import app
+from . import app, blocks
 
 
 @app.get("/")
@@ -21,6 +20,7 @@ def handleInput():
     Handles input to the planager.
     """
     print("input")
+    
     return
 
 
@@ -78,4 +78,5 @@ def actions():
     Returns:
         [dict]: A dictionary containing the available actions.
     """
-    return {}
+    print(blocks)
+    return {"blocks": blocks}
