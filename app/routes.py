@@ -1,6 +1,6 @@
 from flask import request, render_template, session
 
-from . import app, blocks
+from . import app, action_Dict
 
 
 @app.get("/")
@@ -70,13 +70,12 @@ def clearPlan():
     return
 
 
-@app.get("/actions")
-def actions():
+@app.get("/getActions")
+def getActions():
     """
     Endpoint for retreiving the available actions.
 
     Returns:
-        [dict]: A dictionary containing the available actions.
+        [dict]: A dictionary containing a list of the available actions.
     """
-    print(blocks)
-    return {"blocks": blocks}
+    return {"actions": action_Dict}

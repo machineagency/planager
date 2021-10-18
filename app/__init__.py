@@ -2,6 +2,7 @@ import redis
 import os
 import fnmatch
 import inspect
+import platform
 
 from flask import Flask
 from flask_session import Session
@@ -24,26 +25,30 @@ app.register_blueprint(math_blueprint, url_prefix="/math")
 app.register_blueprint(paml_blueprint, url_prefix="/paml")
 
 
-# Create a tree of planager packages and blocks
-blocks = []
+# Create a list of planager packages and actions and import them
+# Actions must inherit from the Action base class in order to be imported
+
+action_Dict = {}
 package_dir = "./app/planager/packages"
+operating_system = platform.system()
+print(operating_system)
 
 # Use os to walk the packages directory
 for root, directories, files in os.walk(package_dir, topdown=True):
     for file in files:
         # Look for all the python files
-        if fnmatch.fnmatch(file, '*.py'):
-            full_path = os.path.normpath(os.path.join(root,file))
+        if fnmatch.fnmatch(file, "*.py"):
+            full_path = os.path.normpath(os.path.join(root, file))
             module_filename, _ = os.path.splitext(os.path.split(full_path)[1])
             # Remove any __init__.py files
             if module_filename == "__init__":
                 continue
-            
+
             # Create the module path by replacing slashes with periods
             module_path = os.path.splitext(full_path)[0].replace("\\", ".")
             module = import_module(module_path)
 
-            # Build the list of blocks
+            # Build the list of actions
             try:
                 # Get the members of the module
                 for name, obj in inspect.getmembers(module):
@@ -51,8 +56,12 @@ for root, directories, files in os.walk(package_dir, topdown=True):
                     if inspect.isclass(obj):
                         # Check if it is a subclass of Action
                         if issubclass(obj, Action):
-                            # Append to the blocks list
-                            blocks.append(module_filename)
+                            # Append to the actions list
+                            if name != "Action":
+                                action_Dict[module_filename] = {
+                                    "name": name,
+                                    "module": obj.__module__
+                                }
             except:
                 continue
 
@@ -68,8 +77,8 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_USE_SIGNER"] = True
 app.config["SESSION_REDIS"] = redis.from_url(redis_url)
 
-# Create and initialize the Flask-Session object. Flask-Session is a flask
-# extension that adds support for server-side sessions, rather than Flask's
+# Create and initialize the Flask-Session object.
+# NOTE: Flask-Session is a flask extension that adds support for server-side sessions, rather than Flask's
 # default client-side sessions. Don't ever access the Session object
 # directly; just use the built in Flask session interface.
 app.config["SESSION_COOKIE_SECURE"] = True
