@@ -11,19 +11,19 @@ export default class Workspace extends React.Component {
       plan: "undefined",
       actions: [],
       links: [],
-      blocks: [
-        "Condition",
-        "ForEach",
-        "Exception",
-        "LogicalAnd",
-        "LogicalOr",
-        "LogicalNot",
-        "LogicalXor",
-        "Integer",
-        "Boolean"
-      ],
+      actionList: [],
+      examples: [],
     };
-    // TODO: Make a request to get the available blocks
+    fetch("/getActions", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        this.setState({ actionList: result.actions });
+      });
   }
   uploadPlan(event) {
     var reader = new FileReader();
@@ -62,17 +62,81 @@ export default class Workspace extends React.Component {
     }
     this.setState({ actions: actionList });
   }
+  addAction(act) {
+    console.log("adding an action");
+    console.log(act);
+  }
+  loadExample(example) {
+    console.log("loading an example");
+    console.log(example);
+  }
+  renderActionDropdown() {
+    let actionList = [];
+
+    for (const value of Object.keys(this.state.actionList)) {
+      actionList.push(
+        <div key={value}>
+          <div
+            type='button'
+            className='dropdownAction'
+            onClick={this.addAction.bind(this, value)}>
+            {value}
+          </div>
+        </div>
+      );
+    }
+
+    return actionList;
+  }
+  renderExampleDropdown() {
+    let exampleList = [];
+
+    for (const value of this.state.examples) {
+      exampleList.push(
+        <div key={value}>
+          <div
+            type='button'
+            className='dropdownAction'
+            onClick={this.loadExample.bind(this, value)}>
+            {value}
+          </div>
+        </div>
+      );
+    }
+
+    return exampleList;
+  }
   render() {
     return (
       <div id='container'>
-        <div id='toolbarContainer'>
-          <div id='toolbarTitle' className='unselectable'>
+        <div className='toolbar'>
+          <span id='toolbarTitle' className='unselectable'>
             Planager
-          </div>
-          <label className='toolbarButton' title='Load plan'>
-            Upload Plan
+          </span>
+          <label title='Load plan' className='toolbarButton unselectable'>
+            Upload
             <input type='file' onChange={this.uploadPlan.bind(this)} />
           </label>
+          <span className='relative'>
+            <span
+              title='Actions'
+              className='toolbarButton unselectable addAction'>
+              Actions
+              <div className='actionDropdownContainer'>
+                {this.renderActionDropdown()}
+              </div>
+            </span>
+          </span>
+          <span className='relative'>
+            <span
+              title='Examples'
+              className='toolbarButton unselectable addAction'>
+              Examples
+              <div className='actionDropdownContainer'>
+                {this.renderExampleDropdown()}
+              </div>
+            </span>
+          </span>
         </div>
         <div id='workflowCanvas'>{this.state.actions}</div>
       </div>
