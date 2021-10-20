@@ -6,12 +6,12 @@ class Action:
         self.name = None
         self.id = uuid.uuid4()
         self.description = None
-        self.author = None #author of the action
-        self.help = None # perhaps a link to documentation about this action. would be nice to be markdown for nice rendering
+        # self.author = None
+        # self.help = None # perhaps a link to documentation about this action. would be nice to be markdown for nice rendering
         self.version = 1.0 # Version of this action. Could be useful for logging, but also could push updates to people as they use planager.
 
         # Define input and output information
-        self.inportsVariable = False #if the number of imports is static or variable
+        # self.inportsVariable = False #if the number of imports is static or variable
         # might actually not need this. grasshopper just combines everything into one and allows you to choose how things are listed
         self.outports = []
         self.inports = []
@@ -19,21 +19,21 @@ class Action:
 
 
         # Conditions for running the main loop of the action and therefore refreshing output
-        self.updateMethod = None #how to do python enums?
+        # self.updateMethod = None #how to do python enums?
         # types should be immediate, on signal, interval... is there a custom?
         # How is running the main loop of the action different from actions that have self-updating main loops? How to represent this?
         # Actions should have explicit support for at least one update method.
         # What if the global workspace could have a debug mode that switches all actions to "on intervention", which is like a debug step mode.
         # Maybe read more about debuggers.
 
-        self.exportTo = None
+        # self.exportTo = None
         # A list of file formats that this action can be exported to. Example: PAML
         # Need to best figure out how to implement this. Maybe the export function should be at the workflow level?
         # I think it should be at the action level though, then the actions are export format agnostic.
 
 
         # Agent setup and information.
-        self.agent = None
+        # self.agent = None
         # what can carry out this code? default will be python, where no additional input is required
         # there should be a planager agent class that can be defined. could make agents like "lab tech"
         # agent must be found and connected to in order to execute the workflow
@@ -41,19 +41,19 @@ class Action:
         # can be linked to physical resources. compilation assigns agents?
         # The agent should have types that limit running of the 
 
-        self.simulate = None
+        # self.simulate = None
         # Should have separate instructions for what to do when simulating. Perhaps this is passed in on runtime.
 
         # Definitely need to have a log. This could be sent with the information when it passes information on from the outports.
-        self.actionLog = []
+        # self.actionLog = []
 
         # This boolean reports to the environment if the action is currently running. 
-        self.active = False
+        # self.active = False
         # could allow reporting of errors, highlighting of which one is currently working.
         # add onBecomeActive and onBecomeInactive methods?
 
         # we want both the CLI and interface methods.
-        self.interface = False
+        # self.interface = False
         # maybe this is not just boolean, instead is a enum that can support different modes?
         # people could then add different interaction support into their actions.
         # First thought: cli, node, notebook
@@ -73,11 +73,11 @@ class Action:
         #     - I'm thinking that we actually have a requirements.txt file that comes with each action.
         # - Action installation? How is it going to work? 
 
-        self.panels = None
+        # self.panels = None
         # What if panels were attached to the actions or ports that they represent?
         # rename ports portals?
 
-        self.settings = None # dictionary of settings for this action instance. can be updated in the interface
+        # self.settings = None # dictionary of settings for this action instance. can be updated in the interface
 
     def onReceive(self):
         pass
@@ -95,8 +95,8 @@ class Action:
         pass
 
     def main(self):
-        print("this is the main function")
-        return
+        # Children should always override this!
+        raise NotImplementedError
 
     def appendToLog(self):
         # Writes a statement to the action log.

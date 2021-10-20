@@ -1,4 +1,3 @@
-from flask import config
 from ...workflow.Action import Action
 
 CONFIG = {
@@ -20,7 +19,10 @@ CONFIG = {
 
 
 class Condition(Action):
-    config = CONFIG
+    def __init__(self):
+        Action.__init__(self)
+        self.displayName = "Conditional"
+        config = CONFIG
     def main(self):
         print("main")
         if self.d.inports.condition.value == None:
@@ -40,13 +42,3 @@ class Condition(Action):
             self.d.outports.c1.value = None
             self.d.outports.c2.value = None
         return {"outports": self.d.outports}
-
-    def updateConfig(self, config):
-        # TODO: should be in parent class
-        self.d = config
-        return {"config": self.d.config}
-
-    def updateInport(self, inport, val):
-        # TODO: should be in parent class
-        self.d.inports[inport].value = val
-        return {"inports": self.d.inports}

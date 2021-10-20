@@ -26,7 +26,10 @@ CONFIG = {
 
 
 class ConstantBoolean(Action):
-    config = CONFIG
+    def __init__(self):
+        Action.__init__(self)
+        self.displayName = "Bool"
+        config = CONFIG
     def main(self):
         return {"outports": self.d.outports}
 

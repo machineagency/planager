@@ -9,10 +9,9 @@ export default class Workspace extends React.Component {
     super(props);
     this.state = {
       plan: "undefined",
-      actions: [],
-      links: [],
       actionList: [],
       examples: [],
+      flow: [],
     };
     fetch("/getActions", {
       method: "get",
@@ -29,39 +28,33 @@ export default class Workspace extends React.Component {
   uploadPlan(event) {
     var reader = new FileReader();
 
-    // This callback is run when the file loads
-    reader.onload = (event) => {
-      const workflow = JSON.parse(event.target.result);
-      fetch("/uploadPlan", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(workflow),
-      })
-        .then((res) => res.json())
-        // Todo: check for plan correctness in the backend and return the appropriate code
-        .then((result) => {
-          console.debug(result);
-          this.setState({ plan: workflow }, this.updatePlan);
-        });
-    };
-    reader.readAsText(event.target.files[0]);
+    // // This callback is run when the file loads
+    // reader.onload = (event) => {
+    //   const plan = JSON.parse(event.target.result);
+    //   fetch("/uploadPlan", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(plan),
+    //   })
+    //     .then((res) => res.json())
+    //     // Todo: check for plan correctness in the backend and return the appropriate code
+    //     .then((result) => {
+    //       console.debug(result);
+    //       this.setState({ plan: plan }, this.updatePlan);
+    //     });
+    // };
+    // reader.readAsText(event.target.files[0]);
   }
   updatePlan() {
     let actionList = [];
     for (const action of this.state.plan.actions) {
       actionList.push(
-        <Action
-          name={action.name}
-          inports={action.inports}
-          outports={action.outports}
-          coords={action.coords}
-          key={action.name + action.id}
-        />
+        <Action action={action} key={action.id.hex} coords={{ x: 500, y: 500 }} />
       );
     }
-    this.setState({ actions: actionList });
+    this.setState({ flow: actionList });
   }
   addAction(act) {
     fetch("/addAction", {
@@ -72,8 +65,8 @@ export default class Workspace extends React.Component {
       body: JSON.stringify(act),
     })
       .then((res) => res.json())
-      .then((result) => {
-        console.debug(result);
+      .then((plan) => {
+        this.setState({ plan: plan }, this.updatePlan);
       });
   }
   loadExample(example) {
@@ -81,6 +74,7 @@ export default class Workspace extends React.Component {
     console.log(example);
   }
   renderActionDropdown() {
+    // TODO: Make a react dropdown component
     let actionList = [];
 
     for (const action of this.state.actionList) {
@@ -99,6 +93,7 @@ export default class Workspace extends React.Component {
     return actionList;
   }
   renderExampleDropdown() {
+    // TODO: Make a react dropdown component
     let exampleList = [];
 
     for (const value of this.state.examples) {
@@ -148,7 +143,7 @@ export default class Workspace extends React.Component {
             </span>
           </span>
         </div>
-        <div id='workflowCanvas'>{this.state.actions}</div>
+        <div id='workflowCanvas'>{this.state.flow}</div>
       </div>
     );
   }
