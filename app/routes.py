@@ -2,6 +2,9 @@ from flask import request, render_template, session
 
 from . import app, action_Dict
 
+from .planager.workflow.Plan import Plan
+from .planager.workflow.Action import Action
+
 
 @app.get("/")
 def home():
@@ -14,14 +17,13 @@ def home():
     return render_template("index.html")
 
 
-@app.get("/input")
+@app.get("/handleInput")
 def handleInput():
     """
-    Handles input to the planager.
+    Handles user input to the planager.
     """
-    print("input")
-    
-    return
+    # TODO: Handle user input to actions
+    raise NotImplementedError
 
 
 @app.get("/getplan")
@@ -66,8 +68,11 @@ def clearPlan():
     """
     Removes the plan from the current session.
     """
-    session["plan"] = None
-    return
+
+    newPlan = Plan()
+
+    session["plan"] = newPlan
+    return {"message": "OK"}
 
 
 @app.get("/getActions")
@@ -76,6 +81,38 @@ def getActions():
     Endpoint for retreiving the available actions.
 
     Returns:
-        [dict]: A dictionary containing a list of the available actions.
+        [list]: A list of the available actions.
     """
-    return {"actions": action_Dict}
+    actionArray = list(action_Dict.keys())
+    return {"actions": actionArray}
+
+
+@app.post("/addAction")
+def addAction():
+    action = request.get_json()
+    new_action = session["plan"].addAction(action_Dict[action])
+
+    return {"message": "ok"}
+
+
+@app.post("/addLink")
+def addLink():
+    link = request.get_json()
+    # Generate a unique ID for the link
+    # Connects action one to action two
+    # Properly add it to the plan datastructure
+    # Update the two actions it connects
+
+    raise NotImplementedError
+
+
+@app.post("/removeAction")
+def removeAction():
+    actionID = request.get_json()
+    raise NotImplementedError
+
+
+@app.post("/removeLink")
+def removeLink():
+    linkID = request.get_json()
+    raise NotImplementedError

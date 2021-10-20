@@ -61,7 +61,7 @@ input[type="file"] {
 #toolbarTitle {
   font-weight: bolder;
   font-size: 24px;
-  margin: 10px;
+  margin: 0px 10px;
   display: inline-block;
 }
 

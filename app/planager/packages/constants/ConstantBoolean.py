@@ -26,12 +26,8 @@ CONFIG = {
 
 
 class ConstantBoolean(Action):
-    def __init__(self):
-        # TODO: parent class should have a method to unpack the config
-        self.d = CONFIG
-
+    config = CONFIG
     def main(self):
-
         return {"outports": self.d.outports}
 
     def setConstantBoolean(self, newInt):

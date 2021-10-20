@@ -1,3 +1,4 @@
+from flask import config
 from ...workflow.Action import Action
 
 CONFIG = {
@@ -19,10 +20,7 @@ CONFIG = {
 
 
 class Condition(Action):
-    def __init__(self):
-        # TODO: parent class should have a method to unpack the config
-        self.d = CONFIG
-
+    config = CONFIG
     def main(self):
         print("main")
         if self.d.inports.condition.value == None:

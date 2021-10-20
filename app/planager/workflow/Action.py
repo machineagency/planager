@@ -1,7 +1,10 @@
+import uuid
+
 class Action:
     def __init__(self):
         # General information
         self.name = None
+        self.id = uuid.uuid4()
         self.description = None
         self.author = None #author of the action
         self.help = None # perhaps a link to documentation about this action. would be nice to be markdown for nice rendering
@@ -110,3 +113,6 @@ class Action:
     def save(self):
         # this function is for saving this instance of the action to the workflow file in json
         pass
+
+    def getID(self):
+        return self.id

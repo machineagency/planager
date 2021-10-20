@@ -3,7 +3,7 @@ from .....workflow.Action import Action
 # from pyaxidraw import axidraw
 
 
-class AxidrawController(Action):
+class AxidrawController():
     def __init__(self):
         self.name = "axidraw"
         self.inports = {"config": {"data": "config file woo"}}

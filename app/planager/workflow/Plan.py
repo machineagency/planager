@@ -6,9 +6,10 @@ class Plan:
         self.author = None
         self.description = None
 
-        self.actionSequence = []
-        #
+        self.actions = []
+        self.links = []
 
+        self.actionSequence = []
         self.panels = []
 
         self.entry = None  # How do we specify an entry point? How would you execute?
@@ -17,4 +18,20 @@ class Plan:
 
     def saveToJSON(self):
         #Exports the content of this workflow to a JSON file.
-        pass
+        raise NotImplementedError
+
+    def addAction(self, AddedAction):
+        new_action = AddedAction()
+        self.actions.append(new_action)
+        return new_action
+
+    def removeAction(self):
+        # Should also remove the links connected to the action
+        raise NotImplementedError
+
+    def addLink(self, sender, receiver):
+        # Must connect two actions
+        raise NotImplementedError
+
+    def removeLink(self):
+        raise NotImplementedError

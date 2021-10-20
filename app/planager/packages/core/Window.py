@@ -24,7 +24,7 @@ CONFIG = {
 }
 
 
-class Window(Action):
+class Window():
     def __init__(self):
         # TODO: parent class should have a method to unpack the config
         self.d = CONFIG
