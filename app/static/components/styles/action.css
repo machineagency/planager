@@ -73,6 +73,16 @@
   cursor: default;
 }
 
+.leftPort {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.rightPort {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
 .rightPorts {
   float: left;
   cursor: default;
@@ -82,6 +92,7 @@
   height: 20px;
   width: 20px;
   background-color: var(--base01);
+  margin-bottom: 2px;
 }
 
 .port:hover {

@@ -1,28 +1,23 @@
 from ...workflow.Action import Action
 
 CONFIG = {
-    "displayName": "If",
-    "agent": None,
-    "id": None,
+    "displayName": "If/Else",
     "inports": {
         "condition": {
             "displayName": "Input Condition",
             "description": "Input condition.",
-            "value": None,
         }
     },
     "outports": {
-        "c1": {"displayName": "One", "description": "Condition one.", "value": None},
-        "c2": {"displayName": "Two", "description": "Condition two.", "value": None},
+        "c1": {"displayName": "If", "description": "Condition one."},
+        "c2": {"displayName": "Else", "description": "Condition two."},
     },
 }
 
 
 class Condition(Action):
     def __init__(self):
-        Action.__init__(self)
-        self.displayName = "Conditional"
-        config = CONFIG
+        Action.__init__(self, CONFIG)
 
     def main(self):
         print("main")

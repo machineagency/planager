@@ -2,37 +2,30 @@ from ...workflow.Action import Action
 
 CONFIG = {
     "displayName": "Window",
-    "agent": None,
-    "id": None,
     "inports": {
         "in": {
             "displayName": "In",
-            "description": "In",
-            "value": None,
+            "description": "The value going into the window",
         }
     },
     "outports": {
         "out": {
             "displayName": "Out",
-            "description": "Out",
-            "value": None,
+            "description": "The value coming out",
         }
     },
-    "display": {"value": "outports.out.value"},
 }
 
 
 class Window(Action):
     def __init__(self):
-        Action.__init__(self)
-        self.displayName = "Window"
-        config = CONFIG
+        Action.__init__(self, CONFIG)
 
     def main(self):
-        self.d.outports["out"].value = self.d.inports["in"].value
+        self.outports["out"].value = self.d.inports["in"].value
         return {"outports": self.d.outports}
 
     def clear(self):
-        self.d.outports["out"].value = None
-        self.d.inports["in"].value = None
+        self.outports["out"].value = None
+        self.inports["in"].value = None
         return {"config": self.d}
