@@ -14,6 +14,7 @@ from .planager.packages.paml.paml_blueprint import paml_blueprint
 
 from .planager.workflow.Action import Action
 
+
 app = Flask(__name__, template_folder="static")
 
 # Register the blueprints for different actions
@@ -31,7 +32,7 @@ app.register_blueprint(paml_blueprint, url_prefix="/paml")
 action_Dict = {}
 package_dir = "./app/planager/packages"
 operating_system = platform.system()
-print(operating_system)
+# print(operating_system)
 
 # Use os to walk the packages directory
 for root, directories, files in os.walk(package_dir, topdown=True):
@@ -58,10 +59,7 @@ for root, directories, files in os.walk(package_dir, topdown=True):
                         if issubclass(obj, Action):
                             # Append to the actions list
                             if name != "Action":
-                                action_Dict[module_filename] = {
-                                    "name": name,
-                                    "module": obj.__module__
-                                }
+                                action_Dict[module_filename] = obj
             except:
                 continue
 

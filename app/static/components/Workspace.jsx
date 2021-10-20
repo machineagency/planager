@@ -24,6 +24,7 @@ export default class Workspace extends React.Component {
       .then((result) => {
         this.setState({ actionList: result.actions });
       });
+    fetch("clearPlan", { method: "get" });
   }
   uploadPlan(event) {
     var reader = new FileReader();
@@ -41,7 +42,7 @@ export default class Workspace extends React.Component {
         .then((res) => res.json())
         // Todo: check for plan correctness in the backend and return the appropriate code
         .then((result) => {
-          console.log(result);
+          console.debug(result);
           this.setState({ plan: workflow }, this.updatePlan);
         });
     };
@@ -63,8 +64,17 @@ export default class Workspace extends React.Component {
     this.setState({ actions: actionList });
   }
   addAction(act) {
-    console.log("adding an action");
-    console.log(act);
+    fetch("/addAction", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(act),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.debug(result);
+      });
   }
   loadExample(example) {
     console.log("loading an example");
@@ -73,14 +83,14 @@ export default class Workspace extends React.Component {
   renderActionDropdown() {
     let actionList = [];
 
-    for (const value of Object.keys(this.state.actionList)) {
+    for (const action of this.state.actionList) {
       actionList.push(
-        <div key={value}>
+        <div key={action}>
           <div
             type='button'
             className='dropdownAction'
-            onClick={this.addAction.bind(this, value)}>
-            {value}
+            onClick={this.addAction.bind(this, action)}>
+            {action}
           </div>
         </div>
       );
