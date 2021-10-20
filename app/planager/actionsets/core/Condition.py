@@ -23,6 +23,7 @@ class Condition(Action):
         Action.__init__(self)
         self.displayName = "Conditional"
         config = CONFIG
+
     def main(self):
         print("main")
         if self.d.inports.condition.value == None:

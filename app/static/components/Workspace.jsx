@@ -51,7 +51,11 @@ export default class Workspace extends React.Component {
     let actionList = [];
     for (const action of this.state.plan.actions) {
       actionList.push(
-        <Action action={action} key={action.id.hex} coords={{ x: 500, y: 500 }} />
+        <Action
+          action={action}
+          key={action.id.hex}
+          coords={{ x: 500, y: 500 }}
+        />
       );
     }
     this.setState({ flow: actionList });

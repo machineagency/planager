@@ -18,9 +18,7 @@ CONFIG = {
             "value": None,
         }
     },
-    "display": {
-        "value": "outports.out.value"
-    }
+    "display": {"value": "outports.out.value"},
 }
 
 

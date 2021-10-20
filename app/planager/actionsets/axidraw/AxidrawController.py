@@ -1,17 +1,9 @@
-from .....workflow.Action import Action
+from ...workflow.Action import Action
 
 # from pyaxidraw import axidraw
 
 
-class AxidrawController():
-    def __init__(self):
-        self.name = "axidraw"
-        self.inports = {"config": {"data": "config file woo"}}
-        self.outports = {"result": {"data": "some result data"}}
-        self.description = "Axidraw controller"
-        self.connected = False
-        # self.ad = axidraw.AxiDraw()
-
+class AxidrawController(Action):
     def main(self):
         """The main loop; this is what runs when the action is run."""
         print("axidraw action run in the backend")
