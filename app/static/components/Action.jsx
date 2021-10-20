@@ -1,5 +1,6 @@
 import React from "react";
 import Draggable from "react-draggable";
+import { FaPlay } from "react-icons/fa";
 
 import "./styles/action.css";
 
@@ -14,7 +15,11 @@ export default class Action extends React.Component {
     let inports = [];
     for (const [inportName, entry] of Object.entries(this.props.inports)) {
       inports.push(
-        <div key={inportName} title={entry["displayName"]} className="port leftPort" />
+        <div
+          key={inportName}
+          title={entry["displayName"]}
+          className='port leftPort'
+        />
       );
     }
     return inports;
@@ -23,12 +28,17 @@ export default class Action extends React.Component {
     let outports = [];
     for (const [outportName, entry] of Object.entries(this.props.outports)) {
       outports.push(
-        <div key={outportName} title={entry["displayName"]} className="port rightPort" />
+        <div
+          key={outportName}
+          title={entry["displayName"]}
+          className='port rightPort'
+        />
       );
     }
     return outports;
   }
   handleDrag(e, ui) {
+    // TODO: When should we send the new coords to the backend? On save?
     const { x, y } = this.props.coords;
 
     const newPositionDeltas = {
@@ -36,13 +46,24 @@ export default class Action extends React.Component {
       y: y + ui.deltaY,
     };
 
-    fetch("/updateCoords", {
+    // fetch("/updateCoords", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(newPositionDeltas),
+    // });
+  }
+  run() {
+    fetch("/run", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newPositionDeltas),
-    });
+      body: JSON.stringify(this.props.action),
+    })
+      .then((response) => response.json())
+      .then((res) => console.log(res));
   }
   render() {
     return (
@@ -58,6 +79,9 @@ export default class Action extends React.Component {
             <div className='actionToolbarContainer'>
               <span className='actionTitle'>
                 {this.props.action.displayName}
+              </span>
+              <span className='runIcon' onClick={this.run.bind(this)}>
+                <FaPlay />
               </span>
             </div>
             <div className='actionContent'>this is the action content</div>
