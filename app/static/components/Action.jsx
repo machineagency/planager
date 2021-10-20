@@ -56,7 +56,9 @@ export default class Action extends React.Component {
           </div>
           <div className='mainActionContainer'>
             <div className='actionToolbarContainer'>
-              <span className='actionTitle'>{this.props.action.displayName}</span>
+              <span className='actionTitle'>
+                {this.props.action.displayName}
+              </span>
             </div>
             <div className='actionContent'>this is the action content</div>
           </div>

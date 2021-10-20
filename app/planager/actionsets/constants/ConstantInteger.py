@@ -30,6 +30,7 @@ class ConstantInteger(Action):
         Action.__init__(self)
         self.displayName = "Integer"
         config = CONFIG
+
     def main(self):
         return {"outports": self.d.outports}
 
