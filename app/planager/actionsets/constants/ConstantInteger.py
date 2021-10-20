@@ -27,9 +27,7 @@ CONFIG = {
 
 class ConstantInteger(Action):
     def __init__(self):
-        Action.__init__(self)
-        self.displayName = "Integer"
-        config = CONFIG
+        Action.__init__(self, CONFIG)
 
     def main(self):
         return {"outports": self.d.outports}

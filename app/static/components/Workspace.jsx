@@ -53,6 +53,8 @@ export default class Workspace extends React.Component {
       actionList.push(
         <Action
           action={action}
+          inports={action.inports}
+          outports={action.outports}
           key={action.id.hex}
           coords={{ x: 500, y: 500 }}
         />

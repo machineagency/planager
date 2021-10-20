@@ -11,22 +11,22 @@ export default class Action extends React.Component {
     // };
   }
   renderInports() {
-    // let inports = [];
-    // for (const inport of this.props.inports) {
-    //   inports.push(
-    //     <div key={inport.name} title={inport.name} className="port" />
-    //   );
-    // }
-    // return inports;
+    let inports = [];
+    for (const [inportName, entry] of Object.entries(this.props.inports)) {
+      inports.push(
+        <div key={inportName} title={entry["displayName"]} className="port leftPort" />
+      );
+    }
+    return inports;
   }
   renderOutports() {
-    // let outports = [];
-    // for (const outport of this.props.outports) {
-    //   outports.push(
-    //     <div key={outport.name} title={outport.name} className="port" />
-    //   );
-    // }
-    // return outports;
+    let outports = [];
+    for (const [outportName, entry] of Object.entries(this.props.outports)) {
+      outports.push(
+        <div key={outportName} title={entry["displayName"]} className="port rightPort" />
+      );
+    }
+    return outports;
   }
   handleDrag(e, ui) {
     const { x, y } = this.props.coords;
