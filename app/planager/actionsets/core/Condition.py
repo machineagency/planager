@@ -20,21 +20,24 @@ class Condition(Action):
         Action.__init__(self, CONFIG)
 
     def main(self):
-        print("main")
-        if self.d.inports.condition.value == None:
+
+        val = self.inports["condition"].getValue()
+
+        if val == None:
             # No input
-            self.d.outports.c1.value = None
-            self.d.outports.c2.value = None
-        elif self.inports.condition.value == True:
+            self.outports["c1"].setValue(None)
+            self.outports["c2"].setValue(None)
+        elif val == True:
             # Condition is True
-            self.d.outports.c1.value = True
-            self.d.outports.c2.value = False
-        elif self.inports.condition.value == False:
+            self.outports["c1"].setValue(True)
+            self.outports["c2"].setValue(None)
+        elif val == False:
             # Condition is False
-            self.d.outports.c1.value = False
-            self.d.outports.c2.value = True
+            self.outports["c1"].setValue(False)
+            self.outports["c2"].setValue(None)
         else:
             # Invalid input
-            self.d.outports.c1.value = None
-            self.d.outports.c2.value = None
-        return {"outports": self.d.outports}
+            self.outports["c1"].setValue(None)
+            self.outports["c2"].setValue(None)
+
+        return {"outports": self.outports}

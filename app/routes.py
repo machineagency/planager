@@ -5,6 +5,8 @@ from . import app, action_Dict
 from .planager.workflow.Plan import Plan
 from .planager.workflow.Action import Action
 
+import jsonpickle
+
 
 @app.get("/")
 def home():
@@ -47,7 +49,7 @@ def updateCoords():
     Returns:
         dictionary: a dictionary containing a message
     """
-    print(request.get_json())
+    # print(request.get_json())
     return {"message": "success"}
 
 
@@ -116,3 +118,9 @@ def removeAction():
 def removeLink():
     linkID = request.get_json()
     raise NotImplementedError
+
+@app.post("/run")
+def run():
+    action = jsonpickle.decode(request.get_data())
+    res = jsonpickle.encode(action.main())
+    return({"result": res})

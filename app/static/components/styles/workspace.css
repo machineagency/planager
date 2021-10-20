@@ -26,7 +26,7 @@ body {
   margin: 0;
   font-family: monospace;
   overflow: hidden;
-  background-color: var(--base3);
+  background-color: var(--base2);
 }
 
 /* For making text unselectable */
