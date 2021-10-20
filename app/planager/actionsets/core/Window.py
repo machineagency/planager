@@ -24,10 +24,11 @@ CONFIG = {
 }
 
 
-class Window():
+class Window(Action):
     def __init__(self):
-        # TODO: parent class should have a method to unpack the config
-        self.d = CONFIG
+        Action.__init__(self)
+        self.displayName = "Window"
+        config = CONFIG
 
     def main(self):
         self.d.outports["out"].value = self.d.inports["in"].value

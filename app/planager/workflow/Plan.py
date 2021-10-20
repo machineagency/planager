@@ -1,28 +1,32 @@
+import jsonpickle
+
 class Plan:
     def __init__(self):
         # Representation of a workflow when it is loaded into an environment.
-        self.name = None
-        self.date = None
-        self.author = None
-        self.description = None
-
         self.actions = []
         self.links = []
 
-        self.actionSequence = []
-        self.panels = []
+    def toJSON(self):
+        """
+        toJSON creates a JSON version of a Plan using jsonpickle
 
-        self.entry = None  # How do we specify an entry point? How would you execute?
-        self.debug = False # debugging is specific to this environment and workflow
-        
+        Returns:
+            json: JSON representation of a Plan
+        """
+        return jsonpickle.encode(self)
 
-    def saveToJSON(self):
-        #Exports the content of this workflow to a JSON file.
-        raise NotImplementedError
+    def addAction(self, NewActionClass):
+        """
+        addAction Instantiates and adds an unconnected action to the plan.
 
-    def addAction(self, AddedAction):
-        new_action = AddedAction()
-        self.actions.append(new_action)
+        Args:
+            NewActionClass (Action): Child class of Action
+
+        Returns:
+            Action: The instantiated action of type NewActionClass.
+        """
+        new_action = NewActionClass()
+        self.actions.append(NewActionClass())
         return new_action
 
     def removeAction(self):

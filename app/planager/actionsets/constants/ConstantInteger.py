@@ -26,7 +26,10 @@ CONFIG = {
 
 
 class ConstantInteger(Action):
-    config = CONFIG
+    def __init__(self):
+        Action.__init__(self)
+        self.displayName = "Integer"
+        config = CONFIG
     def main(self):
         return {"outports": self.d.outports}
 
@@ -41,8 +44,3 @@ class ConstantInteger(Action):
             print("Something else went wrong.")
             self.d.outports.res.value = None
         return {"outports": self.d.outports}
-
-    def updateConfig(self, config):
-        # TODO: should be in parent class
-        self.d = config
-        return {"config": self.d.config}

@@ -92,7 +92,7 @@ def addAction():
     action = request.get_json()
     new_action = session["plan"].addAction(action_Dict[action])
 
-    return {"message": "ok"}
+    return session["plan"].toJSON()
 
 
 @app.post("/addLink")
