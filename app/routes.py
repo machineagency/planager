@@ -37,7 +37,7 @@ def loadPlan():
         JSON: The JSON specification for the planager plan.
     """
     if "plan" in session:
-        return session["plan"]
+        return jsonpickle.encode(session["plan"])
     return {}
 
 
@@ -49,8 +49,7 @@ def updateCoords():
     Returns:
         dictionary: a dictionary containing a message
     """
-    # print(request.get_json())
-    return {"message": "success"}
+    raise NotImplementedError
 
 
 @app.post("/uploadPlan")
@@ -61,8 +60,7 @@ def uploadPlan():
     Returns:
         Dict: contains ok message
     """
-    session["plan"] = request.get_json()
-    return {"message": "OK"}
+    raise NotImplementedError
 
 
 @app.get("/clearPlan")
@@ -92,20 +90,22 @@ def getActions():
 @app.post("/addAction")
 def addAction():
     action = request.get_json()
-    new_action = session["plan"].addAction(action_Dict[action])
+    session["plan"].addAction(action_Dict[action])
 
-    return session["plan"].toJSON()
+    return jsonpickle.encode(session["plan"])
 
 
 @app.post("/addLink")
 def addLink():
-    link = request.get_json()
-    # Generate a unique ID for the link
-    # Connects action one to action two
-    # Properly add it to the plan datastructure
-    # Update the two actions it connects
+    connection = jsonpickle.decode(request.get_data())
+    session["plan"].addLink(
+        connection["startActionID"],
+        connection["startPortID"],
+        connection["endActionID"],
+        connection["endPortID"],
+    )
 
-    raise NotImplementedError
+    return jsonpickle.encode(session["plan"])
 
 
 @app.post("/removeAction")
@@ -119,8 +119,13 @@ def removeLink():
     linkID = request.get_json()
     raise NotImplementedError
 
+
 @app.post("/run")
 def run():
-    action = jsonpickle.decode(request.get_data())
-    res = jsonpickle.encode(action.main())
-    return({"result": res})
+    actionID = jsonpickle.decode(request.get_data())
+
+    for action in session["plan"].actions:
+        if action.getID() == actionID:
+            action.main()
+
+    return {"result": "success"}

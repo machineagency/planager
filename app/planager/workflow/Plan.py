@@ -4,7 +4,6 @@ class Plan:
     def __init__(self):
         # Representation of a workflow when it is loaded into an environment.
         self.actions = []
-        self.links = []
 
     def toJSON(self):
         """
@@ -27,15 +26,18 @@ class Plan:
         """
         new_action = NewActionClass()
         self.actions.append(NewActionClass())
-        return new_action
+        return
 
     def removeAction(self):
         # Should also remove the links connected to the action
         raise NotImplementedError
 
-    def addLink(self, sender, receiver):
-        # Must connect two actions
-        raise NotImplementedError
+    def addLink(self, startActionID, startPortID, endActionID, endPortID):
+        for action in self.actions:
+            if action.getID() == startActionID:
+                action.addLinkToOutport(startPortID, endActionID, endPortID)
+
+        return startActionID
 
     def removeLink(self):
         raise NotImplementedError

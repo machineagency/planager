@@ -7,9 +7,10 @@ import "./styles/action.css";
 export default class Action extends React.Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   action: null,
-    // };
+    this.state = {
+      content: "There's nothing here!",
+      linking: false,
+    };
   }
   renderInports() {
     let inports = [];
@@ -19,6 +20,7 @@ export default class Action extends React.Component {
           key={inportName}
           title={entry["displayName"]}
           className='port leftPort'
+          onClick={(e) => this.props.endConnection(e, this.props.action.id, inportName)}
         />
       );
     }
@@ -32,27 +34,11 @@ export default class Action extends React.Component {
           key={outportName}
           title={entry["displayName"]}
           className='port rightPort'
+          onClick={(e) => this.props.beginConnection(e, this.props.action.id, outportName)}
         />
       );
     }
     return outports;
-  }
-  handleDrag(e, ui) {
-    // TODO: When should we send the new coords to the backend? On save?
-    const { x, y } = this.props.coords;
-
-    const newPositionDeltas = {
-      x: x + ui.deltaX,
-      y: y + ui.deltaY,
-    };
-
-    // fetch("/updateCoords", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(newPositionDeltas),
-    // });
   }
   run() {
     fetch("/run", {
@@ -60,17 +46,14 @@ export default class Action extends React.Component {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(this.props.action),
+      body: JSON.stringify(this.props.action.id),
     })
       .then((response) => response.json())
       .then((res) => console.log(res));
   }
   render() {
     return (
-      <Draggable
-        onStop={this.handleDrag.bind(this)}
-        handle='.dragHandle'
-        defaultPosition={{ x: 100, y: 100 }}>
+      <Draggable handle='.dragHandle' defaultPosition={{ x: 100, y: 100 }}>
         <div className='actionGridContainer'>
           <div className='leftPortsContainer'>
             <div className='ports'>{this.renderInports()}</div>
@@ -87,7 +70,9 @@ export default class Action extends React.Component {
                 <FaPlay />
               </span>
             </div>
-            <div className='actionContent'>this is the action content</div>
+            <div className='actionContent unselectable'>
+              {this.state.content}
+            </div>
           </div>
           <div className='rightPortsContainer'>
             <div className='ports'>{this.renderOutports()}</div>

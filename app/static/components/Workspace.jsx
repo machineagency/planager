@@ -1,6 +1,7 @@
 import React from "react";
 
 import Action from "./Action";
+import Link from "./Link";
 
 import "./styles/workspace.css";
 
@@ -12,6 +13,8 @@ export default class Workspace extends React.Component {
       actionList: [],
       examples: [],
       flow: [],
+      links: {},
+      start: {},
     };
     fetch("/getActions", {
       method: "get",
@@ -24,6 +27,7 @@ export default class Workspace extends React.Component {
         this.setState({ actionList: result.actions });
       });
     fetch("clearPlan", { method: "get" });
+    this.mousemoveCallback = this.mousemoveCallback.bind(this);
   }
   uploadPlan(event) {
     var reader = new FileReader();
@@ -47,20 +51,111 @@ export default class Workspace extends React.Component {
     // };
     // reader.readAsText(event.target.files[0]);
   }
+  mousemoveCallback(e) {
+    let start = this.state.start;
+    const newLink = {
+      linkInProgress: (
+        <Link
+          startActionID={start.startActionID}
+          startPortID={start.startPortID}
+          startx={start.x}
+          starty={start.y}
+          endx={e.clientX}
+          endy={e.clientY}
+          key={"inprogress"}
+        />
+      ),
+    };
+    this.setState({ links: Object.assign(this.state.links, newLink) });
+  }
+
+  beginConnection(e, startActionID, startPortID) {
+    let rect = e.target.getBoundingClientRect();
+    const start = {
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2,
+      startActionID: startActionID,
+      startPortID: startPortID,
+    };
+
+    const newLink = {
+      linkInProgress: (
+        <Link
+          startx={start.x}
+          starty={start.y}
+          endx={e.clientX}
+          endy={e.clientY}
+          key={"inprogress"}
+        />
+      ),
+    };
+
+    document.addEventListener("mousemove", this.mousemoveCallback);
+    this.setState({
+      start: start,
+      links: Object.assign(this.state.links, newLink),
+    });
+  }
+
+  endConnection(e, endActionID, endPortID) {
+    const linky = this.state.links.linkInProgress;
+    if (!linky) return;
+
+    fetch("/addLink", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        startActionID: linky.props.startActionID,
+        startPortID: linky.props.startPortID,
+        endActionID: endActionID,
+        endPortID: endPortID,
+      }),
+    })
+      .then((res) => res.json())
+      .then((plan) => {
+        this.setState({ plan: plan }, this.updatePlan);
+      });
+
+    let oldLinks = this.state.links;
+    delete oldLinks.linkInProgress;
+    this.setState({ links: oldLinks });
+    document.removeEventListener("mousemove", this.mousemoveCallback);
+  }
+
+  renderLinks() {
+    let renderedLinks = [];
+    for (const [_, link] of Object.entries(this.state.links)) {
+      renderedLinks.push(link);
+    }
+    return renderedLinks;
+  }
+
   updatePlan() {
     let actionList = [];
+    let newLinks = {};
     for (const action of this.state.plan.actions) {
       actionList.push(
         <Action
           action={action}
           inports={action.inports}
           outports={action.outports}
+          beginConnection={this.beginConnection.bind(this)}
+          endConnection={this.endConnection.bind(this)}
           key={action.id.hex}
           coords={{ x: 500, y: 500 }}
         />
       );
+      for (const [outportID, link] of Object.entries(action.links)) {
+        const newID = `${action.id.hex}_${outportID}_${link.endActionID.hex}_${link.endPortID}`;
+        newLinks[newID] = <Link key={newID} />;
+      }
     }
-    this.setState({ flow: actionList });
+    this.setState({
+      flow: actionList,
+      links: Object.assign(this.state.links, newLinks),
+    });
   }
   addAction(act) {
     fetch("/addAction", {
@@ -149,7 +244,10 @@ export default class Workspace extends React.Component {
             </span>
           </span>
         </div>
-        <div id='workflowCanvas'>{this.state.flow}</div>
+        <div id='workflowCanvas'>
+          {this.renderLinks()}
+          {this.state.flow}
+        </div>
       </div>
     );
   }
