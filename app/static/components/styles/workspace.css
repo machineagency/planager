@@ -11,13 +11,19 @@
   --base2: #eee8d5;
   --base3: #fdf6e3;
   --yellow: #b58900;
+  --yellowHover: #795a00;
   --orange: #cb4b16;
+  --orangeHover: #99380e;
   --red: #dc322f;
+  --redHover: #942321;
   --magenta: #d33682;
+  --magentaHover: #99285e;
   --violet: #6c71c4;
   --violetHover: #444779;
   --blue: #268bd2;
+  --blueHover: #185988;
   --cyan: #2aa198;
+  --cyanHover: #1c6b64;
   --green: #859900;
   --greenHover: #647300;
 }
@@ -37,11 +43,6 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
-
-.react-draggable,
-.cursor {
-  cursor: move;
 }
 
 /* Toolbar Styles */

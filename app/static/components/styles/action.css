@@ -11,11 +11,9 @@
 
 /* Styling for the action top toolbar */
 .actionToolbarContainer {
-  grid-column: 2;
-  grid-row: 1;
   background-color: var(--base03);
   color: var(--base3);
-  padding: 5px 10px;
+  padding: 5px 5px 0 5px;
 }
 
 .removeActionButton {
@@ -32,12 +30,19 @@
 }
 
 .runIcon {
-  float: right;
   cursor: pointer;
+  float: right;
 }
 
 .runIcon :hover {
   color: var(--green);
+}
+
+.dragHandle {
+  cursor: move;
+  vertical-align: middle;
+  display: inline-block;
+  margin-right: 2px;
 }
 
 .closeIcon {
@@ -59,7 +64,6 @@
   cursor: default;
   background-color: var(--base3);
   display: block;
-  height: 100%;
   outline: 1px solid var(--base03);
   outline-offset: -1px;
   padding: 10px;
@@ -70,17 +74,20 @@
 .leftPortsContainer {
   grid-column: 1;
   grid-row: 2;
+  display: table;
 }
 
 .rightPortsContainer {
   grid-column: 3;
   grid-row: 2;
+  display: table;
 }
 
-.leftPorts {
-  float: right;
-  cursor: default;
+.ports {
+  vertical-align: middle;
+  display: table-cell;
 }
+
 
 .leftPort {
   border-top-left-radius: 10px;
@@ -94,15 +101,10 @@
   background-color: var(--cyan);
 }
 
-.rightPorts {
-  float: left;
-  cursor: default;
-}
 
 .port {
   height: 20px;
   width: 20px;
-  /* background-color: var(--base03); */
   margin-bottom: 2px;
 }
 
@@ -110,10 +112,10 @@
   cursor: pointer;
 }
 
-/* .rightPort:hover {
-  background-color: var(--blue);
+.rightPort:hover {
+  background-color: var(--cyanHover);
 }
 
 .leftPort:hover {
-  background-color: var(--cyan);
-} */
+  background-color: var(--violetHover);
+}

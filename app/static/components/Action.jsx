@@ -1,6 +1,6 @@
 import React from "react";
 import Draggable from "react-draggable";
-import { FaPlay } from "react-icons/fa";
+import { FaPlay, FaGripVertical } from "react-icons/fa";
 
 import "./styles/action.css";
 
@@ -69,14 +69,17 @@ export default class Action extends React.Component {
     return (
       <Draggable
         onStop={this.handleDrag.bind(this)}
-        cancel='.actionContent .leftPortsContainer .rightPortsContainer'
+        handle='.dragHandle'
         defaultPosition={{ x: 100, y: 100 }}>
         <div className='actionGridContainer'>
           <div className='leftPortsContainer'>
-            <div className='leftPorts'>{this.renderInports()}</div>
+            <div className='ports'>{this.renderInports()}</div>
           </div>
           <div className='mainActionContainer'>
-            <div className='actionToolbarContainer'>
+            <div className='actionToolbarContainer unselectable'>
+              <span className='dragHandle'>
+                <FaGripVertical />
+              </span>
               <span className='actionTitle'>
                 {this.props.action.displayName}
               </span>
@@ -87,7 +90,7 @@ export default class Action extends React.Component {
             <div className='actionContent'>this is the action content</div>
           </div>
           <div className='rightPortsContainer'>
-            <div className='rightPorts'>{this.renderOutports()}</div>
+            <div className='ports'>{this.renderOutports()}</div>
           </div>
         </div>
       </Draggable>
