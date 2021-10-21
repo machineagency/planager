@@ -1,8 +1,8 @@
-from enum import Enum
+# from enum import Enum
 from uuid import uuid4
 
 
-class PortType(Enum):
+class PortType:
     IN = "IN"
     OUT = "OUT"
 
@@ -15,6 +15,13 @@ class Port:
         self.displayName = config["displayName"]
         self.description = config["description"]
         self.value = None
+        self.connections = []
+
+    def addConnection(self, endActionID, endPortID):
+        self.connections.append({endActionID: endActionID, endPortID: endPortID})
+
+    def removeConnection(self, endActionID, endPortID):
+        raise NotImplementedError
 
     def update(self, newVal):
         # TODO: log the current value to the port history

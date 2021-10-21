@@ -22,10 +22,7 @@ class Window(Action):
         Action.__init__(self, CONFIG)
 
     def main(self):
-        self.outports["out"].value = self.d.inports["in"].value
-        return {"outports": self.d.outports}
-
-    def clear(self):
-        self.outports["out"].value = None
-        self.inports["in"].value = None
-        return {"config": self.d}
+        # Takes the inports does nothing, passes to the outport
+        print("WINDOW")
+        self.outports["out"].value = self.inports["in"].value
+        return {"outports": self.outports}

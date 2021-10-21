@@ -10,6 +10,11 @@ class Action:
         # self.description = config["description"]
         self.id = uuid.uuid4()
 
+        try:
+            self.displayText = config["display"]
+        except:
+            self.displayText = "Nothing to show!"
+
         # Set up the ports
         # TODO: Write an ordered dict JSON pickle method
         # self.outports = OrderedDict()
@@ -25,19 +30,21 @@ class Action:
             newOutport = Port(PortType.OUT, outport_id, self.id, outport_config)
             self.outports[outport_id] = newOutport
 
+        self.links = {}
+
+    def display(self, content):
+        self.displayText = content
+        return
+
+    def addLinkToOutport(self, startPortID, endActionID, endPortID):
+        self.outports[startPortID].addConnection(endActionID, endPortID)
+        self.links[startPortID] = {"endActionID": endActionID, "endPortID": endPortID}
+
     def onReceive(self):
         pass
 
     def beforeSend(self):
         # the thing to do before the outports are updated
-        pass
-
-    def addInport(self):
-        # For setting up the Inports.
-        pass
-
-    def addOutport(self):
-        # For setting up the Outports.
         pass
 
     def main(self):
@@ -49,7 +56,7 @@ class Action:
         pass
 
     def info(self):
-        print(self.name, self.outports, self.inports)
+        print(self.displayName, self.outports, self.inports)
         return
 
     def export(self):

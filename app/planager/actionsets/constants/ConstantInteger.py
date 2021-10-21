@@ -1,9 +1,7 @@
 from ...workflow.Action import Action
 
 CONFIG = {
-    "displayName": "Constant Integer",
-    "agent": None,
-    "id": None,
+    "displayName": "Int",
     "inports": {},
     "outports": {
         "res": {
@@ -20,8 +18,6 @@ CONFIG = {
             "value": None,
         }
     },
-    "errorState": False,
-    "errorMessage": None,
 }
 
 
@@ -30,16 +26,22 @@ class ConstantInteger(Action):
         Action.__init__(self, CONFIG)
 
     def main(self):
-        return {"outports": self.d.outports}
+        print("INT")
+        return {"outports": self.outports}
 
-    def setConstantInteger(self, newInt):
+    def handleInput(self, newInt):
         try:
             assert type(newInt) == int
-            self.d.outports.res.value = newInt
+            self.outports["res"].value = newInt
         except AssertionError:
             print("not an integer")
-            self.d.outports.res.value = None
+            self.outports["res"].value = None
         except:
             print("Something else went wrong.")
-            self.d.outports.res.value = None
-        return {"outports": self.d.outports}
+            self.outports["res"].value = None
+        return {"outports": self.outports}
+
+
+if __name__ == "__main__":
+    cint = ConstantInteger()
+    cint.handleInput(7)

@@ -1,7 +1,7 @@
 from ...workflow.Action import Action
 
 CONFIG = {
-    "displayName": "Constant Boolean",
+    "displayName": "Bool",
     "inports": {},
     "outports": {
         "res": {
@@ -23,16 +23,17 @@ class ConstantBoolean(Action):
         Action.__init__(self, CONFIG)
 
     def main(self):
-        return
+        print("BOOL")
+        return {"outports": self.outports}
 
-    def setConstantBoolean(self, newInt):
+    def handleInput(self, newInt):
         try:
             assert type(newInt) == bool
-            self.outports.res.value = newInt
+            self.outports["res"].setValue(newInt)
         except AssertionError:
             print("Value should be an integer.")
-            self.outports.res.value = None
+            self.outports["res"].setValue(None)
         except:
             print("Something else went wrong.")
-            self.outports.res.value = None
-        return {"outports": self.d.outports}
+            self.outports["res"].setValue(None)
+        return {"outports": self.outports}

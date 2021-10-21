@@ -1,16 +1,40 @@
 from ...workflow.Action import Action
 
+CONFIG = {
+    "displayName": "Add",
+    "outports": {
+        "result": {
+            "displayName": "Result",
+            "description": "Result.",
+        }
+    },
+    "inports": {
+        "num1": {"displayName": "Num 1", "description": "Number one."},
+        "num2": {"displayName": "Num 2", "description": "Number two."},
+    },
+    "display": "No input!",
+}
+
 
 class Adder(Action):
     def __init__(self):
-        Action.__init__(self)
-        self.displayName = "Add"
+        Action.__init__(self, CONFIG)
 
     def main(self):
-        # This is what runs when the action is run.
-        result = 0
-        for number in self.inports["numbers"].getContents():
-            result = result + number
+        # Number one minus number two
+        try:
+            result = self.inports["num1"].getValue() + self.inports["num2"].getValue()
+        except:
+            result = None
 
-        self.outports["result"].setContents(result)
+        self.outports["result"].setValue(result)
+
+        self.display(
+            "{num1} plus {num2} equals {result}!".format(
+                num1=self.inports["num1"],
+                num2=self.inports["num2"],
+                result=self.outports["result"],
+            )
+        )
+
         return
