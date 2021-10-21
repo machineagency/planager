@@ -25,4 +25,5 @@ class Window(Action):
         # Takes the inports does nothing, passes to the outport
         print("WINDOW")
         self.outports["out"].value = self.inports["in"].value
+        self.displayText = self.outports["out"].value
         return {"outports": self.outports}

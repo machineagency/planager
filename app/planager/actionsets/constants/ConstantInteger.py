@@ -31,12 +31,12 @@ class ConstantInteger(Action):
 
     def handleInput(self, newInt):
         try:
-            assert type(newInt) == int
+            assert isinstance(newInt, int)
             self.outports["res"].value = newInt
         except AssertionError:
             print("not an integer")
             self.outports["res"].value = None
-        except:
+        except BaseException:
             print("Something else went wrong.")
             self.outports["res"].value = None
         return {"outports": self.outports}

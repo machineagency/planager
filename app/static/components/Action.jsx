@@ -40,6 +40,13 @@ export default class Action extends React.Component {
     }
     return outports;
   }
+  getOutportCoords() {
+    console.log(this.props.action)
+    return {
+      x: 1000,
+      y: 1000
+    }
+  }
   run() {
     fetch("/run", {
       method: "POST",
@@ -49,7 +56,7 @@ export default class Action extends React.Component {
       body: JSON.stringify(this.props.action.id),
     })
       .then((response) => response.json())
-      .then((res) => console.log(res));
+      .then((res) => this.setState({content: res.text}));
   }
   render() {
     return (

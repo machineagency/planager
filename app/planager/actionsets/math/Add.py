@@ -23,8 +23,9 @@ class Adder(Action):
     def main(self):
         # Number one minus number two
         try:
-            result = self.inports["num1"].getValue() + self.inports["num2"].getValue()
-        except:
+            result = self.inports["num1"].getValue(
+            ) + self.inports["num2"].getValue()
+        except BaseException:
             result = None
 
         self.outports["result"].setValue(result)

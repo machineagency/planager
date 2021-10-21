@@ -21,7 +21,8 @@ class AxidrawController(Action):
 
     def main(self):
         """The main loop; this is what runs when the action is run."""
-        print("axidraw action run in the backend")
+        print("axidraw controller action run in the backend")
+        self.displayText = ("ran the controller")
         return
 
     # def connect(self):

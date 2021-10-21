@@ -10,7 +10,7 @@ CONFIG = {
         }
     },
     "userInput": {
-        "int": {
+        "bool": {
             "displayName": "Boolean",
             "description": "Boolean to set as constant.",
         }
@@ -23,17 +23,27 @@ class ConstantBoolean(Action):
         Action.__init__(self, CONFIG)
 
     def main(self):
-        print("BOOL")
         return {"outports": self.outports}
 
-    def handleInput(self, newInt):
+    def handleInput(self, newBool):
+        """Handles user input to this action.
+
+        Ensures that the input is a boolean, updates the current value, and
+        sends it to the outport.
+
+        Args:
+            newBool (boolean): the input boolean.
+
+        Returns:
+            dict: A dictionary containing the updated outports.
+        """
         try:
-            assert type(newInt) == bool
-            self.outports["res"].setValue(newInt)
+            assert isinstance(newBool, bool)
+            self.outports["res"].setValue(newBool)
         except AssertionError:
             print("Value should be an integer.")
             self.outports["res"].setValue(None)
-        except:
+        except BaseException:
             print("Something else went wrong.")
             self.outports["res"].setValue(None)
         return {"outports": self.outports}
