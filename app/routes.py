@@ -3,15 +3,13 @@ from flask import request, render_template, session
 from . import app, action_Dict
 
 from .planager.workflow.Plan import Plan
-from .planager.workflow.Action import Action
 
 import jsonpickle
 
 
 @app.get("/")
 def home():
-    """
-    Index route for the planager.
+    """Index route for the planager.
 
     Returns:
         [template]: index.html template
@@ -21,8 +19,12 @@ def home():
 
 @app.get("/handleInput")
 def handleInput():
-    """
-    Handles user input to the planager.
+    """Handles user input to the planager.
+
+    Not implemented
+
+    Raises:
+        NotImplementedError: Not currently implemented
     """
     # TODO: Handle user input to actions
     raise NotImplementedError
@@ -30,8 +32,10 @@ def handleInput():
 
 @app.get("/getplan")
 def loadPlan():
-    """
-    Checks to see if there is a plan in the session. If not, creates and returns a new plan.
+    """Gets the plan stored in the session.
+
+    Checks to see if there is a plan in the session. If not, creates and
+    returns a new plan.
 
     Returns:
         JSON: The JSON specification for the planager plan.
@@ -43,8 +47,7 @@ def loadPlan():
 
 @app.post("/updateCoords")
 def updateCoords():
-    """
-    Updates the xy coordinates of an action on the Planager canvas.
+    """Updates the xy coordinates of an action on the Planager canvas.
 
     Returns:
         dictionary: a dictionary containing a message
@@ -54,19 +57,20 @@ def updateCoords():
 
 @app.post("/uploadPlan")
 def uploadPlan():
-    """
-    Adds a plan to the session.
+    """Adds a plan to the session.
 
     Returns:
-        Dict: contains ok message
+        dict: contains ok message
     """
     raise NotImplementedError
 
 
 @app.get("/clearPlan")
 def clearPlan():
-    """
-    Removes the plan from the current session.
+    """Removes the plan from the session
+
+    Returns:
+        dict: Dictionary containing the result message.
     """
 
     newPlan = Plan()
@@ -77,11 +81,10 @@ def clearPlan():
 
 @app.get("/getActions")
 def getActions():
-    """
-    Endpoint for retreiving the available actions.
+    """Endpoint for retreiving the available actions.
 
     Returns:
-        [list]: A list of the available actions.
+        list: A list of the available actions.
     """
     actionArray = list(action_Dict.keys())
     return {"actions": actionArray}
@@ -89,6 +92,14 @@ def getActions():
 
 @app.post("/addAction")
 def addAction():
+    """Adds an action to the current plan.
+
+    Retreives the current plan from the session and calls its addAction()
+    method, passing in the action name from the request JSON.
+
+    Returns:
+        JSON: a jsonpickle-encoded version of the plan.
+    """
     action = request.get_json()
     session["plan"].addAction(action_Dict[action])
 
@@ -97,6 +108,16 @@ def addAction():
 
 @app.post("/addLink")
 def addLink():
+    """Adds a link between two actions in the current plan.
+
+    Unpacks the request JSON containing a dictionary containing startActionID,
+    startPortID, endActionID, and endPortID. These are passed to the plan's
+    addLink method.
+
+    Returns:
+        dict: A JSON-compatible dictionary containing plan information encoded
+        by jsonpickle.
+    """
     connection = jsonpickle.decode(request.get_data())
     session["plan"].addLink(
         connection["startActionID"],
@@ -104,6 +125,8 @@ def addLink():
         connection["endActionID"],
         connection["endPortID"],
     )
+
+    # print(session["plan"].actions[0].links)
 
     return jsonpickle.encode(session["plan"])
 
@@ -124,8 +147,10 @@ def removeLink():
 def run():
     actionID = jsonpickle.decode(request.get_data())
 
+    res = ""
+
     for action in session["plan"].actions:
         if action.getID() == actionID:
-            action.main()
+            res = action.main()
 
-    return {"result": "success"}
+    return {"result": res}

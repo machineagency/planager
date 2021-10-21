@@ -136,7 +136,8 @@ export default class Workspace extends React.Component {
     let actionList = [];
     let newLinks = {};
     for (const action of this.state.plan.actions) {
-      actionList.push(
+      let actionRef = React.createRef();
+      let newAction = (
         <Action
           action={action}
           inports={action.inports}
@@ -145,12 +146,31 @@ export default class Workspace extends React.Component {
           endConnection={this.endConnection.bind(this)}
           key={action.id.hex}
           coords={{ x: 500, y: 500 }}
+          ref={actionRef}
         />
       );
+      actionList.push(newAction);
+
       for (const [outportID, link] of Object.entries(action.links)) {
-        const newID = `${action.id.hex}_${outportID}_${link.endActionID.hex}_${link.endPortID}`;
-        newLinks[newID] = <Link key={newID} />;
+        // TODO: Figure out how to get the proper coordinates here. might need to break this out into a callback function that runs after actions are loaded
+        const newID = `${action.id.hex}_${outportID}_${link.endActionID}_${link.endPortID}`;
+        // const coords = actionRef.current.getOutportCoords();
+        newLinks[newID] = (
+          <Link
+            // startx={coords.x}
+            // starty={coords.y}
+            // startx={coords[outportID].x}
+            // starty={coords[outportID].y}
+            startx={1000}
+            starty={1000}
+            endx={2000}
+            endy={2000}
+            key={newID}
+          />
+        );
       }
+
+      // actionList.push(newAction);
     }
     this.setState({
       flow: actionList,

@@ -1,13 +1,13 @@
 import jsonpickle
 
+
 class Plan:
     def __init__(self):
-        # Representation of a workflow when it is loaded into an environment.
         self.actions = []
 
     def toJSON(self):
         """
-        toJSON creates a JSON version of a Plan using jsonpickle
+        Creates a JSON version of a Plan using jsonpickle
 
         Returns:
             json: JSON representation of a Plan
@@ -16,7 +16,7 @@ class Plan:
 
     def addAction(self, NewActionClass):
         """
-        addAction Instantiates and adds an unconnected action to the plan.
+        Instantiates and adds an unconnected action to the plan.
 
         Args:
             NewActionClass (Action): Child class of Action
@@ -36,8 +36,7 @@ class Plan:
         for action in self.actions:
             if action.getID() == startActionID:
                 action.addLinkToOutport(startPortID, endActionID, endPortID)
-
-        return startActionID
+        return
 
     def removeLink(self):
         raise NotImplementedError

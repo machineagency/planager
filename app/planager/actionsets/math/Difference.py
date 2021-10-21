@@ -22,8 +22,10 @@ class Minuser(Action):
 
     def main(self):
         try:
-            result = self.inports["num1"].getValue() - self.inports["num2"].getValue()
-        except:
+            result = (
+                self.inports["num1"].getValue() -
+                self.inports["num2"].getValue())
+        except BaseException:
             result = None
 
         self.outports["result"].setValue(result)

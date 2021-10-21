@@ -1,19 +1,15 @@
-{
-    "displayName": "",
-    "agent": "",
-    "id": "",
+CONFIG = {
+    "displayName": "placeholder",
     "inports": {
         "in": {
             "displayName": "In",
             "description": "Input.",
-            "value": ""
         }
     },
     "outports": {
         "out": {
             "displayName": "Out",
             "description": "Output.",
-            "value": ""
         }
     }
 }

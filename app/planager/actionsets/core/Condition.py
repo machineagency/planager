@@ -9,7 +9,7 @@ CONFIG = {
         }
     },
     "outports": {
-        "c1": {"displayName": "If", "description": "Condition one."},
+        "c1": {"displayName": "Then", "description": "Condition one."},
         "c2": {"displayName": "Else", "description": "Condition two."},
     },
 }
@@ -23,11 +23,11 @@ class Condition(Action):
 
         val = self.inports["condition"].getValue()
 
-        if val == None:
+        if val is None:
             # No input
             self.outports["c1"].setValue(None)
             self.outports["c2"].setValue(None)
-        elif val == True:
+        elif val:
             # Condition is True
             self.outports["c1"].setValue(True)
             self.outports["c2"].setValue(None)
@@ -40,4 +40,6 @@ class Condition(Action):
             self.outports["c1"].setValue(None)
             self.outports["c2"].setValue(None)
 
-        return {"outports": self.outports}
+        self.displayText = "tried to run the conditional"
+
+        return {"text": self.displayText}

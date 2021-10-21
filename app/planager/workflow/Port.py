@@ -1,14 +1,17 @@
 # from enum import Enum
-from uuid import uuid4
+import uuid
+from enum import Enum
 
 
-class PortType:
+class PortType(Enum):
     IN = "IN"
     OUT = "OUT"
 
 
 class Port:
-    def __init__(self, direction: PortType, id: str, parent_id: uuid4, config: dict):
+    def __init__(
+        self, direction: PortType, id: str, parent_id: uuid.UUID, config: dict
+    ):
         self.direction = direction
         self.id = id
         self.parent_id = parent_id
@@ -18,7 +21,10 @@ class Port:
         self.connections = []
 
     def addConnection(self, endActionID, endPortID):
-        self.connections.append({endActionID: endActionID, endPortID: endPortID})
+        self.connections.append(
+            {endActionID: endActionID, endPortID: endPortID})
+        # print(type(endActionID))
+        return
 
     def removeConnection(self, endActionID, endPortID):
         raise NotImplementedError

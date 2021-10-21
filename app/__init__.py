@@ -57,7 +57,7 @@ for root, directories, files in os.walk(package_dir, topdown=True):
                             # Append to the actions list
                             if name != "Action":
                                 action_Dict[module_filename] = obj
-            except:
+            except BaseException:
                 continue
 
 
