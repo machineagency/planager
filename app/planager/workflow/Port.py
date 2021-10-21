@@ -4,8 +4,8 @@ from enum import Enum
 
 
 class PortType(Enum):
-    IN = "IN"
-    OUT = "OUT"
+    IN = "in"
+    OUT = "out"
 
 
 class Port:
@@ -40,3 +40,8 @@ class Port:
     def setValue(self, value):
         self.value = value
         return self.value
+
+    def __str__(self):
+        portDesc = '{}, with {} connections'.format(
+            self.displayName, len(self.connections))
+        return portDesc

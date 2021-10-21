@@ -126,7 +126,7 @@ def addLink():
         connection["endPortID"],
     )
 
-    # print(session["plan"].actions[0].links)
+    # print(session["plan"])
 
     return jsonpickle.encode(session["plan"])
 

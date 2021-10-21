@@ -33,10 +33,22 @@ class Plan:
         raise NotImplementedError
 
     def addLink(self, startActionID, startPortID, endActionID, endPortID):
+        endName = "undefined"
+        for action in self.actions:
+            if action.getID() == endActionID:
+                endName = action.displayName
         for action in self.actions:
             if action.getID() == startActionID:
-                action.addLinkToOutport(startPortID, endActionID, endPortID)
+                action.addLinkToOutport(
+                    startPortID, endActionID, endPortID, endName)
         return
 
     def removeLink(self):
         raise NotImplementedError
+
+    def __str__(self):
+        al = "\n".join([a.__str__() for a in self.actions])
+
+        formatted_output = '''Plan object. Action list:\n{}'''.format(al)
+
+        return formatted_output

@@ -4,6 +4,12 @@ from collections import OrderedDict
 
 
 class Action:
+    """This is the base Action class for planager actions.
+
+    This class contains a superset of the functionality that a planager action
+    should have.
+    """
+
     def __init__(self, config: dict):
         # General information
         self.displayName = config["displayName"]
@@ -45,7 +51,12 @@ class Action:
         self.displayText = content
         return
 
-    def addLinkToOutport(self, startPortID, endActionID: uuid.UUID, endPortID):
+    def addLinkToOutport(
+            self,
+            startPortID,
+            endActionID: uuid.UUID,
+            endPortID,
+            endName):
         self.outports[startPortID].addConnection(endActionID, endPortID)
         # TODO: Something about jsonpickle is broken here, shouldn't have to
         # get the ID hex
@@ -53,6 +64,9 @@ class Action:
             "endActionID": endActionID.hex,
             "endPortID": endPortID,
         }
+        msg = "{} outport \"{}\" connected to {} inport \"{}\"".format(
+            self.displayName, startPortID, endName, endPortID)
+        print(msg)
         return
 
     def onReceive(self):
@@ -85,3 +99,12 @@ class Action:
 
     def getID(self):
         return self.id
+
+    def __str__(self):
+        outportList = "\n\t\t".join([port.__str__()
+                                    for port in self.outports.values()])
+        inportList = "\n\t\t".join([port.__str__()
+                                    for port in self.inports.values()])
+        formatted = '{}, ID: {}\n\tOUTPORTS\n\t\t{}\n\tINPORTS\n\t\t{}'.format(
+            self.displayName, self.id, outportList, inportList)
+        return formatted
