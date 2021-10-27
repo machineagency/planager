@@ -1,4 +1,4 @@
-from ...workflow.Action import Action
+from ....workflow.Action import Action
 
 CONFIG = {
     "displayName": "Axidraw Controller",

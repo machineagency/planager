@@ -1,16 +1,11 @@
 import redis
 import os
-import fnmatch
-import inspect
-import platform
 
 from flask import Flask
 from flask_session import Session
-from importlib import import_module
 
 from .planager.actionsets.axidraw.axidraw_blueprint import axidraw_blueprint
-
-from .planager.workflow.Action import Action
+from . import actionLoader
 
 
 app = Flask(__name__, template_folder="static")
@@ -21,45 +16,7 @@ app = Flask(__name__, template_folder="static")
 # TODO: blueprint registration should be dynamic
 app.register_blueprint(axidraw_blueprint, url_prefix="/axidraw")
 
-
-# Create a list of planager packages and actions and import them
-# Actions must inherit from the Action base class in order to be imported
-
-action_Dict = {}
-package_dir = "./app/planager/actionsets"
-operating_system = platform.system()
-# print(operating_system)
-
-# TODO: Break action and example loaders out into their own modules
-# Use os to walk the packages directory
-for root, directories, files in os.walk(package_dir, topdown=True):
-    for file in files:
-        # Look for all the python files
-        if fnmatch.fnmatch(file, "*.py"):
-            full_path = os.path.normpath(os.path.join(root, file))
-            module_filename, _ = os.path.splitext(os.path.split(full_path)[1])
-            # Remove any __init__.py files
-            if module_filename == "__init__":
-                continue
-
-            # Create the module path by replacing slashes with periods
-            module_path = os.path.splitext(full_path)[0].replace("\\", ".")
-            module = import_module(module_path)
-
-            # Build the list of actions
-            try:
-                # Get the members of the module
-                for name, obj in inspect.getmembers(module):
-                    # Check if the member is a class
-                    if inspect.isclass(obj):
-                        # Check if it is a subclass of Action
-                        if issubclass(obj, Action):
-                            # Append to the actions list
-                            if name != "Action":
-                                action_Dict[module_filename] = obj
-            except BaseException:
-                continue
-
+action_Dict = actionLoader.buildActionDict()
 
 # NOTE: The secret key is used to cryptographically sign the cookies used for storing
 #       the session identifier.

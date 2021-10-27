@@ -4,10 +4,9 @@ CONFIG = {
     "displayName": "Int",
     "inports": {},
     "outports": {
-        "res": {
+        "int": {
             "displayName": "Integer",
             "description": "Constant integer",
-            "value": None,
         }
     },
     "userInput": {
@@ -15,7 +14,6 @@ CONFIG = {
             "type": "int",
             "displayName": "Integer",
             "description": "Integer to set as constant.",
-            "value": None,
         }
     },
 }
@@ -26,22 +24,21 @@ class ConstantInteger(Action):
         Action.__init__(self, CONFIG)
 
     def main(self):
-        print("INT")
-        return {"outports": self.outports}
+        print("you're in the main method of INT")
 
     def handleInput(self, newInt):
         try:
             assert isinstance(newInt, int)
-            self.outports["res"].value = newInt
+            self.outports["int"].value = newInt
         except AssertionError:
             print("not an integer")
-            self.outports["res"].value = None
+            self.outports["int"].value = None
         except BaseException:
             print("Something else went wrong.")
-            self.outports["res"].value = None
+            self.outports["int"].value = None
         return {"outports": self.outports}
 
 
 if __name__ == "__main__":
-    cint = ConstantInteger()
-    cint.handleInput(7)
+    const_int = ConstantInteger()
+    const_int.handleInput(7)

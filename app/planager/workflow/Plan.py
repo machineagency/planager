@@ -5,15 +5,6 @@ class Plan:
     def __init__(self):
         self.actions = []
 
-    def toJSON(self):
-        """
-        Creates a JSON version of a Plan using jsonpickle
-
-        Returns:
-            json: JSON representation of a Plan
-        """
-        return jsonpickle.encode(self)
-
     def addAction(self, NewActionClass):
         """
         Instantiates and adds an unconnected action to the plan.
@@ -28,8 +19,11 @@ class Plan:
         self.actions.append(NewActionClass())
         return
 
-    def removeAction(self):
-        # Should also remove the links connected to the action
+    def removeAction(self, actionID):
+        actionIndex, action = self.getActionByID(actionID)
+        self.actions.pop(actionIndex)
+        # todo: should also remove the links connected to the action
+
         raise NotImplementedError
 
     def addLink(self, startActionID, startPortID, endActionID, endPortID):
@@ -45,6 +39,23 @@ class Plan:
 
     def removeLink(self):
         raise NotImplementedError
+
+    def getActionByID(self, actionID):
+        for index, action in enumerate(self.actions):
+            if action.getID() == actionID:
+                return(index, action)
+
+        # this action is not in the action graph
+        raise BaseException
+
+    def toJSON(self):
+        """
+        Creates a JSON version of a Plan using jsonpickle
+
+        Returns:
+            json: JSON representation of a Plan
+        """
+        return jsonpickle.encode(self)
 
     def __str__(self):
         al = "\n".join([a.__str__() for a in self.actions])
