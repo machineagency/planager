@@ -27,10 +27,13 @@ class Plan:
         raise NotImplementedError
 
     def addLink(self, startActionID, startPortID, endActionID, endPortID):
+        # TODO: Make this pass around action objects rather than IDs
         endName = "undefined"
+        endAction = None
         for action in self.actions:
             if action.getID() == endActionID:
                 endName = action.displayName
+                endAction = action
         for action in self.actions:
             if action.getID() == startActionID:
                 action.addLinkToOutport(

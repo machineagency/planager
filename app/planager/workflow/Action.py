@@ -72,6 +72,10 @@ class Action:
         print(msg)
         return
 
+    def updateOutports(self, outportDict):
+        for outportID, data in outportDict.items():
+            self.outports[outportID].update(data)
+
     def onReceive(self):
         pass
 

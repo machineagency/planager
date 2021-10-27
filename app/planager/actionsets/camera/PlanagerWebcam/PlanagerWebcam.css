@@ -1,0 +1,12 @@
+.takePictureButton {
+  background-color: var(--green);
+  padding: 5px;
+  color: var(--base3);
+  text-align: center;
+  font-weight: bold;
+  margin-top: -4px;
+}
+
+.takePictureButton:hover {
+  background-color: var(--greenHover);
+}
