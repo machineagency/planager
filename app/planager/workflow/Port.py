@@ -22,7 +22,7 @@ class Port:
 
     def addConnection(self, endActionID, endPortID):
         self.connections.append(
-            {endActionID: endActionID, endPortID: endPortID})
+            {'endActionID': endActionID, 'endPortID': endPortID})
         # print(type(endActionID))
         return
 
@@ -32,7 +32,12 @@ class Port:
     def update(self, newVal):
         # TODO: log the current value to the port history
         self.value = newVal
-        return self.value
+        self.updateConnections()
+
+    def updateConnections(self):
+        for connection in self.connections:
+            print("here i would send the data to")
+            print(connection)
 
     def getValue(self):
         return self.value

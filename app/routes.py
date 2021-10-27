@@ -160,3 +160,14 @@ def run():
             print(action.outports)
 
     return {"result": res}
+
+
+@app.post("/sendDataToOutport")
+def sendDataToOutport():
+    data = jsonpickle.decode(request.get_data())
+    for action in session["plan"].actions:
+        print(action.getID())
+        if action.getID().hex == data['actionID']:
+            action.updateOutports(data['dataDict'])
+
+    return({"result": "ok"})

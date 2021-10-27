@@ -6,7 +6,19 @@ import Link from "./Link";
 
 import "./styles/workspace.css";
 
-// import AxidrawConnect from "../../planager/actionsets/axidraw/AxidrawConnect/AxidrawConnect";
+import AxidrawConnect from "../../planager/actionsets/axidraw/AxidrawConnect/AxidrawConnect";
+import AxidrawJobSetup from "../../planager/actionsets/axidraw/AxidrawJobSetup/AxidrawJobSetup";
+import PlanagerWebcam from "../../planager/actionsets/camera/PlanagerWebcam/PlanagerWebcam";
+import SVGParser from "../../planager/actionsets/parsers/SVGParser/SVGParser";
+import RasterToSVG from "../../planager/actionsets/svgtools/RasterToSVG";
+
+const actionUImap = {
+  PlanagerWebcam: PlanagerWebcam,
+  AxidrawConnect: AxidrawConnect,
+  AxidrawJobSetup: AxidrawJobSetup,
+  SVGParser: SVGParser,
+  RasterToSVG: RasterToSVG,
+};
 
 export default class Workspace extends React.Component {
   constructor(props) {
@@ -141,27 +153,51 @@ export default class Workspace extends React.Component {
     }
     return renderedLinks;
   }
-  getComponent(actionName) {
-    let component = this.state.actionDict[actionName].component;
-    if (component) return component;
-    // Else, load the UI component
-    // const componentPath = `../../planager/actionsets/${this.state.actionDict[actionName].actionSet}/${actionName}/${actionName}`;
-    const componentPath =
-      "../../planager/actionsets/axidraw/AxidrawConnect/AxidrawConnect";
-    // component = React.lazy(() => import(componentPath));
-    return Loadable({
-      loader: () => import(componentPath),
-      loading: <div>Loading...</div>,
+  // getComponent(actionName) {
+  //   let component = this.state.actionDict[actionName].component;
+  //   if (component) return component;
+  //   // Else, load the UI component
+  //   // const componentPath = `../../planager/actionsets/${this.state.actionDict[actionName].actionSet}/${actionName}/${actionName}`;
+  //   const componentPath =
+  //     "../../planager/actionsets/axidraw/AxidrawConnect/AxidrawConnect";
+  //   // component = React.lazy(() => import(componentPath));
+  //   return Loadable({
+  //     loader: () => import(componentPath),
+  //     loading: <div>Loading...</div>,
+  //   });
+  // }
+  sendToOutport(actionID, dataDict) {
+    console.log(dataDict);
+    fetch("/sendDataToOutport", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        actionID: actionID,
+        dataDict: dataDict,
+      }),
     });
+  }
+  renderActionUI(action) {
+    let ui;
+    try {
+      ui = React.createElement(actionUImap[action.name], {
+        sendToOutport: this.sendToOutport.bind(this),
+        action: action,
+      });
+    } catch (error) {
+      ui = React.createElement("span");
+    }
+    return ui;
   }
   updatePlan() {
     let actionList = [];
     let newLinks = {};
     for (const action of this.state.plan.actions) {
-      // this.getComponent(action.name);
       let actionRef = React.createRef();
-      let ActionUIComponent = this.getComponent(action.name);
-      console.log(ActionUIComponent);
+      // let ActionUIComponent = this.getComponent(action.name);
+      // console.log(ActionUIComponent);
       let newAction = (
         <Action
           action={action}
@@ -172,9 +208,10 @@ export default class Workspace extends React.Component {
           key={action.id.hex}
           coords={{ x: 500, y: 500 }}
           ref={actionRef}>
-          <Suspense fallback={"hello"}>
+          {/* <Suspense fallback={"hello"}>
             <ActionUIComponent />
-          </Suspense>
+          </Suspense> */}
+          {this.renderActionUI(action)}
         </Action>
       );
       actionList.push(newAction);

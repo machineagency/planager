@@ -67,7 +67,6 @@
   display: block;
   outline: 1px solid var(--base03);
   outline-offset: -1px;
-  padding: 10px;
   color: var(--base03);
 }
 
