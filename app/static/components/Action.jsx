@@ -20,7 +20,9 @@ export default class Action extends React.Component {
           key={inportName}
           title={entry["displayName"]}
           className='port leftPort'
-          onClick={(e) => this.props.endConnection(e, this.props.action.id, inportName)}
+          onClick={(e) =>
+            this.props.endConnection(e, this.props.action.id, inportName)
+          }
         />
       );
     }
@@ -34,18 +36,20 @@ export default class Action extends React.Component {
           key={outportName}
           title={entry["displayName"]}
           className='port rightPort'
-          onClick={(e) => this.props.beginConnection(e, this.props.action.id, outportName)}
+          onClick={(e) =>
+            this.props.beginConnection(e, this.props.action.id, outportName)
+          }
         />
       );
     }
     return outports;
   }
   getOutportCoords() {
-    console.log(this.props.action)
+    console.log(this.props.action);
     return {
       x: 1000,
-      y: 1000
-    }
+      y: 1000,
+    };
   }
   run() {
     fetch("/run", {
@@ -56,7 +60,7 @@ export default class Action extends React.Component {
       body: JSON.stringify(this.props.action.id),
     })
       .then((response) => response.json())
-      .then((res) => this.setState({content: res.text}));
+      .then((res) => this.setState({ content: res.text }));
   }
   render() {
     return (
@@ -78,7 +82,8 @@ export default class Action extends React.Component {
               </span>
             </div>
             <div className='actionContent unselectable'>
-              {this.state.content}
+              {/* {this.state.content} */}
+              {this.props.children}
             </div>
           </div>
           <div className='rightPortsContainer'>

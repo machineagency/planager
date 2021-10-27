@@ -16,6 +16,8 @@ class Action:
         # self.description = config["description"]
         self.id = uuid.uuid4()
 
+        # self.name = config["name"]
+
         try:
             self.displayText = config["display"]
         except BaseException:
@@ -40,6 +42,7 @@ class Action:
                 outport_config)
             self.outports[outport_id] = newOutport
 
+        self.name = self.__module__.split(".")[-1]
         self.links = {}
 
     def display(self, content):
