@@ -86,8 +86,12 @@ def getActions():
     Returns:
         list: A list of the available actions.
     """
-    actionArray = list(action_Dict.keys())
-    return {"actions": actionArray}
+    actionDropdown = {}
+    for actionSet in action_Dict.keys():
+        actionDropdown[actionSet] = [
+            action for action in action_Dict[actionSet].keys()]
+
+    return jsonpickle.encode({"actions": actionDropdown})
 
 
 @app.post("/addAction")
@@ -100,9 +104,9 @@ def addAction():
     Returns:
         JSON: a jsonpickle-encoded version of the plan.
     """
-    action = request.get_json()
-    session["plan"].addAction(action_Dict[action])
-
+    req = request.get_json()
+    print(req)
+    session["plan"].addAction(action_Dict[req['actionSet']][req['action']])
     return jsonpickle.encode(session["plan"])
 
 
@@ -125,8 +129,6 @@ def addLink():
         connection["endActionID"],
         connection["endPortID"],
     )
-
-    # print(session["plan"])
 
     return jsonpickle.encode(session["plan"])
 
@@ -151,6 +153,8 @@ def run():
 
     for action in session["plan"].actions:
         if action.getID() == actionID:
-            res = action.main()
+            action.main()
+            print(action.displayText)
+            print(action.outports)
 
     return {"result": res}

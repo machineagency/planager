@@ -41,5 +41,3 @@ class Condition(Action):
             self.outports["c2"].setValue(None)
 
         self.displayText = "tried to run the conditional"
-
-        return {"text": self.displayText}

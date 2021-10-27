@@ -4,7 +4,7 @@ CONFIG = {
     "displayName": "Bool",
     "inports": {},
     "outports": {
-        "res": {
+        "bool": {
             "displayName": "Boolean",
             "description": "Resulting boolean.",
         }
@@ -23,7 +23,7 @@ class ConstantBoolean(Action):
         Action.__init__(self, CONFIG)
 
     def main(self):
-        return {"outports": self.outports}
+        print("you're in the main method of BOOL")
 
     def handleInput(self, newBool):
         """Handles user input to this action.
@@ -39,11 +39,10 @@ class ConstantBoolean(Action):
         """
         try:
             assert isinstance(newBool, bool)
-            self.outports["res"].setValue(newBool)
+            self.outports["bool"].setValue(newBool)
         except AssertionError:
             print("Value should be an integer.")
-            self.outports["res"].setValue(None)
+            self.outports["bool"].setValue(None)
         except BaseException:
             print("Something else went wrong.")
-            self.outports["res"].setValue(None)
-        return {"outports": self.outports}
+            self.outports["bool"].setValue(None)

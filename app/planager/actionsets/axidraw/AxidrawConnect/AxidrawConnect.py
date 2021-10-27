@@ -1,4 +1,4 @@
-from ...workflow.Action import Action
+from ....workflow.Action import Action
 
 # import .pyaxidraw
 
@@ -19,3 +19,6 @@ class AxidrawConnect(Action):
         print("Connecting to Axidraw")
         self.displayText = "connection, could put more info here"
         return {"text": self.displayText}
+
+    def connect(self):
+        print("CONNECTING TO AXIDRAW")

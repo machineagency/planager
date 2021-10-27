@@ -1,4 +1,4 @@
-from ...workflow.Action import Action
+from ....workflow.Action import Action
 
 CONFIG = {
     "displayName": "Axidraw Serial Connection",
@@ -18,7 +18,7 @@ CONFIG = {
 class AxidrawSerial(Action):
     def __init__(self):
         Action.__init__(self, CONFIG)
-        
+
     def main(self):
         """The main loop; this is what runs when the action is run."""
         print("axidraw serial action run in the backend")
