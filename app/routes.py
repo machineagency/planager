@@ -86,12 +86,15 @@ def getActions():
     Returns:
         list: A list of the available actions.
     """
-    actionDropdown = {}
-    for actionSet in action_Dict.keys():
-        actionDropdown[actionSet] = [
-            action for action in action_Dict[actionSet].keys()]
+    dropdown = {}
+    flattened = {}
 
-    return jsonpickle.encode({"actions": actionDropdown})
+    for actionSet in action_Dict.keys():
+        dropdown[actionSet] = [a for a in action_Dict[actionSet].keys()]
+        for action in action_Dict[actionSet].keys():
+            flattened[action] = {"component": None, "actionSet": actionSet}
+
+    return jsonpickle.encode({"dropdown": dropdown, "actions": flattened})
 
 
 @app.post("/addAction")
@@ -105,7 +108,6 @@ def addAction():
         JSON: a jsonpickle-encoded version of the plan.
     """
     req = request.get_json()
-    print(req)
     session["plan"].addAction(action_Dict[req['actionSet']][req['action']])
     return jsonpickle.encode(session["plan"])
 

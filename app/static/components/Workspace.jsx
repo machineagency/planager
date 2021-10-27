@@ -1,18 +1,19 @@
-import React from "react";
+import React, { Suspense } from "react";
+import Loadable from "react-loadable";
 
 import Action from "./Action";
 import Link from "./Link";
 
 import "./styles/workspace.css";
 
-import AxidrawConnect from "../../planager/actionsets/axidraw/AxidrawConnect/AxidrawConnect";
+// import AxidrawConnect from "../../planager/actionsets/axidraw/AxidrawConnect/AxidrawConnect";
 
 export default class Workspace extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       plan: "undefined",
-      actionList: [],
+      dropdown: {},
       actionDict: {},
       examples: [],
       flow: [],
@@ -28,7 +29,10 @@ export default class Workspace extends React.Component {
     })
       .then((res) => res.json())
       .then((result) => {
-        this.setState({ actionDict: result.actions });
+        this.setState({
+          actionDict: result.actions,
+          dropdown: result.dropdown,
+        });
       });
     fetch("clearPlan", { method: "get" });
     // Bind mousemoveCallback for moving actions
@@ -137,12 +141,27 @@ export default class Workspace extends React.Component {
     }
     return renderedLinks;
   }
-
+  getComponent(actionName) {
+    let component = this.state.actionDict[actionName].component;
+    if (component) return component;
+    // Else, load the UI component
+    // const componentPath = `../../planager/actionsets/${this.state.actionDict[actionName].actionSet}/${actionName}/${actionName}`;
+    const componentPath =
+      "../../planager/actionsets/axidraw/AxidrawConnect/AxidrawConnect";
+    // component = React.lazy(() => import(componentPath));
+    return Loadable({
+      loader: () => import(componentPath),
+      loading: <div>Loading...</div>,
+    });
+  }
   updatePlan() {
     let actionList = [];
     let newLinks = {};
     for (const action of this.state.plan.actions) {
+      // this.getComponent(action.name);
       let actionRef = React.createRef();
+      let ActionUIComponent = this.getComponent(action.name);
+      console.log(ActionUIComponent);
       let newAction = (
         <Action
           action={action}
@@ -152,8 +171,11 @@ export default class Workspace extends React.Component {
           endConnection={this.endConnection.bind(this)}
           key={action.id.hex}
           coords={{ x: 500, y: 500 }}
-          ref={actionRef}
-        />
+          ref={actionRef}>
+          <Suspense fallback={"hello"}>
+            <ActionUIComponent />
+          </Suspense>
+        </Action>
       );
       actionList.push(newAction);
 
@@ -222,7 +244,7 @@ export default class Workspace extends React.Component {
   renderActionSetDropdown() {
     // TODO: Make a react dropdown component
     let dropdown = [];
-    for (const actionSet of Object.keys(this.state.actionDict)) {
+    for (const actionSet of Object.keys(this.state.dropdown)) {
       dropdown.push(
         <div key={actionSet} className='dropdownActionSet'>
           <div className='textContainer'>
@@ -231,7 +253,7 @@ export default class Workspace extends React.Component {
           <div className='actionListContainer'>
             {this.renderActionDropdown(
               actionSet,
-              this.state.actionDict[actionSet]
+              this.state.dropdown[actionSet]
             )}
           </div>
         </div>
