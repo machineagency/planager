@@ -3,7 +3,7 @@ import jsonpickle
 
 class Plan:
     def __init__(self):
-        self.actions = []
+        self.actions = {}
 
     def addAction(self, NewActionClass):
         """
@@ -16,40 +16,19 @@ class Plan:
             Action: The instantiated action of type NewActionClass.
         """
         new_action = NewActionClass()
-        self.actions.append(NewActionClass())
+        self.actions[new_action.id] = new_action
         return
 
     def removeAction(self, actionID):
-        actionIndex, action = self.getActionByID(actionID)
-        self.actions.pop(actionIndex)
-        # todo: should also remove the links connected to the action
-
+        # # todo: should also remove the links connected to the action
         raise NotImplementedError
 
     def addLink(self, startActionID, startPortID, endActionID, endPortID):
-        # TODO: Make this pass around action objects rather than IDs
-        endName = "undefined"
-        endAction = None
-        for action in self.actions:
-            if action.getID() == endActionID:
-                endName = action.displayName
-                endAction = action
-        for action in self.actions:
-            if action.getID() == startActionID:
-                action.addLinkToOutport(
-                    startPortID, endActionID, endPortID, endName)
-        return
+        self.actions[startActionID].addLinkToOutport(
+            startPortID, self.actions[endActionID], endPortID)
 
     def removeLink(self):
         raise NotImplementedError
-
-    def getActionByID(self, actionID):
-        for index, action in enumerate(self.actions):
-            if action.getID() == actionID:
-                return(index, action)
-
-        # this action is not in the action graph
-        raise BaseException
 
     def toJSON(self):
         """
@@ -58,10 +37,13 @@ class Plan:
         Returns:
             json: JSON representation of a Plan
         """
-        return jsonpickle.encode(self)
+        jdict = {"actions": {actionID: action.toJSON()
+                 for actionID, action in self.actions.items()}}
+
+        return jdict
 
     def __str__(self):
-        al = "\n".join([a.__str__() for a in self.actions])
+        al = "\n".join([a.__str__() for a in self.actions.items()])
 
         formatted_output = '''Plan object. Action list:\n{}'''.format(al)
 

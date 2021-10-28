@@ -41,7 +41,7 @@ def loadPlan():
         JSON: The JSON specification for the planager plan.
     """
     if "plan" in session:
-        return jsonpickle.encode(session["plan"])
+        return session["plan"].toJSON()
     return {}
 
 
@@ -109,7 +109,7 @@ def addAction():
     """
     req = request.get_json()
     session["plan"].addAction(action_Dict[req['actionSet']][req['action']])
-    return jsonpickle.encode(session["plan"])
+    return session["plan"].toJSON()
 
 
 @app.post("/addLink")
@@ -125,6 +125,7 @@ def addLink():
         by jsonpickle.
     """
     connection = jsonpickle.decode(request.get_data())
+    print(connection)
     session["plan"].addLink(
         connection["startActionID"],
         connection["startPortID"],
@@ -132,7 +133,7 @@ def addLink():
         connection["endPortID"],
     )
 
-    return jsonpickle.encode(session["plan"])
+    return session["plan"].toJSON()
 
 
 @app.post("/removeAction")
@@ -165,9 +166,7 @@ def run():
 @app.post("/sendDataToOutport")
 def sendDataToOutport():
     data = jsonpickle.decode(request.get_data())
-    for action in session["plan"].actions:
-        print(action.getID())
-        if action.getID().hex == data['actionID']:
-            action.updateOutports(data['dataDict'])
 
-    return({"result": "ok"})
+    session['plan'].actions[data['actionID']].updateOutports(data['dataDict'])
+
+    return session["plan"].toJSON()
