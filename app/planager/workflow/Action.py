@@ -14,9 +14,7 @@ class Action:
         # General information
         self.displayName = config["displayName"]
         # self.description = config["description"]
-        self.id = uuid.uuid4()
-
-        # self.name = config["name"]
+        self.id = uuid.uuid4().hex
 
         try:
             self.displayText = config["display"]
@@ -24,9 +22,6 @@ class Action:
             self.displayText = "Nothing to show!"
 
         # Set up the ports
-        # TODO: Write an ordered dict JSON pickle method
-        # self.outports = OrderedDict()
-        # self.inports = OrderedDict()
         self.outports = {}
         self.inports = {}
 
@@ -57,20 +52,10 @@ class Action:
     def addLinkToOutport(
             self,
             startPortID,
-            endActionID: uuid.UUID,
-            endPortID,
-            endName):
-        self.outports[startPortID].addConnection(endActionID, endPortID)
-        # TODO: Something about jsonpickle is broken here, shouldn't have to
-        # get the ID hex
-        self.links[startPortID] = {
-            "endActionID": endActionID.hex,
-            "endPortID": endPortID,
-        }
-        msg = "{} outport \"{}\" connected to {} inport \"{}\"".format(
-            self.displayName, startPortID, endName, endPortID)
-        print(msg)
-        return
+            endAction,
+            endPortID):
+
+        self.outports[startPortID].addConnection(endAction, endPortID)
 
     def updateOutports(self, outportDict):
         for outportID, data in outportDict.items():
@@ -106,6 +91,20 @@ class Action:
 
     def getID(self):
         return self.id
+
+    def toJSON(self):
+        jdict = {
+            "id": self.id,
+            "displayName": self.displayName,
+            "name": self.name,
+            "links": self.links,
+            "outports": {
+                outportID: outport.toJSON() for outportID,
+                outport in self.outports.items()},
+            "inports": {
+                inportID: inport.toJSON() for inportID,
+                inport in self.inports.items()}}
+        return jdict
 
     def __str__(self):
         outportList = "\n\t\t".join([port.__str__()

@@ -11,6 +11,7 @@ import AxidrawJobSetup from "../../planager/actionsets/axidraw/AxidrawJobSetup/A
 import PlanagerWebcam from "../../planager/actionsets/camera/PlanagerWebcam/PlanagerWebcam";
 import SVGParser from "../../planager/actionsets/parsers/SVGParser/SVGParser";
 import RasterToSVG from "../../planager/actionsets/svgtools/RasterToSVG";
+import ImageViewer from "../../planager/actionsets/camera/ImageViewer/ImageViewer";
 
 const actionUImap = {
   PlanagerWebcam: PlanagerWebcam,
@@ -18,6 +19,7 @@ const actionUImap = {
   AxidrawJobSetup: AxidrawJobSetup,
   SVGParser: SVGParser,
   RasterToSVG: RasterToSVG,
+  ImageViewer: ImageViewer,
 };
 
 export default class Workspace extends React.Component {
@@ -167,7 +169,6 @@ export default class Workspace extends React.Component {
   //   });
   // }
   sendToOutport(actionID, dataDict) {
-    console.log(dataDict);
     fetch("/sendDataToOutport", {
       method: "POST",
       headers: {
@@ -177,7 +178,11 @@ export default class Workspace extends React.Component {
         actionID: actionID,
         dataDict: dataDict,
       }),
-    });
+    })
+      .then((res) => res.json())
+      .then((plan) => {
+        this.setState({ plan: plan }, this.updatePlan);
+      });
   }
   renderActionUI(action) {
     let ui;
@@ -194,10 +199,7 @@ export default class Workspace extends React.Component {
   updatePlan() {
     let actionList = [];
     let newLinks = {};
-    for (const action of this.state.plan.actions) {
-      let actionRef = React.createRef();
-      // let ActionUIComponent = this.getComponent(action.name);
-      // console.log(ActionUIComponent);
+    for (const [actionID, action] of Object.entries(this.state.plan.actions)) {
       let newAction = (
         <Action
           action={action}
@@ -205,12 +207,8 @@ export default class Workspace extends React.Component {
           outports={action.outports}
           beginConnection={this.beginConnection.bind(this)}
           endConnection={this.endConnection.bind(this)}
-          key={action.id.hex}
-          coords={{ x: 500, y: 500 }}
-          ref={actionRef}>
-          {/* <Suspense fallback={"hello"}>
-            <ActionUIComponent />
-          </Suspense> */}
+          key={actionID}
+          coords={{ x: 1000, y: 1000 }}>
           {this.renderActionUI(action)}
         </Action>
       );
@@ -218,7 +216,7 @@ export default class Workspace extends React.Component {
 
       for (const [outportID, link] of Object.entries(action.links)) {
         // TODO: Figure out how to get the proper coordinates here. might need to break this out into a callback function that runs after actions are loaded
-        const newID = `${action.id.hex}_${outportID}_${link.endActionID}_${link.endPortID}`;
+        const newID = `${action.id}_${outportID}_${link.endActionID}_${link.endPortID}`;
         // const coords = actionRef.current.getOutportCoords();
         newLinks[newID] = (
           <Link

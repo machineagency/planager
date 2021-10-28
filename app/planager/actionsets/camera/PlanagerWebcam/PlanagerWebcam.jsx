@@ -16,7 +16,7 @@ export default class PlanagerWebcam extends React.Component {
   }
   screenshot() {
     const pic = this.camera.current.getScreenshot();
-    this.props.sendToOutport(this.props.action.id.hex, { image: pic });
+    this.props.sendToOutport(this.props.action.id, { image: pic });
   }
   render() {
     return (

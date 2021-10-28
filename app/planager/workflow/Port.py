@@ -10,7 +10,7 @@ class PortType(Enum):
 
 class Port:
     def __init__(
-        self, direction: PortType, id: str, parent_id: uuid.UUID, config: dict
+        self, direction: PortType, id: str, parent_id: str, config: dict
     ):
         self.direction = direction
         self.id = id
@@ -20,10 +20,10 @@ class Port:
         self.value = None
         self.connections = []
 
-    def addConnection(self, endActionID, endPortID):
+    def addConnection(self, endAction, endPortID):
         self.connections.append(
-            {'endActionID': endActionID, 'endPortID': endPortID})
-        # print(type(endActionID))
+            {'endAction': endAction, 'endPortID': endPortID})
+        print(self.connections[0]['endAction'].id)
         return
 
     def removeConnection(self, endActionID, endPortID):
@@ -36,15 +36,24 @@ class Port:
 
     def updateConnections(self):
         for connection in self.connections:
-            print("here i would send the data to")
-            print(connection)
+            connection['endAction'].inports[connection['endPortID']
+                                            ].setValue(self.value)
 
     def getValue(self):
         return self.value
 
     def setValue(self, value):
         self.value = value
-        return self.value
+
+    def toJSON(self):
+        return {
+            "id": self.id,
+            "parentID": self.parent_id,
+            "description": self.description,
+            "value": self.value,
+            "displayName": self.displayName,
+            "connections": {
+                (connection['endAction'].id): connection['endPortID'] for connection in self.connections}}
 
     def __str__(self):
         portDesc = '{}, with {} connections'.format(
