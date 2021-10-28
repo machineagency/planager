@@ -1,20 +1,50 @@
+import jsonpickle
+
+
 class Plan:
     def __init__(self):
-        # Representation of a workflow when it is loaded into an environment.
-        self.name = None
-        self.date = None
-        self.author = None
-        self.description = None
+        self.actions = {}
 
-        self.actionSequence = []
-        #
+    def addAction(self, NewActionClass):
+        """
+        Instantiates and adds an unconnected action to the plan.
 
-        self.panels = []
+        Args:
+            NewActionClass (Action): Child class of Action
 
-        self.entry = None  # How do we specify an entry point? How would you execute?
-        self.debug = False # debugging is specific to this environment and workflow
-        
+        Returns:
+            Action: The instantiated action of type NewActionClass.
+        """
+        new_action = NewActionClass()
+        self.actions[new_action.id] = new_action
+        return
 
-    def saveToJSON(self):
-        #Exports the content of this workflow to a JSON file.
-        pass
+    def removeAction(self, actionID):
+        # # todo: should also remove the links connected to the action
+        raise NotImplementedError
+
+    def addLink(self, startActionID, startPortID, endActionID, endPortID):
+        self.actions[startActionID].addLinkToOutport(
+            startPortID, self.actions[endActionID], endPortID)
+
+    def removeLink(self):
+        raise NotImplementedError
+
+    def toJSON(self):
+        """
+        Creates a JSON version of a Plan using jsonpickle
+
+        Returns:
+            json: JSON representation of a Plan
+        """
+        jdict = {"actions": {actionID: action.toJSON()
+                 for actionID, action in self.actions.items()}}
+
+        return jdict
+
+    def __str__(self):
+        al = "\n".join([a.__str__() for a in self.actions.items()])
+
+        formatted_output = '''Plan object. Action list:\n{}'''.format(al)
+
+        return formatted_output

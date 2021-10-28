@@ -1,6 +1,4 @@
 #action {
-  /* height: 200px;
-    width: 200px; */
   background-color: var(--base1);
 }
 
@@ -13,8 +11,9 @@
 
 /* Styling for the action top toolbar */
 .actionToolbarContainer {
-  grid-column: 2;
-  grid-row: 1;
+  background-color: var(--base03);
+  color: var(--base3);
+  padding: 5px 5px 0 5px;
 }
 
 .removeActionButton {
@@ -30,6 +29,23 @@
   color: white;
 }
 
+.runIcon {
+  cursor: pointer;
+  float: right;
+  padding-left: 5px;
+}
+
+.runIcon :hover {
+  color: var(--green);
+}
+
+.dragHandle {
+  cursor: move;
+  vertical-align: middle;
+  display: inline-block;
+  margin-right: 2px;
+}
+
 .closeIcon {
   display: block;
   font-size: 14px;
@@ -42,48 +58,62 @@
 }
 
 .actionTitle {
-  padding: 3px 10px;
-  background-color: var(--green);
-  color: var(--base3);
   font-weight: bolder;
-  display: block;
-  width: auto;
 }
 
 .actionContent {
   cursor: default;
-  background-color: var(--base1);
+  background-color: var(--base3);
   display: block;
-  width: 100%;
+  outline: 1px solid var(--base03);
+  outline-offset: -1px;
+  color: var(--base03);
 }
 
 /* Styling for the ports */
 .leftPortsContainer {
   grid-column: 1;
   grid-row: 2;
+  display: table;
 }
 
 .rightPortsContainer {
   grid-column: 3;
   grid-row: 2;
+  display: table;
 }
 
-.leftPorts {
-  float: right;
-  cursor: default;
+.ports {
+  vertical-align: middle;
+  display: table-cell;
 }
 
-.rightPorts {
-  float: left;
-  cursor: default;
+.leftPort {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background-color: var(--violet);
+}
+
+.rightPort {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: var(--cyan);
 }
 
 .port {
-  height: 20px;
-  width: 20px;
-  background-color: var(--base01);
+  height: 15px;
+  width: 15px;
+  margin-bottom: 2px;
 }
 
 .port:hover {
-  background-color: var(--base02);
+  cursor: pointer;
+}
+
+.rightPort:hover {
+  background-color: var(--cyanHover);
+}
+
+.leftPort:hover {
+  background-color: var(--violetHover);
 }

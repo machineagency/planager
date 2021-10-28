@@ -1,30 +1,61 @@
+# from enum import Enum
+import uuid
+from enum import Enum
+
+
+class PortType(Enum):
+    IN = "in"
+    OUT = "out"
+
+
 class Port:
-    def __init__(self):
-        self.portType = 1 # Boolean between in or out?
-        self.info = None # Information contained in the port.
-        self.infoType = None # Type of the information. could be a primitive or a planagertype
-        #Should there even be a distinction between inports and outports? 
-        # Are they really just the same thing but we impose a separation between them with a link?
-        # Maybe we could think of them as holding areas for information/status/assets whatever
+    def __init__(
+        self, direction: PortType, id: str, parent_id: str, config: dict
+    ):
+        self.direction = direction
+        self.id = id
+        self.parent_id = parent_id
+        self.displayName = config["displayName"]
+        self.description = config["description"]
+        self.value = None
+        self.connections = []
 
-        # Logging and debugging
-        self.portLog = [] # log of 
-        self.history = [] # History of values that went through this port.
-        self.historyLimit = 0 # Limit of how many history entries to store?
+    def addConnection(self, endAction, endPortID):
+        self.connections.append(
+            {'endAction': endAction, 'endPortID': endPortID})
+        print(self.connections[0]['endAction'].id)
+        return
 
+    def removeConnection(self, endActionID, endPortID):
+        raise NotImplementedError
 
-    def typeCheck(self):
-        # Checks to see if the type is appropriate.
-        pass
+    def update(self, newVal):
+        # TODO: log the current value to the port history
+        self.value = newVal
+        self.updateConnections()
 
-    def update(self):
-        # updates the information in the port.
-        pass
+    def updateConnections(self):
+        for connection in self.connections:
+            connection['endAction'].inports[connection['endPortID']
+                                            ].setValue(self.value)
 
-    def formatPanel(self):
-        #Formats the information in the port in a way that is readable through an info panel.
-        pass
+    def getValue(self):
+        return self.value
 
-    def addToPortLog(self):
-        #adds info to the port log
-        pass
+    def setValue(self, value):
+        self.value = value
+
+    def toJSON(self):
+        return {
+            "id": self.id,
+            "parentID": self.parent_id,
+            "description": self.description,
+            "value": self.value,
+            "displayName": self.displayName,
+            "connections": {
+                (connection['endAction'].id): connection['endPortID'] for connection in self.connections}}
+
+    def __str__(self):
+        portDesc = '{}, with {} connections'.format(
+            self.displayName, len(self.connections))
+        return portDesc
