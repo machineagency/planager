@@ -20,5 +20,6 @@ class ImageViewer(Action):
         Action.__init__(self, CONFIG)
 
     def main(self):
-        """The main loop; this is what runs when the action is run."""
-        print("Inside example action")
+        print("in image viewer")
+        # Pass through the image value
+        self.updateOutports({"imOut": self.inports["imIn"].getValue()})

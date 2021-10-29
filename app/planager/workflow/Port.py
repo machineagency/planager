@@ -36,8 +36,8 @@ class Port:
 
     def updateConnections(self):
         for connection in self.connections:
-            connection['endAction'].inports[connection['endPortID']
-                                            ].setValue(self.value)
+            connection['endAction'].updateInport(
+                connection['endPortID'], self.value)
 
     def getValue(self):
         return self.value

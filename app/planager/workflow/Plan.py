@@ -1,6 +1,3 @@
-import jsonpickle
-
-
 class Plan:
     def __init__(self):
         self.actions = {}
@@ -32,7 +29,7 @@ class Plan:
 
     def toJSON(self):
         """
-        Creates a JSON version of a Plan using jsonpickle
+        Creates a JSON version of a Plan
 
         Returns:
             json: JSON representation of a Plan
