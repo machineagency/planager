@@ -72,10 +72,12 @@ def clearPlan():
     Returns:
         dict: Dictionary containing the result message.
     """
+    print(session['plan'])
+    session.pop('plan', default=None)
 
     newPlan = Plan()
-
     session["plan"] = newPlan
+    print(session['plan'])
     return {"message": "OK"}
 
 
@@ -165,6 +167,11 @@ def run():
 
 @app.post("/sendDataToOutport")
 def sendDataToOutport():
+    """Sends data created in the frontend to an action outport
+
+    Returns:
+        dict: A dictionary containing the JSON representation of the plan
+    """
     data = jsonpickle.decode(request.get_data())
 
     session['plan'].actions[data['actionID']].updateOutports(data['dataDict'])
@@ -174,6 +181,14 @@ def sendDataToOutport():
 
 @app.post("/runBackendMethod")
 def runBackendMethod():
+    """Runs a method in the backend for an action.
+
+    Raises:
+        NotImplementedError: If the method does not exist, raises NotImplementedError
+
+    Returns:
+        dict: dict containing response from the method
+    """
     data = jsonpickle.decode(request.get_data())
 
     method = None

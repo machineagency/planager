@@ -1,7 +1,7 @@
 import React from "react";
 import imagetracer from "./imagetracer";
 
-import "./RasterToSVG.css";
+import "./ImageTrace.css";
 const PRESETS = [
   "default",
   "posterized1",
@@ -21,7 +21,7 @@ const PRESETS = [
   "artistic4",
 ];
 
-export default class RasterToSVG extends React.Component {
+export default class ImageTrace extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -67,6 +67,7 @@ export default class RasterToSVG extends React.Component {
       dropdown.push(
         <div
           className='dropdownItem'
+          key={preset}
           onClick={this.updatePreset.bind(this, preset)}>
           {preset}
         </div>

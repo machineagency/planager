@@ -1,7 +1,6 @@
 from pyaxidraw import axidraw   # Import the module
 from ....workflow.Action import Action
 
-from pyaxidraw import axidraw
 
 CONFIG = {
     "displayName": "Get Axidraw Object",
