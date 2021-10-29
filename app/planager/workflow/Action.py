@@ -61,6 +61,10 @@ class Action:
         for outportID, data in outportDict.items():
             self.outports[outportID].update(data)
 
+    def updateInport(self, inportID, value):
+        self.inports[inportID].setValue(value)
+        self.main()
+
     def onReceive(self):
         pass
 

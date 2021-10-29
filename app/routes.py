@@ -170,3 +170,20 @@ def sendDataToOutport():
     session['plan'].actions[data['actionID']].updateOutports(data['dataDict'])
 
     return session["plan"].toJSON()
+
+
+@app.post("/runBackendMethod")
+def runBackendMethod():
+    data = jsonpickle.decode(request.get_data())
+
+    method = None
+    try:
+        method = getattr(
+            session['plan'].actions[data['actionID']], data['method'])
+    except AttributeError:
+        raise NotImplementedError("Class `{}` does not implement `{}`".format(
+            session['plan'].actions[data['actionID']].__class__.__name__, data['method']))
+
+    method(data['args'])
+
+    return {"msg": "ok"}
