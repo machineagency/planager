@@ -1,0 +1,30 @@
+.presetDropdown {
+  background-color: var(--blue);
+  text-align: center;
+  padding: 10px;
+  color: var(--base3);
+  margin-top: -4px;
+  position: relative;
+}
+
+.presetDropdown:hover .dropdownContainer {
+  display: block;
+  right: 0;
+  top: 35px;
+}
+
+.dropdownContainer {
+  display: none;
+  position: absolute;
+}
+
+.dropdownItem {
+  background-color: var(--cyan);
+  text-align: center;
+  padding: 5px;
+  font-weight: bolder;
+}
+
+.dropdownItem:hover {
+  background-color: var(--cyanHover);
+}

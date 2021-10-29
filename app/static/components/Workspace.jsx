@@ -1,12 +1,11 @@
-import React, { Suspense } from "react";
-import Loadable from "react-loadable";
+import React from "react";
 
 import Action from "./Action";
 import Link from "./Link";
 
 import "./styles/workspace.css";
 
-import AxidrawConnect from "../../planager/actionsets/axidraw/AxidrawConnect/AxidrawConnect";
+import GetAxidraw from "../../planager/actionsets/axidraw/GetAxidraw/GetAxidraw";
 import AxidrawJobSetup from "../../planager/actionsets/axidraw/AxidrawJobSetup/AxidrawJobSetup";
 import PlanagerWebcam from "../../planager/actionsets/camera/PlanagerWebcam/PlanagerWebcam";
 import SVGParser from "../../planager/actionsets/parsers/SVGParser/SVGParser";
@@ -15,7 +14,7 @@ import ImageViewer from "../../planager/actionsets/camera/ImageViewer/ImageViewe
 
 const actionUImap = {
   PlanagerWebcam: PlanagerWebcam,
-  AxidrawConnect: AxidrawConnect,
+  GetAxidraw: GetAxidraw,
   AxidrawJobSetup: AxidrawJobSetup,
   SVGParser: SVGParser,
   RasterToSVG: RasterToSVG,
@@ -53,28 +52,28 @@ export default class Workspace extends React.Component {
     this.mousemoveCallback = this.mousemoveCallback.bind(this);
   }
 
-  uploadPlan(event) {
-    var reader = new FileReader();
+  // uploadPlan(event) {
+  //   var reader = new FileReader();
 
-    // // This callback is run when the file loads
-    // reader.onload = (event) => {
-    //   const plan = JSON.parse(event.target.result);
-    //   fetch("/uploadPlan", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(plan),
-    //   })
-    //     .then((res) => res.json())
-    //     // Todo: check for plan correctness in the backend and return the appropriate code
-    //     .then((result) => {
-    //       console.debug(result);
-    //       this.setState({ plan: plan }, this.updatePlan);
-    //     });
-    // };
-    // reader.readAsText(event.target.files[0]);
-  }
+  // // This callback is run when the file loads
+  // reader.onload = (event) => {
+  //   const plan = JSON.parse(event.target.result);
+  //   fetch("/uploadPlan", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(plan),
+  //   })
+  //     .then((res) => res.json())
+  //     // Todo: check for plan correctness in the backend and return the appropriate code
+  //     .then((result) => {
+  //       console.debug(result);
+  //       this.setState({ plan: plan }, this.updatePlan);
+  //     });
+  // };
+  // reader.readAsText(event.target.files[0]);
+  // }
   mousemoveCallback(e) {
     let start = this.state.start;
     const newLink = {
@@ -197,6 +196,7 @@ export default class Workspace extends React.Component {
     return ui;
   }
   updatePlan() {
+    console.log("updating plan");
     let actionList = [];
     let newLinks = {};
     for (const [actionID, action] of Object.entries(this.state.plan.actions)) {
@@ -322,10 +322,10 @@ export default class Workspace extends React.Component {
           <span id='toolbarTitle' className='unselectable'>
             Planager
           </span>
-          <label title='Load plan' className='toolbarButton unselectable'>
+          {/* <label title='Load plan' className='toolbarButton unselectable'>
             Upload
             <input type='file' onChange={this.uploadPlan.bind(this)} />
-          </label>
+          </label> */}
           <span className='relative'>
             <span
               title='Actions'

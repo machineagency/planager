@@ -19,7 +19,4 @@ class PlanagerWebcam(Action):
         Action.__init__(self, CONFIG)
 
     def main(self):
-        """The main loop; this is what runs when the action is run."""
         print("Inside webcam")
-        self.displayText = "Webcam, could put more info here"
-        return {"text": self.displayText}
