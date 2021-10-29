@@ -5,6 +5,7 @@
   color: var(--base3);
   margin-top: -4px;
   position: relative;
+  font-weight: bolder;
 }
 
 .presetDropdown:hover .dropdownContainer {

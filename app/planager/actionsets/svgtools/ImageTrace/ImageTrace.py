@@ -1,4 +1,4 @@
-from ...workflow.Action import Action
+from ....workflow.Action import Action
 
 CONFIG = {
     "displayName": "Raster to SVG",
@@ -15,9 +15,9 @@ CONFIG = {
 }
 
 
-class RasterToSVG(Action):
+class ImageTrace(Action):
     def __init__(self):
         Action.__init__(self, CONFIG)
 
     def main(self):
-        print("Inside RasterToSVG")
+        print("Image trace main loop")

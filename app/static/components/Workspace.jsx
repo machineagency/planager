@@ -5,27 +5,33 @@ import Link from "./Link";
 
 import "./styles/workspace.css";
 
-import GetAxidraw from "../../planager/actionsets/axidraw/GetAxidraw/GetAxidraw";
-import AxidrawJobSetup from "../../planager/actionsets/axidraw/AxidrawJobSetup/AxidrawJobSetup";
+// import GetAxidraw from "../../../action_icebox/GetAxidraw/GetAxidraw";
+// import AxidrawJobSetup from "../../../action_icebox/AxidrawJobSetup/AxidrawJobSetup";
 import PlanagerWebcam from "../../planager/actionsets/camera/PlanagerWebcam/PlanagerWebcam";
-import SVGParser from "../../planager/actionsets/parsers/SVGParser/SVGParser";
-import RasterToSVG from "../../planager/actionsets/svgtools/RasterToSVG";
+// import SVGParser from "../../planager/actionsets/parsers/SVGParser/SVGParser";
+import ImageTrace from "../../planager/actionsets/svgtools/ImageTrace/ImageTrace";
 import ImageViewer from "../../planager/actionsets/camera/ImageViewer/ImageViewer";
+import DrawSVG from "../../planager/actionsets/axidraw/DrawSVG/DrawSVG";
+import Options from "../../planager/actionsets/axidraw/Options/Options";
+import Resize from "../../planager/actionsets/svgtools/Resize/Resize";
 
 const actionUImap = {
   PlanagerWebcam: PlanagerWebcam,
-  GetAxidraw: GetAxidraw,
-  AxidrawJobSetup: AxidrawJobSetup,
-  SVGParser: SVGParser,
-  RasterToSVG: RasterToSVG,
+  // GetAxidraw: GetAxidraw,
+  // AxidrawJobSetup: AxidrawJobSetup,
+  // SVGParser: SVGParser,
+  ImageTrace: ImageTrace,
   ImageViewer: ImageViewer,
+  DrawSVG: DrawSVG,
+  Options: Options,
+  Resize: Resize,
 };
 
 export default class Workspace extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      plan: "undefined",
+      plan: {},
       dropdown: {},
       actionDict: {},
       examples: [],
@@ -47,8 +53,9 @@ export default class Workspace extends React.Component {
           dropdown: result.dropdown,
         });
       });
-    fetch("clearPlan", { method: "get" });
+    fetch("/clearPlan", { method: "get" });
     // Bind mousemoveCallback for moving actions
+    console.log(this.state.plan);
     this.mousemoveCallback = this.mousemoveCallback.bind(this);
   }
 
@@ -184,6 +191,7 @@ export default class Workspace extends React.Component {
       });
   }
   renderActionUI(action) {
+    console.log(action);
     let ui;
     try {
       ui = React.createElement(actionUImap[action.name], {
