@@ -33,24 +33,24 @@ export default class ImageTrace extends React.Component {
     this.canvas = React.createRef();
   }
   componentDidUpdate(prevProps) {
-    // If there's no value in the inport, do nothing
-    if (!prevProps.action.inports.raster.value) return;
-    // If the new timestamp doesn't match the old timestamp, retrace
-    if (
-      this.props.action.inports.raster.value.timeStamp !== this.state.lastPic ||
-      this.state.retrace == true
-    ) {
+    // Runs after the component updates/recieves new props. Checks if the timestamp of the photo has changed before retracing it and adding it to the state. If we don't check this we will get trapped in an infinite loop because this method is called whenever the state updates.
+    const oldIm = prevProps.action.inports.raster.value;
+    const newIm = this.props.action.inports.raster.value;
+    // If there is no existing value in the inport and no new image, return because there is nothing to trace
+    if (!oldIm && !newIm) return;
+    // If the new timestamp doesn't match the old timestamp or we've set the retrace value to be true, retrace
+    if (newIm.timeStamp !== this.state.lastPic || this.state.retrace == true) {
       imagetracer.imageToSVG(
-        this.props.action.inports.raster.value.pic,
-        (res) => {
-          // Once image is traced, send it to the outport
+        newIm.pic,
+        (traced) => {
+          // Callback: once image is traced, send it to the outport
           this.props.sendToOutport(this.props.action.id, {
-            svg: res,
+            svg: traced,
           });
-          // Update the state with the SVG and new timestamp
+          // Update the state with the SVG and new timestamp and set retrace to false
           this.setState({
-            svg: res,
-            lastPic: this.props.action.inports.raster.value.timeStamp,
+            svg: traced,
+            lastPic: newIm.timeStamp,
             retrace: false,
           });
         },

@@ -71,14 +71,11 @@ export default class Action extends React.Component {
           </div>
           <div className='mainActionContainer'>
             <div className='actionToolbarContainer unselectable'>
-              <span className='dragHandle'>
-                <FaGripVertical />
-              </span>
               <span className='actionTitle'>
                 {this.props.action.displayName}
               </span>
-              <span className='runIcon' onClick={this.run.bind(this)}>
-                <FaPlay />
+              <span className='dragHandle'>
+                <FaGripVertical />
               </span>
             </div>
             <div className='actionContent unselectable'>

@@ -7,13 +7,14 @@
   position: absolute;
   display: grid;
   grid-auto-columns: auto;
+  height: max-content;
 }
 
 /* Styling for the action top toolbar */
 .actionToolbarContainer {
   background-color: var(--base03);
   color: var(--base3);
-  padding: 5px 5px 0 5px;
+  padding: 5px 5px 2px 5px;
 }
 
 .removeActionButton {
@@ -29,21 +30,9 @@
   color: white;
 }
 
-.runIcon {
-  cursor: pointer;
-  float: right;
-  padding-left: 5px;
-}
-
-.runIcon :hover {
-  color: var(--green);
-}
-
 .dragHandle {
   cursor: move;
-  vertical-align: middle;
-  display: inline-block;
-  margin-right: 2px;
+  float: right;
 }
 
 .closeIcon {
@@ -55,6 +44,7 @@
 .mainActionContainer {
   grid-column: 2;
   grid-row: 2;
+  height: max-content;
 }
 
 .actionTitle {
@@ -75,16 +65,17 @@
   grid-column: 1;
   grid-row: 2;
   display: table;
+  height: max-content;
 }
 
 .rightPortsContainer {
   grid-column: 3;
   grid-row: 2;
   display: table;
+  height: max-content;
 }
 
 .ports {
-  vertical-align: middle;
   display: table-cell;
 }
 
