@@ -1,16 +1,21 @@
 import React from "react";
 
+import "./ImageViewer.css";
+
 export default class ImageViewer extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      image: null,
+    };
   }
+  componentDidUpdate(prevProps) {}
 
   render() {
     return (
-      <div>
+      <div className='resizable'>
         <img
-          width='200px'
-          style={{ marginBottom: "-4px" }}
+          id='imageView'
           src={
             this.props.action.inports.imIn.value
               ? this.props.action.inports.imIn.value.pic
