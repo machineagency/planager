@@ -1,10 +1,10 @@
-from flask import request, render_template, session
-
-from . import app, action_Dict
-
-from .planager.workflow.Plan import Plan
-
 import jsonpickle
+from .planager.workflow.Plan import Plan
+from . import app, action_Dict
+from flask import request, render_template, session
+from rich import print, print_json
+from rich.traceback import install
+install()
 
 
 @app.get("/")
@@ -14,6 +14,9 @@ def home():
     Returns:
         [template]: index.html template
     """
+    session.pop('plan', None)
+    newPlan = Plan()
+    session["plan"] = newPlan
     return render_template("index.html")
 
 
@@ -41,7 +44,7 @@ def loadPlan():
         JSON: The JSON specification for the planager plan.
     """
     if "plan" in session:
-        return session["plan"].toJSON()
+        return session.get('plan').toJSON()
     return {}
 
 
@@ -72,12 +75,12 @@ def clearPlan():
     Returns:
         dict: Dictionary containing the result message.
     """
-    print(session['plan'])
-    session.pop('plan', default=None)
+    session.pop("plan", None)
 
     newPlan = Plan()
     session["plan"] = newPlan
-    print(session['plan'])
+    session.modified = True
+
     return {"message": "OK"}
 
 
@@ -88,6 +91,7 @@ def getActions():
     Returns:
         list: A list of the available actions.
     """
+
     dropdown = {}
     flattened = {}
 
@@ -110,8 +114,9 @@ def addAction():
         JSON: a jsonpickle-encoded version of the plan.
     """
     req = request.get_json()
-    session["plan"].addAction(action_Dict[req['actionSet']][req['action']])
-    return session["plan"].toJSON()
+    session.get('plan').addAction(action_Dict[req['actionSet']][req['action']])
+    print_json(data=session.get('plan').toJSON())
+    return session.get('plan').toJSON()
 
 
 @app.post("/addLink")
@@ -127,15 +132,15 @@ def addLink():
         by jsonpickle.
     """
     connection = jsonpickle.decode(request.get_data())
-    print(connection)
-    session["plan"].addLink(
+    print_json(data=connection)
+    session.get('plan').addLink(
         connection["startActionID"],
         connection["startPortID"],
         connection["endActionID"],
         connection["endPortID"],
     )
 
-    return session["plan"].toJSON()
+    return session.get('plan').toJSON()
 
 
 @app.post("/removeAction")

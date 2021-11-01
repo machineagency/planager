@@ -1,11 +1,15 @@
 import redis
 import os
 
+from rich import print, print_json
 from flask import Flask
 from flask_session import Session
 
 # from .planager.actionsets.axidraw.axidraw_blueprint import axidraw_blueprint
 from . import actionLoader
+
+from rich.traceback import install
+install()
 
 
 app = Flask(__name__, template_folder="static")

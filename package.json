@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Frontend for the planager.",
   "main": "index.js",
+  "repository": "https://github.com/machineagency/planager",
   "scripts": {
     "build": "webpack --progress --config webpack.config.js",
     "dev-build": "webpack --progress --config webpack.config.js",
