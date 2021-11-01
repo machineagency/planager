@@ -1,4 +1,3 @@
-from pyaxidraw import axidraw
 from ....workflow.Action import Action
 
 CONFIG = {
