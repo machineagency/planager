@@ -5,7 +5,7 @@ export default class KnitspeakToKnitgraph extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      flag: true,
+      graph: true,
     };
   }
   compile() {

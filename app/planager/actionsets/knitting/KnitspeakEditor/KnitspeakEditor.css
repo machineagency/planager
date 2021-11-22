@@ -1,3 +1,15 @@
 @import "../../../../../node_modules/codemirror/lib/codemirror.css";
 @import "../../../../../node_modules/codemirror/theme/solarized.css";
 @import "../../../../../node_modules/codemirror/theme/monokai.css";
+
+.sendButton {
+  background-color: var(--green);
+  padding: 5px;
+  color: var(--base3);
+  text-align: center;
+  font-weight: bold;
+}
+
+.sendButton:hover {
+  background-color: var(--greenHover);
+}

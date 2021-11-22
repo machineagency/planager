@@ -32,4 +32,4 @@ class KnitgraphVisualizer(Action):
             viz = visualize_knitGraph(self.inports["knitgraphIn"].getValue(), "cables.html")
             self.outports["knitgraphOut"].setValue(graph)
             return viz
-        return {}
+        return None

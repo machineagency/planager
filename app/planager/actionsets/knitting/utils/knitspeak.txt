@@ -1,0 +1,21 @@
+# stockinette
+all rs rows k.
+all ws rows p.
+
+# rib
+all rs rows k rib=4, p rib.
+all ws rows k rib, p rib.
+
+# cables
+1st row k, lc2|2, k, rc2|2, [k] to end.
+all ws rows p.
+3rd row k 2, lc2|1, k, rc1|2, [k] to end.
+5th row k 3, lc1|1, k, rc1|1, [k] to end.
+
+# lace
+all rs rows k, k2tog, yo 2, sk2po, yo 2, skpo, k.
+all ws rows p 2, k, p 3, k, p 2.
+
+# slipped rib
+all rs rows k rib=1, [k rib, p rib] to last rib sts, k rib.
+all ws rows k rib, [slip rib, k rib] to last rib sts, p rib.

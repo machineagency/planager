@@ -32,7 +32,7 @@ def buildActionDict():
                 # Create the module path by replacing slashes with periods
                 module_path = os.path.splitext(full_path)[0].replace("\\", ".")
                 # TODO: Don't actually import the module here, only import it
-                # if you need it. maybe use import_lib.find_loader
+                # TODO: if you need it. maybe use import_lib.find_loader
                 module = import_module(module_path)
 
                 # Build the list of actions
