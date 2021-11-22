@@ -8,8 +8,7 @@ export default class KnitspeakEditor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value:
-        "1st row k, lc2|2, k, rc2|2, [k] to end.\nall ws rows p.\n3rd row k 2, lc2|1, k, rc1|2, [k] to end.\n5th row k 3, lc1|1, k, rc1|1, [k] to end.",
+      value: "all rs rows k.\nall ws rows p.",
     };
   }
   componentDidMount() {
