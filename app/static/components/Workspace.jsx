@@ -5,26 +5,26 @@ import Link from "./Link";
 
 import "./styles/workspace.css";
 
-// import GetAxidraw from "../../../action_icebox/GetAxidraw/GetAxidraw";
-// import AxidrawJobSetup from "../../../action_icebox/AxidrawJobSetup/AxidrawJobSetup";
 import PlanagerWebcam from "../../planager/actionsets/camera/PlanagerWebcam/PlanagerWebcam";
-// import SVGParser from "../../planager/actionsets/parsers/SVGParser/SVGParser";
 import ImageTrace from "../../planager/actionsets/svgtools/ImageTrace/ImageTrace";
 import ImageViewer from "../../planager/actionsets/camera/ImageViewer/ImageViewer";
 import DrawSVG from "../../planager/actionsets/axidraw/DrawSVG/DrawSVG";
 import Options from "../../planager/actionsets/axidraw/Options/Options";
 import Resize from "../../planager/actionsets/svgtools/Resize/Resize";
+import KnitspeakEditor from "../../planager/actionsets/knitting/KnitspeakEditor/KnitspeakEditor";
+import KnitspeakToKnitgraph from "../../planager/actionsets/knitting/KnitspeakToKnitgraph/KnitspeakToKnitgraph";
+import KnitgraphVisualizer from "../../planager/actionsets/knitting/KnitgraphVisualizer/KnitgraphVisualizer";
 
 const actionUImap = {
   PlanagerWebcam: PlanagerWebcam,
-  // GetAxidraw: GetAxidraw,
-  // AxidrawJobSetup: AxidrawJobSetup,
-  // SVGParser: SVGParser,
   ImageTrace: ImageTrace,
   ImageViewer: ImageViewer,
   DrawSVG: DrawSVG,
   Options: Options,
   Resize: Resize,
+  KnitspeakEditor: KnitspeakEditor,
+  KnitspeakToKnitgraph: KnitspeakToKnitgraph,
+  KnitgraphVisualizer: KnitgraphVisualizer,
 };
 
 export default class Workspace extends React.Component {

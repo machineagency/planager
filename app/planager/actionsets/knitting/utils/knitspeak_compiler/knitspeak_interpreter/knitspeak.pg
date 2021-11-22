@@ -1,0 +1,69 @@
+S: courses;
+
+@collect
+courses: courses course_statement | course_statement;
+
+course_statement: "flipped"? course_ids stitch_statement_List eol;
+
+course_ids: course_id_list course_type | "all" side course_type;
+
+course_id_list: course_id_list list_sep course_id | course_id;
+
+course_id: between_courses {1} |
+            num_exp {2};
+
+between_courses: "from" side? num_exp "to" num_exp;
+
+
+@collect_sep
+stitch_statement_List: stitch_statement_List list_sep single_stitch_statement | single_stitch_statement;
+
+single_stitch_statement: static_stitch_Statement | conditional_stitch_group;
+
+conditional_stitch_group:  "[" static_stitch_statement_list "]" rep_condition;
+
+rep_condition: "to" "last" "st" |
+                "to" "last" num_exp "sts" |
+                "to" "end";
+
+static_stitch_group: "[" static_stitch_statement_list "]" num_exp?;
+
+@pass_inner
+stitch_group: "[" stitch_statement_List "]";
+
+@collect_sep
+static_stitch_statement_list: static_stitch_statement_list list_sep static_stitch_Statement | static_stitch_Statement;
+
+static_stitch_Statement: repeated_Stitch | static_stitch_group ;
+
+repeated_Stitch:stitch num_exp?;
+
+list_sep: "," "and" | "," | "and";
+
+stitch:  opId;
+opId: identifier;
+
+@collect_sep
+stitch_list: stitch_list list_sep stitch | stitch;
+
+num_op: "(" num_exp "*" num_exp ")" {4}|
+              "(" num_exp "/" num_exp ")" {3}|
+              "(" num_exp "+" num_exp ")" {2}|
+              "(" num_exp "-" num_exp ")" {1};
+
+num_exp: integer num_suffix? {1}|
+                    "currow" {2}|
+                    num_id {3} |
+                    num_assign {5} |
+                    num_op {4};
+num_id: identifier;
+num_assign: identifier "=" num_exp;
+
+terminals
+side: /\(?[wrWR][sS]\)?/;
+eol: ".";
+course_type: /((row)|(round))s?/;
+KEYWORD: /\w+/;
+num_suffix: /(st)|(nd)|(rd)|(th)/;
+integer: /[0-9]+/;
+identifier: /[a-zA-Z][a-zA-Z0-9_|]*/ {1};

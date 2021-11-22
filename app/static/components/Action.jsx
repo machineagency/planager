@@ -8,6 +8,7 @@ export default class Action extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      computed: {},
       content: "There's nothing here!",
       linking: false,
     };
@@ -51,17 +52,6 @@ export default class Action extends React.Component {
       y: 1000,
     };
   }
-  run() {
-    fetch("/run", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(this.props.action.id),
-    })
-      .then((response) => response.json())
-      .then((res) => this.setState({ content: res.text }));
-  }
   render() {
     return (
       <Draggable handle='.dragHandle' defaultPosition={{ x: 100, y: 100 }}>
@@ -80,7 +70,10 @@ export default class Action extends React.Component {
             </div>
             <div className='actionContent unselectable'>
               {/* {this.state.content} */}
-              {this.props.children}
+              {/* {this.props.children} */}
+              {React.cloneElement(this.props.children, {
+                computed: this.state.computed,
+              })}
             </div>
           </div>
           <div className='rightPortsContainer'>
