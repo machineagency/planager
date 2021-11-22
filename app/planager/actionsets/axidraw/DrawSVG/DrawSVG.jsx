@@ -35,7 +35,6 @@ export default class DrawSVG extends React.Component {
         method: "draw",
         actionID: this.props.action.id,
         args: { options: this.state.options },
-        args: {},
       }),
     })
       .then((res) => res.json())

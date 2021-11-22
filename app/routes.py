@@ -155,21 +155,6 @@ def removeLink():
     raise NotImplementedError
 
 
-@app.post("/run")
-def run():
-    actionID = jsonpickle.decode(request.get_data())
-
-    res = ""
-
-    for action in session["plan"].actions:
-        if action.getID() == actionID:
-            action.main()
-            print(action.displayText)
-            print(action.outports)
-
-    return {"result": res}
-
-
 @app.post("/sendDataToOutport")
 def sendDataToOutport():
     """Sends data created in the frontend to an action outport
@@ -204,6 +189,6 @@ def runBackendMethod():
         raise NotImplementedError("Class `{}` does not implement `{}`".format(
             session['plan'].actions[data['actionID']].__class__.__name__, data['method']))
 
-    method(data['args'])
+    res = method(data['args'])
 
-    return {"msg": "ok"}
+    return jsonpickle.encode({"data": res})
