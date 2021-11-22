@@ -20,5 +20,5 @@ class KnitspeakEditor(Action):
         """The main loop; this is what runs when the action is run."""
         print("main loop")
 
-    def templateActionMethod(self, options):
-        print("template method")
+    def save(self, options):
+        self.updateOutports({"knitspeak": options['knitspeak']})

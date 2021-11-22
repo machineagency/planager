@@ -1,11 +1,13 @@
 import React from "react";
+import Graph from "react-graph-vis";
+
 import "./KnitgraphVisualizer.css";
 
 export default class KnitgraphVisualizer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      flag: true,
+      graph: undefined,
     };
   }
   getGraph() {
@@ -25,9 +27,23 @@ export default class KnitgraphVisualizer extends React.Component {
         this.setState({ graph: resJson.data });
       });
   }
+  drawGraph() {
+    if (!this.state.graph) return;
+    console.log(this.state.graph);
+    try {
+      const graph = {
+        nodes: this.state.graph.nodes,
+        edges: this.state.graph.edges,
+      };
+      return <Graph graph={graph} style={{ height: "640px" }} />;
+    } catch (error) {
+      return;
+    }
+  }
   render() {
     return (
       <div id='knitgraphVisualizer'>
+        {this.drawGraph()}
         <div
           type='button'
           onClick={this.getGraph.bind(this)}
