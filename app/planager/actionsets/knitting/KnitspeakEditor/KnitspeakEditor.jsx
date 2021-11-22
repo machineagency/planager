@@ -9,11 +9,35 @@ export default class KnitspeakEditor extends React.Component {
     super(props);
     this.state = {
       value:
-        "1st row k 10.\nall ws rows p.\n3rd row k 3, p, [k] to end.\n5th row [[k,p] 2, k] 2.\n7th row k, p, k 6, p, k.",
+        "1st row k, lc2|2, k, rc2|2, [k] to end.\nall ws rows p.\n3rd row k 2, lc2|1, k, rc1|2, [k] to end.\n5th row k 3, lc1|1, k, rc1|1, [k] to end.",
     };
   }
-  onCodeChange() {
-    console.log("asdf");
+  componentDidMount() {
+    fetch("/runBackendMethod", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        method: "save", // The method to run
+        actionID: this.props.action.id,
+        args: { knitspeak: this.state.value },
+      }),
+    });
+  }
+  onCodeChange(editor, data, value) {
+    console.log(editor, data, value);
+    fetch("/runBackendMethod", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        method: "save", // The method to run
+        actionID: this.props.action.id,
+        args: { knitspeak: value },
+      }),
+    });
   }
   render() {
     return (
@@ -28,7 +52,6 @@ export default class KnitspeakEditor extends React.Component {
           onBeforeChange={(editor, data, value) => {
             this.setState({ value });
           }}
-          // onChange={(editor, data, value) => {}}
           onChange={this.onCodeChange.bind(this)}
         />
       </div>

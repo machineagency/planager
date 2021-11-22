@@ -27,14 +27,11 @@ class KnitspeakToKnitgraph(Action):
         print("main loop")
 
     def compile(self, options):
-        pattern = r"""
-            1st row k, lc2|2, k, rc2|2, [k] to end.
-            all ws rows p.
-            3rd row k 2, lc2|1, k, rc1|2, [k] to end.
-            5th row k 3, lc1|1, k, rc1|1, [k] to end.
-        """
-        compiler = Knitspeak_Compiler()
-        knit_graph = compiler.compile(11, 6, pattern)
-        # visualize_knitGraph(knit_graph, "cables.html")
-
-        self.updateOutports({"knitgraph": knit_graph})
+        pattern = self.inports['knitspeak'].getValue()
+        print(self.inports['knitspeak'])
+        print(pattern)
+        if pattern:
+            compiler = Knitspeak_Compiler()
+            knit_graph = compiler.compile(11, 6, pattern)
+            self.updateOutports({"knitgraph": knit_graph})
+            print(knit_graph)
