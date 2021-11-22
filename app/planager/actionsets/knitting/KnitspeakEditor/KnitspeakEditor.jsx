@@ -26,16 +26,18 @@ export default class KnitspeakEditor extends React.Component {
     });
   }
   onCodeChange(editor, data, value) {
-    console.log(editor, data, value);
+    this.setState({ value: value });
+  }
+  send() {
     fetch("/runBackendMethod", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        method: "save", // The method to run
+        method: "save",
         actionID: this.props.action.id,
-        args: { knitspeak: value },
+        args: { knitspeak: this.state.value },
       }),
     });
   }
@@ -54,6 +56,12 @@ export default class KnitspeakEditor extends React.Component {
           }}
           onChange={this.onCodeChange.bind(this)}
         />
+        <div
+          type='button'
+          onClick={this.send.bind(this)}
+          className='sendButton'>
+          Send
+        </div>
       </div>
     );
   }

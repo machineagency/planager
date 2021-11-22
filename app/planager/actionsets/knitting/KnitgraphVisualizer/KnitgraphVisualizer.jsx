@@ -3,6 +3,12 @@ import Graph from "react-graph-vis";
 
 import "./KnitgraphVisualizer.css";
 
+const options = {
+  layout: {
+    hierarchical: true,
+  },
+};
+
 export default class KnitgraphVisualizer extends React.Component {
   constructor(props) {
     super(props);
@@ -35,7 +41,9 @@ export default class KnitgraphVisualizer extends React.Component {
         nodes: this.state.graph.nodes,
         edges: this.state.graph.edges,
       };
-      return <Graph graph={graph} style={{ height: "640px" }} />;
+      return (
+        <Graph graph={graph} options={options} style={{ height: "640px" }} />
+      );
     } catch (error) {
       return;
     }
