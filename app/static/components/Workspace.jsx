@@ -14,6 +14,7 @@ import Resize from "../../planager/actionsets/svgtools/Resize/Resize";
 import KnitspeakEditor from "../../planager/actionsets/knitting/KnitspeakEditor/KnitspeakEditor";
 import KnitspeakToKnitgraph from "../../planager/actionsets/knitting/KnitspeakToKnitgraph/KnitspeakToKnitgraph";
 import KnitgraphVisualizer from "../../planager/actionsets/knitting/KnitgraphVisualizer/KnitgraphVisualizer";
+import Editor from "../../planager/actionsets/io/Editor/Editor";
 
 const actionUImap = {
   PlanagerWebcam: PlanagerWebcam,
@@ -25,6 +26,7 @@ const actionUImap = {
   KnitspeakEditor: KnitspeakEditor,
   KnitspeakToKnitgraph: KnitspeakToKnitgraph,
   KnitgraphVisualizer: KnitgraphVisualizer,
+  Editor: Editor,
 };
 
 export default class Workspace extends React.Component {
