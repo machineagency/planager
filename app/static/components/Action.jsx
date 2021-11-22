@@ -1,6 +1,6 @@
 import React from "react";
 import Draggable from "react-draggable";
-import { FaPlay, FaGripVertical } from "react-icons/fa";
+import { FaSlidersH, FaGripVertical } from "react-icons/fa";
 
 import "./styles/action.css";
 
@@ -11,7 +11,14 @@ export default class Action extends React.Component {
       computed: {},
       content: "There's nothing here!",
       linking: false,
+      config: false,
     };
+  }
+  toggleConfig() {
+    this.setState({ config: !this.state.config });
+  }
+  renderConfig() {
+    return <div id='config'>Options</div>;
   }
   renderInports() {
     let inports = [];
@@ -56,6 +63,14 @@ export default class Action extends React.Component {
     return (
       <Draggable handle='.dragHandle' defaultPosition={{ x: 100, y: 100 }}>
         <div className='actionGridContainer'>
+          <div style={{ gridColumn: 1, gridRow: 1 }}></div>
+          <div
+            id='configContainer'
+            style={{ display: this.state.config ? "block" : "none" }}>
+            {this.renderConfig()}
+          </div>
+          <div style={{ gridColumn: 3, gridRow: 1 }}></div>
+
           <div className='leftPortsContainer'>
             <div className='ports'>{this.renderInports()}</div>
           </div>
@@ -67,13 +82,18 @@ export default class Action extends React.Component {
               <span className='dragHandle'>
                 <FaGripVertical />
               </span>
+              <span
+                className='configButton'
+                title='Open config panel'
+                onClick={this.toggleConfig.bind(this)}>
+                <FaSlidersH />
+              </span>
             </div>
             <div className='actionContent unselectable'>
-              {/* {this.state.content} */}
-              {/* {this.props.children} */}
-              {React.cloneElement(this.props.children, {
+              {this.props.children}
+              {/* {React.cloneElement(this.props.children, {
                 computed: this.state.computed,
-              })}
+              })} */}
             </div>
           </div>
           <div className='rightPortsContainer'>
