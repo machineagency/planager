@@ -17,8 +17,8 @@ class Plan:
         return
 
     def removeAction(self, actionID):
-        # # todo: should also remove the links connected to the action
-        raise NotImplementedError
+        """Removes the specified action from the plan."""
+        del self.actions[actionID]
 
     def addLink(self, startActionID, startPortID, endActionID, endPortID):
         self.actions[startActionID].addLinkToOutport(

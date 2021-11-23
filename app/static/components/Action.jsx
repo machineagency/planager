@@ -18,7 +18,17 @@ export default class Action extends React.Component {
     this.setState({ config: !this.state.config });
   }
   renderConfig() {
-    return <div id='config'>Options</div>;
+    return (
+      <div id='config'>
+        <div
+          id='removeActionButton'
+          type='button'
+          onClick={this.props.removeAction.bind(this, this.props.action.id)}>
+          Remove Action
+        </div>
+        <div></div>
+      </div>
+    );
   }
   renderInports() {
     let inports = [];
