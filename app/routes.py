@@ -145,8 +145,12 @@ def addLink():
 
 @app.post("/removeAction")
 def removeAction():
-    actionID = request.get_json()
-    raise NotImplementedError
+    """Removes the specified action from the plan.
+
+    Removes the specified action from the plan and returns the updated plan
+    """
+    session.get('plan').removeAction(request.get_json()['actionID'])
+    return session.get('plan').toJSON()
 
 
 @app.post("/removeLink")

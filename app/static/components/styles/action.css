@@ -22,6 +22,8 @@
   float: right;
 }
 
+/* Styling for the config panel */
+
 .configButton {
   cursor: pointer;
   float: right;
@@ -43,6 +45,18 @@
   transform: translateY(-100%);
   position: absolute;
   right: 15px;
+}
+
+#removeActionButton {
+  padding: 5px;
+  background-color: var(--red);
+  color: var(--base3);
+  font-weight: bolder;
+}
+
+#removeActionButton:hover {
+  background-color: var(--redHover);
+  cursor: pointer;
 }
 
 /* Styling for the action content */

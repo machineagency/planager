@@ -217,6 +217,7 @@ export default class Workspace extends React.Component {
           outports={action.outports}
           beginConnection={this.beginConnection.bind(this)}
           endConnection={this.endConnection.bind(this)}
+          removeAction={this.removeAction.bind(this)}
           key={actionID}
           coords={{ x: 1000, y: 1000 }}>
           {this.renderActionUI(action)}
@@ -259,6 +260,21 @@ export default class Workspace extends React.Component {
       body: JSON.stringify({
         actionSet: actionSet,
         action: action,
+      }),
+    })
+      .then((res) => res.json())
+      .then((plan) => {
+        this.setState({ plan: plan }, this.updatePlan);
+      });
+  }
+  removeAction(actionID) {
+    fetch("/removeAction", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        actionID: actionID,
       }),
     })
       .then((res) => res.json())
