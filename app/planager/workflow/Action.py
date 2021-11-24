@@ -40,14 +40,6 @@ class Action:
         self.name = self.__module__.split(".")[-1]
         self.links = {}
 
-    def display(self, content):
-        """Sets the display text for this action.
-
-        Args:
-            content (string): The string to display in the action body.
-        """
-        self.displayText = content
-        return
 
     def addLinkToOutport(
             self,
@@ -66,11 +58,11 @@ class Action:
         self.main()
 
     def onReceive(self):
-        pass
+        raise NotImplementedError
 
     def beforeSend(self):
         # the thing to do before the outports are updated
-        pass
+        raise NotImplementedError
 
     def main(self):
         # Children should always override this!
@@ -78,20 +70,20 @@ class Action:
 
     def appendToLog(self):
         # Writes a statement to the action log.
-        pass
+        raise NotImplementedError
 
     def info(self):
         print(self.displayName, self.outports, self.inports)
-        return
+
 
     def export(self):
         # Export this action to the selected format.
-        pass
+        raise NotImplementedError
 
     def save(self):
         # this function is for saving this instance of the action to the
         # workflow file in json
-        pass
+        raise NotImplementedError
 
     def getID(self):
         return self.id

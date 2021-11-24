@@ -33,8 +33,11 @@ export default class Action extends React.Component {
   renderInports() {
     let inports = [];
     for (const [inportName, entry] of Object.entries(this.props.inports)) {
+      // When creating the ports, we pass through the ref from the parent so
+      // that the parent can manage the links between the ports.
       inports.push(
         <div
+          ref={this.props.inportRefs[inportName]}
           key={inportName}
           title={entry["displayName"]}
           className='port leftPort'
@@ -49,8 +52,11 @@ export default class Action extends React.Component {
   renderOutports() {
     let outports = [];
     for (const [outportName, entry] of Object.entries(this.props.outports)) {
+      // When creating the ports, we pass through the ref from the parent so
+      // that the parent can manage the links between the ports.
       outports.push(
         <div
+          ref={this.props.outportRefs[outportName]}
           key={outportName}
           title={entry["displayName"]}
           className='port rightPort'
@@ -62,16 +68,13 @@ export default class Action extends React.Component {
     }
     return outports;
   }
-  getOutportCoords() {
-    console.log(this.props.action);
-    return {
-      x: 1000,
-      y: 1000,
-    };
-  }
   render() {
     return (
-      <Draggable handle='.dragHandle' defaultPosition={{ x: 100, y: 100 }}>
+      <Draggable
+        handle='.dragHandle'
+        defaultPosition={{ x: 100, y: 100 }}
+        onDrag={this.props.triggerRender}
+        onStop={this.props.triggerRender}>
         <div className='actionGridContainer'>
           <div style={{ gridColumn: 1, gridRow: 1 }}></div>
           <div
@@ -80,7 +83,6 @@ export default class Action extends React.Component {
             {this.renderConfig()}
           </div>
           <div style={{ gridColumn: 3, gridRow: 1 }}></div>
-
           <div className='leftPortsContainer'>
             <div className='ports'>{this.renderInports()}</div>
           </div>

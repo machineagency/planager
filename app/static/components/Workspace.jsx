@@ -36,12 +36,13 @@ export default class Workspace extends React.Component {
       plan: {},
       dropdown: {},
       actionDict: {},
-      examples: [],
-      flow: [],
+      examples: {},
       links: {},
-      start: {},
+      actions: {},
+      mouseX: 0,
+      mouseY: 0,
     };
-    // Get all of the actions that are available for Planager
+    // Get all of the actions that are available for the Planager
     fetch("/getActions", {
       method: "get",
       headers: {
@@ -56,9 +57,6 @@ export default class Workspace extends React.Component {
         });
       });
     fetch("/clearPlan", { method: "get" });
-    // Bind mousemoveCallback for moving actions
-    console.log(this.state.plan);
-    this.mousemoveCallback = this.mousemoveCallback.bind(this);
   }
 
   // uploadPlan(event) {
@@ -83,83 +81,117 @@ export default class Workspace extends React.Component {
   // };
   // reader.readAsText(event.target.files[0]);
   // }
-  mousemoveCallback(e) {
-    let start = this.state.start;
-    const newLink = {
-      linkInProgress: (
-        <Link
-          startActionID={start.startActionID}
-          startPortID={start.startPortID}
-          startx={start.x}
-          starty={start.y}
-          endx={e.clientX}
-          endy={e.clientY}
-          key={"inprogress"}
-        />
-      ),
-    };
-    this.setState({ links: Object.assign(this.state.links, newLink) });
-  }
+  getConnections(actionID) {
+    // Builds an object containing all of the connections to and from an action.
+    const action = this.state.actions[actionID];
+    let connections = { inports: {}, outports: {} };
 
+    // Get connections to inports
+    for (const [inportName, inport] of Object.entries(action.inports)) {
+      for (const [actionID, portID] of Object.entries(inport.connections)) {
+        connections.inports[inportName] = [actionID, portID];
+      }
+    }
+    // Get connections from outports
+    for (const [outportName, outport] of Object.entries(action.outports)) {
+      for (const [actionID, portID] of Object.entries(outport.connections)) {
+        connections.outports[outportName] = [actionID, portID];
+      }
+    }
+    return connections;
+  }
+  makeLinkID(startActionID, startPortID, endActionID, endPortID) {
+    // Builds a unique ID for a link
+    // TODO: add assertion
+    return `${startActionID}_${startPortID}_${endActionID}_${endPortID}`;
+  }
+  triggerRender() {
+    // Helper function to trigger a render, as react doesn't detect changes to nested objects in the state
+    this.setState(this.state);
+  }
+  mousemoveCallback(e) {
+    this.setState({ mouseX: e.clientX, mouseY: e.clientY });
+  }
   beginConnection(e, startActionID, startPortID) {
-    let rect = e.target.getBoundingClientRect();
-    const start = {
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2,
+    // Create a temporary link object
+    let link = {
       startActionID: startActionID,
       startPortID: startPortID,
+      startPortRef: this.state.actions[startActionID].outportRefs[startPortID],
     };
 
-    const newLink = {
-      linkInProgress: (
-        <Link
-          startx={start.x}
-          starty={start.y}
-          endx={e.clientX}
-          endy={e.clientY}
-          key={"inprogress"}
-        />
-      ),
-    };
+    // Add the temporary link to the link object in the state
+    let oldLinks = { ...this.state.links };
+    oldLinks["linkInProgress"] = link;
+    this.setState({ links: oldLinks });
 
-    document.addEventListener("mousemove", this.mousemoveCallback);
-    this.setState({
-      start: start,
-      links: Object.assign(this.state.links, newLink),
-    });
+    // Add an event listener so the link tracks the mouse movement
+    document.addEventListener("mousemove", this.mousemoveCallback.bind(this));
   }
-
   endConnection(e, endActionID, endPortID) {
-    const linky = this.state.links.linkInProgress;
-    if (!linky) return;
+    const linkInProgress = this.state.links.linkInProgress;
+    if (!linkInProgress) return;
 
+    // Tell the backend that this link has been made
     fetch("/addLink", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        startActionID: linky.props.startActionID,
-        startPortID: linky.props.startPortID,
+        startActionID: linkInProgress.startActionID,
+        startPortID: linkInProgress.startPortID,
         endActionID: endActionID,
         endPortID: endPortID,
       }),
     })
       .then((res) => res.json())
-      .then((plan) => {
-        this.setState({ plan: plan }, this.updatePlan);
+      .then((link) => {
+        // Call the create link method to add the new link to the state
+        this.createLink(link);
       });
 
+    // Remove the temporary link from the state
     let oldLinks = this.state.links;
     delete oldLinks.linkInProgress;
     this.setState({ links: oldLinks });
+    // Remove the event listener
     document.removeEventListener("mousemove", this.mousemoveCallback);
   }
-
+  renderActions() {
+    let renderedActions = [];
+    for (const [actionID, action] of Object.entries(this.state.actions)) {
+      renderedActions.push(action.component);
+    }
+    return renderedActions;
+  }
   renderLinks() {
     let renderedLinks = [];
-    for (const [_, link] of Object.entries(this.state.links)) {
-      renderedLinks.push(link);
+    for (const [linkID, link] of Object.entries(this.state.links)) {
+      let coords = {};
+      const startBounds = link.startPortRef.current.getBoundingClientRect();
+      coords.startx = startBounds.left + startBounds.width / 2;
+      coords.starty = startBounds.top + startBounds.height / 2;
+
+      if (linkID == "linkInProgress") {
+        coords.endx = this.state.mouseX;
+        coords.endy = this.state.mouseY;
+      } else {
+        const endBounds = link.endPortRef.current.getBoundingClientRect();
+        coords.endx = endBounds.left + endBounds.width / 2;
+        coords.endy = endBounds.top + endBounds.height / 2;
+      }
+
+      renderedLinks.push(
+        <Link
+          link={link}
+          key={linkID}
+          startx={coords.startx}
+          starty={coords.starty}
+          endx={coords.endx}
+          endy={coords.endy}
+        />
+      );
     }
     return renderedLinks;
   }
@@ -188,12 +220,12 @@ export default class Workspace extends React.Component {
       }),
     })
       .then((res) => res.json())
-      .then((plan) => {
-        this.setState({ plan: plan }, this.updatePlan);
+      .then((res) => {
+        // TODO: res is the plan. in the backend we should only return the actions that have changed, and then update their values here on the frontend.
+        console.log(res);
       });
   }
   renderActionUI(action) {
-    console.log(action);
     let ui;
     try {
       ui = React.createElement(actionUImap[action.name], {
@@ -205,51 +237,60 @@ export default class Workspace extends React.Component {
     }
     return ui;
   }
-  updatePlan() {
-    console.log("updating plan");
-    let actionList = [];
-    let newLinks = {};
-    for (const [actionID, action] of Object.entries(this.state.plan.actions)) {
-      let newAction = (
-        <Action
-          action={action}
-          inports={action.inports}
-          outports={action.outports}
-          beginConnection={this.beginConnection.bind(this)}
-          endConnection={this.endConnection.bind(this)}
-          removeAction={this.removeAction.bind(this)}
-          key={actionID}
-          coords={{ x: 1000, y: 1000 }}>
-          {this.renderActionUI(action)}
-        </Action>
-      );
-      actionList.push(newAction);
+  createLink(link) {
+    const linkID = this.makeLinkID(
+      link.startActionID,
+      link.startPortID,
+      link.endActionID,
+      link.endPortID
+    );
+    link["startPortRef"] =
+      this.state.actions[link.startActionID].outportRefs[link.startPortID];
+    link["endPortRef"] =
+      this.state.actions[link.endActionID].inportRefs[link.endPortID];
 
-      for (const [outportID, link] of Object.entries(action.links)) {
-        // TODO: Figure out how to get the proper coordinates here. might need to break this out into a callback function that runs after actions are loaded
-        const newID = `${action.id}_${outportID}_${link.endActionID}_${link.endPortID}`;
-        // const coords = actionRef.current.getOutportCoords();
-        newLinks[newID] = (
-          <Link
-            // startx={coords.x}
-            // starty={coords.y}
-            // startx={coords[outportID].x}
-            // starty={coords[outportID].y}
-            startx={1000}
-            starty={1000}
-            endx={2000}
-            endy={2000}
-            key={newID}
-          />
-        );
-      }
+    let oldLinks = { ...this.state.links };
+    oldLinks[linkID] = link;
+    this.setState({ links: oldLinks });
+  }
+  createAction(action) {
+    console.log(action);
+    let inportRefs = {};
+    let outportRefs = {};
 
-      // actionList.push(newAction);
+    for (const [inportName, inport] of Object.entries(action.inports)) {
+      inportRefs[inportName] = React.createRef();
     }
-    this.setState({
-      flow: actionList,
-      links: Object.assign(this.state.links, newLinks),
-    });
+    action["inportRefs"] = inportRefs;
+
+    for (const [outportName, outport] of Object.entries(action.outports)) {
+      outportRefs[outportName] = React.createRef();
+    }
+
+    action["outportRefs"] = outportRefs;
+
+    let actionComponent = (
+      <Action
+        action={action}
+        inports={action.inports}
+        inportRefs={inportRefs}
+        outports={action.outports}
+        outportRefs={outportRefs}
+        beginConnection={this.beginConnection.bind(this)}
+        endConnection={this.endConnection.bind(this)}
+        removeAction={this.removeAction.bind(this)}
+        key={action.id}
+        triggerRender={this.triggerRender.bind(this)}
+        coords={{ x: 1000, y: 1000 }}>
+        {this.renderActionUI(action)}
+      </Action>
+    );
+
+    action["component"] = actionComponent;
+
+    let oldActions = { ...this.state.actions };
+    oldActions[action.id] = action;
+    this.setState({ actions: oldActions });
   }
   addAction(actionSet, action) {
     fetch("/addAction", {
@@ -263,8 +304,8 @@ export default class Workspace extends React.Component {
       }),
     })
       .then((res) => res.json())
-      .then((plan) => {
-        this.setState({ plan: plan }, this.updatePlan);
+      .then((action) => {
+        this.createAction(action);
       });
   }
   removeAction(actionID) {
@@ -278,8 +319,10 @@ export default class Workspace extends React.Component {
       }),
     })
       .then((res) => res.json())
-      .then((plan) => {
-        this.setState({ plan: plan }, this.updatePlan);
+      .then((actionID) => {
+        let actions = { ...this.state.actions };
+        delete actions[actionID];
+        this.setState({ actions: actions });
       });
   }
   loadExample(example) {
@@ -375,7 +418,7 @@ export default class Workspace extends React.Component {
         </div>
         <div id='workflowCanvas'>
           {this.renderLinks()}
-          {this.state.flow}
+          {this.renderActions()}
         </div>
       </div>
     );
