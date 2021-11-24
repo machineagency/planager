@@ -1,11 +1,26 @@
 import jsonpickle
 from .planager.workflow.Plan import Plan
-from . import app, action_Dict
+from . import app, action_Dict, socketio, emit
 from flask import request, render_template, session
 from rich import print, print_json
 from rich.traceback import install
 install()
 
+
+
+@socketio.event
+def my_event(message):
+    emit('my response', {'data': 'got it!'})
+
+@socketio.on("createAction")
+def createAction(message):
+    print("CRESUILHSDJKLGFHKLSJDFHKLSDFHJ")
+    print(message)
+    emit("connection", "HELLOO FROM THE BACKEND")
+
+@socketio.on('connection')
+def test_connect():
+    emit('my response', {'data': 'Connected'})
 
 @app.get("/")
 def home():
