@@ -85,33 +85,27 @@ the VSCode debugger:
   "configurations": [
     {
       "command": "npm run watch",
-      "name": "webpack",
+      "name": "frontend",
       "request": "launch",
       "type": "node-terminal"
     },
     {
-      "name": "flask",
-      "type": "python",
+      "name": "backend",
       "request": "launch",
-      "module": "flask",
-      "env": {
-        "FLASK_APP": "app.webapp",
-        "FLASK_ENV": "development"
-      },
-      "args": ["run", "--no-debugger"],
-      "jinja": true
+      "type": "python",
+      "program": "run.py"
     }
   ],
   "compounds": [
     {
-      "name": "flask/webpack",
-      "configurations": ["webpack", "flask"]
+      "name": "full stack",
+      "configurations": ["frontend", "backend"]
     }
   ]
 }
 ```
 
-The compound rule `flask/webpack` will start the flask server and run
+The compound rule `full stack` will run both `python run.py` and
 `npm run watch`, all with one click!
 
 ### Deployment Notes

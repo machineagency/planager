@@ -81,6 +81,9 @@ export default class Workspace extends React.Component {
     socket.on("connection", (msg) => {
       console.log(msg);
     });
+    socket.on("updateOutport", (msg) => {
+      console.log(msg);
+    });
   }
   // uploadPlan(event) {
   //   var reader = new FileReader();
