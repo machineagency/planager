@@ -114,9 +114,9 @@ def addAction():
         JSON: a jsonpickle-encoded version of the plan.
     """
     req = request.get_json()
-    session.get('plan').addAction(action_Dict[req['actionSet']][req['action']])
-    print_json(data=session.get('plan').toJSON())
-    return session.get('plan').toJSON()
+    new_action = session.get('plan').addAction(action_Dict[req['actionSet']][req['action']])
+    # print_json(data=session.get('plan').toJSON())
+    return new_action.toJSON()
 
 
 @app.post("/addLink")
@@ -140,7 +140,7 @@ def addLink():
         connection["endPortID"],
     )
 
-    return session.get('plan').toJSON()
+    return connection
 
 
 @app.post("/removeAction")

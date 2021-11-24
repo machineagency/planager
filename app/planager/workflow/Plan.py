@@ -14,7 +14,7 @@ class Plan:
         """
         new_action = NewActionClass()
         self.actions[new_action.id] = new_action
-        return
+        return self.actions[new_action.id]
 
     def removeAction(self, actionID):
         """Removes the specified action from the plan."""
