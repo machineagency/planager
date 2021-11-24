@@ -3,17 +3,21 @@ import os
 
 from flask import Flask
 from flask_session import Session
+from flask_socketio import SocketIO, emit
 
-# from .planager.actionsets.axidraw.axidraw_blueprint import axidraw_blueprint
+
 from . import actionLoader
 
 
 app = Flask(__name__, template_folder="static")
+socketio = SocketIO(app)
+
 
 # Register the blueprints for different actions
 # The url prefix allows for easier management of routes and prevents
 # routes from different actionsets from overriding eachother
 # TODO: blueprint registration should be dynamic
+# from .planager.actionsets.axidraw.axidraw_blueprint import axidraw_blueprint
 # app.register_blueprint(axidraw_blueprint, url_prefix="/axidraw")
 
 action_Dict = actionLoader.buildActionDict()

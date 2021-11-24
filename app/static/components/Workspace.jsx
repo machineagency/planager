@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import Action from "./Action";
 import Link from "./Link";
 
 import "./styles/workspace.css";
 
+import { SocketContext } from "../context/socket";
+
+// TODO: The available actions should be loaded dynamically and not imported here. They should only import if added to the plan.
 import PlanagerWebcam from "../../planager/actionsets/camera/PlanagerWebcam/PlanagerWebcam";
 import ImageTrace from "../../planager/actionsets/svgtools/ImageTrace/ImageTrace";
 import ImageViewer from "../../planager/actionsets/camera/ImageViewer/ImageViewer";
@@ -30,6 +33,7 @@ const actionUImap = {
 };
 
 export default class Workspace extends React.Component {
+  static contextType = SocketContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -42,6 +46,7 @@ export default class Workspace extends React.Component {
       mouseX: 0,
       mouseY: 0,
     };
+
     // Get all of the actions that are available for the Planager
     fetch("/getActions", {
       method: "get",
@@ -57,8 +62,26 @@ export default class Workspace extends React.Component {
         });
       });
     fetch("/clearPlan", { method: "get" });
-  }
 
+    // Bind these callbacks so that we can remove them from event listeners
+    // If we don't bind them, we won't have references to the correct listener
+    // callbacks because they will be anonymous, and the listener will keep listening
+    this.removeMouseListeners = this.removeMouseListeners.bind(this);
+    this.mousemoveCallback = this.mousemoveCallback.bind(this);
+    this.cancelConnection = this.cancelConnection.bind(this);
+  }
+  // socket.on('connection', () => {
+  //   if (this.state.channel) {
+  //     this.handleChannelSelect(this.state.channel.id);
+  //   }
+  // });
+  componentDidMount() {
+    console.log(this.context);
+    let socket = this.context;
+    socket.on("connection", (msg) => {
+      console.log(msg);
+    });
+  }
   // uploadPlan(event) {
   //   var reader = new FileReader();
 
@@ -112,6 +135,18 @@ export default class Workspace extends React.Component {
   mousemoveCallback(e) {
     this.setState({ mouseX: e.clientX, mouseY: e.clientY });
   }
+  removeMouseListeners() {
+    // Remove the mouse listeners we added when creating a new connection
+    window.removeEventListener("mousemove", this.mousemoveCallback);
+    window.removeEventListener("contextmenu", this.cancelConnection);
+  }
+  cancelConnection(e) {
+    e.preventDefault();
+
+    let oldLinks = this.state.links;
+    delete oldLinks.linkInProgress;
+    this.setState({ links: oldLinks }, this.removeMouseListeners);
+  }
   beginConnection(e, startActionID, startPortID) {
     // Create a temporary link object
     let link = {
@@ -120,13 +155,15 @@ export default class Workspace extends React.Component {
       startPortRef: this.state.actions[startActionID].outportRefs[startPortID],
     };
 
-    // Add the temporary link to the link object in the state
+    // Add the temporary link to the link object in the state. Also add the current mouse position from the event, so the link in progress will render from the correct location.
     let oldLinks = { ...this.state.links };
     oldLinks["linkInProgress"] = link;
-    this.setState({ links: oldLinks });
+    this.setState({ links: oldLinks, mouseX: e.clientX, mouseY: e.clientY });
 
     // Add an event listener so the link tracks the mouse movement
-    document.addEventListener("mousemove", this.mousemoveCallback.bind(this));
+    window.addEventListener("mousemove", this.mousemoveCallback);
+    // Add an event listener so we can cancel the connection on right click
+    window.addEventListener("contextmenu", this.cancelConnection);
   }
   endConnection(e, endActionID, endPortID) {
     const linkInProgress = this.state.links.linkInProgress;
@@ -151,12 +188,10 @@ export default class Workspace extends React.Component {
         this.createLink(link);
       });
 
-    // Remove the temporary link from the state
+    // Remove the temporary link from the state and then remove the listeners
     let oldLinks = this.state.links;
     delete oldLinks.linkInProgress;
-    this.setState({ links: oldLinks });
-    // Remove the event listener
-    document.removeEventListener("mousemove", this.mousemoveCallback);
+    this.setState({ links: oldLinks }, this.removeMouseListeners);
   }
   renderActions() {
     let renderedActions = [];
@@ -173,6 +208,8 @@ export default class Workspace extends React.Component {
       coords.startx = startBounds.left + startBounds.width / 2;
       coords.starty = startBounds.top + startBounds.height / 2;
 
+      // If this is the temporary link, we want the endpoint to be
+      // at the mouse rather than the port.
       if (linkID == "linkInProgress") {
         coords.endx = this.state.mouseX;
         coords.endy = this.state.mouseY;
@@ -254,7 +291,8 @@ export default class Workspace extends React.Component {
     this.setState({ links: oldLinks });
   }
   createAction(action) {
-    console.log(action);
+    let socket = this.context;
+    socket.emit("createAction", { data: "YAY" });
     let inportRefs = {};
     let outportRefs = {};
 
@@ -269,6 +307,7 @@ export default class Workspace extends React.Component {
 
     action["outportRefs"] = outportRefs;
 
+    // This passes through the action's UI as a child of the generic action component
     let actionComponent = (
       <Action
         action={action}
@@ -325,10 +364,10 @@ export default class Workspace extends React.Component {
         this.setState({ actions: actions });
       });
   }
-  loadExample(example) {
-    console.log("loading an example");
-    console.log(example);
-  }
+  // loadExample(example) {
+  //   console.log("loading an example");
+  //   console.log(example);
+  // }
   renderActionDropdown(actionSetName, actionSet) {
     let actionList = [];
     for (const action of actionSet) {
@@ -365,25 +404,25 @@ export default class Workspace extends React.Component {
     }
     return dropdown;
   }
-  renderExampleDropdown() {
-    // TODO: Make a react dropdown component
-    let exampleList = [];
+  // renderExampleDropdown() {
+  //   // TODO: Make a react dropdown component
+  //   let exampleList = [];
 
-    for (const value of this.state.examples) {
-      exampleList.push(
-        <div key={value}>
-          <div
-            type='button'
-            className='dropdownActionSet'
-            onClick={this.loadExample.bind(this, value)}>
-            {value}
-          </div>
-        </div>
-      );
-    }
+  //   for (const value of this.state.examples) {
+  //     exampleList.push(
+  //       <div key={value}>
+  //         <div
+  //           type='button'
+  //           className='dropdownActionSet'
+  //           onClick={this.loadExample.bind(this, value)}>
+  //           {value}
+  //         </div>
+  //       </div>
+  //     );
+  //   }
 
-    return exampleList;
-  }
+  //   return exampleList;
+  // }
   render() {
     return (
       <div id='container'>
@@ -405,7 +444,7 @@ export default class Workspace extends React.Component {
               </div>
             </span>
           </span>
-          <span className='relative'>
+          {/* <span className='relative'>
             <span
               title='Examples'
               className='toolbarButton unselectable addAction'>
@@ -414,7 +453,7 @@ export default class Workspace extends React.Component {
                 {this.renderExampleDropdown()}
               </div>
             </span>
-          </span>
+          </span> */}
         </div>
         <div id='workflowCanvas'>
           {this.renderLinks()}
