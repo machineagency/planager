@@ -11,7 +11,7 @@
   stroke: var(--base1);
 }
 
-/* .linkPath:hover {
+.linkPath:hover {
   stroke: var(--orange);
   cursor: pointer;
-} */
+}

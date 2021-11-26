@@ -8,22 +8,26 @@ export default class Link extends React.Component {
     let x2 = this.props.endx;
     let y2 = this.props.endy;
 
-    return `M${x1},${y1} 
-    C${x1 + 100},${y1} 
+    return `M${x1},${y1}
+    C${x1 + 100},${y1}
     ${x2 - 100},${y2}
     ${x2},${y2}`;
   }
-
+  remove(e) {
+    e.preventDefault();
+    this.props.removeLink(this.props.id);
+  }
   render() {
     return (
       <div>
-        <svg className="wire">
-          <g id="component">
+        <svg className='wire'>
+          <g id='component'>
             <path
-              className="linkPath"
-              fill="none"
-              strokeWidth="2"
+              className='linkPath'
+              fill='none'
+              strokeWidth='2'
               d={this.calculateBezier.bind(this)()}
+              onContextMenu={this.remove.bind(this)}
             />
           </g>
         </svg>
