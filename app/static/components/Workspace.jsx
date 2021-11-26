@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import Action from "./Action";
 import Link from "./Link";
 
 import "./styles/workspace.css";
 
-import { SocketContext } from "../context/socket";
+import { socket, SocketContext } from "../context/socket";
 
 // TODO: The available actions should be loaded dynamically and not imported here. They should only import if added to the plan.
 import PlanagerWebcam from "../../planager/actionsets/camera/PlanagerWebcam/PlanagerWebcam";
@@ -70,20 +70,10 @@ export default class Workspace extends React.Component {
     this.mousemoveCallback = this.mousemoveCallback.bind(this);
     this.cancelConnection = this.cancelConnection.bind(this);
   }
-  // socket.on('connection', () => {
-  //   if (this.state.channel) {
-  //     this.handleChannelSelect(this.state.channel.id);
-  //   }
-  // });
   componentDidMount() {
-    console.log(this.context);
+    // Once the workspace has loaded, we must tell it what methods to run on socket events
     let socket = this.context;
-    socket.on("connection", (msg) => {
-      console.log(msg);
-    });
-    socket.on("updateOutport", (msg) => {
-      console.log(msg);
-    });
+    socket.on("update", this.update.bind(this));
   }
   // uploadPlan(event) {
   //   var reader = new FileReader();
@@ -107,6 +97,22 @@ export default class Workspace extends React.Component {
   // };
   // reader.readAsText(event.target.files[0]);
   // }
+  update(action) {
+    let actions = this.state.actions;
+    if (!actions[action.id]) return;
+    console.log(action);
+    console.log(actions);
+
+    actions[action.id].component = React.cloneElement(
+      actions[action.id].component,
+      {
+        inports: action.inports,
+        outports: action.outports,
+      }
+    );
+
+    this.setState({ actions: actions });
+  }
   getConnections(actionID) {
     // Builds an object containing all of the connections to and from an action.
     const action = this.state.actions[actionID];
@@ -130,6 +136,15 @@ export default class Workspace extends React.Component {
     // Builds a unique ID for a link
     // TODO: add assertion
     return `${startActionID}_${startPortID}_${endActionID}_${endPortID}`;
+  }
+  breakLinkID(linkID) {
+    const splitID = linkID.split("_");
+    return {
+      startActionID: splitID[0],
+      startPortID: splitID[1],
+      endActionID: splitID[2],
+      endPortID: splitID[3],
+    };
   }
   triggerRender() {
     // Helper function to trigger a render, as react doesn't detect changes to nested objects in the state
@@ -207,6 +222,7 @@ export default class Workspace extends React.Component {
     let renderedLinks = [];
     for (const [linkID, link] of Object.entries(this.state.links)) {
       let coords = {};
+      if (link.startPortRef.current == null) continue;
       const startBounds = link.startPortRef.current.getBoundingClientRect();
       coords.startx = startBounds.left + startBounds.width / 2;
       coords.starty = startBounds.top + startBounds.height / 2;
@@ -217,6 +233,7 @@ export default class Workspace extends React.Component {
         coords.endx = this.state.mouseX;
         coords.endy = this.state.mouseY;
       } else {
+        if (link.endPortRef.current == null) continue;
         const endBounds = link.endPortRef.current.getBoundingClientRect();
         coords.endx = endBounds.left + endBounds.width / 2;
         coords.endy = endBounds.top + endBounds.height / 2;
@@ -224,7 +241,9 @@ export default class Workspace extends React.Component {
 
       renderedLinks.push(
         <Link
+          removeLink={this.removeLink.bind(this)}
           link={link}
+          id={linkID}
           key={linkID}
           startx={coords.startx}
           starty={coords.starty}
@@ -262,7 +281,7 @@ export default class Workspace extends React.Component {
       .then((res) => res.json())
       .then((res) => {
         // TODO: res is the plan. in the backend we should only return the actions that have changed, and then update their values here on the frontend.
-        console.log(res);
+        // console.log(res);
       });
   }
   renderActionUI(action) {
@@ -294,8 +313,6 @@ export default class Workspace extends React.Component {
     this.setState({ links: oldLinks });
   }
   createAction(action) {
-    let socket = this.context;
-    socket.emit("createAction", { data: "YAY" });
     let inportRefs = {};
     let outportRefs = {};
 
@@ -361,11 +378,52 @@ export default class Workspace extends React.Component {
       }),
     })
       .then((res) => res.json())
-      .then((actionID) => {
+      .then((action) => {
+        // Goes through the links attached to the removed action and removes them
+        let links = { ...this.state.links };
+        for (const [outportID, outport] of Object.entries(action.outports)) {
+          // For each outport
+          for (const [endActionID, inportID] of Object.entries(
+            // For each connection attached to the port
+            outport.connections
+          )) {
+            delete links[
+              this.makeLinkID(action.id, outportID, endActionID, inportID)
+            ];
+          }
+        }
+        for (const [inportID, inport] of Object.entries(action.inports)) {
+          // For each inport
+          for (const [startActionID, outportID] of Object.entries(
+            // For each connection attached to the port
+            inport.connections
+          )) {
+            delete links[
+              this.makeLinkID(startActionID, outportID, action.id, inportID)
+            ];
+          }
+        }
+
+        // Then removes the action
         let actions = { ...this.state.actions };
-        delete actions[actionID];
-        this.setState({ actions: actions });
+        delete actions[action.id];
+
+        // And updates the state
+        this.setState({ actions: actions, links: links });
       });
+  }
+  removeLink(linkID) {
+    const socket = this.context;
+    const linkInfo = this.breakLinkID(linkID);
+    socket.emit("removeLink", {
+      startActionID: linkInfo["startActionID"],
+      startPortID: linkInfo["startPortID"],
+      endActionID: linkInfo["endActionID"],
+      endPortID: linkInfo["endPortID"],
+    });
+    let oldLinks = { ...this.state.links };
+    delete oldLinks[linkID];
+    this.setState({ links: oldLinks });
   }
   // loadExample(example) {
   //   console.log("loading an example");

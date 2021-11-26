@@ -9,7 +9,6 @@ export default class ImageViewer extends React.Component {
       image: null,
     };
   }
-  componentDidUpdate(prevProps) {}
 
   render() {
     return (
@@ -17,8 +16,8 @@ export default class ImageViewer extends React.Component {
         <img
           id='imageView'
           src={
-            this.props.action.inports.imIn.value
-              ? this.props.action.inports.imIn.value.pic
+            this.props.inports.imIn.value
+              ? this.props.inports.imIn.value.pic
               : null
           }
         />

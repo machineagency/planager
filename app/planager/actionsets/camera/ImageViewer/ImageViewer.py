@@ -20,6 +20,5 @@ class ImageViewer(Action):
         Action.__init__(self, CONFIG)
 
     def main(self):
-        print("in image viewer")
         # Pass through the image value
         self.updateOutports({"imOut": self.inports["imIn"].getValue()})

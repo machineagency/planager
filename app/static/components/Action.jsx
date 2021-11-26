@@ -102,10 +102,11 @@ export default class Action extends React.Component {
               </span>
             </div>
             <div className='actionContent unselectable'>
-              {this.props.children}
-              {/* {React.cloneElement(this.props.children, {
-                computed: this.state.computed,
-              })} */}
+              {React.cloneElement(this.props.children, {
+                action: this.props.action,
+                inports: this.props.inports,
+                outports: this.props.outports,
+              })}
             </div>
           </div>
           <div className='rightPortsContainer'>

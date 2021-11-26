@@ -1,18 +1,7 @@
-# from enum import Enum
-import uuid
-from enum import Enum
-
-
-class PortType(Enum):
-    IN = "in"
-    OUT = "out"
-
-
-class Port:
+class Outport:
     def __init__(
-        self, direction: PortType, id: str, parent_id: str, config: dict
+        self,  id: str, parent_id: str, config: dict
     ):
-        self.direction = direction
         self.id = id
         self.parent_id = parent_id
         self.displayName = config["displayName"]
@@ -23,11 +12,13 @@ class Port:
     def addConnection(self, endAction, endPortID):
         self.connections.append(
             {'endAction': endAction, 'endPortID': endPortID})
-        print(self.connections[0]['endAction'].id)
-        return
 
     def removeConnection(self, endActionID, endPortID):
-        raise NotImplementedError
+        for index, connection in enumerate(self.connections):
+            if connection['endAction'].id == endActionID:
+                if connection['endPortID'] == endPortID:
+                    del self.connections[index]
+        print("connections after removing:")
 
     def update(self, newVal):
         # TODO: log the current value to the port history
@@ -48,6 +39,7 @@ class Port:
     def toJSON(self):
         return {
             "id": self.id,
+            "outport": True,
             "parentID": self.parent_id,
             "description": self.description,
             "value": self.value,
@@ -56,6 +48,6 @@ class Port:
                 (connection['endAction'].id): connection['endPortID'] for connection in self.connections}}
 
     def __str__(self):
-        portDesc = '{}, with {} connections'.format(
+        portDesc = 'Outport {}, with {} connections'.format(
             self.displayName, len(self.connections))
         return portDesc
