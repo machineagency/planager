@@ -1,13 +1,10 @@
-from ....workflow.Action import Action
+from app.planager.workflow.Action import Action
 
 CONFIG = {
     "displayName": "Knitspeak Editor",
     "inports": {},
     "outports": {
-         "knitspeak": {
-            "displayName": "KnitSpeak",
-            "description": "A knitspeak program"
-        }
+        "knitspeak": {"displayName": "KnitSpeak", "description": "A knitspeak program"}
     },
 }
 
@@ -21,4 +18,4 @@ class KnitspeakEditor(Action):
         print("main loop")
 
     def save(self, args):
-        self.updateOutports({"knitspeak": args['knitspeak']})
+        self.updateOutports({"knitspeak": args["knitspeak"]})

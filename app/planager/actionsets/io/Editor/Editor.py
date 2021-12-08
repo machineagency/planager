@@ -1,12 +1,12 @@
-from ....workflow.Action import Action
+from app.planager.workflow.Action import Action
 
 CONFIG = {
     "displayName": "Editor",
     "inports": {},
     "outports": {
-         "output": {
+        "output": {
             "displayName": "Output",
-            "description": "The output text from the editor."
+            "description": "The output text from the editor.",
         }
     },
 }
@@ -22,4 +22,4 @@ class Editor(Action):
 
     def save(self, args):
         # TODO: should set the mime type here so this can be universal
-        self.updateOutports({"output": args['output']})
+        self.updateOutports({"output": args["output"]})

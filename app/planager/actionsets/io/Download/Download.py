@@ -1,4 +1,4 @@
-from ....workflow.Action import Action
+from app.planager.workflow.Action import Action
 
 CONFIG = {
     "displayName": "Download",

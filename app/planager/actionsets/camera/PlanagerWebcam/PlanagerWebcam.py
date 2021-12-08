@@ -1,4 +1,4 @@
-from ....workflow.Action import Action
+from app.planager.workflow.Action import Action
 
 CONFIG = {
     "displayName": "Planager Webcam",
@@ -6,10 +6,9 @@ CONFIG = {
     "outports": {
         "image": {
             "displayName": "Still image",
-            "description": "The still image captured by the webcam."},
-        "video": {
-            "displayName": "Video",
-            "description": "Live video feed."},
+            "description": "The still image captured by the webcam.",
+        },
+        "video": {"displayName": "Video", "description": "Live video feed."},
     },
 }
 

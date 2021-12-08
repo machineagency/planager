@@ -1,17 +1,17 @@
 from pyaxidraw import axidraw
-from ....workflow.Action import Action
+from app.planager.workflow.Action import Action
 
 CONFIG = {
     "displayName": "Draw SVG",
     "inports": {
         "svg": {
             "displayName": "SVG input",
-            "description": "SVG to draw on the Axidraw"
+            "description": "SVG to draw on the Axidraw",
         },
         "options": {
             "displayName": "options",
-            "description": "SVG to draw on the Axidraw"
-        }
+            "description": "SVG to draw on the Axidraw",
+        },
     },
     "outports": {},
 }
@@ -27,8 +27,8 @@ class DrawSVG(Action):
 
     def draw(self, options):
         ad = axidraw.AxiDraw()
-        ad.plot_setup(self.inports['svg'].value)
-        if self.inports['options'].value:
-            for option, value in self.inports['options'].value.items():
+        ad.plot_setup(self.inports["svg"].value)
+        if self.inports["options"].value:
+            for option, value in self.inports["options"].value.items():
                 ad[option] = value
         ad.plot_run()

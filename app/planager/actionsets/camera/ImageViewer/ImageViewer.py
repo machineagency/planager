@@ -1,16 +1,10 @@
-from ....workflow.Action import Action
+from app.planager.workflow.Action import Action
 
 CONFIG = {
     "displayName": "JPEG Viewer",
-    "inports": {
-        "imIn": {
-            "displayName": "Image in",
-            "description": "image in inport"}
-    },
+    "inports": {"imIn": {"displayName": "Image in", "description": "image in inport"}},
     "outports": {
-        "imOut": {
-            "displayName": "Image out",
-            "description": "image out outport"}
+        "imOut": {"displayName": "Image out", "description": "image out outport"}
     },
 }
 
