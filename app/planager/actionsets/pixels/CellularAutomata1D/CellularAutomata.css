@@ -1,0 +1,44 @@
+#cellularAutomataActionContent {
+  min-width: 300px;
+}
+
+#ruleContainer {
+  display: flex;
+  color: var(--base3);
+  font-weight: bolder;
+}
+
+.ruleLabel {
+  padding: 10px;
+  background-color: var(--base03);
+}
+
+.rulebit {
+  padding: 10px;
+  flex-basis: 100%;
+  aspect-ratio: 1/1;
+}
+
+#automataSettingsContainer {
+  /* display: flex; */
+  background-color: var(--base03);
+  color: var(--base3);
+  font-weight: bolder;
+}
+
+.rowContainer {
+  display: flex;
+  color: var(--base3);
+  font-weight: bolder;
+}
+
+.bit {
+  flex-basis: 100%;
+  aspect-ratio: 1/1;
+  /* outline: 1px solid var(--base00);
+  outline-offset: -1px; */
+}
+
+.plusMinusIcon {
+  cursor: pointer;
+}
