@@ -92,6 +92,7 @@ input[type="file"] {
   position: absolute;
   display: none;
   outline: 1px solid var(--base03);
+  z-index: 1000;
 }
 
 /* On hover show the action dropdown container */

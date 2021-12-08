@@ -14,6 +14,7 @@ export default class CellularAutomata extends React.Component {
       startingRow: STARTINGROW,
       iterations: 150,
       automata: [[]],
+      borderState: 0,
     };
   }
   componentDidMount() {
@@ -29,15 +30,32 @@ export default class CellularAutomata extends React.Component {
     oldRow[index] = oldRow[index] ? 0 : 1;
     this.setState({ startingRow: oldRow }, this.runAutomata);
   }
-  setStartingRow(row) {
+  setBorderState() {
+    this.setState({ borderState: !this.state.borderState }, this.runAutomata);
+  }
+  setStartingRowLength(e) {
+    const diff = e.target.value - this.state.startingRow.length;
+    if (!diff) return;
+    let row;
+    if (diff > 0) {
+      row = this.state.startingRow.concat(Array.from(Array(diff), () => 1));
+    } else {
+      row = this.state.startingRow.slice(0, diff);
+    }
     this.setState({ startingRow: row }, this.runAutomata);
   }
-  setIterations(iter) {
-    this.setState({ iterations: iter }, this.runAutomata);
+  setStartingRow(fill) {
+    const row = Array.from(Array(this.state.startingRow.length), () => fill);
+    this.setState({ startingRow: row }, this.runAutomata);
+  }
+  setIterations(e) {
+    this.setState({ iterations: e.target.value }, this.runAutomata);
   }
   runAutomata() {
     let automata = [];
-    let lastRow = [0].concat(this.state.startingRow).concat([0]);
+    let lastRow = [this.state.borderState]
+      .concat(this.state.startingRow)
+      .concat([this.state.borderState]);
 
     for (let row = 0; row < this.state.iterations; row++) {
       let automataRow = [];
@@ -51,7 +69,9 @@ export default class CellularAutomata extends React.Component {
       }
 
       automata.push(automataRow);
-      lastRow = [0].concat(automataRow).concat([0]);
+      lastRow = [this.state.borderState]
+        .concat(automataRow)
+        .concat([this.state.borderState]);
     }
 
     this.setState({ automata: automata });
@@ -80,39 +100,58 @@ export default class CellularAutomata extends React.Component {
   renderSettings() {
     return (
       <div id='automataSettingsContainer'>
-        <div className='sizeInput'>
-          <span
-            onClick={this.setStartingRow.bind(
-              this,
-              this.state.startingRow.slice(0, -1)
-            )}
-            className='plusMinusIcon'>
-            <FaMinus />
+        <div className='automataSetting'>
+          <span className='automataSettingLabel'>
+            Width: {this.state.startingRow.length}
           </span>
-          <span className='numRowCols'>
-            {this.state.startingRow.length} Width
-          </span>
-          <span
-            onClick={this.setStartingRow.bind(
-              this,
-              this.state.startingRow.concat([1])
-            )}
-            className='plusMinusIcon'>
-            <FaPlus />
-          </span>
+
+          <input
+            type='range'
+            min='8'
+            max='200'
+            value={this.state.startingRow.length}
+            className='automataSlider'
+            onChange={this.setStartingRowLength.bind(this)}
+          />
         </div>
-        <div className='sizeInput'>
-          <span
-            onClick={this.setIterations.bind(this, this.state.iterations - 1)}
-            className='plusMinusIcon'>
-            <FaMinus />
+        <div className='automataSetting'>
+          <span className='automataSettingLabel'>
+            Iterations: {this.state.iterations}
           </span>
-          <span className='numRowCols'>{this.state.iterations} Iterations</span>
-          <span
-            onClick={this.setIterations.bind(this, this.state.iterations + 1)}
-            className='plusMinusIcon'>
-            <FaPlus />
-          </span>
+
+          <input
+            type='range'
+            min='8'
+            max='500'
+            value={this.state.iterations}
+            className='automataSlider'
+            onChange={this.setIterations.bind(this)}
+          />
+        </div>
+        <div style={{ display: "flex" }}>
+          <div
+            className='automataButton'
+            onClick={this.setStartingRow.bind(this, 0)}>
+            Fill Black
+          </div>
+          <div
+            className='automataButton'
+            onClick={this.setStartingRow.bind(this, 1)}>
+            Fill White
+          </div>
+          <div
+            onClick={this.setBorderState.bind(this)}
+            style={{
+              flexBasis: "100%",
+              padding: "5px 10px",
+              backgroundColor: this.state.borderState
+                ? "var(--base3)"
+                : "var(--base03)",
+              color: this.state.borderState ? "var(--base03)" : "var(--base3)",
+              textAlign: "center",
+            }}>
+            Border
+          </div>
         </div>
       </div>
     );
