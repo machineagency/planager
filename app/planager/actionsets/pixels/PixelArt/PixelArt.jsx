@@ -25,18 +25,51 @@ const COLORS = {
 };
 
 const ART = [
-  ["#000000", "#ffffff", "#000000", "#ffffff", "#000000", "#ffffff"],
-  ["#ffffff", "#000000", "#ffffff", "#000000", "#ffffff", "#000000"],
-  ["#000000", "#ffffff", "#000000", "#ffffff", "#000000", "#ffffff"],
-  ["#ffffff", "#000000", "#ffffff", "#000000", "#ffffff", "#000000"],
-  ["#000000", "#ffffff", "#000000", "#ffffff", "#000000", "#ffffff"],
-  ["#ffffff", "#000000", "#ffffff", "#000000", "#ffffff", "#000000"],
-  ["#000000", "#ffffff", "#000000", "#ffffff", "#000000", "#ffffff"],
-  ["#ffffff", "#000000", "#ffffff", "#000000", "#ffffff", "#000000"],
-  ["#000000", "#ffffff", "#000000", "#ffffff", "#000000", "#ffffff"],
-  ["#ffffff", "#000000", "#ffffff", "#000000", "#ffffff", "#000000"],
-  ["#000000", "#ffffff", "#000000", "#ffffff", "#000000", "#ffffff"],
-  ["#ffffff", "#000000", "#ffffff", "#000000", "#ffffff", "#000000"],
+  [
+    COLORS.Violet,
+    COLORS.Violet,
+    COLORS.Violet,
+    COLORS.Violet,
+    COLORS.Violet,
+    COLORS.Violet,
+    COLORS.Violet,
+  ],
+  [
+    COLORS.Violet,
+    COLORS.Base3,
+    COLORS.Violet,
+    COLORS.Violet,
+    COLORS.Violet,
+    COLORS.Base3,
+    COLORS.Violet,
+  ],
+  [
+    COLORS.Violet,
+    COLORS.Base3,
+    COLORS.Violet,
+    COLORS.Base3,
+    COLORS.Violet,
+    COLORS.Base3,
+    COLORS.Violet,
+  ],
+  [
+    COLORS.Violet,
+    COLORS.Violet,
+    COLORS.Base3,
+    COLORS.Violet,
+    COLORS.Base3,
+    COLORS.Violet,
+    COLORS.Violet,
+  ],
+  [
+    COLORS.Violet,
+    COLORS.Violet,
+    COLORS.Violet,
+    COLORS.Violet,
+    COLORS.Violet,
+    COLORS.Violet,
+    COLORS.Violet,
+  ],
 ];
 
 export default class PixelArt extends React.Component {
@@ -49,6 +82,9 @@ export default class PixelArt extends React.Component {
       colorList: COLORS,
       artwork: ART,
     };
+  }
+  componentDidMount() {
+    this.artUpdated();
   }
   artUpdated() {
     this.props.sendToOutport(this.props.action.id, {
@@ -65,7 +101,6 @@ export default class PixelArt extends React.Component {
       );
       newArt = this.state.artwork.concat(newRows);
     } else {
-      console.log(rowDiff);
       newArt = this.state.artwork.slice(0, rowDiff);
     }
     this.setState({ artwork: newArt, numRows: numRows }, this.artUpdated);

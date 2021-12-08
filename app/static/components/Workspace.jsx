@@ -20,6 +20,7 @@ import KnitgraphVisualizer from "../../planager/actionsets/knitting/KnitgraphVis
 import Editor from "../../planager/actionsets/io/Editor/Editor";
 import PixelArt from "../../planager/actionsets/pixels/PixelArt/PixelArt";
 import Download from "../../planager/actionsets/io/Download/Download";
+import DataViewer from "../../planager/actionsets/data/DataViewer/DataViewer";
 
 const actionUImap = {
   PlanagerWebcam: PlanagerWebcam,
@@ -34,6 +35,7 @@ const actionUImap = {
   Editor: Editor,
   PixelArt: PixelArt,
   Download: Download,
+  DataViewer: DataViewer,
 };
 
 export default class Workspace extends React.Component {
@@ -104,6 +106,7 @@ export default class Workspace extends React.Component {
   update(action) {
     let actions = this.state.actions;
     if (!actions[action.id]) return;
+
     console.debug(action);
     console.debug(actions);
 
@@ -208,6 +211,7 @@ export default class Workspace extends React.Component {
       .then((link) => {
         // Call the create link method to add the new link to the state
         this.createLink(link);
+        this.update(this.state.actions[endActionID]);
       });
 
     // Remove the temporary link from the state and then remove the listeners
