@@ -1,0 +1,13 @@
+#dataViewerUI {
+  padding: 10px;
+  background-color: var(--base03);
+  max-height: 500px;
+  max-width: 500px;
+  overflow: auto;
+  scrollbar-width: thin;
+  min-width: 300px;
+}
+
+/* #root::-webkit-scrollbar {
+  width: 5px;
+} */
