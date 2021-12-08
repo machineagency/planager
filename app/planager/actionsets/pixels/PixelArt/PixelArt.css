@@ -7,10 +7,6 @@
   grid-auto-rows: auto;
 }
 
-/* .pixel:hover {
-  opacity: 75%;
-} */
-
 /* Styles for the settings */
 #settings {
   display: flex;

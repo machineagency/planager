@@ -1,0 +1,10 @@
+.downloadButton {
+  padding: 5px 10px;
+  background-color: var(--blue);
+  color: var(--base03);
+  font-weight: bolder;
+}
+
+.hidden {
+  display: none;
+}
