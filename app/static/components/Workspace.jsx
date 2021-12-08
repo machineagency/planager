@@ -18,6 +18,7 @@ import KnitspeakEditor from "../../planager/actionsets/knitting/KnitspeakEditor/
 import KnitspeakToKnitgraph from "../../planager/actionsets/knitting/KnitspeakToKnitgraph/KnitspeakToKnitgraph";
 import KnitgraphVisualizer from "../../planager/actionsets/knitting/KnitgraphVisualizer/KnitgraphVisualizer";
 import Editor from "../../planager/actionsets/io/Editor/Editor";
+import PixelArt from "../../planager/actionsets/pixels/PixelArt/PixelArt";
 
 const actionUImap = {
   PlanagerWebcam: PlanagerWebcam,
@@ -30,6 +31,7 @@ const actionUImap = {
   KnitspeakToKnitgraph: KnitspeakToKnitgraph,
   KnitgraphVisualizer: KnitgraphVisualizer,
   Editor: Editor,
+  PixelArt: PixelArt,
 };
 
 export default class Workspace extends React.Component {
@@ -100,8 +102,8 @@ export default class Workspace extends React.Component {
   update(action) {
     let actions = this.state.actions;
     if (!actions[action.id]) return;
-    console.log(action);
-    console.log(actions);
+    console.debug(action);
+    console.debug(actions);
 
     actions[action.id].component = React.cloneElement(
       actions[action.id].component,

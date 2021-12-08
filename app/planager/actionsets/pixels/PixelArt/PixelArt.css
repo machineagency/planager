@@ -1,0 +1,61 @@
+#pixelArtActionContent {
+  background-color: var(--base03);
+}
+
+#pixelArtContainer {
+  display: grid;
+  grid-auto-rows: auto;
+}
+
+/* .pixel:hover {
+  opacity: 75%;
+} */
+
+/* Styles for the settings */
+#settings {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#resetButton {
+  background-color: var(--blue);
+  padding: 5px 10px;
+  color: var(--base3);
+  font-weight: bolder;
+}
+
+#resetButton:hover {
+  background-color: var(--blueHover);
+}
+
+#currentColor {
+  padding: 5px 10px;
+  color: var(--base3);
+  font-weight: bolder;
+}
+
+.sizeInput {
+  height: 15px;
+  color: var(--base3);
+  font-weight: bolder;
+  padding: 5px 10px;
+  display: flex;
+}
+
+.numRowCols {
+  padding: 0 5px;
+}
+
+.plusMinusIcon {
+  cursor: pointer;
+}
+
+#colorBar {
+  height: 20px;
+  display: flex;
+}
+
+.color {
+  flex-basis: 100%;
+}
