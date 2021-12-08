@@ -3,10 +3,9 @@ import os
 
 from flask import Flask
 from flask_session import Session
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
 
-
-import app.actionLoader
+from app import actionLoader
 
 
 app = Flask(__name__, template_folder="static")

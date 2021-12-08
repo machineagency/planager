@@ -1,7 +1,7 @@
 {
   "name": "planager",
   "version": "1.0.0",
-  "description": "Frontend for the planager.",
+  "description": "The planager is an interactive datastream programming environment for authoring workflows.",
   "main": "index.js",
   "repository": "https://github.com/machineagency/planager",
   "scripts": {
@@ -13,21 +13,21 @@
   "author": "Hannah Twigg-Smith",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.15.0",
+    "@babel/core": "^7.16.0",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "@babel/preset-env": "^7.15.0",
-    "@babel/preset-react": "^7.14.5",
-    "babel-loader": "^8.2.2",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-react": "^7.16.0",
+    "babel-loader": "^8.2.3",
     "babel-plugin-dynamic-import-node": "^2.3.3",
-    "css-loader": "^6.2.0",
-    "style-loader": "^3.2.1",
-    "webpack": "^5.51.1",
+    "css-loader": "^6.5.1",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.65.0",
     "webpack-cli": "^4.8.0"
   },
   "dependencies": {
     "@codemirror/commands": "^0.19.5",
     "@codemirror/state": "^0.19.6",
-    "@codemirror/view": "^0.19.20",
+    "@codemirror/view": "^0.19.28",
     "codemirror": "^5.64.0",
     "react": "^17.0.2",
     "react-codemirror2": "^7.2.1",
@@ -38,7 +38,6 @@
     "react-json-view": "^1.21.3",
     "react-vis-network-graph": "^3.0.1",
     "react-webcam": "^6.0.0",
-    "socket.io-client": "^4.4.0",
-    "socketio": "^1.0.0"
+    "socket.io-client": "^4.4.0"
   }
 }
