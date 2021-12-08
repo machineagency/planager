@@ -81,10 +81,31 @@ export default class PixelArt extends React.Component {
       currentColor: COLORS.Black,
       colorList: COLORS,
       artwork: ART,
+      bitmap: [],
     };
   }
   componentDidMount() {
     this.artUpdated();
+  }
+  componentDidUpdate() {
+    let bitmap = this.props.inports.bitmap.value;
+    if (!bitmap) return;
+    if (!(JSON.stringify(bitmap) == JSON.stringify(this.state.bitmap))) {
+      let art = [];
+      for (const row of bitmap) {
+        let artRow = [];
+        for (const pixel of row) {
+          artRow.push(pixel ? COLORS.Base3 : COLORS.Base03);
+        }
+        art.push(artRow);
+      }
+      this.setState({
+        artwork: art,
+        bitmap: bitmap,
+        numRows: art.length,
+        numCols: art[0].length,
+      });
+    }
   }
   artUpdated() {
     this.props.sendToOutport(this.props.action.id, {

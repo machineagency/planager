@@ -2,7 +2,12 @@ from ....workflow.Action import Action
 
 CONFIG = {
     "displayName": "PixelArt",
-    "inports": {},
+    "inports": {
+        "bitmap": {
+            "displayName": "1bit bitmap",
+            "description": "2D array of pixel value (0s and 1s)",
+        }
+    },
     "outports": {
         "pixelArt": {
             "displayName": "Pixel Artwork",
