@@ -1,6 +1,6 @@
 import uuid
-from .Inport import Inport
-from .Outport import Outport
+from app.planager.workflow.Inport import Inport
+from app.planager.workflow.Outport import Outport
 
 
 class Action:

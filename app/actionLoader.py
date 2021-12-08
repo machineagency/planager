@@ -19,7 +19,7 @@ operating_system = platform.system()
 
 def buildActionDict():
     for root, directories, files in os.walk(package_dir, topdown=True):
-        print(root, directories, files)
+        # print(root, directories, files)
         for file in files:
             # Look for all the python files
             if fnmatch.fnmatch(file, "*.py"):
