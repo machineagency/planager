@@ -19,6 +19,7 @@ import KnitspeakToKnitgraph from "../../planager/actionsets/knitting/KnitspeakTo
 import KnitgraphVisualizer from "../../planager/actionsets/knitting/KnitgraphVisualizer/KnitgraphVisualizer";
 import Editor from "../../planager/actionsets/io/Editor/Editor";
 import PixelArt from "../../planager/actionsets/pixels/PixelArt/PixelArt";
+import Download from "../../planager/actionsets/io/Download/Download";
 
 const actionUImap = {
   PlanagerWebcam: PlanagerWebcam,
@@ -32,6 +33,7 @@ const actionUImap = {
   KnitgraphVisualizer: KnitgraphVisualizer,
   Editor: Editor,
   PixelArt: PixelArt,
+  Download: Download,
 };
 
 export default class Workspace extends React.Component {
@@ -256,6 +258,7 @@ export default class Workspace extends React.Component {
     }
     return renderedLinks;
   }
+  // TODO: Action UI loading should be dynamic
   // getComponent(actionName) {
   //   let component = this.state.actionDict[actionName].component;
   //   if (component) return component;
