@@ -17,9 +17,9 @@ import Resize from "../../planager/actionsets/svgtools/Resize/Resize";
 import KnitspeakEditor from "../../planager/actionsets/knitting/KnitspeakEditor/KnitspeakEditor";
 import KnitspeakToKnitgraph from "../../planager/actionsets/knitting/KnitspeakToKnitgraph/KnitspeakToKnitgraph";
 import KnitgraphVisualizer from "../../planager/actionsets/knitting/KnitgraphVisualizer/KnitgraphVisualizer";
-import Editor from "../../planager/actionsets/io/Editor/Editor";
+import Editor from "../../planager/actionsets/data/Editor/Editor";
 import PixelArt from "../../planager/actionsets/pixels/PixelArt/PixelArt";
-import Download from "../../planager/actionsets/io/Download/Download";
+import Download from "../../planager/actionsets/data/Download/Download";
 import DataViewer from "../../planager/actionsets/data/DataViewer/DataViewer";
 import CellularAutomata from "../../planager/actionsets/pixels/CellularAutomata1D/CellularAutomata";
 
