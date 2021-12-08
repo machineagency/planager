@@ -1,10 +1,12 @@
-from typing import Dict
 import jsonpickle
-from app.planager.workflow.Plan import Plan
-from app import app, action_Dict, socketio, emit
+
 from flask import request, render_template, session
-from rich import print, print_json
+from rich import print
 from rich.traceback import install
+
+from app.planager.workflow.Plan import Plan
+from app import app, action_Dict, socketio
+
 
 install()
 
