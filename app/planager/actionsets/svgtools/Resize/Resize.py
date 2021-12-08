@@ -1,18 +1,13 @@
-from ....workflow.Action import Action
+from app.planager.workflow.Action import Action
 
 CONFIG = {
     "displayName": "Resize jpeg",
     "inports": {
-        "imageIn": {
-            "displayName": "input image",
-            "description": "input image"
-        }
+        "imageIn": {"displayName": "input image", "description": "input image"}
     },
     "outports": {
-        "resizedImage": {
-            "displayName": "resized image",
-            "description": "resized image"
-        }},
+        "resizedImage": {"displayName": "resized image", "description": "resized image"}
+    },
 }
 
 

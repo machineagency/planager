@@ -1,17 +1,17 @@
-from ....workflow.Action import Action
+from app.planager.workflow.Action import Action
 
 CONFIG = {
     "displayName": "TemplateAction",
     "inports": {
         "templateInput": {
-            "displayName": "TemplateActiont",
-            "description": "TemplateAction"
+            "displayName": "TemplateAction",
+            "description": "TemplateAction",
         }
     },
     "outports": {
-         "templateOutput": {
+        "templateOutput": {
             "displayName": "TemplateAction",
-            "description": "TemplateAction"
+            "description": "TemplateAction",
         }
     },
 }

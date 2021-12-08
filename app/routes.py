@@ -1,15 +1,17 @@
 from typing import Dict
 import jsonpickle
-from .planager.workflow.Plan import Plan
-from . import app, action_Dict, socketio, emit
+from app.planager.workflow.Plan import Plan
+from app import app, action_Dict, socketio, emit
 from flask import request, render_template, session
 from rich import print, print_json
 from rich.traceback import install
+
 install()
 
 
 def update_handler(actionJSON):
     socketio.emit("update", actionJSON)
+
 
 @app.get("/")
 def home():
@@ -18,7 +20,7 @@ def home():
     Returns:
         [template]: index.html template
     """
-    session.pop('plan', None)
+    session.pop("plan", None)
     newPlan = Plan(update_handler=update_handler)
     session["plan"] = newPlan
     return render_template("index.html")
@@ -48,7 +50,7 @@ def loadPlan():
         JSON: The JSON specification for the planager plan.
     """
     if "plan" in session:
-        return session.get('plan').toJSON()
+        return session.get("plan").toJSON()
     return {}
 
 
@@ -118,7 +120,9 @@ def addAction():
         JSON: a jsonpickle-encoded version of the plan.
     """
     req = request.get_json()
-    new_action = session.get('plan').addAction(action_Dict[req['actionSet']][req['action']])
+    new_action = session.get("plan").addAction(
+        action_Dict[req["actionSet"]][req["action"]]
+    )
     return new_action.toJSON()
 
 
@@ -135,7 +139,7 @@ def addLink():
         by jsonpickle.
     """
     connection = jsonpickle.decode(request.get_data())
-    session.get('plan').addLink(
+    session.get("plan").addLink(
         connection["startActionID"],
         connection["startPortID"],
         connection["endActionID"],
@@ -151,14 +155,19 @@ def removeAction():
 
     Removes the specified action from the plan and returns the updated plan
     """
-    removed_action = session.get('plan').removeAction(request.get_json()['actionID'])
+    removed_action = session.get("plan").removeAction(request.get_json()["actionID"])
     return removed_action.toJSON()
 
 
-@socketio.on('removeLink')
+@socketio.on("removeLink")
 def removeLink(link):
-    session.get('plan').removeLink(link['startActionID'], link['startPortID'], link['endActionID'], link['endPortID'])
-    print(session.get('plan'))
+    session.get("plan").removeLink(
+        link["startActionID"],
+        link["startPortID"],
+        link["endActionID"],
+        link["endPortID"],
+    )
+    print(session.get("plan"))
 
 
 @app.post("/sendDataToOutport")
@@ -170,7 +179,7 @@ def sendDataToOutport():
     """
     data = jsonpickle.decode(request.get_data())
 
-    session.get('plan').sendDataToOutport(data['actionID'], data['dataDict'])
+    session.get("plan").sendDataToOutport(data["actionID"], data["dataDict"])
 
     # TODO: Change this to a socket connection and respond here that the data was received
     return {"res": "ok"}
@@ -190,12 +199,15 @@ def runBackendMethod():
 
     method = None
     try:
-        method = getattr(
-            session.get('plan').actions[data['actionID']], data['method'])
+        method = getattr(session.get("plan").actions[data["actionID"]], data["method"])
     except AttributeError:
-        raise NotImplementedError("Class `{}` does not implement `{}`".format(
-            session.get('plan').actions[data['actionID']].__class__.__name__, data['method']))
+        raise NotImplementedError(
+            "Class `{}` does not implement `{}`".format(
+                session.get("plan").actions[data["actionID"]].__class__.__name__,
+                data["method"],
+            )
+        )
 
-    res = method(data['args'])
+    res = method(data["args"])
 
     return jsonpickle.encode({"data": res})

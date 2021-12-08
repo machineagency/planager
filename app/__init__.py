@@ -6,7 +6,7 @@ from flask_session import Session
 from flask_socketio import SocketIO, emit
 
 
-from . import actionLoader
+import app.actionLoader
 
 
 app = Flask(__name__, template_folder="static")
