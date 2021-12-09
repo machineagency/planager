@@ -11,6 +11,7 @@ from app import actionLoader
 app = Flask(__name__, template_folder="static")
 socketio = SocketIO(app)
 
+PACKAGE_DIR = "./app/planager/actionsets"
 
 # Register the blueprints for different actions
 # The url prefix allows for easier management of routes and prevents
@@ -19,7 +20,7 @@ socketio = SocketIO(app)
 # from .planager.actionsets.axidraw.axidraw_blueprint import axidraw_blueprint
 # app.register_blueprint(axidraw_blueprint, url_prefix="/axidraw")
 
-action_Dict = actionLoader.buildActionDict()
+action_Dict = actionLoader.buildActionDict(PACKAGE_DIR)
 
 # NOTE: The secret key is used to cryptographically sign the cookies used for storing
 #       the session identifier.
