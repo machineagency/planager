@@ -9,7 +9,7 @@ from app.action_manager import ActionManager
 
 
 app = Flask(__name__, template_folder="static")
-socketio = SocketIO(app)
+socketio = SocketIO(app, async_mode="gevent")
 
 PACKAGE_DIR = "./app/planager/actionsets"
 
