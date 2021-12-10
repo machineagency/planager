@@ -8,20 +8,20 @@ import "./styles/workspace.css";
 import { socket, SocketContext } from "../context/socket";
 
 // TODO: The available actions should be loaded dynamically and not imported here. They should only import if added to the plan.
-import PlanagerWebcam from "../../planager/actionsets/camera/PlanagerWebcam/PlanagerWebcam";
-import ImageTrace from "../../planager/actionsets/svgtools/ImageTrace/ImageTrace";
-import ImageViewer from "../../planager/actionsets/camera/ImageViewer/ImageViewer";
-import DrawSVG from "../../planager/actionsets/axidraw/DrawSVG/DrawSVG";
-import Options from "../../planager/actionsets/axidraw/Options/Options";
-import Resize from "../../planager/actionsets/svgtools/Resize/Resize";
-import KnitspeakEditor from "../../planager/actionsets/knitting/KnitspeakEditor/KnitspeakEditor";
-import KnitspeakToKnitgraph from "../../planager/actionsets/knitting/KnitspeakToKnitgraph/KnitspeakToKnitgraph";
-import KnitgraphVisualizer from "../../planager/actionsets/knitting/KnitgraphVisualizer/KnitgraphVisualizer";
-import Editor from "../../planager/actionsets/data/Editor/Editor";
-import PixelArt from "../../planager/actionsets/pixels/PixelArt/PixelArt";
-import Download from "../../planager/actionsets/data/Download/Download";
-import DataViewer from "../../planager/actionsets/data/DataViewer/DataViewer";
-import CellularAutomata from "../../planager/actionsets/pixels/CellularAutomata1D/CellularAutomata";
+import PlanagerWebcam from "../../planager/actionsets/camera/planager_webcam/PlanagerWebcam";
+import ImageTrace from "../../planager/actionsets/svgtools/image_trace/ImageTrace";
+import ImageViewer from "../../planager/actionsets/camera/image_viewer/ImageViewer";
+import DrawSVG from "../../planager/actionsets/axidraw/draw_svg/DrawSVG";
+import Options from "../../planager/actionsets/axidraw/options/Options";
+import Resize from "../../planager/actionsets/svgtools/resize/Resize";
+import KnitspeakEditor from "../../planager/actionsets/knitting/knitspeak_editor/KnitspeakEditor";
+import KnitspeakToKnitgraph from "../../planager/actionsets/knitting/knitspeak_to_knitgraph/KnitspeakToKnitgraph";
+import KnitgraphVisualizer from "../../planager/actionsets/knitting/knitgraph_visualizer/KnitgraphVisualizer";
+import Editor from "../../planager/actionsets/data/editor/Editor";
+import PixelArt from "../../planager/actionsets/pixels/pixel_art/PixelArt";
+import Download from "../../planager/actionsets/data/download/Download";
+import DataViewer from "../../planager/actionsets/data/data_viewer/DataViewer";
+import CellularAutomata from "../../planager/actionsets/pixels/cellular_automata_1d/CellularAutomata";
 
 const actionUImap = {
   PlanagerWebcam: PlanagerWebcam,

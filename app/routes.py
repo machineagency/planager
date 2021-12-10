@@ -5,7 +5,7 @@ from rich import print
 from rich.traceback import install
 
 from app.planager.workflow.Plan import Plan
-from app import app, action_Dict, socketio
+from app import app, action_manager, socketio
 
 
 install()
@@ -99,16 +99,8 @@ def getActions():
     Returns:
         list: A list of the available actions.
     """
-
-    dropdown = {}
-    flattened = {}
-
-    for actionSet in action_Dict.keys():
-        dropdown[actionSet] = [a for a in action_Dict[actionSet].keys()]
-        for action in action_Dict[actionSet].keys():
-            flattened[action] = {"component": None, "actionSet": actionSet}
-
-    return jsonpickle.encode({"dropdown": dropdown, "actions": flattened})
+    dropdown, flattened = action_manager.get_available_actions()
+    return jsonpickle.encode({"actions": flattened, "dropdown": dropdown})
 
 
 @app.post("/addAction")
@@ -122,9 +114,18 @@ def addAction():
         JSON: a jsonpickle-encoded version of the plan.
     """
     req = request.get_json()
-    new_action = session.get("plan").addAction(
-        action_Dict[req["actionSet"]][req["action"]]
-    )
+
+    action_class = action_manager.get_action_class(req["actionSet"], req["action"])
+    if not action_class:
+        print("Error! Could not find that action!")
+        return
+
+    try:
+        new_action = session.get("plan").addAction(action_class)
+    except:
+        print("Error adding action to plan")
+        return
+
     return new_action.toJSON()
 
 
