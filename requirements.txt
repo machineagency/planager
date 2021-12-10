@@ -1,6 +1,7 @@
 bidict==0.21.4
 black==21.12b0
 cachelib==0.4.1
+cffi==1.15.0
 click==8.0.3
 colorama==0.4.4
 commonmark==0.9.1
@@ -8,6 +9,9 @@ Deprecated==1.2.13
 Flask==2.0.2
 Flask-Session==0.4.0
 Flask-SocketIO==5.1.1
+gevent==21.8.0
+gevent-websocket==0.10.1
+greenlet==1.1.2
 gunicorn==20.1.0
 itsdangerous==2.0.1
 Jinja2==3.0.3
@@ -16,6 +20,7 @@ MarkupSafe==2.0.1
 mypy-extensions==0.4.3
 pathspec==0.9.0
 platformdirs==2.4.0
+pycparser==2.21
 Pygments==2.10.0
 python-engineio==4.3.0
 python-socketio==5.5.0
@@ -25,3 +30,5 @@ tomli==1.2.2
 typing_extensions==4.0.1
 Werkzeug==2.0.2
 wrapt==1.13.3
+zope.event==4.5.0
+zope.interface==5.4.0
