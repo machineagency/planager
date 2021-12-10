@@ -6,6 +6,7 @@ click==8.0.3
 colorama==0.4.4
 commonmark==0.9.1
 Deprecated==1.2.13
+dnspython==2.1.0
 Flask==2.0.2
 Flask-Session==0.4.0
 Flask-SocketIO==5.1.1
@@ -26,6 +27,7 @@ python-engineio==4.3.0
 python-socketio==5.5.0
 redis==4.0.2
 rich==10.15.2
+six==1.16.0
 tomli==1.2.2
 typing_extensions==4.0.1
 Werkzeug==2.0.2
