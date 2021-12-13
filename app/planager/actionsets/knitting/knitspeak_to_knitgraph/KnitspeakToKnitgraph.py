@@ -1,7 +1,9 @@
 from app.planager.workflow.Action import Action
 
-# TODO: remove this relative import and standardize a way of importing things to actionsets
-from ..utils.knitspeak_compiler.knitspeak_compiler import Knitspeak_Compiler
+# TODO: standardize a way of importing things to actionsets
+from app.planager.actionsets.knitting.utils.knitspeak_compiler.knitspeak_compiler import (
+    Knitspeak_Compiler,
+)
 
 CONFIG = {
     "displayName": "Knitspeak Compiler",

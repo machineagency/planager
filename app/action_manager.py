@@ -4,13 +4,14 @@ from inspect import getmembers, isclass
 from types import ModuleType
 
 from app.planager.workflow.Action import Action
+from app.logging import info, error, debug
 
 
 class ActionManager:
     def __init__(self, action_set_path: str):
         self.actions = {}
         self.action_set_path = action_set_path
-        self.ignore = ["__pycache__"]
+        self.ignore = ["__pycache__", "utils"]
 
     def build_action_dict(self):
         p = Path(self.action_set_path)
@@ -20,7 +21,8 @@ class ActionManager:
         for action_set in p.iterdir():
             action_set_name = action_set.stem
             # Ignore things that aren't directories or that are in the ignore array
-            if not action_set.is_dir() or action_set.stem in self.ignore:
+            if not action_set.is_dir() or action_set_name in self.ignore:
+                info("Ignoring: ", action_set)
                 continue
             # Add the action set to the actions dict with the path
             action_sets[action_set_name] = {
@@ -30,9 +32,11 @@ class ActionManager:
 
             # Iterate through the contents of the action set
             for action_dir in action_set.iterdir():
+
                 action_name = action_dir.stem
                 # Ignore things that aren't directories or that are in the ignore array
                 if not action_dir.is_dir() or action_name in self.ignore:
+                    info("Ignoring: ", action_dir)
                     continue
 
                 # Look through the contents of the action directory
@@ -48,7 +52,9 @@ class ActionManager:
                     try:
                         module = import_module(action_path)
                     except:
-                        print("Path {} not found".format(action_path))
+                        error("Could not import {}".format(action_path))
+                        debug(action)
+                        debug(action_name)
                         continue
 
                     try:

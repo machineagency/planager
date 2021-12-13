@@ -10,7 +10,7 @@ dnspython==2.1.0
 Flask==2.0.2
 Flask-Session==0.4.0
 Flask-SocketIO==5.1.1
-gevent==21.8.0
+gevent==21.12.0
 gevent-websocket==0.10.1
 greenlet==1.1.2
 gunicorn==20.1.0
@@ -34,3 +34,7 @@ Werkzeug==2.0.2
 wrapt==1.13.3
 zope.event==4.5.0
 zope.interface==5.4.0
+
+# For the knitting actions
+pyvis~=0.1.9
+parglare~=0.12.0

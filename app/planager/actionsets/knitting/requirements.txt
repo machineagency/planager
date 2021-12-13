@@ -1,3 +1,2 @@
-networkx~=2.6.2
 pyvis~=0.1.9
 parglare~=0.12.0
