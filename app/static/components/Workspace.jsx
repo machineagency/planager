@@ -3,6 +3,7 @@ import React from "react";
 import Action from "./Action";
 import Dropdown from "./Dropdown";
 import Link from "./Link";
+import Toolbar from "./Toolbar";
 
 import "./styles/workspace.css";
 
@@ -256,10 +257,10 @@ export default class Workspace extends React.Component {
           link={link}
           id={linkID}
           key={linkID}
-          startx={coords.startx}
-          starty={coords.starty}
-          endx={coords.endx}
-          endy={coords.endy}
+          startX={coords.startx}
+          startY={coords.starty}
+          endX={coords.endx}
+          endY={coords.endy}
         />
       );
     }
@@ -463,38 +464,10 @@ export default class Workspace extends React.Component {
   render() {
     return (
       <div id='container'>
-        <div className='toolbar'>
-          <span id='toolbarTitle' className='unselectable'>
-            Planager
-          </span>
-          {/* <label title='Load plan' className='toolbarButton unselectable'>
-            Upload
-            <input type='file' onChange={this.uploadPlan.bind(this)} />
-          </label> */}
-          <span className='relative'>
-            <span
-              title='Actions'
-              className='toolbarButton unselectable addAction'>
-              Actions
-              <div className='actionDropdownContainer'>
-                <Dropdown
-                  dropdownInfo={this.state.dropdown}
-                  addAction={this.addAction.bind(this)}
-                />
-              </div>
-            </span>
-          </span>
-          {/* <span className='relative'>
-            <span
-              title='Examples'
-              className='toolbarButton unselectable addAction'>
-              Examples
-              <div className='actionDropdownContainer'>
-                {this.renderExampleDropdown()}
-              </div>
-            </span>
-          </span> */}
-        </div>
+        <Toolbar
+          dropdownInfo={this.state.dropdown}
+          addAction={this.addAction.bind(this)}
+        />
         <div id='workflowCanvas'>
           {this.renderLinks()}
           {this.renderActions()}
