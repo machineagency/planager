@@ -1,5 +1,4 @@
 import React from "react";
-import GradientPath from "gradient-path";
 import "./styles/link.css";
 
 export default function Link({ startX, startY, endX, endY, removeLink, id }) {
