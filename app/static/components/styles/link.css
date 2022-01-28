@@ -7,11 +7,19 @@
   z-index: -1;
 }
 
-.linkPath {
-  stroke: var(--base1);
+.backgroundPath {
+  stroke: transparent;
+  stroke-width: 20px;
+  fill: none;
 }
 
-.linkPath:hover {
-  stroke: var(--orange);
-  cursor: pointer;
+.linkPath {
+  stroke: var(--base1);
+  stroke-width: 3px;
+  fill: none;
+}
+
+#droplet {
+  fill: var(--base1);
+  r: 5;
 }
