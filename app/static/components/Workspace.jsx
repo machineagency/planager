@@ -1,6 +1,7 @@
 import React from "react";
 
 import Action from "./Action";
+import Dropdown from "./Dropdown";
 import Link from "./Link";
 
 import "./styles/workspace.css";
@@ -440,42 +441,6 @@ export default class Workspace extends React.Component {
   //   console.log("loading an example");
   //   console.log(example);
   // }
-  renderActionDropdown(actionSetName, actionSet) {
-    let actionList = [];
-    for (const action of actionSet) {
-      actionList.push(
-        <div key={action}>
-          <div
-            type='button'
-            className='dropdownAction'
-            onClick={this.addAction.bind(this, actionSetName, action)}>
-            {action}
-          </div>
-        </div>
-      );
-    }
-    return actionList;
-  }
-  renderActionSetDropdown() {
-    // TODO: Make a react dropdown component
-    let dropdown = [];
-    for (const actionSet of Object.keys(this.state.dropdown)) {
-      dropdown.push(
-        <div key={actionSet} className='dropdownActionSet'>
-          <div className='textContainer'>
-            <div className='dropdownActionSetText'>{actionSet}</div>
-          </div>
-          <div className='actionListContainer'>
-            {this.renderActionDropdown(
-              actionSet,
-              this.state.dropdown[actionSet]
-            )}
-          </div>
-        </div>
-      );
-    }
-    return dropdown;
-  }
   // renderExampleDropdown() {
   //   // TODO: Make a react dropdown component
   //   let exampleList = [];
@@ -512,7 +477,10 @@ export default class Workspace extends React.Component {
               className='toolbarButton unselectable addAction'>
               Actions
               <div className='actionDropdownContainer'>
-                {this.renderActionSetDropdown()}
+                <Dropdown
+                  dropdownInfo={this.state.dropdown}
+                  addAction={this.addAction.bind(this)}
+                />
               </div>
             </span>
           </span>
