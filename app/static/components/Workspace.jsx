@@ -24,6 +24,7 @@ import PixelArt from "../../planager/actionsets/pixels/pixel_art/PixelArt";
 import Download from "../../planager/actionsets/data/download/Download";
 import DataViewer from "../../planager/actionsets/data/data_viewer/DataViewer";
 import CellularAutomata from "../../planager/actionsets/pixels/cellular_automata_1d/CellularAutomata";
+import Upload from "../../planager/actionsets/data/upload/Upload";
 
 const actionUImap = {
   PlanagerWebcam: PlanagerWebcam,
@@ -40,6 +41,7 @@ const actionUImap = {
   Download: Download,
   DataViewer: DataViewer,
   CellularAutomata: CellularAutomata,
+  Upload: Upload,
 };
 
 export default class Workspace extends React.Component {
