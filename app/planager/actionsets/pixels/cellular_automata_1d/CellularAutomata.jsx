@@ -77,6 +77,9 @@ export default class CellularAutomata extends React.Component {
     this.setState({ automata: automata });
     this.props.sendToOutport(this.props.action.id, { automata: automata });
   }
+  renderPlaceholder() {
+    return <div></div>;
+  }
   renderRule() {
     let rule = [];
     for (const [index, bit] of this.state.rule.entries()) {
@@ -98,6 +101,7 @@ export default class CellularAutomata extends React.Component {
     );
   }
   renderSettings() {
+    // TODO: Use canvas or another tool instead of making so many DOM nodes.
     return (
       <div id='automataSettingsContainer'>
         <div className='automataSetting'>
@@ -199,8 +203,10 @@ export default class CellularAutomata extends React.Component {
       <div id='cellularAutomataActionContent'>
         {this.renderRule()}
         {this.renderSettings()}
-        {this.renderStartingRow()}
-        {this.renderAutomata()}
+        {this.props.dragging
+          ? this.renderPlaceholder()
+          : this.renderStartingRow()}
+        {this.props.dragging ? this.renderPlaceholder() : this.renderAutomata()}
       </div>
     );
   }
