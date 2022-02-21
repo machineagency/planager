@@ -107,11 +107,11 @@ def getActions():
 def addAction():
     """Adds an action to the current plan.
 
-    Retreives the current plan from the session and calls its addAction()
+    Retrieves the current plan from the session and calls its addAction()
     method, passing in the action name from the request JSON.
 
     Returns:
-        JSON: a jsonpickle-encoded version of the plan.
+        JSON: a jsonpickle-encoded version of the action that was created.
     """
     req = request.get_json()
 
@@ -142,14 +142,18 @@ def addLink():
         by jsonpickle.
     """
     connection = jsonpickle.decode(request.get_data())
-    session.get("plan").addLink(
+    startActionJSON, endActionJSON = session.get("plan").addLink(
         connection["startActionID"],
         connection["startPortID"],
         connection["endActionID"],
         connection["endPortID"],
     )
 
-    return connection
+    return {
+        "linkData": connection,
+        "startAction": startActionJSON,
+        "endAction": endActionJSON,
+    }
 
 
 @app.post("/removeAction")
