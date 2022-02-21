@@ -14,7 +14,7 @@ export default class Download extends React.Component {
   download(e) {
     e.preventDefault();
     // Prepare the file
-    let output = this.props.inports.file.value;
+    let output = this.props.action.inports.file.value;
 
     // if (this.state.fileType === "json") {
     //   output = JSON.stringify({ states: this.state.data }, null, 4);

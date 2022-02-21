@@ -18,8 +18,8 @@ export default class DataViewer extends React.Component {
           theme='solarized'
           name={false}
           src={
-            this.props.inports.data.value
-              ? this.props.inports.data.value
+            this.props.action.inports.data.value
+              ? this.props.action.inports.data.value
               : { message: "No data to view!" }
           }
           collapsed={this.state.collapsed}

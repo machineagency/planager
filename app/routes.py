@@ -12,7 +12,7 @@ install()
 
 
 def update_handler(actionJSON):
-    socketio.emit("update", actionJSON)
+    socketio.emit("updateActionJSON", actionJSON)
 
 
 @app.get("/")
@@ -28,21 +28,8 @@ def home():
     return render_template("index.html")
 
 
-@app.get("/handleInput")
-def handleInput():
-    """Handles user input to the planager.
-
-    Not implemented
-
-    Raises:
-        NotImplementedError: Not currently implemented
-    """
-    # TODO: Handle user input to actions
-    raise NotImplementedError
-
-
-@app.get("/getplan")
-def loadPlan():
+@socketio.on("savePlan")
+def savePlan():
     """Gets the plan stored in the session.
 
     Checks to see if there is a plan in the session. If not, creates and
@@ -56,27 +43,34 @@ def loadPlan():
     return {}
 
 
-@app.post("/updateCoords")
-def updateCoords():
-    """Updates the xy coordinates of an action on the Planager canvas.
-
-    Returns:
-        dictionary: a dictionary containing a message
-    """
-    raise NotImplementedError
-
-
-@app.post("/uploadPlan")
-def uploadPlan():
+@socketio.on("uploadPlan")
+def uploadPlan(planJSON):
     """Adds a plan to the session.
 
     Returns:
         dict: contains ok message
     """
-    raise NotImplementedError
+    # session.pop("plan", None)
+    # newPlan = Plan(update_handler=update_handler)
+
+    # for actionID, actionJSON in planJSON["actions"]:
+    #     action_class = action_manager.get_action_class(
+    #         req["actionSet"], actionJSON.name
+    #     )
+    #     if not action_class:
+    #         print("Error! Could not find that action!")
+    #         return
+
+    #     try:
+    #         new_action = session.get("plan").addAction(action_class)
+    #     except:
+    #         print("Error adding action to plan")
+    #         return
+
+    return "hello"
 
 
-@app.get("/clearPlan")
+@socketio.on("clearPlan")
 def clearPlan():
     """Removes the plan from the session
 
@@ -92,19 +86,19 @@ def clearPlan():
     return {"message": "OK"}
 
 
-@app.get("/getActions")
-def getActions():
+@socketio.on("getAvailableActions")
+def getAvailableActions():
     """Endpoint for retreiving the available actions.
 
     Returns:
         list: A list of the available actions.
     """
     dropdown, flattened = action_manager.get_available_actions()
-    return jsonpickle.encode({"actions": flattened, "dropdown": dropdown})
+    return {"actions": flattened, "dropdown": dropdown}
 
 
-@app.post("/addAction")
-def addAction():
+@socketio.on("addAction")
+def addAction(req):
     """Adds an action to the current plan.
 
     Retrieves the current plan from the session and calls its addAction()
@@ -113,8 +107,6 @@ def addAction():
     Returns:
         JSON: a jsonpickle-encoded version of the action that was created.
     """
-    req = request.get_json()
-
     action_class = action_manager.get_action_class(req["actionSet"], req["action"])
     if not action_class:
         print("Error! Could not find that action!")
@@ -129,8 +121,8 @@ def addAction():
     return new_action.toJSON()
 
 
-@app.post("/addLink")
-def addLink():
+@socketio.on("addLink")
+def addLink(connection):
     """Adds a link between two actions in the current plan.
 
     Unpacks the request JSON containing a dictionary containing startActionID,
@@ -138,61 +130,54 @@ def addLink():
     addLink method.
 
     Returns:
-        dict: A JSON-compatible dictionary containing plan information encoded
-        by jsonpickle.
+        linkdata: the data about the link that was created
     """
-    connection = jsonpickle.decode(request.get_data())
-    startActionJSON, endActionJSON = session.get("plan").addLink(
+    session.get("plan").addLink(
         connection["startActionID"],
         connection["startPortID"],
         connection["endActionID"],
         connection["endPortID"],
     )
 
-    return {
-        "linkData": connection,
-        "startAction": startActionJSON,
-        "endAction": endActionJSON,
-    }
+    return {"linkData": connection}
 
 
-@app.post("/removeAction")
-def removeAction():
+@socketio.on("removeAction")
+def removeAction(request):
     """Removes the specified action from the plan.
 
-    Removes the specified action from the plan and returns the updated plan
+    Removes the specified action from the plan and returns the action that was removed.
     """
-    removed_action = session.get("plan").removeAction(request.get_json()["actionID"])
+    removed_action = session.get("plan").removeAction(request["actionID"])
     return removed_action.toJSON()
 
 
 @socketio.on("removeLink")
 def removeLink(link):
-    session.get("plan").removeLink(
+    startactionJSON, endActionJSON = session.get("plan").removeLink(
         link["startActionID"],
         link["startPortID"],
         link["endActionID"],
         link["endPortID"],
     )
-    print(session.get("plan"))
+    return {"startActionJSON": startactionJSON, "endActionJSON": endActionJSON}
 
 
-@app.post("/sendDataToOutport")
-def sendDataToOutport():
+@socketio.on("sendDataToOutport")
+def sendDataToOutport(data):
     """Sends data created in the frontend to an action outport
 
     Returns:
         dict: A dictionary containing the JSON representation of the plan
     """
-    data = jsonpickle.decode(request.get_data())
+    actionJSON = session.get("plan").sendDataToOutport(
+        data["actionID"], data["dataDict"]
+    )
 
-    session.get("plan").sendDataToOutport(data["actionID"], data["dataDict"])
-
-    # TODO: Change this to a socket connection and respond here that the data was received
-    return {"res": "ok"}
+    return {"actionJSON": actionJSON}
 
 
-@app.post("/runBackendMethod")
+@socketio.on("runBackendMethod")
 def runBackendMethod():
     """Runs a method in the backend for an action.
 
@@ -217,4 +202,4 @@ def runBackendMethod():
 
     res = method(data["args"])
 
-    return jsonpickle.encode({"data": res})
+    return {"data": res}
