@@ -2,9 +2,10 @@ from typing import Dict
 
 
 class Plan:
-    def __init__(self, update_handler=None):
+    def __init__(self, update_handler=None, headless=False):
         self.actions = {}
         self.update_handler = update_handler
+        self.headless = headless
 
     def addAction(self, NewActionClass):
         """
@@ -55,6 +56,7 @@ class Plan:
         Returns:
             tuple: a tuple containing the updated JSON representations of the start and end actions after the link has been created.
         """
+        print("adding connection between", startPortID, "and", endPortID)
         self.actions[startActionID].addLinkToOutport(
             startPortID, self.actions[endActionID], endPortID
         )
@@ -69,16 +71,20 @@ class Plan:
         )
 
     def removeLink(self, startActionID, startPortID, endActionID, endPortID):
+        print("removing connection between", startPortID, "and", endPortID)
         self.actions[startActionID].removeLinkFromOutport(
             startPortID, endActionID, endPortID
         )
         self.actions[endActionID].removeLinkFromInport(
             endPortID, startActionID, startPortID
         )
-        print(self)
+        return (
+            self.actions[startActionID].toJSON(),
+            self.actions[endActionID].toJSON(),
+        )
 
     def sendDataToOutport(self, actionID, data: Dict):
-        self.actions[actionID].updateOutports(data)
+        return self.actions[actionID].updateOutports(data)
 
     def toJSON(self):
         """
@@ -87,13 +93,11 @@ class Plan:
         Returns:
             json: JSON representation of a Plan
         """
-        jdict = {
+        return {
             "actions": {
                 actionID: action.toJSON() for actionID, action in self.actions.items()
             }
         }
-
-        return jdict
 
     def __str__(self):
         al = "\n".join([a.__str__() for a in self.actions.values()])

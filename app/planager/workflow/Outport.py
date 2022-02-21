@@ -1,7 +1,5 @@
 class Outport:
-    def __init__(
-        self,  id: str, parent_id: str, config: dict
-    ):
+    def __init__(self, id: str, parent_id: str, config: dict):
         self.id = id
         self.parent_id = parent_id
         self.displayName = config["displayName"]
@@ -10,15 +8,13 @@ class Outport:
         self.connections = []
 
     def addConnection(self, endAction, endPortID):
-        self.connections.append(
-            {'endAction': endAction, 'endPortID': endPortID})
+        self.connections.append({"endAction": endAction, "endPortID": endPortID})
 
     def removeConnection(self, endActionID, endPortID):
         for index, connection in enumerate(self.connections):
-            if connection['endAction'].id == endActionID:
-                if connection['endPortID'] == endPortID:
+            if connection["endAction"].id == endActionID:
+                if connection["endPortID"] == endPortID:
                     del self.connections[index]
-        print("connections after removing:")
 
     def update(self, newVal):
         # TODO: log the current value to the port history
@@ -27,8 +23,8 @@ class Outport:
 
     def updateConnections(self):
         for connection in self.connections:
-            connection['endAction'].updateInport(
-                connection['endPortID'], self.value)
+            print(self.id, "sending data to", connection["endPortID"])
+            connection["endAction"].updateInport(connection["endPortID"], self.value)
 
     def getValue(self):
         return self.value
@@ -45,9 +41,13 @@ class Outport:
             "value": self.value,
             "displayName": self.displayName,
             "connections": {
-                (connection['endAction'].id): connection['endPortID'] for connection in self.connections}}
+                (connection["endAction"].id): connection["endPortID"]
+                for connection in self.connections
+            },
+        }
 
     def __str__(self):
-        portDesc = 'Outport {}, with {} connections'.format(
-            self.displayName, len(self.connections))
+        portDesc = "Outport {}, with {} connections".format(
+            self.displayName, len(self.connections)
+        )
         return portDesc

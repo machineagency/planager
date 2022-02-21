@@ -7,6 +7,7 @@ CONFIG = {
         "image": {
             "displayName": "Still image",
             "description": "The still image captured by the webcam.",
+            "mimeType": (".jpg", ".png"),
         },
         "video": {"displayName": "Video", "description": "Live video feed."},
     },
@@ -19,3 +20,6 @@ class PlanagerWebcam(Action):
 
     def main(self):
         print("Inside webcam")
+
+    def take_picture(self, image):
+        self.updateOutports({"image": image})

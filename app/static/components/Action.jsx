@@ -11,7 +11,6 @@ export default class Action extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      computed: {},
       content: "There's nothing here!",
       linking: false,
       config: false,
@@ -22,7 +21,9 @@ export default class Action extends React.Component {
   }
   renderInports() {
     let inports = [];
-    for (const [inportName, entry] of Object.entries(this.props.inports)) {
+    for (const [inportName, entry] of Object.entries(
+      this.props.action.inports
+    )) {
       // When creating the ports, we pass through the ref from the parent so
       // that the parent can manage the links between the ports.
       inports.push(
@@ -41,7 +42,9 @@ export default class Action extends React.Component {
   }
   renderOutports() {
     let outports = [];
-    for (const [outportName, entry] of Object.entries(this.props.outports)) {
+    for (const [outportName, entry] of Object.entries(
+      this.props.action.outports
+    )) {
       // When creating the ports, we pass through the ref from the parent so
       // that the parent can manage the links between the ports.
       outports.push(
@@ -86,8 +89,6 @@ export default class Action extends React.Component {
             <div className='actionContent unselectable'>
               {React.cloneElement(this.props.children, {
                 action: this.props.action,
-                inports: this.props.inports,
-                outports: this.props.outports,
               })}
             </div>
           </div>

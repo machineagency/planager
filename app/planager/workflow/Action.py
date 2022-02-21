@@ -30,13 +30,12 @@ class Action:
             self.outports[outport_id] = newOutport
 
         self.name = self.__module__.split(".")[-1]
-        self.links = {}
+        # self.links = {}
         self.update_handler = None
         self.shouldOutportsUpdate = True
         self.shouldInportsUpdate = True
 
     def addLinkToOutport(self, startPortID, endAction, endPortID):
-
         self.outports[startPortID].addConnection(endAction, endPortID)
 
     def removeLinkFromOutport(self, outportID, endActionID, endPortID):
@@ -50,15 +49,18 @@ class Action:
 
     def removeLinkFromInport(self, inportID, startActionID, startPortID):
         self.inports[inportID].removeConnection(startActionID, startPortID)
+        self.updateInport(inportID, None)
         if self.update_handler:
             self.update_handler(self.toJSON())
 
     def updateOutports(self, outportDict):
         for outportID, data in outportDict.items():
             self.outports[outportID].update(data)
+
         if self.update_handler and self.shouldOutportsUpdate:
-            # print(self.getID(), self.send_update)
             self.update_handler(self.toJSON())
+
+        return self.toJSON()
 
     def register_update_handler(self, handler):
         self.update_handler = handler
@@ -100,11 +102,10 @@ class Action:
         return self.id
 
     def toJSON(self):
-        jdict = {
+        return {
             "id": self.id,
             "displayName": self.displayName,
             "name": self.name,
-            "links": self.links,
             "outports": {
                 outportID: outport.toJSON()
                 for outportID, outport in self.outports.items()
@@ -113,7 +114,6 @@ class Action:
                 inportID: inport.toJSON() for inportID, inport in self.inports.items()
             },
         }
-        return jdict
 
     def __str__(self):
         outportList = "\n\t\t".join([port.__str__() for port in self.outports.values()])
