@@ -94,37 +94,3 @@
   display: table;
   height: max-content;
 }
-
-.ports {
-  display: table-cell;
-}
-
-.leftPort {
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-  background-color: var(--violet);
-}
-
-.rightPort {
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-  background-color: var(--cyan);
-}
-
-.port {
-  height: 15px;
-  width: 15px;
-  margin-bottom: 2px;
-}
-
-.port:hover {
-  cursor: pointer;
-}
-
-.rightPort:hover {
-  background-color: var(--cyanHover);
-}
-
-.leftPort:hover {
-  background-color: var(--violetHover);
-}

@@ -88,7 +88,6 @@ export default class PixelArt extends React.Component {
     this.artUpdated();
   }
   componentDidUpdate() {
-    console.log("I WAS UPDATED");
     let bitmap = this.props.action.inports.bitmap.value;
     if (!bitmap) return;
     if (!(JSON.stringify(bitmap) == JSON.stringify(this.state.bitmap))) {
