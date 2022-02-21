@@ -38,7 +38,7 @@ export default class Download extends React.Component {
     const blob = new Blob([output]);
     const fileDownloadUrl = URL.createObjectURL(blob);
     this.setState({ fileDownloadUrl: fileDownloadUrl }, () => {
-      this.dofileDownload.click();
+      this.doFileDownload.click();
       URL.revokeObjectURL(fileDownloadUrl); // free up storage--no longer needed.
       this.setState({ fileDownloadUrl: "" });
     });
@@ -53,7 +53,7 @@ export default class Download extends React.Component {
           className='hidden'
           download={"file"}
           href={this.state.fileDownloadUrl}
-          ref={(e) => (this.dofileDownload = e)}>
+          ref={(e) => (this.doFileDownload = e)}>
           download it
         </a>
       </div>

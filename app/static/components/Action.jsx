@@ -11,13 +11,20 @@ export default class Action extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      content: "There's nothing here!",
-      linking: false,
       config: false,
+      dragging: false,
     };
+    this.nodeRef = React.createRef(null);
   }
   toggleConfig() {
     this.setState({ config: !this.state.config });
+  }
+  onDragStart() {
+    this.setState({ dragging: true });
+  }
+  onDragEnd() {
+    this.setState({ dragging: false });
+    this.props.triggerRender();
   }
   renderInports() {
     let inports = [];
@@ -64,11 +71,13 @@ export default class Action extends React.Component {
   render() {
     return (
       <Draggable
+        nodeRef={this.nodeRef}
         handle='.dragHandle'
         defaultPosition={{ x: 100, y: 100 }}
+        onStart={this.onDragStart.bind(this)}
         onDrag={this.props.triggerRender}
-        onStop={this.props.triggerRender}>
-        <div className='actionGridContainer'>
+        onStop={this.onDragEnd.bind(this)}>
+        <div className='actionGridContainer' ref={this.nodeRef}>
           <div style={{ gridColumn: 1, gridRow: 1 }}></div>
           <ActionConfig
             configStatus={this.state.config}
@@ -89,6 +98,7 @@ export default class Action extends React.Component {
             <div className='actionContent unselectable'>
               {React.cloneElement(this.props.children, {
                 action: this.props.action,
+                dragging: this.state.dragging,
               })}
             </div>
           </div>

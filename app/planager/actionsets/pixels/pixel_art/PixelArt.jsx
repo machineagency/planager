@@ -88,6 +88,7 @@ export default class PixelArt extends React.Component {
     this.artUpdated();
   }
   componentDidUpdate() {
+    console.log("I WAS UPDATED");
     let bitmap = this.props.action.inports.bitmap.value;
     if (!bitmap) return;
     if (!(JSON.stringify(bitmap) == JSON.stringify(this.state.bitmap))) {
@@ -160,6 +161,9 @@ export default class PixelArt extends React.Component {
     );
     this.setState({ artwork: arr }, this.artUpdated);
   }
+  renderPlaceholder() {
+    return <div></div>;
+  }
   renderPixelArt() {
     let pixelArt = [];
     for (const [rowNum, row] of Object.entries(this.state.artwork)) {
@@ -195,6 +199,7 @@ export default class PixelArt extends React.Component {
     return colors;
   }
   render() {
+    // TODO: Use canvas or another tool instead of making so many DOM nodes.
     return (
       <div id='pixelArtActionContent'>
         <div id='settings'>
@@ -238,7 +243,9 @@ export default class PixelArt extends React.Component {
           style={{
             gridTemplateColumns: `repeat(${this.state.numCols},1fr)`,
           }}>
-          {this.renderPixelArt()}
+          {this.props.dragging
+            ? this.renderPlaceholder()
+            : this.renderPixelArt()}
         </div>
         <div id='colorBar'>{this.renderColorBar()}</div>
       </div>

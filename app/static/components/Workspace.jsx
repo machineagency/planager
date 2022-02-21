@@ -45,7 +45,7 @@ export default class Workspace extends React.Component {
   savePlan() {
     let socket = this.context;
     socket.emit("savePlan", (plan) => {
-      const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+      const jsonString = `data:text/json;charset=utf-8,${encodeURIComponent(
         JSON.stringify(plan)
       )}`;
       const link = document.createElement("a");
