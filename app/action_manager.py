@@ -11,7 +11,7 @@ class ActionManager:
     def __init__(self, action_set_path: str):
         self.actions = {}
         self.action_set_path = action_set_path
-        self.ignore = ["__pycache__", "utils"]
+        self.ignore = ["__pycache__", "utils", "knitting"]
 
     def build_action_dict(self):
         p = Path(self.action_set_path)

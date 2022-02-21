@@ -42,10 +42,31 @@ class Plan:
         return removedAction
 
     def addLink(self, startActionID, startPortID, endActionID, endPortID):
+        """Adds a link between two actions in the plan.
+
+        Uses the ids of actions and ports to update the plan data structure. Sets the contents of the starting port to the contents of the destination port.
+
+        Args:
+            startActionID (uid): ID of the start action
+            startPortID (uid): ID of the starting port
+            endActionID (uid): ID of the end action
+            endPortID (uid): ID of the destination port
+
+        Returns:
+            tuple: a tuple containing the updated JSON representations of the start and end actions after the link has been created.
+        """
         self.actions[startActionID].addLinkToOutport(
             startPortID, self.actions[endActionID], endPortID
         )
         self.actions[endActionID].addLinkToInport(endPortID, startActionID, startPortID)
+        # Assign the start port contents to the destination port
+        self.actions[endActionID].updateInport(
+            endPortID, self.actions[startActionID].outports[startPortID].value
+        )
+        return (
+            self.actions[startActionID].toJSON(),
+            self.actions[endActionID].toJSON(),
+        )
 
     def removeLink(self, startActionID, startPortID, endActionID, endPortID):
         self.actions[startActionID].removeLinkFromOutport(
@@ -57,9 +78,7 @@ class Plan:
         print(self)
 
     def sendDataToOutport(self, actionID, data: Dict):
-        print(self)
         self.actions[actionID].updateOutports(data)
-        print(self)
 
     def toJSON(self):
         """

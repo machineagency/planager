@@ -8,41 +8,7 @@ import Toolbar from "./Toolbar";
 import "./styles/workspace.css";
 
 import { socket, SocketContext } from "../context/socket";
-
-// TODO: The available actions should be loaded dynamically and not imported here. They should only import if added to the plan.
-import PlanagerWebcam from "../../planager/actionsets/camera/planager_webcam/PlanagerWebcam";
-import ImageTrace from "../../planager/actionsets/svgtools/image_trace/ImageTrace";
-import ImageViewer from "../../planager/actionsets/camera/image_viewer/ImageViewer";
-import DrawSVG from "../../planager/actionsets/axidraw/draw_svg/DrawSVG";
-import Options from "../../planager/actionsets/axidraw/options/Options";
-import Resize from "../../planager/actionsets/svgtools/resize/Resize";
-import KnitspeakEditor from "../../planager/actionsets/knitting/knitspeak_editor/KnitspeakEditor";
-import KnitspeakToKnitgraph from "../../planager/actionsets/knitting/knitspeak_to_knitgraph/KnitspeakToKnitgraph";
-import KnitgraphVisualizer from "../../planager/actionsets/knitting/knitgraph_visualizer/KnitgraphVisualizer";
-import Editor from "../../planager/actionsets/data/editor/Editor";
-import PixelArt from "../../planager/actionsets/pixels/pixel_art/PixelArt";
-import Download from "../../planager/actionsets/data/download/Download";
-import DataViewer from "../../planager/actionsets/data/data_viewer/DataViewer";
-import CellularAutomata from "../../planager/actionsets/pixels/cellular_automata_1d/CellularAutomata";
-import Upload from "../../planager/actionsets/data/upload/Upload";
-
-const actionUImap = {
-  PlanagerWebcam: PlanagerWebcam,
-  ImageTrace: ImageTrace,
-  ImageViewer: ImageViewer,
-  DrawSVG: DrawSVG,
-  Options: Options,
-  Resize: Resize,
-  KnitspeakEditor: KnitspeakEditor,
-  KnitspeakToKnitgraph: KnitspeakToKnitgraph,
-  KnitgraphVisualizer: KnitgraphVisualizer,
-  Editor: Editor,
-  PixelArt: PixelArt,
-  Download: Download,
-  DataViewer: DataViewer,
-  CellularAutomata: CellularAutomata,
-  Upload: Upload,
-};
+import { default as actionUImap } from "../ActionLoader";
 
 export default class Workspace extends React.Component {
   static contextType = SocketContext;
@@ -214,10 +180,12 @@ export default class Workspace extends React.Component {
       }),
     })
       .then((res) => res.json())
-      .then((link) => {
+      .then((result) => {
         // Call the create link method to add the new link to the state
-        this.createLink(link);
-        this.update(this.state.actions[endActionID]);
+        this.createLink(result.linkData);
+        // Update the two actions that were connected
+        this.update(result.startAction);
+        this.update(result.endAction);
       });
 
     // Remove the temporary link from the state and then remove the listeners
@@ -256,6 +224,7 @@ export default class Workspace extends React.Component {
       renderedLinks.push(
         <Link
           removeLink={this.removeLink.bind(this)}
+          ref={link.linkRef}
           link={link}
           id={linkID}
           key={linkID}
@@ -283,6 +252,16 @@ export default class Workspace extends React.Component {
   //   });
   // }
   sendToOutport(actionID, dataDict) {
+    console.log(actionID);
+    console.log(dataDict);
+
+    // for (const [outportID, data] of dataDict) {
+    //   // this.makeLinkID(actionID, outportID)
+    //   const linksToUpdate =
+    //     this.state.actions[actionID].outports[outportID].connections;
+    //   console.log(linksToUpdate);
+    // }
+
     fetch("/sendDataToOutport", {
       method: "POST",
       headers: {
@@ -322,12 +301,14 @@ export default class Workspace extends React.Component {
       this.state.actions[link.startActionID].outportRefs[link.startPortID];
     link["endPortRef"] =
       this.state.actions[link.endActionID].inportRefs[link.endPortID];
+    link["linkRef"] = React.createRef(null);
 
     let oldLinks = { ...this.state.links };
     oldLinks[linkID] = link;
     this.setState({ links: oldLinks });
   }
   createAction(action) {
+    console.log(action);
     let inportRefs = {};
     let outportRefs = {};
 
