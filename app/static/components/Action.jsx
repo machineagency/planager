@@ -6,6 +6,7 @@ import Inport from "./Inport";
 import Outport from "./Outport";
 
 import "./styles/action.css";
+import "./styles/ports.css";
 
 export default class Action extends React.Component {
   constructor(props) {
@@ -37,7 +38,11 @@ export default class Action extends React.Component {
         <Inport
           inportName={inportName}
           key={inportName}
-          displayName={entry["displayName"]}
+          description={entry.description}
+          displayName={entry.displayName}
+          parentID={entry.parentID}
+          contents={entry.value}
+          connections={entry.connections}
           reference={this.props.inportRefs[inportName]}
           endConnection={(e) =>
             this.props.endConnection(e, this.props.action.id, inportName)
@@ -58,7 +63,10 @@ export default class Action extends React.Component {
         <Outport
           outportName={outportName}
           key={outportName}
-          displayName={entry["displayName"]}
+          displayName={entry.displayName}
+          parentID={entry.parentID}
+          contents={entry.value}
+          connections={entry.connections}
           reference={this.props.outportRefs[outportName]}
           beginConnection={(e) =>
             this.props.beginConnection(e, this.props.action.id, outportName)
