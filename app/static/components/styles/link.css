@@ -19,7 +19,7 @@
   fill: none;
 }
 
-#droplet {
+.droplet {
   fill: var(--base1);
   r: 5;
 }
