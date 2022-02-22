@@ -6,18 +6,26 @@ import Inport from "./Inport";
 import Outport from "./Outport";
 
 import "./styles/action.css";
+import "./styles/ports.css";
 
 export default class Action extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      content: "There's nothing here!",
-      linking: false,
       config: false,
+      dragging: false,
     };
+    this.nodeRef = React.createRef(null);
   }
   toggleConfig() {
     this.setState({ config: !this.state.config });
+  }
+  onDragStart() {
+    this.setState({ dragging: true });
+  }
+  onDragEnd() {
+    this.setState({ dragging: false });
+    this.props.triggerRender();
   }
   renderInports() {
     let inports = [];
@@ -30,7 +38,11 @@ export default class Action extends React.Component {
         <Inport
           inportName={inportName}
           key={inportName}
-          displayName={entry["displayName"]}
+          description={entry.description}
+          displayName={entry.displayName}
+          parentID={entry.parentID}
+          contents={entry.value}
+          connections={entry.connections}
           reference={this.props.inportRefs[inportName]}
           endConnection={(e) =>
             this.props.endConnection(e, this.props.action.id, inportName)
@@ -51,7 +63,10 @@ export default class Action extends React.Component {
         <Outport
           outportName={outportName}
           key={outportName}
-          displayName={entry["displayName"]}
+          displayName={entry.displayName}
+          parentID={entry.parentID}
+          contents={entry.value}
+          connections={entry.connections}
           reference={this.props.outportRefs[outportName]}
           beginConnection={(e) =>
             this.props.beginConnection(e, this.props.action.id, outportName)
@@ -64,11 +79,13 @@ export default class Action extends React.Component {
   render() {
     return (
       <Draggable
+        nodeRef={this.nodeRef}
         handle='.dragHandle'
         defaultPosition={{ x: 100, y: 100 }}
+        onStart={this.onDragStart.bind(this)}
         onDrag={this.props.triggerRender}
-        onStop={this.props.triggerRender}>
-        <div className='actionGridContainer'>
+        onStop={this.onDragEnd.bind(this)}>
+        <div className='actionGridContainer' ref={this.nodeRef}>
           <div style={{ gridColumn: 1, gridRow: 1 }}></div>
           <ActionConfig
             configStatus={this.state.config}
@@ -89,6 +106,7 @@ export default class Action extends React.Component {
             <div className='actionContent unselectable'>
               {React.cloneElement(this.props.children, {
                 action: this.props.action,
+                dragging: this.state.dragging,
               })}
             </div>
           </div>

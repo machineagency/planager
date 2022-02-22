@@ -1,6 +1,7 @@
 import React from "react";
 import codemirror from "codemirror";
 import { Controlled as CodeMirrorComponent } from "react-codemirror2";
+import { socket, SocketContext } from "../../../../static/context/socket";
 
 import "codemirror/mode/xml/xml";
 import "codemirror/mode/python/python";
@@ -43,6 +44,7 @@ const THEMES = [
 ];
 
 export default class Editor extends React.Component {
+  static contextType = SocketContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -62,16 +64,11 @@ export default class Editor extends React.Component {
     };
   }
   componentDidMount() {
-    fetch("/runBackendMethod", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        method: "save", // The method to run
-        actionID: this.props.action.id,
-        args: { output: this.state.value },
-      }),
+    let socket = this.context;
+    socket.emit("runBackendMethod", {
+      method: "save",
+      actionID: this.props.action.id,
+      args: { output: this.state.value },
     });
   }
   onCodeChange(editor, data, value) {
@@ -115,17 +112,11 @@ export default class Editor extends React.Component {
     return dropdown;
   }
   send() {
-    console.log(codemirror.mimeModes);
-    fetch("/runBackendMethod", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        method: "save",
-        actionID: this.props.action.id,
-        args: { output: this.state.value },
-      }),
+    let socket = this.context;
+    socket.emit("runBackendMethod", {
+      method: "save",
+      actionID: this.props.action.id,
+      args: { output: this.state.value },
     });
   }
   render() {

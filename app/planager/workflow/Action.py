@@ -32,6 +32,7 @@ class Action:
         self.name = self.__module__.split(".")[-1]
         # self.links = {}
         self.update_handler = None
+        self.data_handler = None
         self.shouldOutportsUpdate = True
         self.shouldInportsUpdate = True
 
@@ -55,7 +56,7 @@ class Action:
 
     def updateOutports(self, outportDict):
         for outportID, data in outportDict.items():
-            self.outports[outportID].update(data)
+            self.outports[outportID].update(data, self.data_handler)
 
         if self.update_handler and self.shouldOutportsUpdate:
             self.update_handler(self.toJSON())
@@ -64,6 +65,9 @@ class Action:
 
     def register_update_handler(self, handler):
         self.update_handler = handler
+
+    def register_data_handler(self, handler):
+        self.data_handler = handler
 
     def updateInport(self, inportID, value):
         self.inports[inportID].setValue(value)

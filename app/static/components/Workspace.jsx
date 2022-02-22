@@ -9,6 +9,7 @@ import "./styles/workspace.css";
 
 import { socket, SocketContext } from "../context/socket";
 import { default as actionUImap } from "../ActionLoader";
+import { FaGrinTongueSquint } from "react-icons/fa";
 
 export default class Workspace extends React.Component {
   static contextType = SocketContext;
@@ -34,6 +35,7 @@ export default class Workspace extends React.Component {
     // Once the workspace has loaded, we must tell it what methods to run on socket events
     let socket = this.context;
     socket.on("updateActionJSON", this.updateActionJSON.bind(this));
+    socket.on("animateLinkDataflow", this.animateLinkDataflow.bind(this));
     // Get all of the actions that are available for the Planager
     socket.emit("getAvailableActions", (result) => {
       this.setState({
@@ -43,9 +45,10 @@ export default class Workspace extends React.Component {
     });
   }
   savePlan() {
+    // TODO: Need to save additional info like actionset in order to rebuild
     let socket = this.context;
     socket.emit("savePlan", (plan) => {
-      const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+      const jsonString = `data:text/json;charset=utf-8,${encodeURIComponent(
         JSON.stringify(plan)
       )}`;
       const link = document.createElement("a");
@@ -56,7 +59,7 @@ export default class Workspace extends React.Component {
     });
   }
   uploadPlan(event) {
-    console.log(event);
+    // console.log(event);
     var reader = new FileReader();
 
     // This callback is run when the file loads
@@ -67,7 +70,7 @@ export default class Workspace extends React.Component {
     reader.readAsText(event.target.files[0]);
   }
   updateActionJSON(action) {
-    console.debug("Processing update from backend for action:", action);
+    // console.debug("Processing update from backend for action:", action);
     let actions = this.state.actions;
     if (!actions[action.id]) return;
 
@@ -106,7 +109,6 @@ export default class Workspace extends React.Component {
   }
   cancelConnection(e) {
     e.preventDefault();
-
     let oldLinks = this.state.links;
     delete oldLinks.linkInProgress;
     this.setState({ links: oldLinks }, this.removeMouseListeners);
@@ -196,6 +198,15 @@ export default class Workspace extends React.Component {
     }
     return renderedLinks;
   }
+  animateLinkDataflow(linkInfo) {
+    let linkToAnimate = this.makeLinkID(
+      linkInfo.startActionID,
+      linkInfo.startPortID,
+      linkInfo.endActionID,
+      linkInfo.endPortID
+    );
+    this.state.links[linkToAnimate].linkRef.current.runAnimation();
+  }
   sendToOutport(actionID, dataDict) {
     const socket = this.context;
     socket.emit(
@@ -205,7 +216,9 @@ export default class Workspace extends React.Component {
         dataDict: dataDict,
       },
       (result) => {
-        console.debug("Received response in sendToOutport");
+        if (result.error) {
+          alert(result.error);
+        }
       }
     );
   }
@@ -232,7 +245,7 @@ export default class Workspace extends React.Component {
       this.state.actions[link.startActionID].outportRefs[link.startPortID];
     link["endPortRef"] =
       this.state.actions[link.endActionID].inportRefs[link.endPortID];
-    link["linkRef"] = React.createRef(null);
+    link["linkRef"] = React.createRef();
 
     let oldLinks = { ...this.state.links };
     oldLinks[linkID] = link;
@@ -338,7 +351,7 @@ export default class Workspace extends React.Component {
         endPortID: linkInfo["endPortID"],
       },
       (result) => {
-        console.debug("link removed");
+        // console.debug("link removed");
         let oldLinks = { ...this.state.links };
         delete oldLinks[linkID];
         this.setState({ links: oldLinks });

@@ -4,10 +4,14 @@ import "./styles/link.css";
 export default class Link extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hovering: false };
+    this.state = {
+      hovering: false,
+      animateMotionRef: React.createRef(),
+      animateRef: React.createRef(),
+    };
     this.linkPath = React.createRef(null);
-    this.animateMotionRef = React.createRef(null);
-    this.animateRef = React.createRef(null);
+    // this.animateMotionRef = React.createRef();
+    // this.animateRef = React.createRef();
   }
 
   calculateBezier() {
@@ -26,8 +30,8 @@ export default class Link extends React.Component {
     this.props.removeLink(this.props.id);
   }
   runAnimation() {
-    this.animateMotionRef.current.beginElement();
-    this.animateRef.current.beginElement();
+    this.state.animateMotionRef.current.beginElement();
+    this.state.animateRef.current.beginElement();
   }
   render() {
     return (
@@ -40,31 +44,31 @@ export default class Link extends React.Component {
             onMouseOut={() => this.setState({ hovering: false })}
           />
           <path
-            id='wirePath'
+            id={this.props.id}
             ref={this.linkPath}
             className='linkPath'
             d={this.calculateBezier.bind(this)()}
             onContextMenu={this.remove.bind(this)}
           />
-          <circle id='droplet'>
+          <circle className='droplet'>
             <animateMotion
-              ref={this.animateMotionRef}
-              dur='2s'
+              ref={this.state.animateMotionRef}
+              dur='1s'
               repeatCount='1'
               calcMode='spline'
               keySplines='0.4 0 0.2 1'
               keyTimes='0; 1'
               begin='indefinite'>
-              <mpath xlinkHref='#wirePath' />
+              <mpath xlinkHref={`#${this.props.id}`} />
             </animateMotion>
             <animate
-              ref={this.animateRef}
+              ref={this.state.animateRef}
               begin='indefinite'
               attributeType='XML'
               attributeName='fill'
               from='#2aa198'
               to='#6c71c4'
-              dur='2s'
+              dur='1s'
               repeatCount='1'
             />
           </circle>

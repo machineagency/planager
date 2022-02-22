@@ -16,14 +16,23 @@ class Outport:
                 if connection["endPortID"] == endPortID:
                     del self.connections[index]
 
-    def update(self, newVal):
+    def update(self, newVal, data_handler):
         # TODO: log the current value to the port history
         self.value = newVal
-        self.updateConnections()
+        self.updateConnections(data_handler)
 
-    def updateConnections(self):
+    def updateConnections(self, data_handler):
         for connection in self.connections:
             print(self.id, "sending data to", connection["endPortID"])
+            if data_handler:
+                data_handler(
+                    {
+                        "startActionID": self.parent_id,
+                        "startPortID": self.id,
+                        "endActionID": connection["endAction"].id,
+                        "endPortID": connection["endPortID"],
+                    }
+                )
             connection["endAction"].updateInport(connection["endPortID"], self.value)
 
     def getValue(self):
