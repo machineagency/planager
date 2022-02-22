@@ -9,6 +9,7 @@ import "./styles/workspace.css";
 
 import { socket, SocketContext } from "../context/socket";
 import { default as actionUImap } from "../ActionLoader";
+import { FaGrinTongueSquint } from "react-icons/fa";
 
 export default class Workspace extends React.Component {
   static contextType = SocketContext;
@@ -43,6 +44,7 @@ export default class Workspace extends React.Component {
     });
   }
   savePlan() {
+    // TODO: Need to save additional info like actionset in order to rebuild
     let socket = this.context;
     socket.emit("savePlan", (plan) => {
       const jsonString = `data:text/json;charset=utf-8,${encodeURIComponent(
@@ -56,7 +58,7 @@ export default class Workspace extends React.Component {
     });
   }
   uploadPlan(event) {
-    console.log(event);
+    // console.log(event);
     var reader = new FileReader();
 
     // This callback is run when the file loads
@@ -67,7 +69,7 @@ export default class Workspace extends React.Component {
     reader.readAsText(event.target.files[0]);
   }
   updateActionJSON(action) {
-    console.debug("Processing update from backend for action:", action);
+    // console.debug("Processing update from backend for action:", action);
     let actions = this.state.actions;
     if (!actions[action.id]) return;
 
@@ -106,7 +108,6 @@ export default class Workspace extends React.Component {
   }
   cancelConnection(e) {
     e.preventDefault();
-
     let oldLinks = this.state.links;
     delete oldLinks.linkInProgress;
     this.setState({ links: oldLinks }, this.removeMouseListeners);
@@ -205,7 +206,23 @@ export default class Workspace extends React.Component {
         dataDict: dataDict,
       },
       (result) => {
-        console.debug("Received response in sendToOutport");
+        // console.debug("Received response in sendToOutport");
+        for (const [portID, _] of Object.entries(dataDict)) {
+          // console.log(portID);
+          for (const [destinationAction, destinationPort] of Object.entries(
+            result.actionJSON.outports[portID].connections
+          )) {
+            let linkToAnimate = this.makeLinkID(
+              actionID,
+              portID,
+              destinationAction,
+              destinationPort
+            );
+            this.state.links[linkToAnimate].linkRef.current.runAnimation();
+          }
+        }
+        // this.state.actions[actionID];
+        // console.log(result);
       }
     );
   }
@@ -232,7 +249,7 @@ export default class Workspace extends React.Component {
       this.state.actions[link.startActionID].outportRefs[link.startPortID];
     link["endPortRef"] =
       this.state.actions[link.endActionID].inportRefs[link.endPortID];
-    link["linkRef"] = React.createRef(null);
+    link["linkRef"] = React.createRef();
 
     let oldLinks = { ...this.state.links };
     oldLinks[linkID] = link;
@@ -338,7 +355,7 @@ export default class Workspace extends React.Component {
         endPortID: linkInfo["endPortID"],
       },
       (result) => {
-        console.debug("link removed");
+        // console.debug("link removed");
         let oldLinks = { ...this.state.links };
         delete oldLinks[linkID];
         this.setState({ links: oldLinks });
