@@ -35,6 +35,7 @@ export default class Workspace extends React.Component {
     // Once the workspace has loaded, we must tell it what methods to run on socket events
     let socket = this.context;
     socket.on("updateActionJSON", this.updateActionJSON.bind(this));
+    socket.on("animateLinkDataflow", this.animateLinkDataflow.bind(this));
     // Get all of the actions that are available for the Planager
     socket.emit("getAvailableActions", (result) => {
       this.setState({
@@ -196,6 +197,9 @@ export default class Workspace extends React.Component {
       );
     }
     return renderedLinks;
+  }
+  animateLinkDataflow(linkID) {
+    this.state.links[linkID].linkRef.current.runAnimation();
   }
   sendToOutport(actionID, dataDict) {
     const socket = this.context;
