@@ -198,8 +198,14 @@ export default class Workspace extends React.Component {
     }
     return renderedLinks;
   }
-  animateLinkDataflow(linkID) {
-    this.state.links[linkID].linkRef.current.runAnimation();
+  animateLinkDataflow(linkInfo) {
+    let linkToAnimate = this.makeLinkID(
+      linkInfo.startActionID,
+      linkInfo.startPortID,
+      linkInfo.endActionID,
+      linkInfo.endPortID
+    );
+    this.state.links[linkToAnimate].linkRef.current.runAnimation();
   }
   sendToOutport(actionID, dataDict) {
     const socket = this.context;
@@ -210,23 +216,9 @@ export default class Workspace extends React.Component {
         dataDict: dataDict,
       },
       (result) => {
-        // console.debug("Received response in sendToOutport");
-        for (const [portID, _] of Object.entries(dataDict)) {
-          // console.log(portID);
-          for (const [destinationAction, destinationPort] of Object.entries(
-            result.actionJSON.outports[portID].connections
-          )) {
-            let linkToAnimate = this.makeLinkID(
-              actionID,
-              portID,
-              destinationAction,
-              destinationPort
-            );
-            this.state.links[linkToAnimate].linkRef.current.runAnimation();
-          }
+        if (result.error) {
+          alert(result.error);
         }
-        // this.state.actions[actionID];
-        // console.log(result);
       }
     );
   }

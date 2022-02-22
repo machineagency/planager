@@ -53,7 +53,7 @@ export default class Link extends React.Component {
           <circle className='droplet'>
             <animateMotion
               ref={this.state.animateMotionRef}
-              dur='2s'
+              dur='1s'
               repeatCount='1'
               calcMode='spline'
               keySplines='0.4 0 0.2 1'
@@ -68,7 +68,7 @@ export default class Link extends React.Component {
               attributeName='fill'
               from='#2aa198'
               to='#6c71c4'
-              dur='2s'
+              dur='1s'
               repeatCount='1'
             />
           </circle>

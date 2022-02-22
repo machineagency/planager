@@ -15,6 +15,10 @@ def update_handler(actionJSON):
     socketio.emit("updateActionJSON", actionJSON)
 
 
+def data_handler(linkInfo):
+    socketio.emit("animateLinkDataflow", linkInfo)
+
+
 @app.get("/")
 def home():
     """Index route for the planager.
@@ -23,7 +27,7 @@ def home():
         [template]: index.html template
     """
     session.pop("plan", None)
-    newPlan = Plan(update_handler=update_handler)
+    newPlan = Plan(update_handler=update_handler, data_handler=data_handler)
     session["plan"] = newPlan
     return render_template("index.html")
 
@@ -178,7 +182,7 @@ def sendDataToOutport(data):
 
 
 @socketio.on("runBackendMethod")
-def runBackendMethod():
+def runBackendMethod(data):
     """Runs a method in the backend for an action.
 
     Raises:
@@ -187,8 +191,6 @@ def runBackendMethod():
     Returns:
         dict: dict containing response from the method
     """
-    data = jsonpickle.decode(request.get_data())
-
     method = None
     try:
         method = getattr(session.get("plan").actions[data["actionID"]], data["method"])
