@@ -2,9 +2,10 @@ from typing import Dict
 
 
 class Plan:
-    def __init__(self, update_handler=None, headless=False):
+    def __init__(self, update_handler=None, headless=False, data_handler=None):
         self.actions = {}
         self.update_handler = update_handler
+        self.data_handler = data_handler
         self.headless = headless
 
     def addAction(self, NewActionClass):
@@ -21,6 +22,8 @@ class Plan:
         # If there is a place to send updates, register it with the action
         if self.update_handler:
             new_action.register_update_handler(self.update_handler)
+        if self.data_handler:
+            new_action.register_data_handler(self.data_handler)
         self.actions[new_action.id] = new_action
         return self.actions[new_action.id]
 

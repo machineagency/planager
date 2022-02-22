@@ -22,4 +22,4 @@ class Editor(Action):
 
     def save(self, args):
         # TODO: should set the mime type here so this can be universal
-        self.updateOutports({"output": args["output"]})
+        self.updateOutports({"output": {"text": args["output"]}})
