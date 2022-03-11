@@ -4,7 +4,11 @@ class Inport:
         self.parent_id = parent_id
         self.displayName = config["displayName"]
         self.description = config["description"]
+        self.multi = False
         self.value = None
+        if config["multi"]:
+            self.multi = config["multi"]
+            self.value = {}
         self.connections = []
 
     def addConnection(self, startActionID, startPortID):
@@ -21,8 +25,12 @@ class Inport:
     def getValue(self):
         return self.value
 
-    def setValue(self, value):
-        self.value = value
+    def setValue(self, startActionID, startPortID, value):
+        valueID = "{startActionID}_{startPortID}"
+        if self.multi:
+            self.value[valueID] = value
+        else:
+            self.value = value
 
     def toJSON(self):
         return {
