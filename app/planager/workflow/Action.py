@@ -50,7 +50,7 @@ class Action:
 
     def removeLinkFromInport(self, inportID, startActionID, startPortID):
         self.inports[inportID].removeConnection(startActionID, startPortID)
-        self.updateInport(inportID, None)
+        self.updateInport(startActionID, startPortID, inportID, None)
         if self.update_handler:
             self.update_handler(self.toJSON())
 
@@ -69,8 +69,8 @@ class Action:
     def register_data_handler(self, handler):
         self.data_handler = handler
 
-    def updateInport(self, inportID, value):
-        self.inports[inportID].setValue(value)
+    def updateInport(self, startActionID, startPortID, inportID, value):
+        self.inports[inportID].setValue(startActionID, startPortID, value)
         if self.update_handler and self.shouldInportsUpdate:
             self.update_handler(self.toJSON())
         self.main()

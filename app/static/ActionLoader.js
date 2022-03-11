@@ -14,6 +14,9 @@ import Download from "../planager/actionsets/data/download/Download";
 import DataViewer from "../planager/actionsets/data/data_viewer/DataViewer";
 import CellularAutomata from "../planager/actionsets/pixels/cellular_automata_1d/CellularAutomata";
 import Upload from "../planager/actionsets/data/upload/Upload";
+import Ingredient from "../planager/actionsets/cooking/Ingredient/Ingredient";
+import Mix from "../planager/actionsets/cooking/Mix/Mix";
+import Tool from "../planager/actionsets/cooking/Tool/Tool";
 
 export default {
   PlanagerWebcam: PlanagerWebcam,
@@ -22,6 +25,9 @@ export default {
   DrawSVG: DrawSVG,
   Options: Options,
   Resize: Resize,
+  Ingredient: Ingredient,
+  Mix: Mix,
+  Tool: Tool,
   //   KnitspeakEditor: KnitspeakEditor,
   //   KnitspeakToKnitgraph: KnitspeakToKnitgraph,
   //   KnitgraphVisualizer: KnitgraphVisualizer,
