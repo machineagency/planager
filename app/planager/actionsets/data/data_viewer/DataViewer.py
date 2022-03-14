@@ -7,10 +7,7 @@ CONFIG = {
 }
 
 
-class DataViewer(Action):
-    def __init__(self):
-        Action.__init__(self, CONFIG)
-
+class DataViewer(Action, config=CONFIG):
     def main(self):
         """Passes the data object through."""
         self.updateOutports({"data": self.inports["data"].getValue()})

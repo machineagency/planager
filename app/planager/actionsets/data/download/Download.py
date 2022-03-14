@@ -17,9 +17,6 @@ CONFIG = {
 }
 
 
-class Download(Action):
-    def __init__(self):
-        Action.__init__(self, CONFIG)
-
+class Download(Action, config=CONFIG):
     def main(self):
         self.updateOutports({"file": self.inports["file"].getValue()})

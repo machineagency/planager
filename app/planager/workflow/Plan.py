@@ -66,7 +66,10 @@ class Plan:
         self.actions[endActionID].addLinkToInport(endPortID, startActionID, startPortID)
         # Assign the start port contents to the destination port
         self.actions[endActionID].updateInport(
-            endPortID, self.actions[startActionID].outports[startPortID].value
+            startActionID,
+            startPortID,
+            endPortID,
+            self.actions[startActionID].outports[startPortID].value,
         )
         return (
             self.actions[startActionID].toJSON(),

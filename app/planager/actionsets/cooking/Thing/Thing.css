@@ -1,0 +1,17 @@
+.thingInput {
+  font-size: 16px;
+  font-size: max(16px, 1em);
+  font-family: inherit;
+  padding: 0.25em 0.5em;
+  background-color: var(--base3);
+}
+
+.thingInput:focus {
+  outline: 5px solid var(--cyan);
+  outline-offset: -5px;
+}
+
+.thingInput:not(textarea) {
+  line-height: 1;
+  height: 2.25rem;
+}

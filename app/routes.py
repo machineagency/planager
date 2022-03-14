@@ -118,9 +118,9 @@ def addAction(req):
 
     try:
         new_action = session.get("plan").addAction(action_class)
-    except:
-        print("Error adding action to plan")
-        return
+    except BaseException as err:
+        print(f"Error adding action to plan: Unexpected {err=}, {type(err)=}")
+        raise
 
     return new_action.toJSON()
 

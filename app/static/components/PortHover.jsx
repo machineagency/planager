@@ -7,13 +7,15 @@ export default function PortHover({ portName, description, contents }) {
       <span>{portName}</span>
       <br />
       <span>{description ? description : ""}</span>
-      <ReactJson
-        src={contents ? contents : ["no data!"]}
-        theme='solarized'
-        name={false}
-        enableClipboard={false}
-        collapsed={1}
-      />
+      {
+        //<ReactJson
+        //   src={contents ? contents : ["no data!"]}
+        //   theme='solarized'
+        //   name={false}
+        //   enableClipboard={false}
+        //   collapsed={1}
+        // />
+      }
     </div>
   );
 }

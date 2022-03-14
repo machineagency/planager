@@ -12,10 +12,7 @@ CONFIG = {
 }
 
 
-class Editor(Action):
-    def __init__(self):
-        Action.__init__(self, CONFIG)
-
+class Editor(Action, config=CONFIG):
     def main(self):
         """The main loop; this is what runs when the action is run."""
         print("main loop")
