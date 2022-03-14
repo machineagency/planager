@@ -33,7 +33,9 @@ class Outport:
                         "endPortID": connection["endPortID"],
                     }
                 )
-            connection["endAction"].updateInport(connection["endPortID"], self.value)
+            connection["endAction"].updateInport(
+                self.parent_id, self.id, connection["endPortID"], self.value
+            )
 
     def getValue(self):
         return self.value

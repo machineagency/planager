@@ -14,10 +14,7 @@ CONFIG = {
 }
 
 
-class PlanagerWebcam(Action):
-    def __init__(self):
-        Action.__init__(self, CONFIG)
-
+class PlanagerWebcam(Action, config=CONFIG):
     def main(self):
         print("Inside webcam")
 

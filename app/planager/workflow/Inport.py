@@ -6,7 +6,7 @@ class Inport:
         self.description = config["description"]
         self.multi = False
         self.value = None
-        if config["multi"]:
+        if "multi" in config:
             self.multi = config["multi"]
             self.value = {}
         self.connections = []
@@ -17,6 +17,11 @@ class Inport:
         )
 
     def removeConnection(self, startActionID, startPortID):
+        valueID = f"{startActionID}_{startPortID}"
+        if self.multi:
+            del self.value[valueID]
+        else:
+            self.value = None
         for index, connection in enumerate(self.connections):
             if connection["startActionID"] == startActionID:
                 if connection["startPortID"] == startPortID:
@@ -26,7 +31,7 @@ class Inport:
         return self.value
 
     def setValue(self, startActionID, startPortID, value):
-        valueID = "{startActionID}_{startPortID}"
+        valueID = f"{startActionID}_{startPortID}"
         if self.multi:
             self.value[valueID] = value
         else:

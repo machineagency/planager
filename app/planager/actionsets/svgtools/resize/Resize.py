@@ -11,10 +11,7 @@ CONFIG = {
 }
 
 
-class Resize(Action):
-    def __init__(self):
-        Action.__init__(self, CONFIG)
-
+class Resize(Action, config=CONFIG):
     def main(self):
         """The main loop; this is what runs when the action is run."""
         pass

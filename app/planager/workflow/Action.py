@@ -6,14 +6,18 @@ from app.planager.workflow.Outport import Outport
 class Action:
     """This is the base Action class for planager actions."""
 
-    def __init__(self, config: dict):
+    def __init_subclass__(cls, config: dict, **kwargs) -> None:
+        # takes in the config param from the subclass
+        cls.config = config
+
+    def __init__(self):
         # General information
-        self.displayName = config["displayName"]
+        self.displayName = self.config["displayName"]
         # self.description = config["description"]
         self.id = uuid.uuid4().hex
 
         try:
-            self.displayText = config["display"]
+            self.displayText = self.config["display"]
         except BaseException:
             self.displayText = "Nothing to show!"
 
@@ -21,11 +25,11 @@ class Action:
         self.outports = {}
         self.inports = {}
 
-        for inport_id, inport_config in config["inports"].items():
+        for inport_id, inport_config in self.config["inports"].items():
             newInport = Inport(inport_id, self.id, inport_config)
             self.inports[inport_id] = newInport
 
-        for outport_id, outport_config in config["outports"].items():
+        for outport_id, outport_config in self.config["outports"].items():
             newOutport = Outport(outport_id, self.id, outport_config)
             self.outports[outport_id] = newOutport
 
@@ -45,12 +49,11 @@ class Action:
             self.update_handler(self.toJSON())
 
     def addLinkToInport(self, endPortID, startActionID, startPortID):
-
         self.inports[endPortID].addConnection(startActionID, startPortID)
 
     def removeLinkFromInport(self, inportID, startActionID, startPortID):
         self.inports[inportID].removeConnection(startActionID, startPortID)
-        self.updateInport(startActionID, startPortID, inportID, None)
+        # self.updateInport(startActionID, startPortID, inportID, None)
         if self.update_handler:
             self.update_handler(self.toJSON())
 

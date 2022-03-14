@@ -1,4 +1,9 @@
 /* Base styles for the planager */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 /* Solarized color variables. */
 :root {

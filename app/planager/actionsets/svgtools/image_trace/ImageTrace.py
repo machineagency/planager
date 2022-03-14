@@ -12,9 +12,6 @@ CONFIG = {
 }
 
 
-class ImageTrace(Action):
-    def __init__(self):
-        Action.__init__(self, CONFIG)
-
+class ImageTrace(Action, config=CONFIG):
     def main(self):
         print("Image trace main loop")

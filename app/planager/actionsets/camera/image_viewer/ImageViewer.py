@@ -9,10 +9,7 @@ CONFIG = {
 }
 
 
-class ImageViewer(Action):
-    def __init__(self):
-        Action.__init__(self, CONFIG)
-
+class ImageViewer(Action, config=CONFIG):
     def main(self):
         # Pass through the image value
         self.updateOutports({"imOut": self.inports["imIn"].getValue()})
