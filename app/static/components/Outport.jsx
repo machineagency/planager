@@ -1,5 +1,4 @@
 import React from "react";
-import PortHover from "./PortHover";
 
 export default function Outport({
   outportName,
@@ -10,18 +9,15 @@ export default function Outport({
   contents,
 }) {
   return (
-    <div className='portWrapper'>
+    <div className='rightPortWrapper'>
       <div
         ref={reference}
         key={outportName}
         title={displayName}
         className='port rightPort'
-        onClick={beginConnection}></div>
-      <PortHover
-        portName={displayName}
-        description={description}
-        contents={contents}
-      />
+        onClick={beginConnection}>
+        <div className='portName'>{displayName}</div>
+      </div>
     </div>
   );
 }

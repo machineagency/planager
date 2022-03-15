@@ -1,5 +1,4 @@
 import React from "react";
-import PortHover from "./PortHover";
 
 export default function Inport({
   inportName,
@@ -10,17 +9,15 @@ export default function Inport({
   contents,
 }) {
   return (
-    <div
-      ref={reference}
-      key={inportName}
-      title={displayName}
-      className='port leftPort'
-      onClick={endConnection}>
-      <PortHover
-        portName={displayName}
-        description={description}
-        contents={contents}
-      />
+    <div className='leftPortWrapper'>
+      <div
+        ref={reference}
+        key={inportName}
+        title={displayName}
+        className='port leftPort'
+        onClick={endConnection}>
+        <div className='portName'>{displayName}</div>
+      </div>
     </div>
   );
 }

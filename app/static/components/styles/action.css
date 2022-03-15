@@ -84,13 +84,15 @@
 .leftPortsContainer {
   grid-column: 1;
   grid-row: 2;
-  display: table;
+  position: absolute;
+  /* display: table; */
   height: max-content;
 }
 
 .rightPortsContainer {
   grid-column: 3;
   grid-row: 2;
-  display: table;
+  position: absolute;
+  /* display: table; */
   height: max-content;
 }

@@ -1,5 +1,11 @@
-.ports {
-  display: table-cell;
+.leftPorts {
+  position: absolute;
+  right: 0;
+}
+
+.rightPorts {
+  position: absolute;
+  left: 0;
 }
 
 .leftPort {
@@ -15,9 +21,12 @@
 }
 
 .port {
-  height: 15px;
-  width: 15px;
+  min-height: 1rem;
+  min-width: 1rem;
+  width: fit-content;
   margin-bottom: 2px;
+  padding: 0.1rem 0.3rem;
+  font-size: 0.7rem;
 }
 
 .port:hover {
@@ -32,17 +41,20 @@
   background-color: var(--violetHover);
 }
 
-.portHoverDialog {
-  position: relative;
+.portName {
   display: none;
-  padding: 0.5rem;
-  background-color: var(--base03);
   color: var(--base3);
-  min-width: 10rem;
-  max-width: 40rem;
-  margin-bottom: 2px;
+  white-space: nowrap;
 }
 
-.portWrapper:hover .portHoverDialog {
-  display: block;
+.leftPortWrapper {
+  float: right;
+}
+
+.leftPortWrapper:hover .portName {
+  display: inline;
+}
+
+.rightPortWrapper:hover .portName {
+  display: inline;
 }

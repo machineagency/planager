@@ -96,7 +96,7 @@ export default class Action extends React.Component {
           />
           <div style={{ gridColumn: 3, gridRow: 1 }}></div>
           <div className='leftPortsContainer'>
-            <div className='ports'>{this.renderInports()}</div>
+            <div className='leftPorts'>{this.renderInports()}</div>
           </div>
           <div className='mainActionContainer'>
             <ActionToolbar
@@ -111,7 +111,7 @@ export default class Action extends React.Component {
             </div>
           </div>
           <div className='rightPortsContainer'>
-            <div className='ports'>{this.renderOutports()}</div>
+            <div className='rightPorts'>{this.renderOutports()}</div>
           </div>
         </div>
       </Draggable>
