@@ -16,6 +16,9 @@ import CellularAutomata from "../planager/actionsets/pixels/cellular_automata_1d
 import Upload from "../planager/actionsets/data/upload/Upload";
 import Thing from "../planager/actionsets/workflow/thing/Thing";
 import Method from "../planager/actionsets/workflow/method/Method";
+import Text from "../planager/actionsets/inputs/text/Text";
+import RecordArray from "../planager/actionsets/inputs/recordArray/RecordArray";
+import RecordAudio from "../planager/actionsets/inputs/recordAudio/RecordAudio";
 
 export default {
   PlanagerWebcam: PlanagerWebcam,
@@ -26,6 +29,9 @@ export default {
   Resize: Resize,
   Method: Method,
   Thing: Thing,
+  Text: Text,
+  RecordArray: RecordArray,
+  RecordAudio: RecordAudio,
   //   KnitspeakEditor: KnitspeakEditor,
   //   KnitspeakToKnitgraph: KnitspeakToKnitgraph,
   //   KnitgraphVisualizer: KnitgraphVisualizer,
