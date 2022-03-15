@@ -20,7 +20,3 @@ CONFIG = {
 class TemplateAction(Action, config=CONFIG):
     def main(self):
         """The main loop; this is what runs when the action is run."""
-        print("main loop")
-
-    def templateActionMethod(self, options):
-        print("template method")

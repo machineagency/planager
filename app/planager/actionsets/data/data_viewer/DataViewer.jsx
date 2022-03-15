@@ -1,32 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactJson from "react-json-view";
 import "./DataViewer.css";
 
-export default class DataViewer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      dataTypes: true,
-      collapsed: 1,
-    };
+export default function DataViewer({ action }) {
+  const [collapsed, setCollapsed] = useState(1);
+  const [dataTypes, setDataTypes] = useState(true);
+
+  function chooseSrc(val) {
+    if (!val) return { msg: null };
+    if (typeof val === "object") return val;
+    return { data: val };
   }
 
-  render() {
-    return (
-      <div id='dataViewerUI'>
-        <ReactJson
-          theme='solarized'
-          name={false}
-          src={
-            this.props.action.inports.data.value
-              ? this.props.action.inports.data.value
-              : { message: "No data to view!" }
-          }
-          collapsed={this.state.collapsed}
-          dataTypes={this.state.dataTypes}
-          enableClipboard={false}
-        />
-      </div>
-    );
-  }
+  return (
+    <div id='dataViewerUI'>
+      <ReactJson
+        theme='solarized'
+        name={false}
+        src={chooseSrc(action.inports.data.value)}
+        collapsed={collapsed}
+        dataTypes={dataTypes}
+        enableClipboard={false}
+      />
+    </div>
+  );
 }
