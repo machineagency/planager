@@ -1,0 +1,38 @@
+.heading {
+  font-weight: 900;
+  font-size: large;
+  padding: 0.1rem 0.5rem;
+  color: var(--base3);
+  background-color: var(--base01);
+}
+
+.input {
+  padding: 0.1rem 0.5rem;
+}
+
+.input:hover {
+  font-weight: 900;
+  color: var(--base3);
+  cursor: pointer;
+}
+
+.video:hover {
+  background-color: var(--orange);
+}
+
+.audio:hover {
+  background-color: var(--yellow);
+}
+
+.selected {
+  font-weight: 900;
+  color: var(--base3);
+}
+
+.video.selected {
+  background-color: var(--orange);
+}
+
+.audio.selected {
+  background-color: var(--yellow);
+}

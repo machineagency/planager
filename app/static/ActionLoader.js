@@ -5,9 +5,6 @@ import ImageViewer from "../planager/actionsets/camera/image_viewer/ImageViewer"
 import DrawSVG from "../planager/actionsets/axidraw/draw_svg/DrawSVG";
 import Options from "../planager/actionsets/axidraw/options/Options";
 import Resize from "../planager/actionsets/svgtools/resize/Resize";
-// import KnitspeakEditor from "../planager/actionsets/knitting/knitspeak_editor/KnitspeakEditor";
-// import KnitspeakToKnitgraph from "../planager/actionsets/knitting/knitspeak_to_knitgraph/KnitspeakToKnitgraph";
-// import KnitgraphVisualizer from "../planager/actionsets/knitting/knitgraph_visualizer/KnitgraphVisualizer";
 import Editor from "../planager/actionsets/data/editor/Editor";
 import PixelArt from "../planager/actionsets/pixels/pixel_art/PixelArt";
 import Download from "../planager/actionsets/data/download/Download";
@@ -18,7 +15,8 @@ import Thing from "../planager/actionsets/workflow/thing/Thing";
 import Method from "../planager/actionsets/workflow/method/Method";
 import Text from "../planager/actionsets/inputs/text/Text";
 import RecordArray from "../planager/actionsets/inputs/recordArray/RecordArray";
-import RecordAudio from "../planager/actionsets/inputs/recordAudio/RecordAudio";
+import MediaSources from "../planager/actionsets/inputs/mediaSources/MediaSources";
+import LiveVideo from "../planager/actionsets/inputs/liveVideo/LiveVideo";
 
 export default {
   PlanagerWebcam: PlanagerWebcam,
@@ -31,10 +29,8 @@ export default {
   Thing: Thing,
   Text: Text,
   RecordArray: RecordArray,
-  RecordAudio: RecordAudio,
-  //   KnitspeakEditor: KnitspeakEditor,
-  //   KnitspeakToKnitgraph: KnitspeakToKnitgraph,
-  //   KnitgraphVisualizer: KnitgraphVisualizer,
+  MediaSources: MediaSources,
+  LiveVideo: LiveVideo,
   Editor: Editor,
   PixelArt: PixelArt,
   Download: Download,
