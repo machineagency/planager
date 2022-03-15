@@ -17,13 +17,17 @@ export default class Action extends React.Component {
     };
     this.nodeRef = React.createRef(null);
   }
+  componentDidMount() {
+    this.props.onActionMoved(this.props.coords);
+  }
   toggleConfig() {
     this.setState({ config: !this.state.config });
   }
   onDragStart() {
     this.setState({ dragging: true });
   }
-  onDragEnd() {
+  onDragEnd(e, ui) {
+    this.props.onActionMoved({ x: ui.x, y: ui.y });
     this.setState({ dragging: false });
     this.props.triggerRender();
   }
@@ -81,7 +85,7 @@ export default class Action extends React.Component {
       <Draggable
         nodeRef={this.nodeRef}
         handle='.dragHandle'
-        defaultPosition={{ x: 100, y: 100 }}
+        defaultPosition={this.props.coords}
         onStart={this.onDragStart.bind(this)}
         onDrag={this.props.triggerRender}
         onStop={this.onDragEnd.bind(this)}>

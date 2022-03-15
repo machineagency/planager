@@ -62,24 +62,17 @@ def uploadPlan(planJSON):
     Returns:
         dict: contains ok message
     """
-    # session.pop("plan", None)
-    # newPlan = Plan(update_handler=update_handler)
+    session.pop("plan", None)
+    newPlan = Plan(
+        update_handler=update_handler,
+        data_handler=data_handler,
+        ports_handler=ports_handler,
+        action_manager=action_manager,
+        src=planJSON,
+    )
+    session["plan"] = newPlan
 
-    # for actionID, actionJSON in planJSON["actions"]:
-    #     action_class = action_manager.get_action_class(
-    #         req["actionSet"], actionJSON.name
-    #     )
-    #     if not action_class:
-    #         print("Error! Could not find that action!")
-    #         return
-
-    #     try:
-    #         new_action = session.get("plan").addAction(action_class)
-    #     except:
-    #         print("Error adding action to plan")
-    #         return
-
-    return "hello"
+    return newPlan.toJSON()
 
 
 @socketio.on("clearPlan")
@@ -173,6 +166,12 @@ def removeLink(link):
         link["endPortID"],
     )
     return {"startActionJSON": startactionJSON, "endActionJSON": endActionJSON}
+
+
+@socketio.on("actionMoved")
+def removeLink(info):
+    session.get("plan").updateActionCoords(info["actionID"], info["coords"])
+    return {"msg": "ok"}
 
 
 @socketio.on("sendDataToOutport")

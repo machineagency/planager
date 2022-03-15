@@ -1,7 +1,6 @@
 import React from "react";
 
 import Action from "./Action";
-import Dropdown from "./Dropdown";
 import Link from "./Link";
 import Toolbar from "./Toolbar";
 
@@ -9,7 +8,6 @@ import "./styles/workspace.css";
 
 import { socket, SocketContext } from "../context/socket";
 import { default as actionUImap } from "../ActionLoader";
-import { FaGrinTongueSquint } from "react-icons/fa";
 
 export default class Workspace extends React.Component {
   static contextType = SocketContext;
@@ -22,6 +20,7 @@ export default class Workspace extends React.Component {
       actions: {},
       mouseX: 0,
       mouseY: 0,
+      newActionCoords: { x: 200, y: 200 },
     };
 
     // Bind these callbacks so that we can remove them from event listeners
@@ -59,15 +58,41 @@ export default class Workspace extends React.Component {
       link.click();
     });
   }
+  buildPlanFromJSON(plan) {
+    console.log(plan);
+    // Add the actions to the plan
+    for (const action of Object.values(plan.actions)) {
+      this.createAction(action);
+    }
+    // Now that they're all added, we can connect them
+    for (const action of Object.values(plan.actions)) {
+      for (const [startPortID, outportInfo] of Object.entries(
+        action.outports
+      )) {
+        for (const [endActionID, endPortID] of Object.entries(
+          outportInfo.connections
+        )) {
+          this.createLink({
+            startActionID: action.id,
+            startPortID: startPortID,
+            endActionID: endActionID,
+            endPortID: endPortID,
+          });
+        }
+      }
+    }
+  }
   uploadPlan(event) {
-    // console.log(event);
     var reader = new FileReader();
 
     // This callback is run when the file loads
     reader.onload = (event) => {
       const plan = JSON.parse(event.target.result);
-      socket.emit("uploadPlan", plan, (result) => console.log(result));
+      socket.emit("uploadPlan", plan, (result) => {
+        this.buildPlanFromJSON(result);
+      });
     };
+
     reader.readAsText(event.target.files[0]);
   }
   portsUpdated(actionJSON) {
@@ -296,8 +321,14 @@ export default class Workspace extends React.Component {
     this.setState({ links: oldLinks });
   }
   createAction(action) {
+    const socket = this.context;
     let inportRefs = {};
     let outportRefs = {};
+    let coords = this.state.newActionCoords;
+
+    if (action.coords) {
+      coords = action.coords;
+    }
 
     for (const [inportName, inport] of Object.entries(action.inports)) {
       inportRefs[inportName] = React.createRef();
@@ -312,6 +343,10 @@ export default class Workspace extends React.Component {
       inportRefs: inportRefs,
       outportRefs: outportRefs,
     };
+
+    function onActionMoved(coords) {
+      socket.emit("actionMoved", { actionID: action.id, coords: coords });
+    }
     // This passes through the action's UI as a child of the generic action component
     let actionComponent = (
       <Action
@@ -323,7 +358,8 @@ export default class Workspace extends React.Component {
         removeAction={this.removeAction.bind(this)}
         key={newAction.action.id}
         triggerRender={this.triggerRender.bind(this)}
-        coords={{ x: 1000, y: 1000 }}>
+        coords={coords}
+        onActionMoved={onActionMoved}>
         {this.renderActionUI(newAction.action)}
       </Action>
     );
@@ -332,7 +368,10 @@ export default class Workspace extends React.Component {
 
     let oldActions = { ...this.state.actions };
     oldActions[newAction.action.id] = newAction;
-    this.setState({ actions: oldActions });
+    this.setState({
+      actions: oldActions,
+      newActionCoords: { x: coords.x + 20, y: coords.y + 20 },
+    });
   }
   addAction(actionSet, action) {
     const socket = this.context;
@@ -395,7 +434,6 @@ export default class Workspace extends React.Component {
         endPortID: linkInfo["endPortID"],
       },
       (result) => {
-        // console.debug("link removed");
         let oldLinks = { ...this.state.links };
         delete oldLinks[linkID];
         this.setState({ links: oldLinks });

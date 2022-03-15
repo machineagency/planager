@@ -3,15 +3,39 @@ from typing import Dict
 
 class Plan:
     def __init__(
-        self, update_handler=None, headless=False, data_handler=None, ports_handler=None
+        self,
+        update_handler=None,
+        headless=False,
+        data_handler=None,
+        ports_handler=None,
+        action_manager=None,
+        src=None,
     ):
         self.actions = {}
         self.update_handler = update_handler
         self.data_handler = data_handler
         self.ports_handler = ports_handler
         self.headless = headless
+        self.action_manager = action_manager
+        if src:
+            self.build_plan_from_src(src)
 
-    def addAction(self, NewActionClass):
+    def build_plan_from_src(self, src):
+        # Iterates through to add the actions to the plan
+        for action_id, action_info in src["actions"].items():
+            action_type = action_info["actionType"]
+            action_class = self.action_manager.get_action_class(
+                action_type[-3], action_type[-2]
+            )
+            self.addAction(action_class, overrideConfig=action_info)
+
+        # Once they're added, we can connect them
+        for action_id, action_info in src["actions"].items():
+            for port_id, port_info in action_info["outports"].items():
+                for end_action_id, end_port_id in port_info["connections"].items():
+                    self.addLink(action_id, port_id, end_action_id, end_port_id)
+
+    def addAction(self, NewActionClass, overrideConfig=None):
         """
         Instantiates and adds an unconnected action to the plan.
 
@@ -21,7 +45,10 @@ class Plan:
         Returns:
             Action: The instantiated action of type NewActionClass.
         """
-        new_action = NewActionClass()
+        if overrideConfig:
+            new_action = NewActionClass(overrideConfig=overrideConfig)
+        else:
+            new_action = NewActionClass()
         # If there is a place to send updates, register it with the action
         if self.update_handler:
             new_action.register_update_handler(self.update_handler)
@@ -93,6 +120,9 @@ class Plan:
             self.actions[startActionID].toJSON(),
             self.actions[endActionID].toJSON(),
         )
+
+    def updateActionCoords(self, actionID, coords: Dict):
+        self.actions[actionID].updateCoords(coords)
 
     def sendDataToOutport(self, actionID, data: Dict):
         return self.actions[actionID].updateOutports(data)

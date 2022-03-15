@@ -9,37 +9,51 @@ class Action:
     def __init_subclass__(cls, config: dict, **kwargs) -> None:
         # takes in the config param from the subclass
         cls.config = config
+        super().__init_subclass__(**kwargs)
 
-    def __init__(self):
+    def __init__(self, overrideConfig=None):
         # General information
-        self.displayName = self.config["displayName"]
-        # self.description = config["description"]
-        self.id = uuid.uuid4().hex
-
-        try:
-            self.displayText = self.config["display"]
-        except BaseException:
-            self.displayText = "Nothing to show!"
-
-        # Set up the ports
         self.outports = {}
         self.inports = {}
+        self.coords = None
 
-        for inport_id, inport_config in self.config["inports"].items():
-            newInport = Inport(inport_id, self.id, inport_config)
-            self.inports[inport_id] = newInport
+        if overrideConfig:
+            self.id = overrideConfig["id"]
+            self.displayName = overrideConfig["displayName"]
+            if overrideConfig["coords"]:
+                self.coords = overrideConfig["coords"]
 
-        for outport_id, outport_config in self.config["outports"].items():
-            newOutport = Outport(outport_id, self.id, outport_config)
-            self.outports[outport_id] = newOutport
+            for inport_id, inport_config in overrideConfig["inports"].items():
+                newInport = Inport(inport_id, self.id, inport_config)
+                self.inports[inport_id] = newInport
+
+            for outport_id, outport_config in overrideConfig["outports"].items():
+                newOutport = Outport(outport_id, self.id, outport_config)
+                self.outports[outport_id] = newOutport
+
+        else:
+            self.id = uuid.uuid4().hex
+            self.displayName = self.config["displayName"]
+
+            for inport_id, inport_config in self.config["inports"].items():
+                newInport = Inport(inport_id, self.id, inport_config)
+                self.inports[inport_id] = newInport
+
+            for outport_id, outport_config in self.config["outports"].items():
+                newOutport = Outport(outport_id, self.id, outport_config)
+                self.outports[outport_id] = newOutport
 
         self.name = self.__module__.split(".")[-1]
-        # self.links = {}
+        self.actionType = self.__module__.split(".")
+
         self.update_handler = None
         self.data_handler = None
         self.ports_handler = None
         self.shouldOutportsUpdate = True
         self.shouldInportsUpdate = True
+
+    def updateCoords(self, coords):
+        self.coords = coords
 
     def updateSelf(self):
         if self.update_handler:
@@ -126,6 +140,8 @@ class Action:
             "id": self.id,
             "displayName": self.displayName,
             "name": self.name,
+            "actionType": self.actionType,
+            "coords": self.coords,
             "outports": {
                 outportID: outport.toJSON()
                 for outportID, outport in self.outports.items()
