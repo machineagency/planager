@@ -32,7 +32,9 @@ of course free to choose any development environment you wish.
 Here is a quick overview of the main technologies used to build Planager:
 
 - Backend:
-  - Python/Flask, making heavy use of flask blueprints
+  - Python/Flask
+  - Flask SocketIO
+  - Redis
 - Frontend:
   - Javascript
   - Webpack for bundling static files
@@ -84,29 +86,49 @@ the VSCode debugger:
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Python: Current File",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "gunicorn",
+      "request": "launch",
+      "command": "python -m gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 run:app",
+      "type": "node-terminal"
+    },
+    {
       "command": "npm run watch",
       "name": "frontend",
       "request": "launch",
       "type": "node-terminal"
     },
     {
-      "name": "backend",
-      "request": "launch",
+      "name": "python flask backend",
       "type": "python",
-      "program": "run.py"
+      "request": "launch",
+      "program": "run.py",
+      "gevent": true,
+      "env": {
+        "GEVENT_SUPPORT": "True"
+      },
+      "console": "integratedTerminal"
     }
   ],
   "compounds": [
     {
       "name": "full stack",
-      "configurations": ["frontend", "backend"]
+      "configurations": ["frontend", "python flask backend"]
     }
   ]
 }
 ```
 
-The compound rule `full stack` will run both `python run.py` and
-`npm run watch`, all with one click!
+The compound rule `full stack` will run both the frontend and backend
+configurations! One thing to note is that the python configuration has to be run
+with the GEVENT_SUPPORT flag set to true, or else some crucial Flask things will
+not work.
 
 ### Deployment Notes
 

@@ -45,7 +45,6 @@ export default class Workspace extends React.Component {
     });
   }
   savePlan() {
-    // TODO: Need to save additional info like actionset in order to rebuild
     let socket = this.context;
     socket.emit("savePlan", (plan) => {
       const jsonString = `data:text/json;charset=utf-8,${encodeURIComponent(
