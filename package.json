@@ -1,14 +1,11 @@
 {
   "name": "planager",
   "version": "1.0.0",
-  "description": "The planager is an interactive datastream programming environment for authoring workflows.",
+  "description": "The Planager is a workflow authoring and execution platform.",
   "main": "index.js",
   "repository": "https://github.com/machineagency/planager",
   "scripts": {
-    "build": "webpack --progress --config webpack.config.js",
-    "dev-build": "webpack --progress --config webpack.config.js",
-    "watch": "webpack --progress --config webpack.config.js --watch",
-    "postinstall": "npm run build"
+    "watch": "webpack --progress --config webpack.config.js --watch"
   },
   "engines": {
     "npm": ">=8.2.0",
