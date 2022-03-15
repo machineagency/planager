@@ -37,32 +37,42 @@ class Action:
         # self.links = {}
         self.update_handler = None
         self.data_handler = None
+        self.ports_handler = None
         self.shouldOutportsUpdate = True
         self.shouldInportsUpdate = True
+
+    def updateSelf(self):
+        if self.update_handler:
+            self.update_handler(self.toJSON())
+
+    def addInport(self, inport_id, inport_config):
+        self.inports[inport_id] = Inport(inport_id, self.id, inport_config)
+        self.ports_handler(self.toJSON())
+
+    def addOutport(self, outport_id, outport_config):
+        self.outports[outport_id] = Outport(outport_id, self.id, outport_config)
+        self.ports_handler(self.toJSON())
 
     def addLinkToOutport(self, startPortID, endAction, endPortID):
         self.outports[startPortID].addConnection(endAction, endPortID)
 
     def removeLinkFromOutport(self, outportID, endActionID, endPortID):
         self.outports[outportID].removeConnection(endActionID, endPortID)
-        if self.update_handler:
-            self.update_handler(self.toJSON())
+        self.updateSelf()
 
     def addLinkToInport(self, endPortID, startActionID, startPortID):
         self.inports[endPortID].addConnection(startActionID, startPortID)
 
     def removeLinkFromInport(self, inportID, startActionID, startPortID):
         self.inports[inportID].removeConnection(startActionID, startPortID)
-        # self.updateInport(startActionID, startPortID, inportID, None)
-        if self.update_handler:
-            self.update_handler(self.toJSON())
+        self.updateSelf()
 
     def updateOutports(self, outportDict):
         for outportID, data in outportDict.items():
             self.outports[outportID].update(data, self.data_handler)
 
         if self.update_handler and self.shouldOutportsUpdate:
-            self.update_handler(self.toJSON())
+            self.updateSelf()
 
         return self.toJSON()
 
@@ -72,10 +82,13 @@ class Action:
     def register_data_handler(self, handler):
         self.data_handler = handler
 
+    def register_ports_handler(self, handler):
+        self.ports_handler = handler
+
     def updateInport(self, startActionID, startPortID, inportID, value):
         self.inports[inportID].setValue(startActionID, startPortID, value)
         if self.update_handler and self.shouldInportsUpdate:
-            self.update_handler(self.toJSON())
+            self.updateSelf()
         self.main()
 
     def onReceive(self):
