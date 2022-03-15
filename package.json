@@ -7,6 +7,10 @@
     "type": "git",
     "url": "git+https://github.com/machineagency/planager.git"
   },
+  "keywords": [
+    "planager",
+    "workflow"
+  ],
   "scripts": {
     "watch": "webpack --progress --config webpack.config.js --watch"
   },
