@@ -35,6 +35,7 @@ export default class Workspace extends React.Component {
     // Once the workspace has loaded, we must tell it what methods to run on socket events
     let socket = this.context;
     socket.on("updateActionJSON", this.updateActionJSON.bind(this));
+    socket.on("portsUpdated", this.portsUpdated.bind(this));
     socket.on("animateLinkDataflow", this.animateLinkDataflow.bind(this));
     // Get all of the actions that are available for the Planager
     socket.emit("getAvailableActions", (result) => {
@@ -68,6 +69,34 @@ export default class Workspace extends React.Component {
       socket.emit("uploadPlan", plan, (result) => console.log(result));
     };
     reader.readAsText(event.target.files[0]);
+  }
+  portsUpdated(actionJSON) {
+    let actions = this.state.actions;
+    const newInports = Object.keys(actionJSON.inports);
+    const newOutports = Object.keys(actionJSON.outports);
+    const inportsDifference = newInports.filter(
+      (x) => !Object.keys(actions[actionJSON.id].inportRefs).includes(x)
+    );
+    const outportsDifference = newOutports.filter(
+      (x) => !Object.keys(actions[actionJSON.id].outportRefs).includes(x)
+    );
+    console.log(inportsDifference, outportsDifference);
+    for (const inportName of inportsDifference) {
+      actions[actionJSON.id].inportRefs[inportName] = React.createRef();
+    }
+    for (const outportName of outportsDifference) {
+      actions[actionJSON.id].outportRefs[outportName] = React.createRef();
+    }
+    actions[actionJSON.id].component = React.cloneElement(
+      actions[actionJSON.id].component,
+      {
+        action: actionJSON,
+        inportRefs: actions[actionJSON.id].inportRefs,
+        outportRefs: actions[actionJSON.id].outportRefs,
+      }
+    );
+    actions[actionJSON.id].action = actionJSON;
+    this.setState({ actions: actions });
   }
   updateActionJSON(action) {
     // console.debug("Processing update from backend for action:", action);
@@ -222,11 +251,26 @@ export default class Workspace extends React.Component {
       }
     );
   }
+  runBackendMethod(actionID, methodName, args) {
+    const socket = this.context;
+    socket.emit(
+      "runBackendMethod",
+      {
+        actionID: actionID,
+        method: methodName,
+        args: args,
+      },
+      (result) => {
+        console.log(result);
+      }
+    );
+  }
   renderActionUI(action) {
     let ui;
     try {
       ui = React.createElement(actionUImap[action.name], {
         sendToOutport: this.sendToOutport.bind(this),
+        runBackendMethod: this.runBackendMethod.bind(this),
         action: action,
       });
     } catch (error) {

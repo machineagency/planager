@@ -19,6 +19,10 @@ def data_handler(linkInfo):
     socketio.emit("animateLinkDataflow", linkInfo)
 
 
+def ports_handler(actionJSON):
+    socketio.emit("portsUpdated", actionJSON)
+
+
 @app.get("/")
 def home():
     """Index route for the planager.
@@ -27,7 +31,11 @@ def home():
         [template]: index.html template
     """
     session.pop("plan", None)
-    newPlan = Plan(update_handler=update_handler, data_handler=data_handler)
+    newPlan = Plan(
+        update_handler=update_handler,
+        data_handler=data_handler,
+        ports_handler=ports_handler,
+    )
     session["plan"] = newPlan
     return render_template("index.html")
 

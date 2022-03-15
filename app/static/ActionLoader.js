@@ -14,8 +14,8 @@ import Download from "../planager/actionsets/data/download/Download";
 import DataViewer from "../planager/actionsets/data/data_viewer/DataViewer";
 import CellularAutomata from "../planager/actionsets/pixels/cellular_automata_1d/CellularAutomata";
 import Upload from "../planager/actionsets/data/upload/Upload";
-import Thing from "../planager/actionsets/cooking/Thing/Thing";
-import Method from "../planager/actionsets/cooking/Method/Method";
+import Thing from "../planager/actionsets/workflow/thing/Thing";
+import Method from "../planager/actionsets/workflow/method/Method";
 
 export default {
   PlanagerWebcam: PlanagerWebcam,
