@@ -11,6 +11,6 @@ CONFIG = {
 }
 
 
-class LiveVideo(Action, config=CONFIG):
+class VideoFeed(Action, config=CONFIG):
     def main(self):
         """The main loop; this is what runs when the action is run."""

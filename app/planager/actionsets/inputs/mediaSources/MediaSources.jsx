@@ -29,6 +29,16 @@ export default function MediaSources({
     setAudioDevices(aud);
   }, []);
 
+  function setSelectedAudio(deviceID) {
+    selectAudio(deviceID);
+    sendToOutport(action.id, { audio: deviceID });
+  }
+
+  function setSelectedVideo(deviceID) {
+    selectVideo(deviceID);
+    sendToOutport(action.id, { video: deviceID });
+  }
+
   return (
     <div>
       <div className='heading'>audio inputs</div>
@@ -39,7 +49,7 @@ export default function MediaSources({
             className={`audio input${
               selectedAudio == device.deviceId ? " selected" : ""
             }`}
-            onClick={() => selectAudio(device.deviceId)}>
+            onClick={() => setSelectedAudio(device.deviceId)}>
             {device.label}
           </div>
         );
@@ -52,7 +62,7 @@ export default function MediaSources({
             className={`video input${
               selectedVideo == device.deviceId ? " selected" : ""
             }`}
-            onClick={() => selectVideo(device.deviceId)}>
+            onClick={() => setSelectedVideo(device.deviceId)}>
             {device.label}
           </div>
         );

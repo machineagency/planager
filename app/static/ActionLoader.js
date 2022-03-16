@@ -16,9 +16,11 @@ import Method from "../planager/actionsets/workflow/method/Method";
 import Text from "../planager/actionsets/inputs/text/Text";
 import RecordArray from "../planager/actionsets/inputs/recordArray/RecordArray";
 import MediaSources from "../planager/actionsets/inputs/mediaSources/MediaSources";
-import LiveVideo from "../planager/actionsets/inputs/liveVideo/LiveVideo";
+import VideoFeed from "../planager/actionsets/inputs/videoFeed/VideoFeed";
+import AudioFeed from "../planager/actionsets/inputs/audioFeed/AudioFeed";
 
 export default {
+  AudioFeed: AudioFeed,
   PlanagerWebcam: PlanagerWebcam,
   ImageTrace: ImageTrace,
   ImageViewer: ImageViewer,
@@ -30,11 +32,11 @@ export default {
   Text: Text,
   RecordArray: RecordArray,
   MediaSources: MediaSources,
-  LiveVideo: LiveVideo,
   Editor: Editor,
   PixelArt: PixelArt,
   Download: Download,
   DataViewer: DataViewer,
   CellularAutomata: CellularAutomata,
   Upload: Upload,
+  VideoFeed: VideoFeed,
 };
