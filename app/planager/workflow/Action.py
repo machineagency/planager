@@ -104,17 +104,23 @@ class Action:
         if self.update_handler and self.shouldInportsUpdate:
             self.updateSelf()
         self.main()
+        self.receivedData(inportID)
 
     def onReceive(self):
         raise NotImplementedError
+
+    def receivedData(self, inportID):
+        pass
+
+    def init(self):
+        pass
 
     def beforeSend(self):
         # the thing to do before the outports are updated
         raise NotImplementedError
 
     def main(self):
-        # Children should always override this!
-        raise NotImplementedError
+        pass
 
     def appendToLog(self):
         # Writes a statement to the action log.

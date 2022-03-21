@@ -18,6 +18,11 @@ import RecordArray from "../planager/actionsets/inputs/recordArray/RecordArray";
 import MediaSources from "../planager/actionsets/inputs/mediaSources/MediaSources";
 import VideoFeed from "../planager/actionsets/inputs/videoFeed/VideoFeed";
 import AudioFeed from "../planager/actionsets/inputs/audioFeed/AudioFeed";
+import PlotInteractive from "../planager/actionsets/axidraw/plot_interactive/PlotInteractive";
+import MachineState from "../planager/actionsets/axidraw/machine_state/MachineState";
+import AxidrawInit from "../planager/actionsets/axidraw/axidraw_init/AxidrawInit";
+import Toggle from "../planager/actionsets/inputs/toggle/Toggle";
+import Slider from "../planager/actionsets/inputs/slider/Slider";
 
 export default {
   AudioFeed: AudioFeed,
@@ -39,4 +44,9 @@ export default {
   CellularAutomata: CellularAutomata,
   Upload: Upload,
   VideoFeed: VideoFeed,
+  PlotInteractive: PlotInteractive,
+  MachineState: MachineState,
+  AxidrawInit: AxidrawInit,
+  Toggle: Toggle,
+  Slider: Slider,
 };

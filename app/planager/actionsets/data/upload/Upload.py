@@ -1,4 +1,3 @@
-from xmlrpc.client import Boolean
 from app.planager.workflow.Action import Action
 
 CONFIG = {
