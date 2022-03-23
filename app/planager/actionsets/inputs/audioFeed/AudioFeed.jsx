@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { SocketContext } from "../../../../static/context/socket";
 import "./AudioFeed.css";
 
 function Status({ recording, deviceID }) {
@@ -34,6 +35,7 @@ function Status({ recording, deviceID }) {
 }
 
 export default function AudioFeed({ action, sendToOutport, runBackendMethod }) {
+  const socket = useContext(SocketContext);
   const [recording, setRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [chunks, setChunks] = useState([]);
@@ -73,6 +75,11 @@ export default function AudioFeed({ action, sendToOutport, runBackendMethod }) {
   }
 
   function onDataAvailable(e) {
+    socket.emit("runBackendMethod", {
+      method: "printAudio",
+      actionID: action.id,
+      args: { audio: e.data },
+    });
     setChunks((arr) => [...arr, e.data]);
   }
 

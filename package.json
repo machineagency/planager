@@ -2,7 +2,6 @@
   "name": "@planager/planager",
   "version": "1.0.0",
   "description": "The Planager is a workflow authoring and execution platform.",
-  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/machineagency/planager.git"
@@ -12,7 +11,8 @@
     "workflow"
   ],
   "scripts": {
-    "watch": "webpack --progress --config webpack.config.js --watch"
+    "watch": "webpack --progress --config webpack.config.js --watch",
+    "dev": "npx webpack serve"
   },
   "engines": {
     "npm": ">=8.2.0",
@@ -22,29 +22,31 @@
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.16.0",
-    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-react": "^7.16.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.4",
     "babel-loader": "^8.2.3",
-    "babel-plugin-dynamic-import-node": "^2.3.3",
     "css-loader": "^6.5.1",
+    "html-loader": "^3.1.0",
+    "html-webpack-plugin": "^5.5.0",
+    "react-refresh": "^0.11.0",
     "style-loader": "^3.3.1",
     "webpack": "^5.65.0",
-    "webpack-cli": "^4.8.0"
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.7.4"
   },
   "dependencies": {
     "@codemirror/commands": "^0.19.5",
     "@codemirror/state": "^0.19.6",
     "@codemirror/view": "^0.19.28",
     "codemirror": "^5.64.0",
-    "react": ">=15.5 <=16.x",
+    "react": "^17.0.2",
     "react-codemirror2": "^7.2.1",
-    "react-dom": ">=15.5 <=16.x",
+    "react-dom": "^17.0.2",
     "react-draggable": "^4.4.4",
     "react-graph-vis": "^1.0.7",
     "react-icons": "^4.3.1",
     "react-json-view": "^1.21.3",
-    "react-media-recorder": "^1.6.3",
     "react-vis-network-graph": "^3.0.1",
     "react-webcam": "^6.0.0",
     "socket.io-client": "^4.4.0"

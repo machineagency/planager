@@ -1,6 +1,10 @@
 import uuid
 from app.planager.workflow.Inport import Inport
 from app.planager.workflow.Outport import Outport
+from rich import print
+from rich.traceback import install
+
+install()
 
 
 class Action:

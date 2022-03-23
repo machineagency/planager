@@ -9,5 +9,5 @@ ReactDOM.render(
       <Workspace />
     </SocketContext.Provider>
   </React.StrictMode>,
-  document.getElementById("react-root")
+  document.getElementById("root")
 );
