@@ -1,14 +1,19 @@
 import redis
 import os
 
-from flask import Flask, send_from_directory
+from flask import Flask, render_template
 from flask_session import Session
 from flask_socketio import SocketIO
 
 from app.action_manager import ActionManager
 
 
-app = Flask(__name__, static_url_path="/", static_folder="../src/dist/")
+app = Flask(
+    __name__,
+    static_url_path="",
+    static_folder="../src/dist",
+    template_folder="../src/dist",
+)
 sio = SocketIO(app, async_mode="gevent")
 
 PACKAGE_DIR = "actionsets"
@@ -37,5 +42,4 @@ server_session = Session(app)
 
 @app.route("/")
 def index():
-    # return app.send_static_file("index.html")
-    return "<b> Hello world! </b>"
+    return render_template("index.html")
