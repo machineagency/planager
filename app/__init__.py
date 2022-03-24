@@ -1,14 +1,14 @@
 import redis
 import os
 
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_session import Session
 from flask_socketio import SocketIO
 
 from app.action_manager import ActionManager
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path="", static_folder="../src/dist/")
 sio = SocketIO(app, async_mode="gevent")
 
 PACKAGE_DIR = "actionsets"
@@ -33,3 +33,8 @@ app.config["SESSION_REDIS"] = redis.from_url(redis_url)
 # directly; just use the built in Flask session interface.
 app.config["SESSION_COOKIE_SECURE"] = True
 server_session = Session(app)
+
+
+@app.route("/", defaults={"path": ""})
+def serve(path):
+    return send_from_directory(app.static_folder, "index.html")
