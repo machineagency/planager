@@ -3,14 +3,12 @@ from planager.Action import Action
 CONFIG = {
     "displayName": "Video Feed",
     "inports": {
-        "video": {"displayName": "video", "description": "video"},
+        "video": {"displayName": "video"},
     },
-    "outports": {
-        "video": {"displayName": "video", "description": "video"},
-    },
+    "outports": {"video": {"displayName": "video"}, "image": {"displayName": "image"}},
 }
 
 
 class VideoFeed(Action, config=CONFIG):
-    def main(self):
-        """The main loop; this is what runs when the action is run."""
+    def takeSnapshot(self, snap):
+        self.updateOutports({"image": snap})

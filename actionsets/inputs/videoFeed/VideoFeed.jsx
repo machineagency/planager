@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import "./VideoFeed.css";
 
-export default function VideoFeed({ action, sendToOutport, runBackendMethod }) {
+export default function VideoFeed({ action, runBackendMethod }) {
   const videoRef = useRef();
   useEffect(() => {
     if (!action.inports.video.value) return;
@@ -14,9 +14,21 @@ export default function VideoFeed({ action, sendToOutport, runBackendMethod }) {
         videoRef.current.srcObject = stream;
       });
   });
+
+  function getScreenshot(videoEl) {
+    const canvas = document.createElement("canvas");
+    canvas.width = videoEl.clientWidth;
+    canvas.height = videoEl.clientHeight;
+    canvas
+      .getContext("2d")
+      .drawImage(videoEl, 0, 0, canvas.width, canvas.height);
+
+    runBackendMethod(action.id, "takeSnapshot", canvas.toDataURL());
+  }
   return (
     <div>
-      <video autoPlay ref={videoRef}></video>
+      <video autoPlay ref={videoRef} height='300px'></video>
+      <div onClick={() => getScreenshot(videoRef.current)}>Take Screenshot</div>
     </div>
   );
 }
