@@ -1,35 +1,28 @@
-import jsonpickle
-
-from flask import request, render_template, session
+from flask import session
 from rich import print
 from rich.traceback import install
 
-from app.planager.workflow.Plan import Plan
-from app import app, action_manager, socketio
+from planager.Plan import Plan
+from app import action_manager, sio
 
 
 install()
 
 
 def update_handler(actionJSON):
-    socketio.emit("updateActionJSON", actionJSON)
+    sio.emit("updateActionJSON", actionJSON)
 
 
 def data_handler(linkInfo):
-    socketio.emit("animateLinkDataflow", linkInfo)
+    sio.emit("animateLinkDataflow", linkInfo)
 
 
 def ports_handler(actionJSON):
-    socketio.emit("portsUpdated", actionJSON)
+    sio.emit("portsUpdated", actionJSON)
 
 
-@app.get("/")
+@sio.on("newPlan")
 def home():
-    """Index route for the planager.
-
-    Returns:
-        [template]: index.html template
-    """
     session.pop("plan", None)
     newPlan = Plan(
         update_handler=update_handler,
@@ -37,10 +30,9 @@ def home():
         ports_handler=ports_handler,
     )
     session["plan"] = newPlan
-    return render_template("index.html")
 
 
-@socketio.on("savePlan")
+@sio.on("savePlan")
 def savePlan():
     """Gets the plan stored in the session.
 
@@ -55,7 +47,7 @@ def savePlan():
     return {}
 
 
-@socketio.on("uploadPlan")
+@sio.on("uploadPlan")
 def uploadPlan(planJSON):
     """Adds a plan to the session.
 
@@ -75,7 +67,7 @@ def uploadPlan(planJSON):
     return newPlan.toJSON()
 
 
-@socketio.on("clearPlan")
+@sio.on("clearPlan")
 def clearPlan():
     """Removes the plan from the session
 
@@ -91,7 +83,7 @@ def clearPlan():
     return {"message": "OK"}
 
 
-@socketio.on("getAvailableActions")
+@sio.on("getAvailableActions")
 def getAvailableActions():
     """Endpoint for retreiving the available actions.
 
@@ -102,7 +94,7 @@ def getAvailableActions():
     return {"actions": flattened, "dropdown": dropdown}
 
 
-@socketio.on("addAction")
+@sio.on("addAction")
 def addAction(req):
     """Adds an action to the current plan.
 
@@ -126,7 +118,7 @@ def addAction(req):
     return new_action.toJSON()
 
 
-@socketio.on("addLink")
+@sio.on("addLink")
 def addLink(connection):
     """Adds a link between two actions in the current plan.
 
@@ -147,7 +139,7 @@ def addLink(connection):
     return {"linkData": connection}
 
 
-@socketio.on("removeAction")
+@sio.on("removeAction")
 def removeAction(request):
     """Removes the specified action from the plan.
 
@@ -157,7 +149,7 @@ def removeAction(request):
     return removed_action.toJSON()
 
 
-@socketio.on("removeLink")
+@sio.on("removeLink")
 def removeLink(link):
     startactionJSON, endActionJSON = session.get("plan").removeLink(
         link["startActionID"],
@@ -168,13 +160,13 @@ def removeLink(link):
     return {"startActionJSON": startactionJSON, "endActionJSON": endActionJSON}
 
 
-@socketio.on("actionMoved")
+@sio.on("actionMoved")
 def removeLink(info):
     session.get("plan").updateActionCoords(info["actionID"], info["coords"])
     return {"msg": "ok"}
 
 
-@socketio.on("sendDataToOutport")
+@sio.on("sendDataToOutport")
 def sendDataToOutport(data):
     """Sends data created in the frontend to an action outport
 
@@ -188,7 +180,7 @@ def sendDataToOutport(data):
     return {"actionJSON": actionJSON}
 
 
-@socketio.on("runBackendMethod")
+@sio.on("runBackendMethod")
 def runBackendMethod(data):
     """Runs a method in the backend for an action.
 

@@ -3,7 +3,7 @@ from importlib import import_module
 from inspect import getmembers, isclass
 from types import ModuleType
 
-from app.planager.workflow.Action import Action
+from planager.Action import Action
 from app.logging import info, error, debug
 
 

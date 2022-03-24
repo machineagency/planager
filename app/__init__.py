@@ -8,20 +8,12 @@ from flask_socketio import SocketIO
 from app.action_manager import ActionManager
 
 
-app = Flask(__name__, template_folder="static")
-socketio = SocketIO(app, async_mode="gevent")
+app = Flask(__name__)
+sio = SocketIO(app, async_mode="gevent")
 
-PACKAGE_DIR = "./app/planager/actionsets"
+PACKAGE_DIR = "actionsets"
 
 action_manager = ActionManager(action_set_path=PACKAGE_DIR)
-
-# Register the blueprints for different actions
-# The url prefix allows for easier management of routes and prevents
-# routes from different actionsets from overriding eachother
-# TODO: blueprint registration should be dynamic
-# from .planager.actionsets.axidraw.axidraw_blueprint import axidraw_blueprint
-# app.register_blueprint(axidraw_blueprint, url_prefix="/axidraw")
-
 action_manager.build_action_dict()
 
 # NOTE: The secret key is used to cryptographically sign the cookies used for storing

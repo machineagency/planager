@@ -11,8 +11,8 @@
     "workflow"
   ],
   "scripts": {
-    "watch": "webpack --progress --config webpack.config.js --watch",
-    "dev": "npx webpack serve"
+    "dev": "cross-env NODE_ENV=development npx webpack serve",
+    "build": "cross-env NODE_ENV=production webpack"
   },
   "engines": {
     "npm": ">=8.2.0",
@@ -26,9 +26,11 @@
     "@babel/preset-react": "^7.16.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.4",
     "babel-loader": "^8.2.3",
+    "cross-env": "^7.0.3",
     "css-loader": "^6.5.1",
     "html-loader": "^3.1.0",
     "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.0",
     "react-refresh": "^0.11.0",
     "style-loader": "^3.3.1",
     "webpack": "^5.65.0",
@@ -48,7 +50,6 @@
     "react-icons": "^4.3.1",
     "react-json-view": "^1.21.3",
     "react-vis-network-graph": "^3.0.1",
-    "react-webcam": "^6.0.0",
     "socket.io-client": "^4.4.0"
   },
   "bugs": {

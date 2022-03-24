@@ -1,4 +1,4 @@
-from app import app, routes, socketio
+from app import app, routes, sio
 
 if __name__ == "__main__":
-    socketio.run(app, debug=True)
+    sio.run(app, debug=True)
