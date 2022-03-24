@@ -8,7 +8,7 @@ from flask_socketio import SocketIO
 from app.action_manager import ActionManager
 
 
-app = Flask(__name__, static_url_path="", static_folder="../src/dist/")
+app = Flask(__name__, static_url_path="/", static_folder="../src/dist/")
 sio = SocketIO(app, async_mode="gevent")
 
 PACKAGE_DIR = "actionsets"
@@ -35,6 +35,6 @@ app.config["SESSION_COOKIE_SECURE"] = True
 server_session = Session(app)
 
 
-@app.route("/", defaults={"path": ""})
-def serve(path):
-    return send_from_directory(app.static_folder, "index.html")
+@app.route("/")
+def index():
+    return app.send_static_file("index.html")
