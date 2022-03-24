@@ -6,12 +6,13 @@ CONFIG = {
     "outports": {
         "text": {
             "displayName": "text",
-            "description": "text",
         }
     },
+    "state": {"textValue": "default value"},
 }
 
 
 class Text(Action, config=CONFIG):
-    def main(self):
-        """The main loop; this is what runs when the action is run."""
+    def updateText(self, newText):
+        self.state["textValue"] = newText
+        self.updateOutports({"text": self.state["textValue"]})

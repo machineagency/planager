@@ -2,8 +2,8 @@ class Outport:
     def __init__(self, id: str, parent_id: str, config: dict):
         self.id = id
         self.parent_id = parent_id
-        self.displayName = config["displayName"]
-        self.description = config["description"]
+        self.displayName = config.get("displayName", id)
+        self.description = config.get("description", None)
         self.value = None
         self.connections = []
 

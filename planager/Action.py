@@ -20,12 +20,13 @@ class Action:
         self.outports = {}
         self.inports = {}
         self.coords = None
+        self.state = {}
 
         if overrideConfig:
             self.id = overrideConfig["id"]
-            self.displayName = overrideConfig["displayName"]
-            if overrideConfig["coords"]:
-                self.coords = overrideConfig["coords"]
+            self.displayName = overrideConfig.get("displayName", "unnamed")
+            self.coords = overrideConfig.get("coords", [100, 100])
+            self.state = overrideConfig.get("state", {})
 
             for inport_id, inport_config in overrideConfig["inports"].items():
                 newInport = Inport(inport_id, self.id, inport_config)
@@ -37,7 +38,8 @@ class Action:
 
         else:
             self.id = uuid.uuid4().hex
-            self.displayName = self.config["displayName"]
+            self.displayName = self.config.get("displayName", "unnamed")
+            self.state = self.config.get("state", {})
 
             for inport_id, inport_config in self.config["inports"].items():
                 newInport = Inport(inport_id, self.id, inport_config)
@@ -110,9 +112,6 @@ class Action:
         self.main()
         self.receivedData(inportID)
 
-    def onReceive(self):
-        raise NotImplementedError
-
     def receivedData(self, inportID):
         pass
 
@@ -159,6 +158,7 @@ class Action:
             "inports": {
                 inportID: inport.toJSON() for inportID, inport in self.inports.items()
             },
+            "state": self.state,
         }
 
     def __str__(self):

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 
 import "./Text.css";
 
-export default function Text({ action, sendToOutport, runBackendMethod }) {
-  const [text, setText] = useState("");
+export default function Text({ action, runBackendMethod }) {
+  const [text, setText] = useState(action.state.textValue);
   useEffect(() => {
-    sendToOutport(action.id, { text: text });
+    runBackendMethod(action.id, "updateText", text);
   }, [text]);
 
   return (

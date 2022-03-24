@@ -21,8 +21,10 @@ import MachineState from "../actionsets/axidraw/machine_state/MachineState";
 import AxidrawInit from "../actionsets/axidraw/axidraw_init/AxidrawInit";
 import Toggle from "../actionsets/inputs/toggle/Toggle";
 import Slider from "../actionsets/inputs/slider/Slider";
+import Gate from "../actionsets/control_flow/gate/Gate";
 
 export default {
+  Gate: Gate,
   AudioFeed: AudioFeed,
   ImageTrace: ImageTrace,
   ImageViewer: ImageViewer,
