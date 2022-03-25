@@ -4,11 +4,52 @@
 @import "../../../node_modules/codemirror/theme/darcula.css";
 @import "../../../node_modules/codemirror/theme/material.css";
 
+.varsContainer {
+  display: grid;
+  white-space: nowrap;
+}
+.cell {
+  padding: 2px 5px 2px 10px;
+  text-align: center;
+}
+
+.nameEdit {
+  width: 100%;
+}
+
+.header {
+  background-color: var(--magenta);
+  font-weight: bolder;
+  color: var(--base3);
+}
+
+.action {
+  grid-column: 1;
+}
+
+.portID {
+  grid-column: 2;
+}
+
+.value {
+  grid-column: 3;
+}
+
+.name {
+  grid-column: 4;
+}
+
+.name:hover {
+  cursor: pointer;
+}
+
 .editor {
   min-width: 400px;
 }
 
 .sendButton {
+  display: inline-block;
+  width: 50%;
   background-color: var(--green);
   padding: 5px;
   color: var(--base3);
@@ -20,53 +61,16 @@
   background-color: var(--greenHover);
 }
 
-.dropdown {
+.evaluateButton {
+  display: inline-block;
+  width: 50%;
+  background-color: var(--orange);
   padding: 5px;
-  font-weight: bolder;
-}
-
-.dropdown:hover {
-  background-color: var(--base02);
-}
-
-.dropdown:hover .dropdownContainer {
-  display: inline;
-}
-
-.dropdownContainer {
-  display: none;
-  position: absolute;
-  z-index: 100;
-  margin-top: 5px;
-}
-
-.editorDropdownItem {
-  background-color: var(--cyan);
-  padding: 5px;
-  font-weight: bolder;
-}
-
-.editorDropdownItem:hover {
-  background-color: var(--cyanHover);
-}
-
-#settingsContainer {
-  background-color: var(--base01);
   color: var(--base3);
-  position: absolute;
-  left: 400px;
-  width: max-content;
+  text-align: center;
+  font-weight: bold;
 }
 
-#editorContainer {
-  padding: 0 1px;
-}
-
-.settingsTitle {
-  font-weight: bolder;
-}
-
-.settingsRow {
-  padding: 10px;
-  display: block;
+.evaluateButton:hover {
+  background-color: var(--orangeHover);
 }

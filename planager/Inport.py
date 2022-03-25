@@ -4,11 +4,8 @@ class Inport:
         self.parent_id = parent_id
         self.displayName = config.get("displayName", id)
         self.description = config.get("description", None)
-        self.multi = False
-        self.value = None
-        if "multi" in config:
-            self.multi = config["multi"]
-            self.value = {}
+        self.multi = config.get("multi", False)
+        self.value = config.get("value", {})
         self.connections = []
 
     def addConnection(self, startActionID, startPortID):
@@ -44,6 +41,7 @@ class Inport:
             "parentID": self.parent_id,
             "description": self.description,
             "value": self.value,
+            "multi": self.multi,
             "displayName": self.displayName,
             "connections": {
                 (connection["startActionID"]): connection["startPortID"]

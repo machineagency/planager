@@ -111,6 +111,7 @@ class Action:
             self.updateSelf()
         self.main()
         self.receivedData(inportID)
+        self.updateSelf()
 
     def receivedData(self, inportID):
         pass

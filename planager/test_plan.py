@@ -1,6 +1,6 @@
-from app.planager.workflow.Plan import Plan
-from app.planager.actionsets.data.data_viewer.DataViewer import DataViewer
-from app.planager.actionsets.camera.planager_webcam.PlanagerWebcam import PlanagerWebcam
+from Plan import Plan
+from ..actionsets.data.data_viewer.DataViewer import DataViewer
+from ..actionsets.inputs.num.Num import Num
 
 from rich import print_json
 
@@ -8,7 +8,7 @@ from rich import print_json
 def test_action_update_when_connected():
     plan = Plan(headless=True)
     data_viewer = plan.addAction(DataViewer)
-    webcam = plan.addAction(PlanagerWebcam)
+    webcam = plan.addAction(Num)
     webcam.take_picture("some image data")
     plan.addLink(webcam.id, "image", data_viewer.id, "data")
     print_json(data=plan.toJSON())
@@ -17,7 +17,7 @@ def test_action_update_when_connected():
 def test_plan_data_flow():
     plan = Plan(headless=True)
     data_viewer = plan.addAction(DataViewer)
-    webcam = plan.addAction(PlanagerWebcam)
+    webcam = plan.addAction(Num)
     plan.addLink(webcam.id, "image", data_viewer.id, "data")
     webcam.take_picture("some image data")
     print(data_viewer.outports["data"].value)

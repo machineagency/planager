@@ -54,7 +54,7 @@ export default class Workspace extends React.Component {
       )}`;
       const link = document.createElement("a");
       link.href = jsonString;
-      link.download = "plan.json";
+      link.download = "unnamed.plan";
 
       link.click();
     });
@@ -260,7 +260,11 @@ export default class Workspace extends React.Component {
       linkInfo.endActionID,
       linkInfo.endPortID
     );
-    this.state.links[linkToAnimate].linkRef.current.runAnimation();
+    try {
+      this.state.links[linkToAnimate].linkRef.current.runAnimation();
+    } catch {
+      console.warn("Link to animate was not found");
+    }
   }
   sendToOutport(actionID, dataDict) {
     const socket = this.context;
@@ -279,17 +283,11 @@ export default class Workspace extends React.Component {
   }
   runBackendMethod(actionID, methodName, args) {
     const socket = this.context;
-    socket.emit(
-      "runBackendMethod",
-      {
-        actionID: actionID,
-        method: methodName,
-        args: args,
-      },
-      (result) => {
-        console.log(result);
-      }
-    );
+    socket.emit("runBackendMethod", {
+      actionID: actionID,
+      method: methodName,
+      args: args,
+    });
   }
   renderActionUI(action) {
     let ui;

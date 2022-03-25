@@ -22,7 +22,7 @@ export default function Toolbar({
       </span>
       <label title='Load plan' className='toolbarButton unselectable'>
         Upload
-        <input type='file' onChange={uploadPlan} />
+        <input type='file' onChange={uploadPlan} accept='.plan' />
       </label>
       <span>
         <span

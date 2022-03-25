@@ -1,31 +1,28 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "backend",
+            "name": "python",
             "request": "launch",
             "type": "python",
             "program": "run.py",
             "env": {
-                "GEVENT_SUPPORT": "True"
+                "GEVENT_SUPPORT": "True" // This flag needs to be enabled to work with the VSCode debugger
             }
         },
         {
-            "command": "npm run dev",
-            "name": "frontend",
+            "name": "javascript",
             "request": "launch",
-            "type": "node-terminal"
+            "type": "node-terminal",
+            "command": "npm run dev",
         }
     ],
     "compounds": [
         {
             "name": "full stack",
             "configurations": [
-                "frontend",
-                "backend"
+                "python",
+                "javascript"
             ]
         }
     ]

@@ -93,7 +93,7 @@ class Plan:
         Returns:
             tuple: a tuple containing the updated JSON representations of the start and end actions after the link has been created.
         """
-        print("adding connection between", startPortID, "and", endPortID)
+        # print("adding connection between", startPortID, "and", endPortID)
         self.actions[startActionID].addLinkToOutport(
             startPortID, self.actions[endActionID], endPortID
         )
@@ -111,7 +111,7 @@ class Plan:
         )
 
     def removeLink(self, startActionID, startPortID, endActionID, endPortID):
-        print("removing connection between", startPortID, "and", endPortID)
+        # print("removing connection between", startPortID, "and", endPortID)
         self.actions[startActionID].removeLinkFromOutport(
             startPortID, endActionID, endPortID
         )
@@ -145,6 +145,6 @@ class Plan:
     def __str__(self):
         al = "\n".join([a.__str__() for a in self.actions.values()])
 
-        formatted_output = """Plan object. Action list:\n{}""".format(al)
+        formatted_output = "Plan object. Action list:\n{}".format(al)
 
         return formatted_output

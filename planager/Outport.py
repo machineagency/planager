@@ -23,7 +23,7 @@ class Outport:
 
     def updateConnections(self, data_handler):
         for connection in self.connections:
-            print(self.id, "sending data to", connection["endPortID"])
+            # print(self.id, "sending data to", connection["endPortID"])
             if data_handler:
                 data_handler(
                     {
