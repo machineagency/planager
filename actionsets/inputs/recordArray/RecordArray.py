@@ -2,16 +2,25 @@ from planager.Action import Action
 
 CONFIG = {
     "displayName": "RecordArray",
-    "inports": {},
+    "inports": {"input": {"displayName": "input"}},
     "outports": {
         "recordedArray": {
-            "displayName": "text",
-            "description": "text",
+            "displayName": "array",
         }
     },
+    "state": {"length": 10, "current": []},
 }
 
 
 class RecordArray(Action, config=CONFIG):
-    def main(self):
-        """The main loop; this is what runs when the action is run."""
+    def receivedData(self, inportID):
+        self.state["current"].append(self.inports["input"].value)
+        if len(self.state["current"]) == self.state["length"]:
+            self.updateOutports({"recordedArray": self.state["current"]})
+            self.state["current"] = []
+
+    def updateLength(self, newLen):
+        self.state["length"] = int(newLen)
+        if len(self.state["current"]) > self.state["length"]:
+            self.updateOutports({"recordedArray": self.state["current"][:newLen]})
+            self.state["current"] = []

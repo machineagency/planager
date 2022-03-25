@@ -22,10 +22,16 @@ import AxidrawInit from "../actionsets/axidraw/axidraw_init/AxidrawInit";
 import Toggle from "../actionsets/inputs/toggle/Toggle";
 import Slider from "../actionsets/inputs/slider/Slider";
 import Gate from "../actionsets/control_flow/gate/Gate";
+import DrawPath from "../actionsets/paths/drawPath/drawPath";
+import LSystem from "../actionsets/recursion/lSystem/LSystem";
+import Num from "../actionsets/inputs/num/Num";
 
 export default {
   Gate: Gate,
+  Num: Num,
+  DrawPath: DrawPath,
   AudioFeed: AudioFeed,
+  LSystem: LSystem,
   ImageTrace: ImageTrace,
   ImageViewer: ImageViewer,
   Options: Options,

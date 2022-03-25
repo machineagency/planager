@@ -1,0 +1,13 @@
+.numberInput {
+  width: 10rem;
+  font-size: 1.25rem;
+  font-family: inherit;
+  padding: 0.25em 0.5em;
+  background-color: var(--base3);
+  border: none;
+}
+
+.numberInput:focus {
+  outline: 5px solid var(--cyan);
+  outline-offset: -5px;
+}

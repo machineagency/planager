@@ -1,25 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import "./RecordArray.css";
 
-export default function RecordArray({
-  action,
-  sendToOutport,
-  runBackendMethod,
-}) {
-  const [text, setText] = useState("");
-  useEffect(() => {
-    sendToOutport(action.id, { text: text });
-  }, [text]);
-
+export default function RecordArray({ action, runBackendMethod }) {
   return (
-    <div className='background'>
+    <div>
       <input
-        className='textInput'
-        type='text'
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
+        type='number'
+        value={action.state.length}
+        onChange={(e) =>
+          runBackendMethod(action.id, "updateLength", e.target.value)
+        }></input>
+      <div>
+        {action.state.current.map((val) => {
+          return `${val},`;
+        })}
+      </div>
     </div>
   );
 }
