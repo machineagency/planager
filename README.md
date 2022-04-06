@@ -17,7 +17,7 @@
 ## Running locally
 
 1. To start the flask server, run `python run.py`.
-2. To run webpack and generate the `bundle.js`, run `npm run watch`. The bundle
+2. To run webpack and generate the `bundle.js`, run `npm run dev`. The bundle
    will automatically regenerate when changes are made to frontend files.
 
 ## Development
