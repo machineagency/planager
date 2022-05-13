@@ -1,5 +1,7 @@
 # Planager
 
+I want to stress that this project is NOT READY for public use. I am putting all of the code here up for the world to see and check out if they are interested, but it's not intended to be something that you can use just yet. A lot of the documentation is wrong and needs to be updated.
+
 ## Installation
 
 1. Clone and download this repository. Create a new python virtual environment
