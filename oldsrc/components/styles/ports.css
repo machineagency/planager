@@ -1,0 +1,60 @@
+.leftPorts {
+  position: absolute;
+  right: 0;
+}
+
+.rightPorts {
+  position: absolute;
+  left: 0;
+}
+
+.leftPort {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background-color: var(--violet);
+}
+
+.rightPort {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: var(--cyan);
+}
+
+.port {
+  min-height: 1rem;
+  min-width: 1rem;
+  width: fit-content;
+  margin-bottom: 2px;
+  padding: 0.1rem 0.3rem;
+  font-size: 0.7rem;
+}
+
+.port:hover {
+  cursor: pointer;
+}
+
+.rightPort:hover {
+  background-color: var(--cyanHover);
+}
+
+.leftPort:hover {
+  background-color: var(--violetHover);
+}
+
+.portName {
+  display: none;
+  color: var(--base3);
+  white-space: nowrap;
+}
+
+.leftPortWrapper {
+  float: right;
+}
+
+.leftPortWrapper:hover .portName {
+  display: inline;
+}
+
+.rightPortWrapper:hover .portName {
+  display: inline;
+}

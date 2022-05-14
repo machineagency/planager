@@ -14,7 +14,7 @@ app = Flask(
     static_folder="../src/dist",
     template_folder="../src/dist",
 )
-sio = SocketIO(app, async_mode="gevent")
+sio = SocketIO(app, async_mode="gevent", cors_allowed_origins="http://localhost:8000")
 
 PACKAGE_DIR = "actionsets"
 
@@ -40,6 +40,18 @@ app.config["SESSION_COOKIE_SECURE"] = True
 server_session = Session(app)
 
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+@sio.on("/api/test")
+def test():
+    return "hello"
+
+
+@sio.on("connect")
+def test_connect(auth):
+    print("CONNECTEDDEDEDED")
+    # emit("my response", {"data": "Connected"})
+
+
+# @app.route("/")
+# def index():
+# return render_template("index.html")
+# return "test"

@@ -1,0 +1,25 @@
+.wire {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+}
+
+.backgroundPath {
+  stroke: transparent;
+  stroke-width: 20px;
+  fill: none;
+}
+
+.linkPath {
+  stroke: var(--base1);
+  stroke-width: 3px;
+  fill: none;
+}
+
+.droplet {
+  fill: var(--base1);
+  r: 5;
+}

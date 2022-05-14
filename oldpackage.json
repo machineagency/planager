@@ -1,0 +1,56 @@
+{
+  "name": "@planager/planager",
+  "version": "1.0.0",
+  "description": "The Planager is a workflow authoring and execution platform.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/machineagency/planager.git"
+  },
+  "keywords": [
+    "planager",
+    "workflow"
+  ],
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development npx webpack serve",
+    "build": "cross-env NODE_ENV=production webpack"
+  },
+  "engines": {
+    "npm": "8.x",
+    "node": "16.x"
+  },
+  "author": "Hannah Twigg-Smith",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-react": "^7.16.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.4",
+    "babel-loader": "^8.2.3",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.5.1",
+    "html-loader": "^3.1.0",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.0",
+    "react-refresh": "^0.11.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.7.4"
+  },
+  "dependencies": {
+    "codemirror": "^5.65.2",
+    "react": "^17.0.2",
+    "react-codemirror2": "^7.2.1",
+    "react-dom": "^17.0.2",
+    "react-draggable": "^4.4.4",
+    "react-graph-vis": "^1.0.7",
+    "react-icons": "^4.3.1",
+    "react-json-view": "^1.21.3",
+    "react-vis-network-graph": "^3.0.1",
+    "socket.io-client": "^4.4.0"
+  },
+  "bugs": {
+    "url": "https://github.com/machineagency/planager/issues"
+  },
+  "homepage": "https://github.com/machineagency/planager#readme"
+}
