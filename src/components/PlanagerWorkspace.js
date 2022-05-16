@@ -1,5 +1,6 @@
 import { LitElement, html, css } from "lit";
-// import "socket.io-client";
+import { map } from "lit/directives/map.js";
+import { ref, createRef } from "lit/directives/ref.js";
 
 import "./PlanagerToolbar";
 import "./PlanagerDraggable";
@@ -15,19 +16,23 @@ export class PlanagerWorkspace extends LitElement {
       height: 100%;
     }
   `;
+  canvasRef = createRef();
 
   static properties = {
     socket: {},
+    modules: {},
   };
 
   constructor() {
     super();
+    this.modules = [];
     this.socket = io.connect("http://localhost:5000/");
     this.socket.emit("newPlan");
   }
 
-  handleNewAction(action) {
-    console.log(action);
+  handleNewAction(module) {
+    this.modules.push(module);
+    this.requestUpdate();
   }
 
   render() {
@@ -36,13 +41,14 @@ export class PlanagerWorkspace extends LitElement {
         <planager-toolbar .socket=${this.socket}></planager-toolbar>
         <planager-library
           .socket=${this.socket}
-          .addAction=${this.handleNewAction}
+          .addAction=${this.handleNewAction.bind(this)}
         ></planager-library>
-        <planager-canvas>
-          <planager-draggable></planager-draggable>
-          <planager-draggable></planager-draggable>
-          <planager-draggable></planager-draggable>
-          <planager-draggable></planager-draggable>
+        <planager-canvas ${ref(this.canvasRef)}>
+          ${map(
+            this.modules,
+            (mod) =>
+              html`<planager-draggable slot="module"></planager-draggable>`
+          )}
         </planager-canvas>
       </main>
     `;

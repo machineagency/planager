@@ -4,6 +4,8 @@ export class PlanagerDraggable extends LitElement {
   static properties = {
     handleDown: {},
     handleMove: {},
+    dx: {},
+    dy: {},
   };
 
   static styles = css`
@@ -26,6 +28,10 @@ export class PlanagerDraggable extends LitElement {
     return;
   }
 
+  // constructor() {
+  //   super();
+  // }
+
   render() {
     return html`<div
       id="draggable"
@@ -37,7 +43,7 @@ export class PlanagerDraggable extends LitElement {
         @pointerdown="${this.handleDown}"
         @pointermove="${this.handleMove}"
       ></div>
-      <slot name="draggable-body"></div>
+      <slot name="draggable-body"></slot>
     </div>`;
   }
 }

@@ -44,14 +44,14 @@ export class PlanagerCanvas extends LitElement {
       height: 100%;
       position: fixed;
     }
-    .child {
+    /* .child {
       --dx: 0px;
       --dy: 0px;
       position: fixed;
       flex-shrink: 1;
       z-index: var(--layer, 0);
       transform: translate(var(--dx), var(--dy));
-    }
+    } */
     @media (prefers-color-scheme: dark) {
       main {
         --grid-background-color: black;
@@ -64,14 +64,15 @@ export class PlanagerCanvas extends LitElement {
     return html`
       <div id="main-canvas" class="full-size" @contextmenu=${this.handleClick}>
         <canvas class="full-size"></canvas>
-        <div id="children" class="full-size"></div>
+        <div id="module-container">
+          <slot @slotchange=${this.handleModuleSlotChange} name="module"></slot>
+        </div>
         ${this._contextMenu ? html`<planager-context-menu />` : ``}
       </div>
     `;
   }
 
   context() {
-    console.log("hello");
     if (this._contextMenu) {
       return html`<planager-context-menu></planager-context-menu>`;
     }
@@ -110,7 +111,6 @@ export class PlanagerCanvas extends LitElement {
   }
 
   handleClick(event) {
-    console.log("right click");
     event.preventDefault();
     this._contextMenu = !this._contextMenu;
   }
@@ -121,7 +121,8 @@ export class PlanagerCanvas extends LitElement {
     } else {
       this.scaleFactor = this.scaleFactor - 0.1;
     }
-    this.container.style.transform = `scale(${this.scaleFactor})`;
+    this.moduleContainer.style.transform = `scale(${this.scaleFactor})`;
+
     this.canvas.style.backgroundSize = `calc(var(--grid-size)*${this.scaleFactor}) calc(var(--grid-size)*${this.scaleFactor})`;
   }
 
@@ -146,53 +147,75 @@ export class PlanagerCanvas extends LitElement {
       }
       return fallback;
     };
+
     const dx = getNumber("--dx", 0) + delta.x * (2 - this.scaleFactor);
     const dy = getNumber("--dy", 0) + delta.y * (2 - this.scaleFactor);
+    // child.dx = dx;
+    // child.dy = dy;
     child.style.transform = `translate(${dx}px, ${dy}px)`;
     child.style.setProperty("--dx", `${dx}px`);
     child.style.setProperty("--dy", `${dy}px`);
   }
 
-  async firstUpdated() {
-    this.container = this.renderRoot.querySelector("#children");
-    this.root = this.renderRoot.querySelector("#main-canvas");
-    this.canvas = this.renderRoot.querySelector("canvas");
-    const items = Array.from(this.childNodes);
+  get _slottedChildren() {
+    const slot = this.shadowRoot.querySelector("slot");
+    return slot.assignedElements({ flatten: true });
+  }
+
+  // This runs when nodes are added to the module slot.
+  handleModuleSlotChange(e) {
+    const childNodes = e.target.assignedNodes({ flatten: true });
     let i = 0;
-    for (const node of items) {
+    for (const node of childNodes) {
       if (node instanceof SVGElement || node instanceof HTMLElement) {
         const child = node;
         child.classList.add("child");
         child.style.setProperty("--layer", `${i}`);
-        this.container.append(child);
+        child.style.setProperty("position", "fixed");
+
+        // Pass the child the event handlers from this canvas component. Allows us to specify what parts of the child will be draggable (e.g. just the header)
         child.handleDown = (e) => {
           this.handleDown(e, "element");
         };
         child.handleMove = (e) => {
           this.handleMove(e, "element", (delta) => {
+            // This runs while this element is moving
             this.moveElement(child, delta);
           });
         };
         i++;
       }
     }
-    this.requestUpdate();
+  }
+
+  async firstUpdated() {
+    this.root = this.renderRoot.querySelector("#main-canvas");
+    this.moduleContainer = this.renderRoot.querySelector("#module-container");
+    this.canvas = this.renderRoot.querySelector("canvas");
+
+    // Add a listener to the whole thing to handle pointerdown events
     this.root.addEventListener("pointerdown", (e) => {
       this.handleDown(e, "canvas");
     });
+
+    // Add a listener to the whole thing to handle move events
     this.root.addEventListener("pointermove", (e) => {
       this.handleMove(e, "canvas", (delta) => {
         this.moveCanvas(delta);
-        for (const node of Array.from(this.container.children)) {
+        for (const node of Array.from(this._slottedChildren)) {
           if (node instanceof SVGElement || node instanceof HTMLElement) {
             this.moveElement(node, delta);
           }
         }
       });
     });
+
+    // Listener for drag stop/pointer up
     this.root.addEventListener("pointerup", (e) => {
       this.handleUp(e);
     });
+
+    // Listenter for the mouse wheel for zooming
     window.addEventListener("wheel", (e) => {
       this.handleZoom(e);
     });
