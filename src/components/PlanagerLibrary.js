@@ -2,7 +2,7 @@ import { LitElement, html, css } from "lit";
 
 export class PlanagerLibrary extends LitElement {
   static properties = {
-    actions: {},
+    modules: {},
   };
 
   static styles = css`
@@ -33,25 +33,25 @@ export class PlanagerLibrary extends LitElement {
 
   constructor() {
     super();
-    this.actions = {};
+    this.modules = {};
   }
 
   connectedCallback() {
     super.connectedCallback();
     this.socket.emit("getAvailableActions", (result) => {
-      this.actions = result["actions"];
+      this.modules = result["actions"];
     });
   }
 
-  handleActionClick(action) {
+  handleModuleClick(module) {
     this.socket.emit(
       "addAction",
       {
-        action: action[0],
-        actionSet: action[1]["actionSet"],
+        action: module[0],
+        actionSet: module[1]["actionSet"],
       },
-      (returnedAction) => {
-        this.addAction(returnedAction);
+      (returnedModule) => {
+        this.addModule(returnedModule);
       }
     );
   }
@@ -59,13 +59,13 @@ export class PlanagerLibrary extends LitElement {
   render() {
     return html`<div id="library-pane">
       <div id="library-header"><span id="library-title">Library</span></div>
-      ${Object.entries(this.actions).map(
-        (action) =>
+      ${Object.entries(this.modules).map(
+        (module) =>
           html`<div
             class="action-item"
-            @click=${() => this.handleActionClick(action)}
+            @click=${() => this.handleModuleClick(module)}
           >
-            ${action[0]}
+            ${module[0]}
           </div>`
       )}
     </div>`;

@@ -64,8 +64,12 @@ export class PlanagerCanvas extends LitElement {
     return html`
       <div id="main-canvas" class="full-size" @contextmenu=${this.handleClick}>
         <canvas class="full-size"></canvas>
+        <slot name="pipes" @slotchange=${this.handlePipeSlotChange}></slot>
         <div id="module-container">
-          <slot @slotchange=${this.handleModuleSlotChange}></slot>
+          <slot
+            name="modules"
+            @slotchange=${this.handleModuleSlotChange}
+          ></slot>
         </div>
         ${this._contextMenu ? html`<planager-context-menu />` : nothing}
       </div>
@@ -164,6 +168,7 @@ export class PlanagerCanvas extends LitElement {
 
   // This runs when nodes are added to the module slot.
   handleModuleSlotChange(e) {
+    console.log("module slot");
     const childNodes = e.target.assignedNodes({ flatten: true });
     let i = 0;
     for (const node of childNodes) {
@@ -186,6 +191,11 @@ export class PlanagerCanvas extends LitElement {
         i++;
       }
     }
+  }
+
+  handlePipeSlotChange(e) {
+    console.log("pipeslot");
+    const pipes = e.target.assignedNodes({ flatten: true });
   }
 
   async firstUpdated() {
