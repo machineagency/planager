@@ -1,0 +1,18 @@
+input[type="file"] {
+  display: none;
+}
+
+.uploadButton {
+  border: none;
+  display: inline-block;
+  padding: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  width: 100%;
+  background-color: var(--violet);
+  color: var(--base3);
+}
+
+.fileInfoContainer {
+  padding: 0.5rem;
+}

@@ -21,7 +21,7 @@ export default class PlanagerTextInput extends LitElement {
   `;
 
   handleInput(e) {
-    console.log(e.target.value);
+    this.dat.updateBackend("textValue", e.target.value);
   }
 
   render() {

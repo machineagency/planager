@@ -6,6 +6,7 @@ from flask_session import Session
 from flask_socketio import SocketIO
 
 from app.action_manager import ActionManager
+from app.logging import info, error, debug
 
 
 app = Flask(
@@ -46,12 +47,5 @@ def test():
 
 
 @sio.on("connect")
-def test_connect(auth):
-    print("CONNECTEDDEDEDED")
-    # emit("my response", {"data": "Connected"})
-
-
-# @app.route("/")
-# def index():
-# return render_template("index.html")
-# return "test"
+def connected():
+    debug("Connected to client")

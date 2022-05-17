@@ -6,12 +6,21 @@ export class DataController {
     console.log("inside constructor");
   }
 
-  send() {}
+  updateBackend(state, val) {
+    console.log(state, val);
+    this.host.socket.emit("updateBackendState", {
+      id: this.host.info.id,
+      state: state,
+      val: val,
+    });
+  }
 
   hostConnected() {
     console.log("connected");
-    this.host.requestUpdate();
+    console.log(this.host.socket);
+    console.log(this.host.info);
   }
+
   hostDisconnected() {
     console.log("disconnected");
   }

@@ -36,20 +36,20 @@ export class PlanagerWorkspace extends LitElement {
       "planager-" + module.actionType.slice(1).join("-")
     ).toLowerCase();
 
-    // If the element for the action has not been imported,
+    // If the element for the action has not been registered
     // we import it and define it as a custom element
-    if (!(elementName in this.elements)) {
-      const modulePath = "../../" + module.actionType.join("/");
-      let moduleElement = await import(
-        "../../" + module.actionType.join("/") + ".js"
-      );
+    if (!customElements.get(elementName)) {
+      const modulePath = `../../${module.actionType.join("/")}.js`;
+      let moduleElement = await import(modulePath);
       customElements.define(elementName, moduleElement.default);
     }
 
-    // Create the element and add it to the modules list
+    // Create the element, put it inside a draggable, and append it as a child to the canvas
     let d = document.createElement("planager-draggable");
     let el = document.createElement(elementName);
+    // Pass it the socket connection
     el.socket = this.socket;
+    el.info = module;
     d.appendChild(el);
     this.canvasRef.value.appendChild(d);
     this.requestUpdate();
