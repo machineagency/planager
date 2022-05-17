@@ -10,6 +10,7 @@ export class DataController {
 
   hostConnected() {
     console.log("connected");
+    this.host.requestUpdate();
   }
   hostDisconnected() {
     console.log("disconnected");

@@ -1,4 +1,4 @@
-import { html, css, LitElement } from "lit";
+import { html, css, LitElement, nothing } from "lit";
 import "./PlanagerContextMenu";
 
 // Largely comes from https://rodydavis.com/posts/lit-draggable-dom/
@@ -65,9 +65,9 @@ export class PlanagerCanvas extends LitElement {
       <div id="main-canvas" class="full-size" @contextmenu=${this.handleClick}>
         <canvas class="full-size"></canvas>
         <div id="module-container">
-          <slot @slotchange=${this.handleModuleSlotChange} name="module"></slot>
+          <slot @slotchange=${this.handleModuleSlotChange}></slot>
         </div>
-        ${this._contextMenu ? html`<planager-context-menu />` : ``}
+        ${this._contextMenu ? html`<planager-context-menu />` : nothing}
       </div>
     `;
   }

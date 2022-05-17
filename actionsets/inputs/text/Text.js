@@ -1,7 +1,7 @@
 import { LitElement, html, css } from "lit";
 import { DataController } from "../../../src/controllers/DataController";
 
-export class PlanagerModuleInput extends LitElement {
+export default class PlanagerTextInput extends LitElement {
   dat = new DataController(this);
 
   static styles = css`
@@ -20,22 +20,13 @@ export class PlanagerModuleInput extends LitElement {
     }
   `;
 
-  setText(e) {
-    console.log("set text");
-    // this.socket.emit();
+  handleInput(e) {
+    console.log(e.target.value);
   }
 
   render() {
     return html`
-      <div className="background">
-        <input
-          id="textInput"
-          type="text"
-          value=${this.dat.state.textValue}
-          @change=${this.setText}
-        />
-      </div>
+      <input id="textInput" type="text" @input=${this.handleInput} />
     `;
   }
 }
-customElements.define("planager-workspace", PlanagerWorkspace);
