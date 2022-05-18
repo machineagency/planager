@@ -5,8 +5,8 @@ export class PlanagerModule extends LitElement {
   static properties = {
     handleDown: {},
     handleMove: {},
-    dx: {},
-    dy: {},
+    dx: { reflect: true },
+    dy: { reflect: true },
   };
 
   static styles = css`
@@ -31,10 +31,7 @@ export class PlanagerModule extends LitElement {
   }
 
   render() {
-    return html`<div
-      @pointermove="${this.cancel}"
-      @pointerdown="${this.cancel}"
-    >
+    return html`<div @pointerdown="${this.cancel}">
       <div
         id="draggable-header"
         @pointerdown="${this.handleDown}"

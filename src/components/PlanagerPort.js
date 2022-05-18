@@ -24,8 +24,8 @@ export default class PlanagerPort extends LitElement {
     }
   `;
 
-  startConnection(e) {
-    const connectionEvent = new CustomEvent("start-connection", {
+  handlePortClick(e) {
+    const connectionEvent = new CustomEvent("port-click", {
       detail: { mouseX: e.pageX, mouseY: e.pageY },
       bubbles: true,
       composed: true,
@@ -38,7 +38,7 @@ export default class PlanagerPort extends LitElement {
       <div
         side=${this.side}
         class="${this.side} port"
-        @pointerdown=${this.startConnection}
+        @pointerdown=${this.handlePortClick}
       ></div>
     `;
   }
