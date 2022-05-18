@@ -8,7 +8,7 @@ export class PipeController {
   }
 
   startConnection(e) {
-    // window.removeEventListener("start-connection", this.startConnection);
+    removeEventListener("start-connection", this.startConnection);
     const target = e.composedPath()[0];
     const rect = target.getBoundingClientRect();
     const mouseLocation = { x: e.detail.mouseX, y: e.detail.mouseY };
@@ -29,29 +29,35 @@ export class PipeController {
       this.loosePipe.end = portLocation;
     }
 
-    this.loosePipe.slot = "loosepipe";
+    this.loosePipe.slot = "undraggable";
 
     this.host.appendChild(this.loosePipe);
 
-    addEventListener("mousemove", this.handleLoosePipe.bind(this, target.side));
+    addEventListener(
+      "pointermove",
+      this.handleLoosePipe.bind(this, target.side)
+    );
+    addEventListener("pointerdown", this.closepipe.bind(this, target.side));
     this.host.requestUpdate();
   }
 
-  handleLoosePipe(e, freeSide) {
+  handleLoosePipe(freeSide, e) {
     if (freeSide == "right") {
       this.loosePipe.end = { x: e.clientX, y: e.clientY };
-      this.loosePipe.requestUpdate();
     } else {
       this.loosePipe.start = { x: e.clientX, y: e.clientY };
-      this.loosePipe.requestUpdate();
     }
     this.host.requestUpdate();
   }
 
+  closepipe(freeSide, e) {
+    console.log(e.composedPath());
+    this.loosePipe.remove();
+    removeEventListener("pointermove", this.handleLoosePipe);
+    removeEventListener("pointerdown", this.closepipe);
+  }
+
   hostConnected() {
-    window.addEventListener(
-      "start-connection",
-      this.startConnection.bind(this)
-    );
+    addEventListener("start-connection", this.startConnection.bind(this));
   }
 }

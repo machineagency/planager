@@ -3,92 +3,48 @@ import { html, css, LitElement, nothing } from "lit";
 import { PipeController } from "../controllers/PipeController";
 
 import "./PlanagerContextMenu";
+import "./PlanagerBackground";
 
 // Largely comes from https://rodydavis.com/posts/lit-draggable-dom/
 export class PlanagerCanvas extends LitElement {
   pipe = new PipeController(this);
 
-  dragType = "none";
-  offset = { x: 0, y: 0 };
   pointerMap = new Map();
-  scaleFactor = 1;
 
   static properties = {
-    _contextMenu: { state: true },
+    scaleFactor: { type: Number, reflect: true },
+    viewOffset: { type: Object, reflect: true },
+    dragType: { type: String, reflect: true },
   };
 
   constructor() {
     super();
-    this._contextMenu = false;
+    this.scaleFactor = 1;
+    this.viewOffset = { x: 0, y: 0 };
+    this.dragType = "none";
   }
 
   static styles = css`
-    :host {
-      --offset-x: 0;
-      --offset-y: 0;
-      --grid-background-color: white;
-      --grid-color: black;
-      --grid-size: 2rem;
-      --grid-dot-size: 1px;
-    }
-    main {
-      overflow: hidden;
-    }
-    canvas {
-      background-size: var(--grid-size) var(--grid-size);
-      background-image: radial-gradient(
-        circle,
-        var(--planager-foreground) var(--grid-dot-size),
-        var(--planager-background) var(--grid-dot-size)
-      );
-      background-position: var(--offset-x) var(--offset-y);
-      z-index: 0;
-    }
     .full-size {
       width: 100%;
       height: 100%;
       position: fixed;
     }
-    /* .child {
-      --dx: 0px;
-      --dy: 0px;
-      position: fixed;
-      flex-shrink: 1;
-      z-index: var(--layer, 0);
-      transform: translate(var(--dx), var(--dy));
-    } */
-    @media (prefers-color-scheme: dark) {
-      main {
-        --grid-background-color: black;
-        --grid-color: grey;
-      }
-    }
   `;
 
   render() {
     return html`
-      <div id="main-canvas" class="full-size" @contextmenu=${this.handleClick}>
-        <canvas class="full-size"></canvas>
-        <slot name="pipes" @slotchange=${this.handlePipeSlotChange}></slot>
-        <div id="module-container">
-          <slot
-            name="modules"
-            @slotchange=${this.handleModuleSlotChange}
-          ></slot>
+      <div id="main-canvas" class="full-size">
+        <planager-background
+          style="--offset-x: -0; --offset-y: 0; --scaleFactor: 1;"
+        ></planager-background>
+        <div id="pinned-element-container">
+          <slot name="undraggable" @slotchange=${this.undraggableSlot}></slot>
+          <slot name="draggable" @slotchange=${this.draggableSlot}></slot>
         </div>
-        <slot
-          name="loosepipe"
-          @slotchange=${this.handleLoosePipeSlotChange}
-        ></slot>
-        ${this._contextMenu ? html`<planager-context-menu />` : nothing}
+        <div id="floating-element-container"></div>
       </div>
     `;
-  }
-
-  context() {
-    if (this._contextMenu) {
-      return html`<planager-context-menu></planager-context-menu>`;
-    }
   }
 
   handleDown(event, type) {
@@ -123,37 +79,32 @@ export class PlanagerCanvas extends LitElement {
     event.target.releasePointerCapture(event.pointerId);
   }
 
-  handleClick(event) {
-    event.preventDefault();
-    this._contextMenu = !this._contextMenu;
-  }
-
   handleZoom(event) {
     if (event.wheelDelta > 0) {
       this.scaleFactor = this.scaleFactor + 0.1;
     } else {
       this.scaleFactor = this.scaleFactor - 0.1;
     }
-    this.moduleContainer.style.transform = `scale(${this.scaleFactor})`;
-
-    this.canvas.style.backgroundSize = `calc(var(--grid-size)*${this.scaleFactor}) calc(var(--grid-size)*${this.scaleFactor})`;
+    this.pinned.style.transform = `scale(${this.scaleFactor})`;
+    this.background.style.setProperty("--scaleFactor", this.scaleFactor);
   }
 
-  moveCanvas(delta) {
-    this.offset.x += delta.x * (2 - this.scaleFactor);
-    this.offset.y += delta.y * (2 - this.scaleFactor);
-    this.root.style.setProperty(
+  moveBackground(delta) {
+    let newOffset = {};
+    newOffset.x = this.viewOffset.x + delta.x * (2 - this.scaleFactor);
+    newOffset.y = this.viewOffset.y + delta.y * (2 - this.scaleFactor);
+    this.viewOffset = newOffset;
+    this.background.style.setProperty(
       "--offset-x",
-      `${this.offset.x * this.scaleFactor}px`
+      `${this.viewOffset.x * this.scaleFactor}px`
     );
-    this.root.style.setProperty(
+    this.background.style.setProperty(
       "--offset-y",
-      `${this.offset.y * this.scaleFactor}px`
+      `${this.viewOffset.y * this.scaleFactor}px`
     );
   }
 
   moveElement(child, delta) {
-    console.log("moving");
     const getNumber = (key, fallback) => {
       const saved = child.style.getPropertyValue(key);
       if (saved.length > 0) {
@@ -171,28 +122,32 @@ export class PlanagerCanvas extends LitElement {
     child.style.setProperty("--dy", `${dy}px`);
   }
 
-  get _slottedChildren() {
-    const modules = this.shadowRoot
-      .querySelector("slot[name=modules]")
+  get _pinnedElements() {
+    const pinned = this.shadowRoot
+      .querySelector("slot[name=draggable]")
       .assignedElements({ flatten: true });
-    const pipes = this.shadowRoot
-      .querySelector("slot[name=pipes]")
+    const undraggable = this.shadowRoot
+      .querySelector("slot[name=undraggable]")
       .assignedElements({ flatten: true });
-    modules.push(...pipes);
-    return modules;
+    pinned.push(...undraggable);
+    return pinned;
   }
 
-  // This runs when nodes are added to the module slot.
-  handleModuleSlotChange(e) {
-    const childNodes = e.target.assignedNodes({ flatten: true });
+  // This runs when nodes are added to the draggable slot.
+  draggableSlot(e) {
+    // This is all of the nodes in the slot.
+    const nodes = e.target.assignedNodes({ flatten: true });
     let i = 0;
-    for (const node of childNodes) {
+    // console.log(nodes);
+    for (const node of nodes) {
       if (node instanceof SVGElement || node instanceof HTMLElement) {
         const child = node;
         child.style.setProperty("--layer", `${i}`);
         child.style.setProperty("position", "fixed");
 
-        // Pass the child the event handlers from this canvas component. Allows us to specify what parts of the child will be draggable (e.g. just the header)
+        // Pass the child the event handlers from this canvas component.
+        // Allows us to specify what parts of the child will be draggable
+        // (e.g. just the header)
         child.handleDown = (e) => {
           this.handleDown(e, "element");
         };
@@ -207,23 +162,10 @@ export class PlanagerCanvas extends LitElement {
     }
   }
 
-  handlePipeSlotChange(e) {
-    const pipes = e.target.assignedNodes({ flatten: true });
+  undraggableSlot(e) {
+    const nodes = e.target.assignedNodes({ flatten: true });
     let i = 0;
-    for (const node of pipes) {
-      if (node instanceof SVGElement || node instanceof HTMLElement) {
-        const child = node;
-        child.style.setProperty("--layer", `${i}`);
-        child.style.setProperty("position", "fixed");
-        i++;
-      }
-    }
-  }
-
-  handleLoosePipeSlotChange(e) {
-    const pipes = e.target.assignedNodes({ flatten: true });
-    let i = 0;
-    for (const node of pipes) {
+    for (const node of nodes) {
       if (node instanceof SVGElement || node instanceof HTMLElement) {
         const child = node;
         child.style.setProperty("--layer", `${i}`);
@@ -235,8 +177,8 @@ export class PlanagerCanvas extends LitElement {
 
   async firstUpdated() {
     this.root = this.renderRoot.querySelector("#main-canvas");
-    this.moduleContainer = this.renderRoot.querySelector("#module-container");
-    this.canvas = this.renderRoot.querySelector("canvas");
+    this.pinned = this.renderRoot.querySelector("#pinned-element-container");
+    this.background = this.renderRoot.querySelector("planager-background");
 
     // Add a listener to the whole thing to handle pointerdown events
     this.root.addEventListener("pointerdown", (e) => {
@@ -246,8 +188,8 @@ export class PlanagerCanvas extends LitElement {
     // Add a listener to the whole thing to handle move events
     this.root.addEventListener("pointermove", (e) => {
       this.handleMove(e, "canvas", (delta) => {
-        this.moveCanvas(delta);
-        for (const node of Array.from(this._slottedChildren)) {
+        this.moveBackground(delta);
+        for (const node of Array.from(this._pinnedElements)) {
           if (node instanceof SVGElement || node instanceof HTMLElement) {
             this.moveElement(node, delta);
           }
@@ -260,7 +202,7 @@ export class PlanagerCanvas extends LitElement {
       this.handleUp(e);
     });
 
-    // Listenter for the mouse wheel for zooming
+    // Listener for the mouse wheel for zooming
     window.addEventListener("wheel", (e) => {
       this.handleZoom(e);
     });
