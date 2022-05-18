@@ -1,6 +1,11 @@
 import { LitElement, html, css } from "lit";
 
 export default class PlanagerPipe extends LitElement {
+  static properties = {
+    start: { reflect: true, type: Object },
+    end: { reflect: true, type: Object },
+  };
+
   static styles = css`
     #pipe {
       position: fixed;
@@ -19,21 +24,16 @@ export default class PlanagerPipe extends LitElement {
   `;
 
   calculateBezier() {
-    let x1 = this.startX;
-    let y1 = this.startY;
-    let x2 = this.endX;
-    let y2 = this.endY;
-
-    return `M${x1},${y1}
-    C${x1 + 100},${y1}
-    ${x2 - 100},${y2}
-    ${x2},${y2}`;
+    return `M${this.start.x},${this.start.y}
+    C${this.start.x + 100},${this.start.y}
+    ${this.end.x - 100},${this.end.y}
+    ${this.end.x},${this.end.y}`;
   }
 
   render() {
     return html`
       <svg id="pipe">
-        <path id="pipePath" d=${this.calculateBezier} />
+        <path id="pipePath" d=${this.calculateBezier()} />
       </svg>
     `;
   }

@@ -1,8 +1,13 @@
 import { html, css, LitElement, nothing } from "lit";
+
+import { PipeController } from "../controllers/PipeController";
+
 import "./PlanagerContextMenu";
 
 // Largely comes from https://rodydavis.com/posts/lit-draggable-dom/
 export class PlanagerCanvas extends LitElement {
+  pipe = new PipeController(this);
+
   dragType = "none";
   offset = { x: 0, y: 0 };
   pointerMap = new Map();
@@ -71,6 +76,10 @@ export class PlanagerCanvas extends LitElement {
             @slotchange=${this.handleModuleSlotChange}
           ></slot>
         </div>
+        <slot
+          name="loosepipe"
+          @slotchange=${this.handleLoosePipeSlotChange}
+        ></slot>
         ${this._contextMenu ? html`<planager-context-menu />` : nothing}
       </div>
     `;
@@ -144,6 +153,7 @@ export class PlanagerCanvas extends LitElement {
   }
 
   moveElement(child, delta) {
+    console.log("moving");
     const getNumber = (key, fallback) => {
       const saved = child.style.getPropertyValue(key);
       if (saved.length > 0) {
@@ -162,19 +172,23 @@ export class PlanagerCanvas extends LitElement {
   }
 
   get _slottedChildren() {
-    const slot = this.shadowRoot.querySelector("slot");
-    return slot.assignedElements({ flatten: true });
+    const modules = this.shadowRoot
+      .querySelector("slot[name=modules]")
+      .assignedElements({ flatten: true });
+    const pipes = this.shadowRoot
+      .querySelector("slot[name=pipes]")
+      .assignedElements({ flatten: true });
+    modules.push(...pipes);
+    return modules;
   }
 
   // This runs when nodes are added to the module slot.
   handleModuleSlotChange(e) {
-    console.log("module slot");
     const childNodes = e.target.assignedNodes({ flatten: true });
     let i = 0;
     for (const node of childNodes) {
       if (node instanceof SVGElement || node instanceof HTMLElement) {
         const child = node;
-        child.classList.add("child");
         child.style.setProperty("--layer", `${i}`);
         child.style.setProperty("position", "fixed");
 
@@ -194,8 +208,29 @@ export class PlanagerCanvas extends LitElement {
   }
 
   handlePipeSlotChange(e) {
-    console.log("pipeslot");
     const pipes = e.target.assignedNodes({ flatten: true });
+    let i = 0;
+    for (const node of pipes) {
+      if (node instanceof SVGElement || node instanceof HTMLElement) {
+        const child = node;
+        child.style.setProperty("--layer", `${i}`);
+        child.style.setProperty("position", "fixed");
+        i++;
+      }
+    }
+  }
+
+  handleLoosePipeSlotChange(e) {
+    const pipes = e.target.assignedNodes({ flatten: true });
+    let i = 0;
+    for (const node of pipes) {
+      if (node instanceof SVGElement || node instanceof HTMLElement) {
+        const child = node;
+        child.style.setProperty("--layer", `${i}`);
+        child.style.setProperty("position", "fixed");
+        i++;
+      }
+    }
   }
 
   async firstUpdated() {

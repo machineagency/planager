@@ -13,7 +13,6 @@ export class PlanagerWorkspace extends LitElement {
       position: absolute;
       z-index: 150;
       right: 0;
-      /* height: 100%; */
     }
   `;
   canvasRef = createRef();
@@ -47,7 +46,7 @@ export class PlanagerWorkspace extends LitElement {
 
     // Create the element, put it inside a draggable, and append it as a child to the canvas
     let d = document.createElement("planager-module");
-    d.handlePipe = this.handlePipe.bind(this);
+    // d.handlePipe = this.handlePipe.bind(this);
     d.slot = "modules";
     let el = document.createElement(elementName);
     // Pass it the socket connection
@@ -56,19 +55,6 @@ export class PlanagerWorkspace extends LitElement {
     d.appendChild(el);
     this.canvasRef.value.appendChild(d);
     this.requestUpdate();
-  }
-
-  handlePipe(coords) {
-    console.log(coords);
-    // let pipeInProgress = document.createElement("planager-pipe");
-    // pipeInProgress.startx = coords.startx;
-    // pipeInProgress.starty = coords.starty;
-    // pipeInProgress.endx = 500;
-    // pipeInProgress.endy = 500;
-    // pipeInProgress.slot = "pipes";
-
-    // this.canvasRef.value.appendChild(pipeInProgress);
-    // this.requestUpdate();
   }
 
   render() {
