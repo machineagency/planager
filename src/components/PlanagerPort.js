@@ -2,8 +2,13 @@ import { LitElement, html, css } from "lit";
 
 export default class PlanagerPort extends LitElement {
   static properties = {
-    side: {},
+    side: { reflect: true },
+    info: {},
   };
+  constructor() {
+    super();
+    this.info = {};
+  }
   static styles = css`
     .port {
       width: 1rem;
@@ -37,8 +42,10 @@ export default class PlanagerPort extends LitElement {
     return html`
       <div
         side=${this.side}
+        parent-id=${this.info.parentID}
         class="${this.side} port"
         @pointerdown=${this.handlePortClick}
+        title=${this.info.displayName}
       ></div>
     `;
   }

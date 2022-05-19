@@ -4,6 +4,10 @@ export default class PlanagerPipe extends LitElement {
   static properties = {
     start: { reflect: true, type: Object },
     end: { reflect: true, type: Object },
+    startparentid: { reflect: true },
+    startportid: { reflect: true },
+    endparentid: { reflect: true },
+    endportid: { reflect: true },
     dx: { type: Number },
     dy: { type: Number },
     scaleFactor: { type: Number },
@@ -33,6 +37,10 @@ export default class PlanagerPipe extends LitElement {
     this.dx = 0;
     this.dy = 0;
     this.scaleFactor = 1;
+    this.startparentid = "";
+    this.startportid = "";
+    this.endparentid = "";
+    this.endportid = "";
   }
 
   calculateBezier() {

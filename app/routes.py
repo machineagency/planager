@@ -4,6 +4,7 @@ from rich.traceback import install
 
 from planager.Plan import Plan
 from app import action_manager, sio
+from app.logging import info, error, debug
 
 
 install()
@@ -118,8 +119,8 @@ def addAction(req):
     return new_action.toJSON()
 
 
-@sio.on("addLink")
-def addLink(connection):
+@sio.on("addPipe")
+def addPipe(connection):
     """Adds a link between two actions in the current plan.
 
     Unpacks the request JSON containing a dictionary containing startActionID,
@@ -135,8 +136,8 @@ def addLink(connection):
         connection["endActionID"],
         connection["endPortID"],
     )
-
-    return {"linkData": connection}
+    info("Plumbing: ", "Pipe hooked up.")
+    return {"pipe": connection}
 
 
 @sio.on("removeAction")

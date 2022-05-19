@@ -47,6 +47,7 @@ export class PlanagerRoot extends LitElement {
     // Create the element, put it inside a draggable, and append it as a child to the canvas
     let d = document.createElement("planager-module");
     d.slot = "draggable";
+    d.info = module;
     let el = document.createElement(elementName);
     // Pass it the socket connection
     el.socket = this.socket;
@@ -64,7 +65,8 @@ export class PlanagerRoot extends LitElement {
           .socket=${this.socket}
           .addModule=${this.handleNewModule.bind(this)}
         ></planager-library>
-        <planager-workspace ${ref(this.canvasRef)}> </planager-workspace>
+        <planager-workspace ${ref(this.canvasRef)} .socket=${this.socket}>
+        </planager-workspace>
       </main>
     `;
   }

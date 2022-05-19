@@ -7,7 +7,7 @@ import "./PlanagerBackground";
 
 // Largely comes from https://rodydavis.com/posts/lit-draggable-dom/
 export class PlanagerWorkspace extends LitElement {
-  pipe = new PipeController(this);
+  pipeController = new PipeController(this);
 
   pointerMap = new Map();
 
@@ -181,6 +181,7 @@ export class PlanagerWorkspace extends LitElement {
           this.handleMove(e, "element", (delta) => {
             // This runs while this element is moving
             this.moveElement(child, delta);
+            this.pipeController.moveAttachedPipes(child.info.id, delta);
           });
         };
         i++;

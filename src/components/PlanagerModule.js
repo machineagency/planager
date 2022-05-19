@@ -1,4 +1,5 @@
 import { LitElement, html, css } from "lit";
+import { repeat } from "lit/directives/repeat.js";
 import "./PlanagerPort";
 
 export class PlanagerModule extends LitElement {
@@ -7,6 +8,7 @@ export class PlanagerModule extends LitElement {
     handleMove: {},
     dx: { reflect: true },
     dy: { reflect: true },
+    info: { type: Object },
   };
 
   static styles = css`
@@ -24,7 +26,10 @@ export class PlanagerModule extends LitElement {
       right: -1rem;
     }
   `;
-
+  constructor() {
+    super();
+    this.info = {};
+  }
   cancel(e) {
     e.stopPropagation();
     return;
@@ -38,10 +43,34 @@ export class PlanagerModule extends LitElement {
         @pointermove="${this.handleMove}"
       ></div>
       <div id="leftPortsContainer">
-        <planager-port side="left"></planager-port>
+        ${repeat(
+          Object.values(this.info.inports),
+          (inport) => inport.id,
+          (inport, index) =>
+            html`
+              <planager-port
+                side="left"
+                .info=${inport}
+                .portid=${inport.id}
+                .parentid=${inport.parentID}
+              ></planager-port>
+            `
+        )}
       </div>
       <div id="rightPortsContainer">
-        <planager-port side="right"></planager-port>
+        ${repeat(
+          Object.values(this.info.outports),
+          (outport) => outport.id,
+          (outport, index) =>
+            html`
+              <planager-port
+                side="right"
+                .info=${outport}
+                .portid=${outport.id}
+                .parentid=${outport.parentID}
+              ></planager-port>
+            `
+        )}
       </div>
       <slot></slot>
     </div>`;
