@@ -1,3 +1,4 @@
+import inspect
 from flask import session
 from rich import print
 from rich.traceback import install
@@ -212,7 +213,11 @@ def updateBackend(data):
     print(data)
     actionToUpdate = session.get("plan").actions[data["id"]]
     actionToUpdate.updateState(data["state"], data["val"])
-    print(actionToUpdate.state)
+    # print(actionToUpdate.state)
+    print(actionToUpdate.__dict__)
+    print(actionToUpdate.__class__.__dict__)
+    # print(inspect.getmembers(actionToUpdate))
+    # print(dir(actionToUpdate))
     # method = None
     # try:
     #     method = getattr(session.get("plan").actions[data["actionID"]], data["method"])

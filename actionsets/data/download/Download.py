@@ -20,3 +20,7 @@ CONFIG = {
 class Download(Action, config=CONFIG):
     def main(self):
         self.updateOutports({"file": self.inports["file"].getValue()})
+
+    # @Action.onInportUpdate("file")
+    # def receive(self):
+    #     self.updateOutports({"file": self.inports["file"].getValue()})

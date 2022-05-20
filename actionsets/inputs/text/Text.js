@@ -1,8 +1,8 @@
 import { LitElement, html, css } from "lit";
-import { DataController } from "../../../src/controllers/DataController";
+import { MessageController } from "../../../src/controllers/MessageController";
 
 export default class PlanagerTextInput extends LitElement {
-  dat = new DataController(this);
+  messenger = new MessageController(this);
 
   static styles = css`
     #textInput {
@@ -21,7 +21,7 @@ export default class PlanagerTextInput extends LitElement {
   `;
 
   handleInput(e) {
-    this.dat.updateBackend("textValue", e.target.value);
+    this.messenger.updateBackend("textValue", e.target.value);
   }
 
   render() {

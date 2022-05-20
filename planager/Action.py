@@ -4,6 +4,8 @@ from planager.Outport import Outport
 from rich import print
 from rich.traceback import install
 
+import copy
+
 install()
 
 
@@ -12,7 +14,7 @@ class Action:
 
     def __init_subclass__(cls, config: dict, **kwargs) -> None:
         # takes in the config param from the subclass
-        cls.config = config
+        cls.config = copy.deepcopy(config)
         super().__init_subclass__(**kwargs)
 
     def __init__(self, overrideConfig=None):
@@ -26,7 +28,7 @@ class Action:
             self.id = overrideConfig["id"]
             self.displayName = overrideConfig.get("displayName", "unnamed")
             self.coords = overrideConfig.get("coords", [100, 100])
-            self.state = overrideConfig.get("state", {})
+            self.state = copy.deepcopy(overrideConfig.get("state", {}))
 
             for inport_id, inport_config in overrideConfig["inports"].items():
                 newInport = Inport(inport_id, self.id, inport_config)
@@ -39,7 +41,7 @@ class Action:
         else:
             self.id = uuid.uuid4().hex
             self.displayName = self.config.get("displayName", "unnamed")
-            self.state = self.config.get("state", {})
+            self.state = copy.deepcopy(self.config.get("state", {}))
 
             for inport_id, inport_config in self.config["inports"].items():
                 newInport = Inport(inport_id, self.id, inport_config)

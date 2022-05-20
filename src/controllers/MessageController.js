@@ -1,4 +1,4 @@
-export class DataController {
+export class MessageController {
   host;
 
   constructor(host) {

@@ -1,20 +1,21 @@
 import { LitElement, html, css } from "lit";
-import { DataController } from "../../../src/controllers/DataController";
+import { MessageController } from "../../../src/controllers/MessageController";
 
 export default class Download extends LitElement {
-  dat = new DataController(this);
+  messenger = new MessageController(this);
 
   static styles = css`
     #downloadButton {
       padding: 5px 10px;
-      background-color: var(--blue);
-      color: var(--base3);
+      background-color: var(--planager-foreground);
+      color: var(--planager-background);
       text-align: center;
       font-weight: bolder;
+      cursor: pointer;
     }
 
     #downloadButton:hover {
-      background-color: var(--blueHover);
+      background-image: linear-gradient(rgba(0, 0, 0, 0.3) 0 0);
     }
 
     .hidden {
@@ -41,7 +42,6 @@ export default class Download extends LitElement {
         <div id="downloadButton" @click=${this.download}>
           Download
         </div>
-          download it
         </a>
       </div>
     `;
