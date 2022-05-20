@@ -9,9 +9,11 @@ class Plan:
         data_handler=None,
         ports_handler=None,
         action_manager=None,
+        socket=None,
         src=None,
     ):
         self.actions = {}
+        self.socket = socket
         self.update_handler = update_handler
         self.data_handler = data_handler
         self.ports_handler = ports_handler
@@ -46,9 +48,11 @@ class Plan:
             Action: The instantiated action of type NewActionClass.
         """
         if overrideConfig:
-            new_action = NewActionClass(overrideConfig=overrideConfig)
+            new_action = NewActionClass(
+                overrideConfig=overrideConfig, socket=self.socket
+            )
         else:
-            new_action = NewActionClass()
+            new_action = NewActionClass(socket=self.socket)
         # If there is a place to send updates, register it with the action
         if self.update_handler:
             new_action.register_update_handler(self.update_handler)

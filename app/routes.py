@@ -27,6 +27,7 @@ def ports_handler(actionJSON):
 def home():
     session.pop("plan", None)
     newPlan = Plan(
+        socket=sio,
         update_handler=update_handler,
         data_handler=data_handler,
         ports_handler=ports_handler,

@@ -5,10 +5,8 @@ import { PipeController } from "../controllers/PipeController";
 import "./PlanagerContextMenu";
 import "./PlanagerBackground";
 
-// Largely comes from https://rodydavis.com/posts/lit-draggable-dom/
 export class PlanagerWorkspace extends LitElement {
   pipeController = new PipeController(this);
-
   pointerMap = new Map();
 
   static properties = {

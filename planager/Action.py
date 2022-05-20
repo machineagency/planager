@@ -4,6 +4,7 @@ from planager.Outport import Outport
 from rich import print
 from rich.traceback import install
 
+
 import copy
 
 install()
@@ -17,7 +18,7 @@ class Action:
         cls.config = copy.deepcopy(config)
         super().__init_subclass__(**kwargs)
 
-    def __init__(self, overrideConfig=None):
+    def __init__(self, overrideConfig=None, socket=None):
         # General information
         self.outports = {}
         self.inports = {}
@@ -59,6 +60,15 @@ class Action:
         self.ports_handler = None
         self.shouldOutportsUpdate = True
         self.shouldInportsUpdate = True
+        self.socket = socket
+        self.register_state_sockets()
+
+    def register_state_sockets(self):
+        for state_variable in self.state.keys():
+            self.socket.on_event(f"{self.id}_{state_variable}", self.update_state)
+
+    def update_state(self, msg):
+        self.state[msg["state"]] = msg["val"]
 
     def updateCoords(self, coords):
         self.coords = coords

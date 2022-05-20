@@ -20,5 +20,5 @@ class Text(Action, config=CONFIG):
         self.state["textValue"] = newText
         self.updateOutports({"text": self.state["textValue"]})
 
-    def updateState(self, stateVar, newVal):
-        self.state[stateVar] = newVal
+    # def textPort(self):
+    # text outport

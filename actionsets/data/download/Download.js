@@ -1,8 +1,13 @@
 import { LitElement, html, css } from "lit";
-import { MessageController } from "../../../src/controllers/MessageController";
+import { StateController } from "../../../src/controllers/StateController";
 
-export default class Download extends LitElement {
-  messenger = new MessageController(this);
+export default class PlanagerDownload extends LitElement {
+  stateController = new StateController(this);
+  static properties = {
+    fileName: {},
+    fileContents: {},
+    fileMimeType: {},
+  };
 
   static styles = css`
     #downloadButton {
@@ -22,6 +27,14 @@ export default class Download extends LitElement {
       display: none;
     }
   `;
+
+  constructor() {
+    super();
+    this.fileName = "file";
+    this.fileContents = "hello world";
+    this.fileMimeType = "data:text/plain";
+  }
+
   download(e) {
     e.preventDefault();
     console.log("download!");
@@ -39,18 +52,15 @@ export default class Download extends LitElement {
   render() {
     return html`
       <div className="background">
-        <div id="downloadButton" @click=${this.download}>
-          Download
-        </div>
-        </a>
+        <div id="downloadButton" @click=${this.download}>Download</div>
+        <a
+          class="hidden"
+          download=${this.fileName}
+          href=${`${this.fileMimeType};charset=utf-8,${encodeURIComponent(
+            this.fileContents
+          )}`}
+        ></a>
       </div>
     `;
   }
 }
-
-// <!-- <a
-//   className="hidden"
-//   download=${"file"}
-//   href="${this.state.fileDownloadUrl}"
-//   ref=${(e) => (this.doFileDownload = e)}
-// > -->
