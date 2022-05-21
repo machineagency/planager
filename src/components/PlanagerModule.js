@@ -4,6 +4,7 @@ import "./PlanagerPort";
 
 export class PlanagerModule extends LitElement {
   static properties = {
+    socket: {},
     handleDown: {},
     handleMove: {},
     dx: { reflect: true },
@@ -12,9 +13,12 @@ export class PlanagerModule extends LitElement {
   };
 
   static styles = css`
+    #module {
+      outline: 1px solid var(--planager-accent-1);
+    }
     #draggable-header {
       height: 1rem;
-      background-color: var(--planager-accent);
+      background-color: var(--planager-accent-1);
       cursor: move;
     }
     #leftPortsContainer {
@@ -36,7 +40,7 @@ export class PlanagerModule extends LitElement {
   }
 
   render() {
-    return html`<div @pointerdown="${this.cancel}">
+    return html`<div @pointerdown="${this.cancel}" id="module">
       <div
         id="draggable-header"
         @pointerdown="${this.handleDown}"

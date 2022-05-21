@@ -1,21 +1,21 @@
-import { LitElement, html, css } from "lit";
+import { LitElement, html, css, adoptStyles } from "lit";
 import { StateController } from "../../../src/controllers/StateController";
-import { ifDefined } from "lit/directives/if-defined.js";
 
 import "@alenaksu/json-viewer";
 
 export default class JsonViewer extends LitElement {
-  stateController = new StateController(this);
-
-  static properties = {
-    data: { type: Object },
-  };
+  p = new StateController(this);
 
   static styles = css`
+    #viewer {
+      min-width: 10rem;
+      padding: 0.5rem;
+      overflow: auto;
+    }
     json-viewer {
       /* Background, font and indentation */
-      --background-color: #2a2f3a;
-      --color: #f8f8f2;
+      --background-color: var(--planager-background2);
+      --color: var(--planager-foreground2);
       --font-family: monaco, Consolas, "Lucida Console", monospace;
       --font-size: 1rem;
       --indent-size: 1.5em;
@@ -29,27 +29,36 @@ export default class JsonViewer extends LitElement {
         var(--indentguide-color-active);
 
       /* Types colors */
-
-      --string-color: #a3eea0;
-      --number-color: #d19a66;
-      --boolean-color: #4ba7ef;
-      --null-color: #df9cf3;
-      --property-color: #6fb3d2;
+      --string-color: var(--planager-accent-5);
+      --number-color: var(--planager-accent-3);
+      --boolean-color: var(--planager-accent-7);
+      --null-color: var(--planager-accent-4);
+      --property-color: var(--planager-accent-6);
 
       /* Collapsed node preview */
-      --preview-color: rgba(222, 175, 143, 0.9);
+      --preview-color: var(--base1);
 
       /* Search highlight color */
       --highlight-color: #6fb3d2;
     }
   `;
 
-  constructor() {
-    super();
-    this.data = { hello: { world: "yes" } };
+  firstUpdated() {
+    this.viewer = this.renderRoot.querySelector("json-viewer");
+    const styles = css`
+      ul {
+        margin: 0;
+        max-height: 30rem;
+        max-width: 30rem;
+      }
+    `;
+    // This is how we inject styles to the child's shadow root
+    adoptStyles(this.viewer.shadowRoot, [styles]);
   }
 
   render() {
-    return html`<json-viewer .data=${this.data}></json-viewer> `;
+    return html`<json-viewer id="viewer"
+      >${JSON.stringify(this.p.state.jsonData)}
+    </json-viewer> `;
   }
 }

@@ -14,6 +14,7 @@ export default class PlanagerPort extends LitElement {
       width: 1rem;
       height: 1rem;
       margin-bottom: 0.2rem;
+      background-color: var(--base1);
       cursor: pointer;
     }
     .port:hover {
@@ -21,11 +22,9 @@ export default class PlanagerPort extends LitElement {
     }
     .left {
       border-radius: 50% 0 0 50%;
-      background-color: var(--green);
     }
     .right {
       border-radius: 0 50% 50% 0;
-      background-color: var(--violet);
     }
   `;
 

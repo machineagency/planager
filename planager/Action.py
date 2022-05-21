@@ -36,6 +36,8 @@ class Action:
                 self.inports[inport_id] = newInport
 
             for outport_id, outport_config in overrideConfig["outports"].items():
+                if outport_config.get("state"):
+                    self.state[outport_id] = outport_config.get("default", None)
                 newOutport = Outport(outport_id, self.id, outport_config)
                 self.outports[outport_id] = newOutport
 
@@ -49,6 +51,8 @@ class Action:
                 self.inports[inport_id] = newInport
 
             for outport_id, outport_config in self.config["outports"].items():
+                if outport_config.get("state"):
+                    self.state[outport_id] = outport_config.get("default", None)
                 newOutport = Outport(outport_id, self.id, outport_config)
                 self.outports[outport_id] = newOutport
 
@@ -61,14 +65,25 @@ class Action:
         self.shouldOutportsUpdate = True
         self.shouldInportsUpdate = True
         self.socket = socket
+        self.inport_handlers = {}
+        self.state_handlers = {}
         self.register_state_sockets()
 
     def register_state_sockets(self):
         for state_variable in self.state.keys():
-            self.socket.on_event(f"{self.id}_{state_variable}", self.update_state)
+            self.socket.on_event(
+                f"{self.id}_set_{state_variable}", self.update_state_from_socket
+            )
+            print("Registered socket for", state_variable)
 
-    def update_state(self, msg):
-        self.state[msg["state"]] = msg["val"]
+    def update_state_from_socket(self, msg):
+        self.update_state(msg["state"], msg["val"])
+
+    def update_state(self, stateVar, newValue):
+        self.state[stateVar] = newValue
+        if self.stateChange.get(stateVar):
+            print("woo")
+        # print("State", msg["state"], "changed to", msg["val"])
 
     def updateCoords(self, coords):
         self.coords = coords
@@ -124,6 +139,19 @@ class Action:
         self.main()
         self.receivedData(inportID)
         self.updateSelf()
+
+    def onInportUpdate(portName):
+        def _wrapper(func):
+            # print(portName, func)
+            pass
+
+        return _wrapper
+
+    def onStateUpdate(portName):
+        def inner(func):
+            print(func)
+
+        return inner
 
     def receivedData(self, inportID):
         pass

@@ -26,6 +26,20 @@ export default class PlanagerDownload extends LitElement {
     .hidden {
       display: none;
     }
+
+    #textInput {
+      font-size: 16px;
+      font-size: max(16px, 1em);
+      font-family: inherit;
+      padding: 0.25em 0.5em;
+      background-color: var(--planager-foreground);
+      border: none;
+    }
+
+    #textInput:focus {
+      outline: 5px solid var(--planager-accent-4);
+      outline-offset: -5px;
+    }
   `;
 
   constructor() {
@@ -49,9 +63,13 @@ export default class PlanagerDownload extends LitElement {
     //   this.setState({ fileDownloadUrl: "" });
     // });
   }
+  handleInput(e) {
+    this.stateController.updateState("fileName", e.target.value);
+  }
   render() {
     return html`
       <div className="background">
+        <input id="textInput" type="text" @input=${this.handleInput} />
         <div id="downloadButton" @click=${this.download}>Download</div>
         <a
           class="hidden"

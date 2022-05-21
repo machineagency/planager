@@ -10,7 +10,7 @@ export class PlanagerLibrary extends LitElement {
       background-color: var(--planager-foreground);
     }
     #library-header {
-      background-color: var(--planager-accent-secondary);
+      background-color: var(--planager-accent-1);
       display: flex;
     }
     #library-title {
@@ -26,7 +26,7 @@ export class PlanagerLibrary extends LitElement {
       color: var(--planager-background);
     }
     .action-item:hover {
-      background-color: var(--planager-accent);
+      background-color: var(--planager-accent-5);
       color: var(--planager-foreground);
     }
   `;

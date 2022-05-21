@@ -2,7 +2,7 @@ import { LitElement, html, css } from "lit";
 import { StateController } from "../../../src/controllers/StateController";
 
 export default class PlanagerTextInput extends LitElement {
-  stateController = new StateController(this);
+  p = new StateController(this);
 
   static styles = css`
     #textInput {
@@ -20,13 +20,16 @@ export default class PlanagerTextInput extends LitElement {
     }
   `;
 
-  handleInput(e) {
-    this.stateController.updateState("textValue", e.target.value);
-  }
-
   render() {
     return html`
-      <input id="textInput" type="text" @input=${this.handleInput} />
+      <input
+        id="textInput"
+        type="text"
+        value=${this.p.state.text}
+        @input=${(e) => {
+          this.p.state.text = e.target.value;
+        }}
+      />
     `;
   }
 }
