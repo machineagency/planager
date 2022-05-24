@@ -2,6 +2,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "firefox",
+            "request": "launch",
+            "type": "firefox",
+            "reAttach": true,
+            "url": "http://localhost:8000",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
             "name": "python",
             "request": "launch",
             "type": "python",
@@ -14,7 +22,7 @@
             "name": "javascript",
             "request": "launch",
             "type": "node-terminal",
-            "command": "npm run dev",
+            "command": "npm run start",
         }
     ],
     "compounds": [
@@ -22,7 +30,7 @@
             "name": "full stack",
             "configurations": [
                 "python",
-                "javascript"
+                "javascript",
             ]
         }
     ]
