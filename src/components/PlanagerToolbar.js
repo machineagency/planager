@@ -1,40 +1,42 @@
 import { LitElement, html, css } from "lit";
+import { gear, upload } from "../ui/icons";
+import { unselectable } from "../ui/styles";
+
+import "./PlanagerToolbarButton";
 
 export class PlanagerToolbar extends LitElement {
-  static styles = css`
-    #toolbar {
-      background-color: var(--planager-background2);
-      color: var(--planager-foreground2);
-      height: 3rem;
-      z-index: 100;
-      position: sticky;
-      display: flex;
-      /* justify-content: space-between; */
-    }
-    #title {
-      font-family: "helvetica";
-      font-weight: bold;
-      font-size: 1.5rem;
-      margin: auto 1rem;
-    }
-    .toolbar-item {
-      margin: auto 1rem;
-    }
-    .menu-item {
-      font-family: helvetica;
-      font-weight: normal;
-      font-size: 1rem;
-    }
-    #settings {
-      margin: auto 1rem auto auto;
-    }
-  `;
+  static styles = [
+    unselectable,
+    css`
+      #toolbar {
+        background-color: var(--planager-toolbar);
+        color: var(--planager-text-light);
+        height: 3rem;
+        z-index: 100;
+        position: sticky;
+        display: flex;
+      }
+      #title {
+        font-weight: bold;
+        font-size: 1.5rem;
+        margin: auto 1rem;
+        cursor: default;
+      }
+      #upload {
+        margin-right: 0;
+      }
+      #settings {
+        margin-left: 1rem;
+        margin-right: 1rem;
+      }
+    `,
+  ];
 
   render() {
     return html`<div id="toolbar">
-      <span id="title">Planager</span>
-      <span class="toolbar-item menu-item">upload</span>
-      <span id="settings" class="menu-item">settings</span>
+      <span id="title" class="no-select">Planager</span>
+      <planager-toolbar-button id="upload">${upload}</planager-toolbar-button>
+      <planager-toolbar-button id="settings">${gear}</planager-toolbar-button>
     </div>`;
   }
 }

@@ -1,39 +1,34 @@
 import { LitElement, html, css } from "lit";
+import "./PlanagerDraggableHeader";
 
 export class PlanagerLibrary extends LitElement {
   static properties = {
     modules: {},
+    dx: { reflect: true },
+    dy: { reflect: true },
   };
 
   static styles = css`
     #library-pane {
-      background-color: var(--planager-foreground);
-    }
-    #library-header {
-      background-color: var(--planager-accent-1);
-      display: flex;
-    }
-    #library-title {
-      font-size: 1rem;
-      color: var(--planager-foreground);
-      margin: auto;
-      font-weight: bolder;
+      background-color: var(--planager-module-background);
     }
     .action-item {
       cursor: pointer;
       font-size: 1rem;
       padding: 0 0.5rem;
-      color: var(--planager-background);
+      color: var(--planager-text-dark);
     }
     .action-item:hover {
-      background-color: var(--planager-accent-5);
-      color: var(--planager-foreground);
+      background-color: var(--planager-pink);
+      color: var(--planager-text-light);
     }
   `;
 
   constructor() {
     super();
     this.modules = {};
+    this.dx = 500;
+    this.dy = 500;
   }
 
   connectedCallback() {
@@ -55,10 +50,18 @@ export class PlanagerLibrary extends LitElement {
       }
     );
   }
+  cancel(e) {
+    e.stopPropagation();
+    return;
+  }
 
   render() {
-    return html`<div id="library-pane">
-      <div id="library-header"><span id="library-title">Library</span></div>
+    return html`<div id="library-pane" @pointerdown=${this.cancel}>
+      <planager-draggable-header
+        @pointerdown=${this.handleDown}
+        @pointermove=${this.handleMove}
+        >Tool Library</planager-draggable-header
+      >
       ${Object.entries(this.modules).map(
         (module) =>
           html`<div

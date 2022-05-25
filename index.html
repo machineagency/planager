@@ -24,10 +24,29 @@
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
     <meta name="Description" content="workflow authoring" />
-    <link rel="stylesheet" type="text/css" href="planager.css" />
     <title>Planager</title>
   </head>
-
+  <style>
+    @font-face {
+      font-family: "Roboto Mono";
+      src: url("../../public/fonts/RobotoMono.ttf");
+    }
+    @font-face {
+      font-family: "Roboto Mono";
+      src: url("../../public/fonts/RobotoMono-Italic.ttf");
+      font-style: italic;
+    }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: "Roboto Mono";
+      overflow: hidden;
+    }
+  </style>
   <body>
     <planager-root></planager-root>
     <script

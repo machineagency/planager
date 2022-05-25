@@ -14,7 +14,7 @@ export default class JsonViewer extends LitElement {
     }
     json-viewer {
       /* Background, font and indentation */
-      --background-color: var(--planager-background2);
+      --background-color: var(--planager-toolbar);
       --color: var(--planager-foreground2);
       --font-family: monaco, Consolas, "Lucida Console", monospace;
       --font-size: 1rem;
@@ -29,11 +29,11 @@ export default class JsonViewer extends LitElement {
         var(--indentguide-color-active);
 
       /* Types colors */
-      --string-color: var(--planager-accent-5);
-      --number-color: var(--planager-accent-3);
-      --boolean-color: var(--planager-accent-7);
-      --null-color: var(--planager-accent-4);
-      --property-color: var(--planager-accent-6);
+      --string-color: var(--planager-green);
+      --number-color: var(--planager-orange);
+      --boolean-color: var(--planager-blue);
+      --null-color: var(--planager-purple);
+      --property-color: var(--planager-cyan);
 
       /* Collapsed node preview */
       --preview-color: var(--base1);

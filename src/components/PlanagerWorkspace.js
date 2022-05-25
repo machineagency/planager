@@ -42,7 +42,9 @@ export class PlanagerWorkspace extends LitElement {
         <div id="draggable-elements-container">
           <slot name="draggable" @slotchange=${this.draggableSlot}></slot>
         </div>
-        <div id="floating-element-container"></div>
+        <div id="floating-element-container">
+          <slot name="floating" @slotchange=${this.floatingSlot}></slot>
+        </div>
       </div>
     `;
   }
@@ -123,6 +125,7 @@ export class PlanagerWorkspace extends LitElement {
       }
       return fallback;
     };
+    console.log(delta);
     const dx = getNumber("--dx", 0) + delta.x * (2 - this.scaleFactor);
     const dy = getNumber("--dy", 0) + delta.y * (2 - this.scaleFactor);
     child.dx = dx;
@@ -195,6 +198,31 @@ export class PlanagerWorkspace extends LitElement {
         const child = node;
         child.style.setProperty("--layer", `${i}`);
         child.style.setProperty("position", "fixed");
+        i++;
+      }
+    }
+  }
+
+  floatingSlot(e) {
+    const nodes = e.target.assignedNodes({ flatten: true });
+    let i = 0;
+    for (const node of nodes) {
+      if (node instanceof SVGElement || node instanceof HTMLElement) {
+        const child = node;
+        child.style.setProperty("--layer", `${i}`);
+        child.style.setProperty("position", "fixed");
+
+        child.handleDown = (e) => {
+          this.handleDown(e, "element");
+        };
+
+        child.handleMove = (e) => {
+          this.handleMove(e, "element", (delta) => {
+            // This runs while this element is moving
+            this.moveElement(child, delta);
+          });
+        };
+        child.requestUpdate();
         i++;
       }
     }

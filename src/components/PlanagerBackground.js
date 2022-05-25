@@ -11,8 +11,8 @@ export default class PlanagerBackground extends LitElement {
         calc(var(--grid-size) * var(--scaleFactor, 1));
       background-image: radial-gradient(
         circle,
-        var(--planager-foreground) var(--grid-dot-size),
-        var(--planager-background) var(--grid-dot-size)
+        var(--planager-module-background) var(--grid-dot-size),
+        var(--planager-workspace-background) var(--grid-dot-size)
       );
       background-position: var(--offset-x, 0) var(--offset-y, 0);
       z-index: 0;

@@ -1,6 +1,7 @@
 import { LitElement, html, css } from "lit";
 import { repeat } from "lit/directives/repeat.js";
 import "./PlanagerPort";
+import "./PlanagerDraggableHeader";
 
 export class PlanagerModule extends LitElement {
   static properties = {
@@ -14,11 +15,13 @@ export class PlanagerModule extends LitElement {
 
   static styles = css`
     #module {
-      outline: 1px solid var(--planager-accent-1);
+      outline: 1px solid var(--planager-orange);
+      background-color: var(--planager-module-background);
+      color: var(--planager-text-dark);
     }
     #draggable-header {
       height: 1rem;
-      background-color: var(--planager-accent-1);
+      background-color: var(--planager-orange);
       cursor: move;
     }
     #leftPortsContainer {
@@ -41,11 +44,10 @@ export class PlanagerModule extends LitElement {
 
   render() {
     return html`<div @pointerdown="${this.cancel}" id="module">
-      <div
-        id="draggable-header"
+      <planager-draggable-header
         @pointerdown="${this.handleDown}"
         @pointermove="${this.handleMove}"
-      ></div>
+      ></planager-draggable-header>
       <div id="leftPortsContainer">
         ${repeat(
           Object.values(this.info.inports),

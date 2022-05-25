@@ -10,12 +10,11 @@ export default class PlanagerTextInput extends LitElement {
       font-size: max(16px, 1em);
       font-family: inherit;
       padding: 0.25em 0.5em;
-      background-color: var(--planager-foreground);
       border: none;
     }
 
     #textInput:focus {
-      outline: 5px solid var(--planager-accent);
+      outline: 5px solid var(--planager-orange);
       outline-offset: -5px;
     }
   `;

@@ -14,11 +14,11 @@ export default class PlanagerPort extends LitElement {
       width: 1rem;
       height: 1rem;
       margin-bottom: 0.2rem;
-      background-color: var(--base1);
+      background-color: var(--planager-pipe);
       cursor: pointer;
     }
     .port:hover {
-      background-image: linear-gradient(rgba(0, 0, 0, 0.3) 0 0);
+      filter: invert(0.5);
     }
     .left {
       border-radius: 50% 0 0 50%;

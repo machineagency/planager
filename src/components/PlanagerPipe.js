@@ -26,7 +26,7 @@ export default class PlanagerPipe extends LitElement {
     }
 
     #pipePath {
-      stroke: var(--base1);
+      stroke: var(--planager-pipe);
       stroke-width: 3px;
       fill: none;
     }

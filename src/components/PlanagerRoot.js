@@ -1,26 +1,23 @@
 import { LitElement, html, css } from "lit";
 import { ref, createRef } from "lit/directives/ref.js";
+import { styleMap } from "lit/directives/style-map.js";
+
+import { themes } from "../ui/themes";
 
 import "./PlanagerToolbar";
 import "./PlanagerModule";
 import "./PlanagerWorkspace";
 import "./PlanagerLibrary";
+import "./PlanagerSettings";
 import "./PlanagerPipe";
 
 export class PlanagerRoot extends LitElement {
-  static styles = css`
-    planager-library {
-      position: absolute;
-      z-index: 150;
-      right: 0;
-    }
-  `;
   canvasRef = createRef();
 
   static properties = {
     socket: {},
     modules: {},
-    elements: {},
+    theme: {},
   };
 
   constructor() {
@@ -28,7 +25,7 @@ export class PlanagerRoot extends LitElement {
     this.modules = [];
     this.socket = io.connect("http://localhost:5000/");
     this.socket.emit("newPlan");
-    this.elements = {};
+    this.theme = "dracula";
   }
 
   async handleNewModule(module) {
@@ -59,13 +56,15 @@ export class PlanagerRoot extends LitElement {
 
   render() {
     return html`
-      <main>
+      <main style=${styleMap(themes[this.theme])}>
         <planager-toolbar .socket=${this.socket}></planager-toolbar>
-        <planager-library
-          .socket=${this.socket}
-          .addModule=${this.handleNewModule.bind(this)}
-        ></planager-library>
         <planager-workspace ${ref(this.canvasRef)} .socket=${this.socket}>
+          <planager-settings slot="floating"></planager-settings>
+          <planager-library
+            slot="floating"
+            .socket=${this.socket}
+            .addModule=${this.handleNewModule.bind(this)}
+          ></planager-library>
         </planager-workspace>
       </main>
     `;
