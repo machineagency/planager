@@ -1,17 +1,11 @@
 import { LitElement, html, css } from "lit";
-import "./PlanagerDraggableHeader";
 
 export class PlanagerLibrary extends LitElement {
   static properties = {
     modules: {},
-    dx: { reflect: true },
-    dy: { reflect: true },
   };
 
   static styles = css`
-    #library-pane {
-      background-color: var(--planager-module-background);
-    }
     .action-item {
       cursor: pointer;
       font-size: 1rem;
@@ -27,8 +21,6 @@ export class PlanagerLibrary extends LitElement {
   constructor() {
     super();
     this.modules = {};
-    this.dx = 500;
-    this.dy = 500;
   }
 
   connectedCallback() {
@@ -50,18 +42,9 @@ export class PlanagerLibrary extends LitElement {
       }
     );
   }
-  cancel(e) {
-    e.stopPropagation();
-    return;
-  }
 
   render() {
-    return html`<div id="library-pane" @pointerdown=${this.cancel}>
-      <planager-draggable-header
-        @pointerdown=${this.handleDown}
-        @pointermove=${this.handleMove}
-        >Tool Library</planager-draggable-header
-      >
+    return html`
       ${Object.entries(this.modules).map(
         (module) =>
           html`<div
@@ -71,7 +54,7 @@ export class PlanagerLibrary extends LitElement {
             ${module[0]}
           </div>`
       )}
-    </div>`;
+    `;
   }
 }
 customElements.define("planager-library", PlanagerLibrary);

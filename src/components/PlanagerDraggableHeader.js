@@ -14,7 +14,7 @@ export class PlanagerDraggableHeader extends LitElement {
         min-height: 0.5rem;
       }
       #title {
-        font-size: 1rem;
+        font-size: 0.7rem;
         font-weight: bolder;
       }
     `,

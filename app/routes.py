@@ -11,8 +11,8 @@ from app.logging import info, error, debug
 install()
 
 
-def update_handler(actionJSON):
-    sio.emit("updateActionJSON", actionJSON)
+def update_handler(planJSON):
+    sio.emit("planUpdate", planJSON)
 
 
 def data_handler(linkInfo):
@@ -35,8 +35,8 @@ def home():
     session["plan"] = newPlan
 
 
-@sio.on("savePlan")
-def savePlan():
+@sio.on("getPlan")
+def getPlan():
     """Gets the plan stored in the session.
 
     Checks to see if there is a plan in the session. If not, creates and

@@ -15,14 +15,9 @@ export class PlanagerModule extends LitElement {
 
   static styles = css`
     #module {
-      outline: 1px solid var(--planager-orange);
+      outline: 1px solid var(--planager-purple);
       background-color: var(--planager-module-background);
       color: var(--planager-text-dark);
-    }
-    #draggable-header {
-      height: 1rem;
-      background-color: var(--planager-orange);
-      cursor: move;
     }
     #leftPortsContainer {
       position: absolute;
@@ -45,9 +40,11 @@ export class PlanagerModule extends LitElement {
   render() {
     return html`<div @pointerdown="${this.cancel}" id="module">
       <planager-draggable-header
+        color="orange"
         @pointerdown="${this.handleDown}"
         @pointermove="${this.handleMove}"
-      ></planager-draggable-header>
+        >${this.info.displayName}</planager-draggable-header
+      >
       <div id="leftPortsContainer">
         ${repeat(
           Object.values(this.info.inports),

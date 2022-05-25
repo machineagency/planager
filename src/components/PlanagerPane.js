@@ -1,21 +1,25 @@
 import { LitElement, html, css } from "lit";
-import "./PlanagerDropdown";
 import "./PlanagerDraggableHeader";
 
-export class PlanagerSettings extends LitElement {
+export class PlanagerPane extends LitElement {
   static properties = {
     dx: { reflect: true },
     dy: { reflect: true },
+    displayName: { reflect: true },
   };
+
   static styles = css`
     #pane {
       background-color: var(--planager-module-background);
+      box-shadow: 0.2rem 0.2rem;
     }
   `;
+
   constructor() {
     super();
     this.dx = 500;
     this.dy = 500;
+    this.displayName = "unnamed";
   }
 
   cancel(e) {
@@ -24,16 +28,14 @@ export class PlanagerSettings extends LitElement {
   }
 
   render() {
-    return html`<div id="pane" @pointerdown=${this.cancel}>
+    return html`<div @pointerdown="${this.cancel}" id="pane">
       <planager-draggable-header
-        @pointerdown=${this.handleDown}
-        @pointermove=${this.handleMove}
-        >Settings</planager-draggable-header
+        @pointerdown="${this.handleDown}"
+        @pointermove="${this.handleMove}"
+        >${this.displayName}</planager-draggable-header
       >
-      <div id="content">
-        <planager-dropdown></planager-dropdown>
-      </div>
+      <slot></slot>
     </div>`;
   }
 }
-customElements.define("planager-settings", PlanagerSettings);
+customElements.define("planager-pane", PlanagerPane);

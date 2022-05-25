@@ -4,17 +4,18 @@ export class PlanagerToolbarButton extends LitElement {
   static styles = css`
     ::slotted(svg) {
       fill: var(--planager-text-light);
-      width: 2rem;
+      margin: auto;
+      width: 1.5rem;
     }
     :host {
       cursor: pointer;
       margin: auto;
     }
     #icon {
-      display: inline-block;
+      display: flex;
     }
     #icon:hover ::slotted(svg) {
-      fill: var(--planager-green);
+      fill: var(--planager-orange);
     }
   `;
   render() {

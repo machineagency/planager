@@ -125,7 +125,6 @@ export class PlanagerWorkspace extends LitElement {
       }
       return fallback;
     };
-    console.log(delta);
     const dx = getNumber("--dx", 0) + delta.x * (2 - this.scaleFactor);
     const dy = getNumber("--dy", 0) + delta.y * (2 - this.scaleFactor);
     child.dx = dx;

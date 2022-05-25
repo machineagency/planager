@@ -11,14 +11,14 @@ export class PlanagerToolbar extends LitElement {
       #toolbar {
         background-color: var(--planager-toolbar);
         color: var(--planager-text-light);
-        height: 3rem;
+        height: 2rem;
         z-index: 100;
         position: sticky;
         display: flex;
       }
       #title {
         font-weight: bold;
-        font-size: 1.5rem;
+        font-size: 1rem;
         margin: auto 1rem;
         cursor: default;
       }
@@ -34,7 +34,7 @@ export class PlanagerToolbar extends LitElement {
 
   render() {
     return html`<div id="toolbar">
-      <span id="title" class="no-select">Planager</span>
+      <span id="title" class="unselectable">Planager</span>
       <planager-toolbar-button id="upload">${upload}</planager-toolbar-button>
       <planager-toolbar-button id="settings">${gear}</planager-toolbar-button>
     </div>`;

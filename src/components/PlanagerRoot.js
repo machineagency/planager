@@ -7,9 +7,10 @@ import { themes } from "../ui/themes";
 import "./PlanagerToolbar";
 import "./PlanagerModule";
 import "./PlanagerWorkspace";
-import "./PlanagerLibrary";
-import "./PlanagerSettings";
-import "./PlanagerPipe";
+import "./PlanagerPane";
+import "./modules/PlanagerLibrary";
+import "./modules/PlanagerSettings";
+import "./modules/PlanViewer";
 
 export class PlanagerRoot extends LitElement {
   canvasRef = createRef();
@@ -59,12 +60,18 @@ export class PlanagerRoot extends LitElement {
       <main style=${styleMap(themes[this.theme])}>
         <planager-toolbar .socket=${this.socket}></planager-toolbar>
         <planager-workspace ${ref(this.canvasRef)} .socket=${this.socket}>
-          <planager-settings slot="floating"></planager-settings>
-          <planager-library
-            slot="floating"
-            .socket=${this.socket}
-            .addModule=${this.handleNewModule.bind(this)}
-          ></planager-library>
+          <planager-pane slot="floating" displayName="Settings"
+            ><planager-settings></planager-settings
+          ></planager-pane>
+          <planager-pane slot="floating" displayName="Plan Viewer"
+            ><plan-viewer .socket=${this.socket}></plan-viewer
+          ></planager-pane>
+          <planager-pane slot="floating" displayName="Tool Library">
+            <planager-library
+              .socket=${this.socket}
+              .addModule=${this.handleNewModule.bind(this)}
+            ></planager-library>
+          </planager-pane>
         </planager-workspace>
       </main>
     `;
