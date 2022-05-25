@@ -132,7 +132,6 @@ export class PlanagerWorkspace extends LitElement {
     child.style.transform = `translate(${dx}px, ${dy}px)`;
     child.style.setProperty("--dx", `${dx}px`);
     child.style.setProperty("--dy", `${dy}px`);
-    child.requestUpdate();
   }
 
   get _pinnedElements() {

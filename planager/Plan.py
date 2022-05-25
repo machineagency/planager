@@ -61,7 +61,7 @@ class Plan:
         if self.ports_handler:
             new_action.register_ports_handler(self.ports_handler)
 
-        new_action.init()
+        new_action.setup()
         self.actions[new_action.id] = new_action
         return self.actions[new_action.id]
 

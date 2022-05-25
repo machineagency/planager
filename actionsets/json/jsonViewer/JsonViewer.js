@@ -57,8 +57,10 @@ export default class JsonViewer extends LitElement {
   }
 
   render() {
-    return html`<json-viewer id="viewer"
-      >${JSON.stringify(this.p.state.jsonData)}
+    return html`<json-viewer
+      id="viewer"
+      .data=${this.p.state.jsonData ? this.p.state.jsonData : {}}
+      >{}
     </json-viewer> `;
   }
 }

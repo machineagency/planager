@@ -4,7 +4,7 @@ class Outport:
         self.parent_id = parent_id
         self.displayName = config.get("displayName", id)
         self.description = config.get("description", None)
-        self.value = None
+        self.value = config.get("default", None)
         self.connections = []
 
     def addConnection(self, endAction, endPortID):

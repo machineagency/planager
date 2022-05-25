@@ -68,6 +68,7 @@ class Action:
         self.inport_handlers = {}
         self.state_handlers = {}
         self.register_state_sockets()
+        # self.setup()
 
     def register_state_sockets(self):
         for state_variable in self.state.keys():
@@ -81,9 +82,15 @@ class Action:
 
     def update_state(self, stateVar, newValue):
         self.state[stateVar] = newValue
-        if self.stateChange.get(stateVar):
-            print("woo")
-        # print("State", msg["state"], "changed to", msg["val"])
+        self.socket.emit(f"{self.id}_{stateVar}_update", newValue)
+        self.state_updated()
+        self.updateSelf()
+
+    def state_updated(self):
+        pass
+
+    def inports_updated(self):
+        pass
 
     def updateCoords(self, coords):
         self.coords = coords
@@ -114,6 +121,10 @@ class Action:
         self.inports[inportID].removeConnection(startActionID, startPortID)
         self.updateSelf()
 
+    def update_outport(self, outportName, value):
+        self.outports[outportName].update(value, self.data_handler)
+        self.updateSelf()
+
     def updateOutports(self, outportDict):
         for outportID, data in outportDict.items():
             self.outports[outportID].update(data, self.data_handler)
@@ -136,27 +147,15 @@ class Action:
         self.inports[inportID].setValue(startActionID, startPortID, value)
         if self.update_handler and self.shouldInportsUpdate:
             self.updateSelf()
-        self.main()
-        self.receivedData(inportID)
+        # self.main()
+        # self.receivedData(inportID)
+        self.inports_updated()
         self.updateSelf()
-
-    def onInportUpdate(portName):
-        def _wrapper(func):
-            # print(portName, func)
-            pass
-
-        return _wrapper
-
-    def onStateUpdate(portName):
-        def inner(func):
-            print(func)
-
-        return inner
 
     def receivedData(self, inportID):
         pass
 
-    def init(self):
+    def setup(self):
         pass
 
     def beforeSend(self):

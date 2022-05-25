@@ -10,7 +10,5 @@ with open(os.path.join(os.path.dirname(__file__), "Text.tool")) as json_file:
 
 
 class Text(Action, config=CONFIG):
-    state_handlers = {"text": "textUpdated"}
-
-    def textUpdated(self, textValue):
-        print(textValue)
+    def state_updated(self):
+        self.update_outport("text", self.state["text"])

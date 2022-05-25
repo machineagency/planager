@@ -27,10 +27,12 @@ export class PlanagerPane extends LitElement {
     super.connectedCallback();
     this.socket.emit("getPlan", (message) => {
       this.plan = message;
+      this.viewer.data = this.plan;
       this.requestUpdate();
     });
     this.socket.on(`planUpdate`, (message) => {
       this.plan = message;
+      this.viewer.data = this.plan;
       this.requestUpdate();
     });
   }
@@ -47,7 +49,7 @@ export class PlanagerPane extends LitElement {
     adoptStyles(this.viewer.shadowRoot, [styles]);
   }
   render() {
-    return html`<json-viewer id="viewer" .data=${this.plan}></json-viewer>`;
+    return html`<json-viewer id="viewer">{}</json-viewer>`;
   }
 }
 customElements.define("plan-viewer", PlanagerPane);
