@@ -22,8 +22,8 @@ class Action:
         # General information
         self.outports = {}
         self.inports = {}
-        self.coords = None
         self.state = {}
+        self.coords = None
 
         if overrideConfig:
             self.id = overrideConfig["id"]
@@ -59,14 +59,9 @@ class Action:
         self.name = self.__module__.split(".")[-1]
         self.actionType = self.__module__.split(".")
 
-        self.update_handler = None
-        self.data_handler = None
-        self.ports_handler = None
         self.shouldOutportsUpdate = True
         self.shouldInportsUpdate = True
         self.socket = socket
-        self.inport_handlers = {}
-        self.state_handlers = {}
         self.register_state_sockets()
         self.start_method_listener()
 
@@ -118,16 +113,13 @@ class Action:
         self.coords = coords
 
     def updateSelf(self):
-        if self.update_handler:
-            self.update_handler(self.toJSON())
+        print("updating")
 
     def addInport(self, inport_id, inport_config):
         self.inports[inport_id] = Inport(inport_id, self.id, inport_config)
-        self.ports_handler(self.toJSON())
 
     def addOutport(self, outport_id, outport_config):
         self.outports[outport_id] = Outport(outport_id, self.id, outport_config)
-        self.ports_handler(self.toJSON())
 
     def addLinkToOutport(self, startPortID, endAction, endPortID):
         self.outports[startPortID].addConnection(endAction, endPortID)
@@ -144,33 +136,18 @@ class Action:
         self.updateSelf()
 
     def update_outport(self, outportName, value):
-        self.outports[outportName].update(value, self.data_handler)
+        self.outports[outportName].update(value)
         self.updateSelf()
 
     def updateOutports(self, outportDict):
         for outportID, data in outportDict.items():
-            self.outports[outportID].update(data, self.data_handler)
-
-        if self.update_handler and self.shouldOutportsUpdate:
-            self.updateSelf()
+            self.outports[outportID].update(data)
 
         return self.toJSON()
 
-    def register_update_handler(self, handler):
-        self.update_handler = handler
-
-    def register_data_handler(self, handler):
-        self.data_handler = handler
-
-    def register_ports_handler(self, handler):
-        self.ports_handler = handler
-
     def updateInport(self, startActionID, startPortID, inportID, value):
         self.inports[inportID].setValue(startActionID, startPortID, value)
-        if self.update_handler and self.shouldInportsUpdate:
-            self.updateSelf()
-        # self.main()
-        # self.receivedData(inportID)
+
         self.inports_updated()
         self.updateSelf()
 

@@ -11,27 +11,10 @@ from app.logging import info, error, debug
 install()
 
 
-def update_handler(planJSON):
-    sio.emit("planUpdate", planJSON)
-
-
-def data_handler(linkInfo):
-    sio.emit("animateLinkDataflow", linkInfo)
-
-
-def ports_handler(actionJSON):
-    sio.emit("portsUpdated", actionJSON)
-
-
 @sio.on("newPlan")
 def home():
     session.pop("plan", None)
-    newPlan = Plan(
-        socket=sio,
-        update_handler=update_handler,
-        data_handler=data_handler,
-        ports_handler=ports_handler,
-    )
+    newPlan = Plan(socket=sio)
     session["plan"] = newPlan
 
 
@@ -59,9 +42,6 @@ def uploadPlan(planJSON):
     """
     session.pop("plan", None)
     newPlan = Plan(
-        update_handler=update_handler,
-        data_handler=data_handler,
-        ports_handler=ports_handler,
         action_manager=action_manager,
         src=planJSON,
     )
@@ -79,7 +59,7 @@ def clearPlan():
     """
     session.pop("plan", None)
 
-    newPlan = Plan(update_handler=update_handler)
+    newPlan = Plan()
     session["plan"] = newPlan
     session.modified = True
 
@@ -164,46 +144,6 @@ def removeLink(link):
 
 
 @sio.on("actionMoved")
-def removeLink(info):
+def actionMoved(info):
     session.get("plan").updateActionCoords(info["actionID"], info["coords"])
     return {"msg": "ok"}
-
-
-@sio.on("sendDataToOutport")
-def sendDataToOutport(data):
-    """Sends data created in the frontend to an action outport
-
-    Returns:
-        dict: A dictionary containing the JSON representation of the plan
-    """
-    actionJSON = session.get("plan").sendDataToOutport(
-        data["actionID"], data["dataDict"]
-    )
-
-    return {"actionJSON": actionJSON}
-
-
-@sio.on("runBackendMethod")
-def runBackendMethod(data):
-    """Runs a method in the backend for an action.
-
-    Raises:
-        NotImplementedError: If the method does not exist, raises NotImplementedError
-
-    Returns:
-        dict: dict containing response from the method
-    """
-    method = None
-    try:
-        method = getattr(session.get("plan").actions[data["actionID"]], data["method"])
-    except AttributeError:
-        raise NotImplementedError(
-            "Class `{}` does not implement `{}`".format(
-                session.get("plan").actions[data["actionID"]].__class__.__name__,
-                data["method"],
-            )
-        )
-
-    res = method(data["args"])
-
-    return {"data": res}

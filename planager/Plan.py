@@ -4,19 +4,14 @@ from typing import Dict
 class Plan:
     def __init__(
         self,
-        update_handler=None,
         headless=False,
-        data_handler=None,
-        ports_handler=None,
         action_manager=None,
         socket=None,
         src=None,
     ):
         self.actions = {}
         self.socket = socket
-        self.update_handler = update_handler
-        self.data_handler = data_handler
-        self.ports_handler = ports_handler
+
         self.headless = headless
         self.action_manager = action_manager
         if src:
@@ -53,13 +48,6 @@ class Plan:
             )
         else:
             new_action = NewActionClass(socket=self.socket)
-        # If there is a place to send updates, register it with the action
-        if self.update_handler:
-            new_action.register_update_handler(self.update_handler)
-        if self.data_handler:
-            new_action.register_data_handler(self.data_handler)
-        if self.ports_handler:
-            new_action.register_ports_handler(self.ports_handler)
 
         new_action.setup()
         self.actions[new_action.id] = new_action
@@ -129,9 +117,6 @@ class Plan:
 
     def updateActionCoords(self, actionID, coords: Dict):
         self.actions[actionID].updateCoords(coords)
-
-    def sendDataToOutport(self, actionID, data: Dict):
-        return self.actions[actionID].updateOutports(data)
 
     def toJSON(self):
         """
