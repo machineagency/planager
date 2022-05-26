@@ -207,29 +207,3 @@ def runBackendMethod(data):
     res = method(data["args"])
 
     return {"data": res}
-
-
-@sio.on("updateBackendState")
-def updateBackend(data):
-    print(data)
-    actionToUpdate = session.get("plan").actions[data["id"]]
-    actionToUpdate.updateState(data["state"], data["val"])
-    # print(actionToUpdate.state)
-    print(actionToUpdate.__dict__)
-    print(actionToUpdate.__class__.__dict__)
-    # print(inspect.getmembers(actionToUpdate))
-    # print(dir(actionToUpdate))
-    # method = None
-    # try:
-    #     method = getattr(session.get("plan").actions[data["actionID"]], data["method"])
-    # except AttributeError:
-    #     raise NotImplementedError(
-    #         "Class `{}` does not implement `{}`".format(
-    #             session.get("plan").actions[data["actionID"]].__class__.__name__,
-    #             data["method"],
-    #         )
-    #     )
-
-    # res = method(data["args"])
-
-    # return {"data": res}

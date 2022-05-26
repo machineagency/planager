@@ -16,13 +16,17 @@ class Axi(Action, config=CONFIG):
         self.ad = axidraw.AxiDraw()
         self.ad.interactive()
         self.ad.connect()
-        print(self.ad.params)
+        self.update_state("connected", self.ad.connected)
+        self.update_state("position", self.ad.current_pos())
+        self.update_state("pen", self.ad.current_pen())
+        self.update_outport("config", self.ad.options.__dict__)
 
     def inports_updated(self):
         print("woo")
 
-    def connect(self):
-        self.ad = axidraw.AxiDraw()
-        self.ad.interactive()
-        self.ad.connect()
-        print(self.ad.params)
+    def do_move(self):
+        print("move!")
+        if not self.state["move_buffer"]:
+            return
+        move = self.state["move_buffer"][0]
+        self.ad.line_to(move[0], move[1])

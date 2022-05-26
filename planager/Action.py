@@ -68,7 +68,7 @@ class Action:
         self.inport_handlers = {}
         self.state_handlers = {}
         self.register_state_sockets()
-        # self.setup()
+        self.start_method_listener()
 
     def register_state_sockets(self):
         for state_variable in self.state.keys():
@@ -77,8 +77,30 @@ class Action:
             )
             print("Registered socket for", state_variable)
 
+    def start_method_listener(self):
+        self.socket.on_event(f"{self.id}_method", self.run_method_from_socket)
+
     def update_state_from_socket(self, msg):
         self.update_state(msg["state"], msg["val"])
+
+    def get_custom_methods(self):
+        method_list = []
+
+        # attribute is a string representing the attribute name
+        for attribute in dir(self):
+            # Get the attribute value
+            attribute_value = getattr(self, attribute)
+            # Check that it is callable
+            if callable(attribute_value):
+                # Filter all dunder (__ prefix) methods
+                if attribute.startswith("__") == False:
+                    if attribute not in dir(Action):
+                        method_list.append(attribute)
+
+        return method_list
+
+    def run_method_from_socket(self, method_name):
+        getattr(self, method_name)()
 
     def update_state(self, stateVar, newValue):
         self.state[stateVar] = newValue
