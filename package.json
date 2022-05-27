@@ -1,10 +1,22 @@
 {
-  "name": "planager",
+  "name": "@planager/planager",
   "version": "1.0.0",
   "scripts": {
     "start": "wds"
   },
   "author": "Hannah Twigg-Smith",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/machineagency/planager.git"
+  },
+  "keywords": [
+    "planager",
+    "workflow"
+  ],
+  "engines": {
+    "npm": "8.x",
+    "node": "16.x"
+  },
   "license": "MIT",
   "dependencies": {
     "@alenaksu/json-viewer": "^1.0.0",
@@ -18,5 +30,9 @@
     "@web/dev-server-hmr": "^0.1.9",
     "koa-proxies": "^0.12.2",
     "plugin": "^0.3.3"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/machineagency/planager/issues"
+  },
+  "homepage": "https://github.com/machineagency/planager#readme"
 }

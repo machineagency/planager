@@ -3,10 +3,10 @@
     "inports": {},
     "outports": {
         "text": {
-            "displayName": "text",
-            "state": true,
-            "default": "bees"
+            "displayName": "text"
         }
     },
-    "state": {}
+    "state": {
+        "text": "bees"
+    }
 }

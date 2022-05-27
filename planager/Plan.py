@@ -1,5 +1,7 @@
 from typing import Dict
 
+from planager.Outport import Outport
+
 
 class Plan:
     def __init__(
@@ -85,17 +87,19 @@ class Plan:
         Returns:
             tuple: a tuple containing the updated JSON representations of the start and end actions after the link has been created.
         """
-        # print("adding connection between", startPortID, "and", endPortID)
-        self.actions[startActionID].addLinkToOutport(
+
+        self.actions[startActionID].outports.add_connection(
             startPortID, self.actions[endActionID], endPortID
         )
-        self.actions[endActionID].addLinkToInport(endPortID, startActionID, startPortID)
+        self.actions[endActionID].inports.add_connection(
+            endPortID, startActionID, startPortID
+        )
         # Assign the start port contents to the destination port
         self.actions[endActionID].updateInport(
             startActionID,
             startPortID,
             endPortID,
-            self.actions[startActionID].outports[startPortID].value,
+            self.actions[startActionID].outports[startPortID],
         )
         return (
             self.actions[startActionID].toJSON(),
@@ -103,12 +107,13 @@ class Plan:
         )
 
     def removeLink(self, startActionID, startPortID, endActionID, endPortID):
-        # print("removing connection between", startPortID, "and", endPortID)
-        self.actions[startActionID].removeLinkFromOutport(
+
+        self.actions[startActionID].outports.remove_connection(
             startPortID, endActionID, endPortID
         )
-        self.actions[endActionID].removeLinkFromInport(
-            endPortID, startActionID, startPortID
+
+        self.actions[endActionID].inports.remove_connection(
+            endPortID, endActionID, endPortID
         )
         return (
             self.actions[startActionID].toJSON(),

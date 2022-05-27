@@ -10,5 +10,5 @@ with open(os.path.join(os.path.dirname(__file__), "Slider.tool")) as json_file:
 
 
 class Slider(Action, config=CONFIG):
-    def state_updated(self):
-        self.update_outport("value", self.state["value"])
+    def state_updated(self, key):
+        self.outports["value"] = self.state["value"]

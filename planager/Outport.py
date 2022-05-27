@@ -39,7 +39,6 @@ class Outport:
             "outport": True,
             "parentID": self.parent_id,
             "description": self.description,
-            "value": self.value,
             "displayName": self.displayName,
             "connections": {
                 (connection["endAction"].id): connection["endPortID"]

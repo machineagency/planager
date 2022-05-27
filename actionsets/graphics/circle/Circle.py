@@ -11,4 +11,4 @@ with open(os.path.join(os.path.dirname(__file__), "Circle.tool")) as json_file:
 
 class Circle(Action, config=CONFIG):
     def inports_updated(self, inportID):
-        self.update_state("diameter", self.inports["diameter"].value)
+        self.state["diameter"] = self.inports["diameter"]

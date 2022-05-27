@@ -7,12 +7,8 @@
     },
     "outports": {
         "jsonData": {
-            "displayName": "json",
-            "state": true,
-            "default": {
-                "hello": "world"
-            }
+            "displayName": "json"
         }
     },
-    "state": {}
+    "state": {"jsonData": {}}
 }

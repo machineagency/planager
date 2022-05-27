@@ -10,7 +10,5 @@ with open(os.path.join(os.path.dirname(__file__), "SvgEditor.tool")) as json_fil
 
 
 class SvgEditor(Action, config=CONFIG):
-    def state_updated(self):
+    def state_updated(self, state):
         print(self.state)
-        # self.update_outport("place", self.state["locs"][-1])
-        # self.update_outport("paths", self.state["paths"])
