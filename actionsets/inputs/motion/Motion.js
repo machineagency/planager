@@ -8,20 +8,100 @@ import {
 
 export default class Motion extends LitElement {
   p = new StateController(this);
+  isCapturing;
+  path;
+  points;
+  allPaths;
 
   static styles = css`
     #drawing {
       height: 10rem;
       width: 10rem;
     }
+    #controlbox {
+      display: flex;
+    }
+    .button {
+      text-align: center;
+      width: 50%;
+      background-color: var(--planager-blue);
+      cursor: pointer;
+      color: var(--planager-text-light);
+      font-weight: bolder;
+    }
+    .button:hover {
+      filter: brightness(80%);
+    }
   `;
-  firstUpdated() {
-    this.canvas = this.renderRoot.querySelector("#drawing");
-    var draw = SVG().addTo(this.canvas).size("100%", "100%");
-    var rect = draw.rect(100, 100).attr({ fill: "#f06" });
+  constructor() {
+    super();
+    this.isCapturing = false;
+    this.points = [];
+    this.allPaths = [];
   }
 
+  firstUpdated() {
+    this.canvas = this.renderRoot.querySelector("#drawing");
+    this.draw = SVG().addTo(this.canvas).size("100%", "100%");
+  }
+
+  beginCapture(e) {
+    // Capture is now in progress
+
+    this.isCapturing = true;
+    // Calculate the starting point of the click on the canvas
+    var rect = this.canvas.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
+
+    // The first move of the svg is to the starting point
+    this.points = [["m", x, y]];
+
+    // SVG is now drawing a path
+    this.path = this.draw.path(this.points);
+
+    // Style the path
+    this.path.fill("none");
+    this.path.stroke({
+      color: "var(--planager-pink)",
+      width: 4,
+      linecap: "round",
+      linejoin: "round",
+    });
+  }
+  capture(e) {
+    if (!this.isCapturing) return;
+    this.points.push(["l", e.movementX, e.movementY]);
+    this.path.plot(this.points);
+  }
+  endCapture(e) {
+    if (!this.isCapturing) return;
+    this.isCapturing = false;
+    // Plot the last bit of the path
+    this.points.push(["l", e.movementX, e.movementY]);
+    this.path.plot(this.points);
+    this.allPaths.push(this.points);
+    this.p.state.paths = this.allPaths;
+    // Reset points array
+    this.points = [];
+  }
+  clear(e) {
+    this.draw.clear();
+  }
+  save(e) {
+    this.p.state.paths = this.allPaths;
+  }
   render() {
-    return html`<div id="drawing"></div>`;
+    return html`<div
+        id="drawing"
+        @pointermove=${this.capture}
+        @pointerdown=${this.beginCapture}
+        @pointerup=${this.endCapture}
+        @pointerleave=${this.endCapture}
+      ></div>
+      <div id="controlbox">
+        <span class="button" @click=${this.clear}>Clear</span
+        ><span class="button" @click=${this.save}>Save</span>
+      </div>`;
   }
 }

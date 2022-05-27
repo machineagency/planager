@@ -9,9 +9,7 @@
   "dependencies": {
     "@alenaksu/json-viewer": "^1.0.0",
     "@svgdotjs/svg.js": "^3.1.2",
-    "acorn": "^8.7.1",
     "lit": "^2.2.3",
-    "paper": "^0.12.15",
     "socket.io-client": "^4.5.0"
   },
   "devDependencies": {

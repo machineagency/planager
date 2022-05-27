@@ -4,6 +4,9 @@
         "relativeMove": {
             "displayName": "Relative Move"
         },
+        "live": {
+            "displayName": "live moves"
+        },
         "config": {
             "displayName": "Configuration"
         }
@@ -20,7 +23,6 @@
         "connected": false,
         "position": null,
         "pen": null,
-        "live": false,
         "move_buffer": [],
         "options": {
             "model": 2,

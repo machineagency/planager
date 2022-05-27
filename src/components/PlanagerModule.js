@@ -15,7 +15,7 @@ export class PlanagerModule extends LitElement {
 
   static styles = css`
     #module {
-      outline: 1px solid var(--planager-purple);
+      border: 1px solid var(--planager-purple);
       background-color: var(--planager-module-background);
       color: var(--planager-text-dark);
     }

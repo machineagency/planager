@@ -2,8 +2,11 @@
     "displayName": "Draw Something",
     "inports": {},
     "outports": {
-        "path": {
-            "displayName": "path"
+        "paths": {
+            "displayName": "paths"
+        },
+        "live": {
+            "displayName": "Live"
         }
     },
     "state": {

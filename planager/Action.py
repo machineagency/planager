@@ -106,14 +106,14 @@ class Action:
     def state_updated(self):
         pass
 
-    def inports_updated(self):
+    def inports_updated(self, inportID):
         pass
 
     def updateCoords(self, coords):
         self.coords = coords
 
     def updateSelf(self):
-        print("updating")
+        pass
 
     def addInport(self, inport_id, inport_config):
         self.inports[inport_id] = Inport(inport_id, self.id, inport_config)
@@ -148,7 +148,7 @@ class Action:
     def updateInport(self, startActionID, startPortID, inportID, value):
         self.inports[inportID].setValue(startActionID, startPortID, value)
 
-        self.inports_updated()
+        self.inports_updated(inportID)
         self.updateSelf()
 
     def receivedData(self, inportID):
