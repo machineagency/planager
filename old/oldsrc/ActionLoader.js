@@ -11,7 +11,7 @@ import CellularAutomata from "../actionsets/pixels/cellular_automata_1d/Cellular
 import Upload from "../actionsets/data/upload/Upload";
 import Thing from "../actionsets/workflow/thing/Thing";
 import Method from "../actionsets/workflow/method/Method";
-import Text from "../actionsets/inputs/text/Text";
+import Text from "../../actionsets/inputs/text/Text";
 import RecordArray from "../actionsets/inputs/recordArray/RecordArray";
 import MediaSources from "../actionsets/inputs/mediaSources/MediaSources";
 import VideoFeed from "../actionsets/inputs/videoFeed/VideoFeed";
@@ -20,7 +20,7 @@ import PlotInteractive from "../actionsets/axidraw/plot_interactive/PlotInteract
 import MachineState from "../actionsets/axidraw/machine_state/MachineState";
 import AxidrawInit from "../actionsets/axidraw/axidraw_init/AxidrawInit";
 import Toggle from "../actionsets/inputs/toggle/Toggle";
-import Slider from "../actionsets/inputs/slider/Slider";
+import Slider from "../../actionsets/inputs/slider/Slider";
 import Gate from "../actionsets/control_flow/gate/Gate";
 import DrawPath from "../actionsets/paths/drawPath/DrawPath";
 import LSystem from "../actionsets/recursion/lSystem/LSystem";
