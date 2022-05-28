@@ -1,20 +1,12 @@
-from typing import Dict
-
-from planager.Outport import Outport
-
-
 class Plan:
     def __init__(
         self,
-        headless=False,
         action_manager=None,
         socket=None,
         src=None,
     ):
         self.actions = {}
         self.socket = socket
-
-        self.headless = headless
         self.action_manager = action_manager
         if src:
             self.build_plan_from_src(src)
@@ -120,7 +112,7 @@ class Plan:
             self.actions[endActionID].toJSON(),
         )
 
-    def updateActionCoords(self, actionID, coords: Dict):
+    def updateActionCoords(self, actionID, coords):
         self.actions[actionID].updateCoords(coords)
 
     def toJSON(self):

@@ -1,7 +1,5 @@
 from planager.Action import Action
 
-import asyncio
-
 # importing the module
 import json
 import os.path

@@ -3,6 +3,7 @@ import { ref, createRef } from "lit/directives/ref.js";
 import { styleMap } from "lit/directives/style-map.js";
 
 import { themes } from "../ui/themes";
+import { PlanController } from "../controllers/PlanController";
 
 import "./PlanagerToolbar";
 import "./PlanagerModule";
@@ -14,6 +15,7 @@ import "./modules/PlanViewer";
 
 export class PlanagerRoot extends LitElement {
   canvasRef = createRef();
+  planController = new PlanController(this);
 
   static properties = {
     socket: {},
@@ -27,6 +29,25 @@ export class PlanagerRoot extends LitElement {
     this.socket = io.connect("http://localhost:5000/");
     this.socket.emit("newPlan");
     this.theme = "dracula";
+  }
+
+  handleKeyDown(event) {
+    event.preventDefault();
+    let charCode = String.fromCharCode(event.which).toLowerCase();
+    if ((event.ctrlKey || event.metaKey) && charCode === "s") {
+      this.planController.downloadPlan(event);
+    } else if ((event.ctrlKey || event.metaKey) && charCode === "c") {
+      console.log("CTRL+C Pressed");
+    } else if ((event.ctrlKey || event.metaKey) && charCode === "v") {
+      console.log("CTRL+V Pressed");
+    } else if ((event.ctrlKey || event.metaKey) && charCode === "z") {
+      console.log("CTRL+Z pressed");
+    }
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    addEventListener("keydown", this.handleKeyDown.bind(this));
   }
 
   async handleNewModule(module) {

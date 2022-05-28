@@ -1,10 +1,13 @@
 import { LitElement, html, css } from "lit";
-import { gear, upload } from "../ui/icons";
+import { gear, upload, download } from "../ui/icons";
 import { unselectable } from "../ui/styles";
+
+import { PlanController } from "../controllers/PlanController";
 
 import "./PlanagerToolbarButton";
 
 export class PlanagerToolbar extends LitElement {
+  planController = new PlanController(this);
   static styles = [
     unselectable,
     css`
@@ -22,12 +25,9 @@ export class PlanagerToolbar extends LitElement {
         margin: auto 1rem;
         cursor: default;
       }
-      #upload {
-        margin-right: 0;
-      }
-      #settings {
-        margin-left: 1rem;
-        margin-right: 1rem;
+      #toolbar planager-toolbar-button {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
       }
     `,
   ];
@@ -35,8 +35,13 @@ export class PlanagerToolbar extends LitElement {
   render() {
     return html`<div id="toolbar">
       <span id="title" class="unselectable">Planager</span>
-      <planager-toolbar-button id="upload">${upload}</planager-toolbar-button>
-      <planager-toolbar-button id="settings">${gear}</planager-toolbar-button>
+      <planager-toolbar-button @click=${this.planController.downloadPlan}
+        >${download}</planager-toolbar-button
+      >
+      <planager-toolbar-button @click=${this.planController.uploadPlan}
+        >${upload}</planager-toolbar-button
+      >
+      <planager-toolbar-button>${gear}</planager-toolbar-button>
     </div>`;
   }
 }

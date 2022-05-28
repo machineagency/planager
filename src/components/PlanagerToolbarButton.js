@@ -5,7 +5,7 @@ export class PlanagerToolbarButton extends LitElement {
     ::slotted(svg) {
       fill: var(--planager-text-light);
       margin: auto;
-      width: 1.5rem;
+      max-height: 1rem;
     }
     :host {
       cursor: pointer;
