@@ -184,6 +184,7 @@ export class PlanagerWorkspace extends LitElement {
           });
         };
         i++;
+        this.moveElement(child, { x: 0, y: 0 });
       }
     }
   }
@@ -222,6 +223,7 @@ export class PlanagerWorkspace extends LitElement {
         };
         child.requestUpdate();
         i++;
+        this.moveElement(child, { x: 0, y: 0 });
       }
     }
   }

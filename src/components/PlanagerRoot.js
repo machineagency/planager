@@ -16,6 +16,7 @@ import "./modules/PlanViewer";
 export class PlanagerRoot extends LitElement {
   canvasRef = createRef();
   planController = new PlanController(this);
+  currentOffset = { x: 100, y: 100 };
 
   static properties = {
     socket: {},
@@ -50,6 +51,11 @@ export class PlanagerRoot extends LitElement {
     addEventListener("keydown", this.handleKeyDown.bind(this));
   }
 
+  increaseOffset() {
+    this.currentOffset.x += 10;
+    this.currentOffset.y += 10;
+  }
+
   async handleNewModule(module) {
     const elementName = (
       "planager-" + module.actionType.slice(1).join("-")
@@ -67,6 +73,9 @@ export class PlanagerRoot extends LitElement {
     let d = document.createElement("planager-module");
     d.slot = "draggable";
     d.info = module;
+    d.style.setProperty("--dx", this.currentOffset.x);
+    d.style.setProperty("--dy", this.currentOffset.y);
+    this.increaseOffset();
     let el = document.createElement(elementName);
     // Pass it the socket connection
     el.socket = this.socket;
@@ -81,13 +90,23 @@ export class PlanagerRoot extends LitElement {
       <main style=${styleMap(themes[this.theme])}>
         <planager-toolbar .socket=${this.socket}></planager-toolbar>
         <planager-workspace ${ref(this.canvasRef)} .socket=${this.socket}>
-          <planager-pane slot="floating" displayName="Settings"
+          <planager-pane
+            slot="floating"
+            displayName="Settings"
+            style="--dx:700;--dy:300"
             ><planager-settings></planager-settings
           ></planager-pane>
-          <planager-pane slot="floating" displayName="Plan Viewer"
+          <planager-pane
+            slot="floating"
+            displayName="Plan Viewer"
+            style="--dx:700;--dy:500"
             ><plan-viewer .socket=${this.socket}></plan-viewer
           ></planager-pane>
-          <planager-pane slot="floating" displayName="Tool Library">
+          <planager-pane
+            slot="floating"
+            displayName="Tool Library"
+            style="--dx:700;--dy:0"
+          >
             <planager-library
               .socket=${this.socket}
               .addModule=${this.handleNewModule.bind(this)}
