@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
 
-export default class PlanagerPort extends LitElement {
+export default class Port extends LitElement {
   static properties = {
     side: { reflect: true },
     info: {},
@@ -49,4 +49,4 @@ export default class PlanagerPort extends LitElement {
     `;
   }
 }
-customElements.define("planager-port", PlanagerPort);
+customElements.define("planager-port", Port);

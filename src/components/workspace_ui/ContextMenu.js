@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
 
-export class PlanagerContextMenu extends LitElement {
+export class ContextMenu extends LitElement {
   static styles = css`
     #context-menu {
       position: absolute;
@@ -21,4 +21,4 @@ export class PlanagerContextMenu extends LitElement {
     `;
   }
 }
-customElements.define("planager-context-menu", PlanagerContextMenu);
+customElements.define("planager-context-menu", ContextMenu);

@@ -1,9 +1,7 @@
-import { LitElement, html, css } from "lit";
-import { StateController } from "../../../src/controllers/StateController";
+import { html, css } from "lit";
+import { Tool } from "../../../src/components/tool_ui/Tool";
 
-export default class PlanagerTextInput extends LitElement {
-  p = new StateController(this);
-
+export default class PlanagerTextInput extends Tool {
   static styles = css`
     .slidecontainer {
       width: 100%;
@@ -22,17 +20,16 @@ export default class PlanagerTextInput extends LitElement {
   `;
 
   render() {
-    return html`
+    return this.renderModule(html`
       <div class="slidecontainer">
         <input
           type="range"
-          min=${this.p.state.min}
-          max=${this.p.state.max}
+          min=${this.state.min}
+          max=${this.state.max}
           class="slider"
-          @input=${(e) => (this.p.state.value = e.target.value)}
+          @input=${(e) => (this.state.value = e.target.value)}
         />
       </div>
-      <div>Value: ${this.p.state.value}</div>
-    `;
+    `);
   }
 }

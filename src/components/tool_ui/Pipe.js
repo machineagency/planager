@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
 
-export default class PlanagerPipe extends LitElement {
+export default class Pipe extends LitElement {
   static properties = {
     start: { reflect: true, type: Object },
     end: { reflect: true, type: Object },
@@ -62,4 +62,4 @@ export default class PlanagerPipe extends LitElement {
     `;
   }
 }
-customElements.define("planager-pipe", PlanagerPipe);
+customElements.define("planager-pipe", Pipe);

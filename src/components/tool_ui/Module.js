@@ -1,9 +1,9 @@
 import { LitElement, html, css } from "lit";
 import { repeat } from "lit/directives/repeat.js";
-import "./PlanagerPort";
-import "./PlanagerDraggableHeader";
+import "./Port";
+import "./DraggableHeader";
 
-export class PlanagerModule extends LitElement {
+export class Module extends LitElement {
   static properties = {
     socket: {},
     handleDown: {},
@@ -79,4 +79,4 @@ export class PlanagerModule extends LitElement {
     </div>`;
   }
 }
-customElements.define("planager-module", PlanagerModule);
+customElements.define("planager-module", Module);

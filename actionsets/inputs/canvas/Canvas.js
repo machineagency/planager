@@ -1,13 +1,12 @@
-import { LitElement, html, css } from "lit";
-import { StateController } from "../../../src/controllers/StateController";
+import { html, css } from "lit";
+import { Tool } from "../../../src/components/tool_ui/Tool";
 import {
   SVG,
   extend as SVGextend,
   Element as SVGElement,
 } from "@svgdotjs/svg.js";
 
-export default class Canvas extends LitElement {
-  p = new StateController(this);
+export default class Canvas extends Tool {
   isCapturing;
   path;
   points;
@@ -52,9 +51,9 @@ export default class Canvas extends LitElement {
   }
 
   render() {
-    return html` <div id="controlbox">
+    return this.renderModule(html` <div id="controlbox">
         <span class="button" @click=${this.clear}>Clear</span>
       </div>
-      <div id="drawing" class="resizable-content"></div>`;
+      <div id="drawing" class="resizable-content"></div>`);
   }
 }

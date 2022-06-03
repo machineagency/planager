@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
 
-export class PlanagerToolbarButton extends LitElement {
+export class ToolbarButton extends LitElement {
   static styles = css`
     ::slotted(svg) {
       fill: var(--planager-text-light);
@@ -22,4 +22,4 @@ export class PlanagerToolbarButton extends LitElement {
     return html`<span id="icon"><slot></slot></span>`;
   }
 }
-customElements.define("planager-toolbar-button", PlanagerToolbarButton);
+customElements.define("planager-toolbar-button", ToolbarButton);

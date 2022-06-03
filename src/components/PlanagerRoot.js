@@ -5,13 +5,18 @@ import { styleMap } from "lit/directives/style-map.js";
 import { themes } from "../ui/themes";
 import { PlanController } from "../controllers/PlanController";
 
-import "./PlanagerToolbar";
-import "./PlanagerModule";
-import "./PlanagerWorkspace";
-import "./PlanagerPane";
-import "./modules/PlanagerLibrary";
-import "./modules/PlanagerSettings";
-import "./modules/PlanViewer";
+// Basic workspace things
+import "./workspace_ui/Workspace";
+import "./workspace_ui/Toolbar";
+
+// Tool UI
+import "./tool_ui/Module";
+import "./tool_ui/Pane";
+
+// Floating Modules
+import "./floating_modules/PlanagerLibrary";
+import "./floating_modules/PlanagerSettings";
+import "./floating_modules/PlanViewer";
 
 export class PlanagerRoot extends LitElement {
   canvasRef = createRef();
@@ -33,15 +38,18 @@ export class PlanagerRoot extends LitElement {
   }
 
   handleKeyDown(event) {
-    event.preventDefault();
     let charCode = String.fromCharCode(event.which).toLowerCase();
     if ((event.ctrlKey || event.metaKey) && charCode === "s") {
+      event.preventDefault();
       this.planController.downloadPlan(event);
     } else if ((event.ctrlKey || event.metaKey) && charCode === "c") {
+      event.preventDefault();
       console.log("CTRL+C Pressed");
     } else if ((event.ctrlKey || event.metaKey) && charCode === "v") {
+      event.preventDefault();
       console.log("CTRL+V Pressed");
     } else if ((event.ctrlKey || event.metaKey) && charCode === "z") {
+      event.preventDefault();
       console.log("CTRL+Z pressed");
     }
   }

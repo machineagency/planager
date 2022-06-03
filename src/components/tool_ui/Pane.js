@@ -1,7 +1,7 @@
 import { LitElement, html, css } from "lit";
-import "./PlanagerDraggableHeader";
+import "./DraggableHeader";
 
-export class PlanagerPane extends LitElement {
+export class Pane extends LitElement {
   static properties = {
     dx: { reflect: true },
     dy: { reflect: true },
@@ -38,4 +38,4 @@ export class PlanagerPane extends LitElement {
     </div>`;
   }
 }
-customElements.define("planager-pane", PlanagerPane);
+customElements.define("planager-pane", Pane);

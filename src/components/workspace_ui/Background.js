@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
 
-export default class PlanagerBackground extends LitElement {
+export default class Background extends LitElement {
   static styles = css`
     :host {
       --grid-size: 2rem;
@@ -26,4 +26,4 @@ export default class PlanagerBackground extends LitElement {
     return html`<canvas></canvas> `;
   }
 }
-customElements.define("planager-background", PlanagerBackground);
+customElements.define("planager-background", Background);

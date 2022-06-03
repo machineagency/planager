@@ -1,7 +1,7 @@
 import { LitElement, html, css } from "lit";
-import { unselectable } from "../ui/styles";
+import { unselectable } from "../../ui/styles";
 
-export class PlanagerDraggableHeader extends LitElement {
+export class DraggableHeader extends LitElement {
   static styles = [
     unselectable,
     css`
@@ -26,4 +26,4 @@ export class PlanagerDraggableHeader extends LitElement {
     </div>`;
   }
 }
-customElements.define("planager-draggable-header", PlanagerDraggableHeader);
+customElements.define("planager-draggable-header", DraggableHeader);

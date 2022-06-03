@@ -1,9 +1,7 @@
-import { LitElement, html, css } from "lit";
-import { StateController } from "../../../src/controllers/StateController";
+import { html, css } from "lit";
+import { Tool } from "../../../src/components/tool_ui/Tool";
 
-export default class PlanagerTextInput extends LitElement {
-  p = new StateController(this);
-
+export default class PlanagerTextInput extends Tool {
   static styles = css`
     #textInput {
       font-size: 16px;
@@ -20,15 +18,15 @@ export default class PlanagerTextInput extends LitElement {
   `;
 
   render() {
-    return html`
+    return this.renderModule(html`
       <input
         id="textInput"
         type="text"
-        value=${this.p.state.text}
+        value=${this.state.text}
         @input=${(e) => {
-          this.p.state.text = e.target.value;
+          this.state.text = e.target.value;
         }}
       />
-    `;
+    `);
   }
 }

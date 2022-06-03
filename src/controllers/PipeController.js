@@ -1,4 +1,4 @@
-import "../components/PlanagerPipe";
+import "../components/tool_ui/Pipe";
 export class PipeController {
   host;
 

@@ -1,7 +1,7 @@
 import { LitElement, html, css } from "lit";
-import { unselectable } from "../ui/styles";
+import { unselectable } from "../../ui/styles";
 
-export class PlanagerDropdown extends LitElement {
+export class Dropdown extends LitElement {
   static styles = [
     unselectable,
     css`
@@ -44,4 +44,4 @@ export class PlanagerDropdown extends LitElement {
     `;
   }
 }
-customElements.define("planager-dropdown", PlanagerDropdown);
+customElements.define("planager-dropdown", Dropdown);

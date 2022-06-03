@@ -1,11 +1,11 @@
 import { html, css, LitElement, nothing } from "lit";
 
-import { PipeController } from "../controllers/PipeController";
+import { PipeController } from "../../controllers/PipeController";
 
-import "./PlanagerContextMenu";
-import "./PlanagerBackground";
+import "./ContextMenu";
+import "./Background";
 
-export class PlanagerWorkspace extends LitElement {
+export class Workspace extends LitElement {
   pipeController = new PipeController(this);
   pointerMap = new Map();
 
@@ -260,4 +260,4 @@ export class PlanagerWorkspace extends LitElement {
     // });
   }
 }
-customElements.define("planager-workspace", PlanagerWorkspace);
+customElements.define("planager-workspace", Workspace);

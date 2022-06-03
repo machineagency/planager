@@ -1,13 +1,12 @@
-import { LitElement, html, css } from "lit";
-import { StateController } from "../../../src/controllers/StateController";
+import { html, css } from "lit";
+import { Tool } from "../../../src/components/tool_ui/Tool";
 import {
   SVG,
   extend as SVGextend,
   Element as SVGElement,
 } from "@svgdotjs/svg.js";
 
-export default class Motion extends LitElement {
-  p = new StateController(this);
+export default class Motion extends Tool {
   isCapturing;
   path;
   points;
@@ -81,7 +80,7 @@ export default class Motion extends LitElement {
     this.points.push(["l", e.movementX, e.movementY]);
     this.path.plot(this.points);
     this.allPaths.push(this.points);
-    this.p.state.paths = this.allPaths;
+    this.state.paths = this.allPaths;
     // Reset points array
     this.points = [];
   }
@@ -89,10 +88,10 @@ export default class Motion extends LitElement {
     this.draw.clear();
   }
   save(e) {
-    this.p.state.paths = this.allPaths;
+    this.state.paths = this.allPaths;
   }
   render() {
-    return html`<div
+    return this.renderModule(html`<div
         id="drawing"
         @pointermove=${this.capture}
         @pointerdown=${this.beginCapture}
@@ -102,6 +101,6 @@ export default class Motion extends LitElement {
       <div id="controlbox">
         <span class="button" @click=${this.clear}>Clear</span
         ><span class="button" @click=${this.save}>Save</span>
-      </div>`;
+      </div>`);
   }
 }

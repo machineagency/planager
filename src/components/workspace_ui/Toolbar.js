@@ -1,12 +1,12 @@
 import { LitElement, html, css } from "lit";
-import { gear, upload, download } from "../ui/icons";
-import { unselectable } from "../ui/styles";
+import { gear, upload, download } from "../../ui/icons";
+import { unselectable } from "../../ui/styles";
 
-import { PlanController } from "../controllers/PlanController";
+import { PlanController } from "../../controllers/PlanController";
 
-import "./PlanagerToolbarButton";
+import "./ToolbarButton";
 
-export class PlanagerToolbar extends LitElement {
+export class Toolbar extends LitElement {
   planController = new PlanController(this);
   static styles = [
     unselectable,
@@ -45,4 +45,4 @@ export class PlanagerToolbar extends LitElement {
     </div>`;
   }
 }
-customElements.define("planager-toolbar", PlanagerToolbar);
+customElements.define("planager-toolbar", Toolbar);

@@ -1,21 +1,15 @@
-import { LitElement, html, css } from "lit";
-import { StateController } from "../../../src/controllers/StateController";
+import { html, css } from "lit";
+import { Tool } from "../../../src/components/tool_ui/Tool";
 
-export default class Axi extends LitElement {
-  p = new StateController(this);
-
-  static styles = css``;
-
+export default class Axi extends Tool {
   handleClick(e) {
     this.socket.emit(`${this.info.id}_method`, "do_move");
   }
 
   render() {
-    return html`<div>Connected: ${this.p.state.connected}</div>
-      <div>
-        Position: ${this.p.state.position[0]}, ${this.p.state.position[1]}
-      </div>
-      <div>Pen: ${this.p.state.pen}</div>
-      <button @click=${this.handleClick}>I like to move it move it</button>`;
+    return this.renderModule(html`<div>Connected: ${this.state.connected}</div>
+      <div>Position: ${this.state.position[0]}, ${this.state.position[1]}</div>
+      <div>Pen: ${this.state.pen}</div>
+      <button @click=${this.handleClick}>I like to move it move it</button>`);
   }
 }

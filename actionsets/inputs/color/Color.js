@@ -1,20 +1,16 @@
-import { LitElement, html, css } from "lit";
-import { StateController } from "../../../src/controllers/StateController";
-import { MouseController } from "../../../src/controllers/MouseController";
-
-export default class Color extends LitElement {
-  p = new StateController(this);
-
+import { html, css } from "lit";
+import { Tool } from "../../../src/components/tool_ui/Tool";
+export default class Color extends Tool {
   render() {
-    return html`
+    return this.renderModule(html`
       <input
         id="textInput"
         type="color"
-        value=${this.p.state.color}
+        value=${this.state.color}
         @input=${(e) => {
-          this.p.state.color = e.target.value;
+          this.state.color = e.target.value;
         }}
       />
-    `;
+    `);
   }
 }
