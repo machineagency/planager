@@ -1,4 +1,4 @@
-import { LitElement, html, css } from "lit";
+import { LitElement, html } from "lit";
 import { ref, createRef } from "lit/directives/ref.js";
 import { styleMap } from "lit/directives/style-map.js";
 
