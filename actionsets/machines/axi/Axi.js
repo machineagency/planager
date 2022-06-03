@@ -7,9 +7,8 @@ export default class Axi extends Tool {
   }
 
   render() {
-    return this.renderModule(html`<div>Connected: ${this.state.connected}</div>
-      <div>Position: ${this.state.position[0]}, ${this.state.position[1]}</div>
-      <div>Pen: ${this.state.pen}</div>
-      <button @click=${this.handleClick}>I like to move it move it</button>`);
+    return this.renderModule(html` <button @click=${this.handleClick}>
+      Move queue
+    </button>`);
   }
 }
