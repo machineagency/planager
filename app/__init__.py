@@ -43,9 +43,9 @@ app.config["SESSION_COOKIE_SECURE"] = True
 server_session = Session(app)
 
 
-@app.route("/")
-def index():
-    return "flask is running!"
+# @app.route("/")
+# def index():
+#     return "flask is running!"
 
 
 @sio.on("/api/test")
