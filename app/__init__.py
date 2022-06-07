@@ -5,7 +5,7 @@ from flask_socketio import SocketIO
 from app.action_manager import ActionManager
 from app.logging import info, error, debug
 
-import redis
+import redis, os
 
 app = Flask(
     __name__,
