@@ -79,6 +79,7 @@ class StatePane extends LitElement {
 
   renderObject(val) {
     if (Array.isArray(val)) return this.renderArray(val);
+    if (!val) return this.renderNull();
     let arr = [];
     for (const [key, value] of Object.entries(val)) {
       arr.push(
@@ -105,6 +106,10 @@ class StatePane extends LitElement {
       closeSquareBracket,
     ];
     return n;
+  }
+
+  renderNull() {
+    return html`<span class="undef">null</span>`;
   }
 
   renderNumber(val) {

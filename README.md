@@ -1,6 +1,13 @@
 # Planager
 
-I want to stress that this project is NOT READY for public use. I am putting all of the code here up for the world to see and check out if they are interested, but it's not intended to be something that you can use just yet. A lot of the documentation is wrong and needs to be updated.
+I want to stress that this project is NOT READY for public use. I am putting all
+of the code here up for the world to see and check out if they are interested,
+but it's not intended to be something that you can use just yet. A lot of the
+documentation is wrong and needs to be updated.
+
+## Install Heroku
+
+On WSL2: `curl https://cli-assets.heroku.com/install.sh | sh`
 
 ## Installation
 
@@ -36,19 +43,15 @@ Here is a quick overview of the main technologies used to build Planager:
 - Backend:
   - Python/Flask
   - Flask SocketIO
-  - Redis
 - Frontend:
   - Javascript
-  - Webpack for bundling static files
-  - Babel for transpiling JSX/SASS/CSS etc
-  - React (JSX) for modularizing the interface
+  - Lit for creating web components
   - npm for managing dependencies
 - Local Development:
   - VSCode
-  - Redis via a docker image
+  - web dev server
 - Deployment:
   - Heroku for hosting
-  - The Heroku Redis addon for the deployed database
   - Cloudflare for DNS management
 
 ### Virtual Environments

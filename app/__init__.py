@@ -1,6 +1,3 @@
-import redis
-import os
-
 from flask import Flask, render_template
 from flask_session import Session
 from flask_socketio import SocketIO
@@ -15,9 +12,9 @@ app = Flask(
     static_folder="../src/dist",
     template_folder="../src/dist",
 )
-sio = SocketIO(
-    app, async_mode="gevent", cors_allowed_origins="*"
-)  # "http://localhost:8000")
+sio = SocketIO(app, cors_allowed_origins="http://localhost:5000")
+# app, async_mode="gevent", cors_allowed_origins="*"
+# )  # "http://localhost:8000")
 
 PACKAGE_DIR = "actionsets"
 
@@ -27,7 +24,6 @@ action_manager.build_action_dict()
 # NOTE: The secret key is used to cryptographically sign the cookies used for storing
 #       the session identifier.
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
-# redis_url = os.getenv("REDISTOGO_URL", "redis://localhost:6379")
 
 # Configure Redis for storing the session data on the server-side
 app.config["SESSION_TYPE"] = "redis"
@@ -41,6 +37,11 @@ app.config["SESSION_USE_SIGNER"] = True
 # directly; just use the built in Flask session interface.
 app.config["SESSION_COOKIE_SECURE"] = True
 server_session = Session(app)
+
+
+@app.route("/")
+def index():
+    return "flask is running!"
 
 
 @sio.on("/api/test")
