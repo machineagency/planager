@@ -101,19 +101,19 @@ export class PlanagerRoot extends LitElement {
           <planager-pane
             slot="floating"
             displayName="Settings"
-            style="--dx:700;--dy:300"
+            style="--dx:1100;--dy:300"
             ><planager-settings></planager-settings
           ></planager-pane>
           <planager-pane
             slot="floating"
             displayName="Plan Viewer"
-            style="--dx:700;--dy:500"
+            style="--dx:1100;--dy:500"
             ><plan-viewer .socket=${this.socket}></plan-viewer
           ></planager-pane>
           <planager-pane
             slot="floating"
             displayName="Tool Library"
-            style="--dx:700;--dy:0"
+            style="--dx:1100;--dy:0"
           >
             <planager-library
               .socket=${this.socket}

@@ -16,16 +16,24 @@ export default class Upload extends Tool {
     }
   `;
 
-  doUpload(e) {
-    let f = e.target.files[0];
-    let reader = new FileReader();
-    reader.onload = ((theFile) => {
-      return (e) => {
-        console.log(e.target.result);
-      };
-      reader.readAsText(f);
-    })(f);
-    // this.state.fileContents = "asdf";
+  async doUpload(e) {
+    let file = e.target.files[0];
+    this.state.fileType = file.type;
+    this.state.fileSize = file.size;
+    this.state.fileName = file.name;
+    this.state.fileURL = URL.createObjectURL(file);
+    this.state.fileContents = await file.text();
+    // console.log(file.text());
+
+    // let contents;
+    // const reader = new FileReader();
+    // reader.onload = (function (c) {
+    //   return function (e) {
+    //     console.log(e.target.result);
+    //   };
+    // })(contents);
+    // reader.readAsDataURL(file);
+    // console.log(contents);
   }
 
   render() {

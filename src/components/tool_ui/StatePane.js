@@ -44,6 +44,11 @@ class StatePane extends LitElement {
     }
     .string {
       color: var(--planager-text-dark);
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 50ch;
     }
     .boolean {
       color: var(--planager-purple);

@@ -16,7 +16,6 @@ export default class ImageViewer extends Tool {
     #drawing {
       height: 22rem;
       width: 34rem;
-      min-width: -moz-available;
     }
 
     .resizable-content {
@@ -52,15 +51,6 @@ export default class ImageViewer extends Tool {
   }
 
   render() {
-    let parser = new DOMParser();
-    if (this.state.svgContents) {
-      // console.log(this.state.svgContents);
-      const doc = parser.parseFromString(
-        this.state.svgContents,
-        "image/svg+xml"
-      );
-      this.draw.svg(this.state.svgContents);
-    }
     return this.renderModule(html`<div id="controlbox">
         <span class="button" @click=${this.clear}>Clear</span>
       </div>

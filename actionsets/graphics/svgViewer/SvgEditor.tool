@@ -3,9 +3,6 @@
     "inports": {
         "objects": {
             "displayName": "objects"
-        },
-        "svgContents": {
-            "displayName": "svg contents"
         }
     },
     "outports": {
@@ -14,7 +11,6 @@
         }
     },
     "state": {
-        "transforms": [],
-        "svgContents": null
+        "transforms": []
     }
 }
