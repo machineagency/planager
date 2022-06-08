@@ -1,10 +1,10 @@
-import { html, css } from "lit";
+import { html } from "lit";
 import { Tool } from "../../../src/components/tool_ui/Tool";
+
 export default class Color extends Tool {
   render() {
     return this.renderModule(html`
       <input
-        id="textInput"
         type="color"
         value=${this.state.color}
         @input=${(e) => {

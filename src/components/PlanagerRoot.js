@@ -32,7 +32,7 @@ export class PlanagerRoot extends LitElement {
   constructor() {
     super();
     this.modules = [];
-    this.socket = io.connect("http://localhost:8000/");
+    this.socket = io.connect("http://localhost:5000/");
     this.socket.emit("newPlan");
     this.theme = "dracula";
   }

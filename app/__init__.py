@@ -10,12 +10,10 @@ import redis, os
 app = Flask(
     __name__,
     static_url_path="",
-    static_folder="../src/dist",
-    template_folder="../src/dist",
+    static_folder="../build",
+    template_folder="../build",
 )
-sio = SocketIO(
-    app, async_mode="gevent"
-)  # cors_allowed_origins="http://localhost:5000")
+sio = SocketIO(app, async_mode="gevent", cors_allowed_origins="http://localhost:8000")
 # app, async_mode="gevent", cors_allowed_origins="*"
 # )  # "http://localhost:8000")
 
@@ -43,9 +41,9 @@ app.config["SESSION_COOKIE_SECURE"] = True
 server_session = Session(app)
 
 
-# @app.route("/")
-# def index():
-#     return "flask is running!"
+@app.route("/")
+def index():
+    return render_template("index.html")
 
 
 @sio.on("/api/test")

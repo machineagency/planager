@@ -5,7 +5,7 @@ const hmr = process.argv.includes("--hmr");
 
 export default {
   open: "/",
-  port: 5000,
+  port: 8000,
   watch: !hmr,
   /** Resolve bare module imports */
   nodeResolve: {
