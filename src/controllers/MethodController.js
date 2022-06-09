@@ -4,7 +4,7 @@ export class MethodController {
     this.host = host;
     this.host.addController(this);
   }
-  runMethod(methodName) {
-    this.host.socket.emit(`${this.host.info.id}_method`, methodName);
+  runMethod(methodName, args = null) {
+    this.host.socket.emit(`${this.host.info.id}_method`, methodName, args);
   }
 }

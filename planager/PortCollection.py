@@ -16,7 +16,9 @@ class PortCollection:
 
     def set_inport(self, startActionID, startPortID, port_id, value):
         self._ports[port_id].setValue(startActionID, startPortID, value)
-        self.socket.emit(f"{self.parent_id}_inport_{port_id}", value)
+        self.socket.emit(
+            f"{self.parent_id}_inport_{port_id}", self._ports[port_id].value
+        )
 
     def __getitem__(self, port_id):
         return self._ports[port_id].value

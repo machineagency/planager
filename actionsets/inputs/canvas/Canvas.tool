@@ -2,7 +2,8 @@
     "displayName": "Axidraw Canvas",
     "inports": {
         "objects": {
-            "displayName": "objects"
+            "displayName": "objects",
+            "multi": true
         }
     },
     "outports": {
@@ -11,9 +12,8 @@
         }
     },
     "state": {
-        "locs": [],
         "width": 17,
         "height": 11,
-        "currentMark": null
+        "units": "inches"
     }
 }

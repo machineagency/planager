@@ -21,16 +21,17 @@ export default class Circle extends Tool {
   firstUpdated() {
     this.canvas = this.renderRoot.querySelector("#drawing");
     this.draw = SVG().addTo(this.canvas).size("100%", "100%");
-    this.circle = this.draw
-      .circle(this.state.diameter)
-      .fill("var(--planager-text-light)");
+    this.circle = this.draw.circle(this.state.diameter).fill(this.state.color);
+    this.update();
   }
 
   render() {
     if (this.circle) {
       let radius = this.state.diameter / 2;
       this.circle.radius(radius);
+      this.circle.fill(this.state.color);
       this.circle.attr({ cx: radius, cy: radius });
+      this.api.runMethod("set_svg_string", this.circle.svg());
     }
     return this.renderModule(html`<div id="drawing-container">
       <div

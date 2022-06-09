@@ -12,7 +12,7 @@ export default class Canvas extends Tool {
 
   static styles = css`
     #drawing {
-      width: 20rem;
+      width: 30rem;
     }
 
     .resizable-content {
@@ -47,7 +47,7 @@ export default class Canvas extends Tool {
   }
 
   recordLocation() {
-    this.state.currentMark = this.canvasLocation;
+    this.api.runMethod("capture_position", this.canvasLocation);
   }
 
   firstUpdated() {
@@ -56,13 +56,14 @@ export default class Canvas extends Tool {
     this.draw = SVG().addTo(this.canvas).size("100%", "100%");
   }
 
-  clear() {
-    this.draw.clear();
-  }
-
   render() {
+    if (this.draw && this.inports.objects) {
+      this.draw.clear();
+      for (const [key, obj] of Object.entries(this.inports.objects)) {
+        this.draw.svg(obj);
+      }
+    }
     return this.renderModule(html` <div id="controlbox">
-        <span class="button" @click=${this.clear}>Clear</span>
         <span>X: ${this.canvasLocation.x}</span>
         <span>Y: ${this.canvasLocation.y}</span>
       </div>

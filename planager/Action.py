@@ -91,8 +91,8 @@ class Action:
 
         return method_list
 
-    def run_method_from_socket(self, method_name):
-        getattr(self, method_name)()
+    def run_method_from_socket(self, method_name, args):
+        getattr(self, method_name)(args)
 
     def setup(self):
         pass

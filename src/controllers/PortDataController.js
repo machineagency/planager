@@ -8,7 +8,7 @@ export class PortDataController {
   }
 
   hostConnected() {
-    for (const [port, value] of Object.entries(this.host.info.inports)) {
+    for (const port of Object.keys(this.host.info.inports)) {
       this.host.socket.on(`${this.host.info.id}_inport_${port}`, (value) => {
         this.inports[port] = value;
         this.host.requestUpdate();

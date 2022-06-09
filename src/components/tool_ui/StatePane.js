@@ -1,4 +1,5 @@
-import { LitElement, html, css } from "lit";
+import { LitElement, html, css, nothing } from "lit";
+import { unselectable } from "../../ui/styles";
 
 function* intersperse(a, delim) {
   let first = true;
@@ -20,67 +21,75 @@ class StatePane extends LitElement {
   static properties = {
     state: { type: Object },
     numPrecision: { type: Number },
-    expanded: {},
+    expanded: { type: Boolean },
   };
 
-  static styles = css`
-    #header {
-      background-color: var(--planager-blue);
-      color: var(--planager-text-light);
-      font-size: 0.7rem;
-      font-weight: bolder;
-    }
-    .state-entry {
-      max-width: 20rem;
-      padding: 0.2rem;
-    }
-    .number {
-      color: var(--planager-blue);
-      padding: 0.1rem;
-    }
-    .number:hover {
-      color: var(--planager-text-light);
-      background-color: var(--planager-blue);
-    }
-    .string {
-      color: var(--planager-text-dark);
-      display: inline-block;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 50ch;
-    }
-    .boolean {
-      color: var(--planager-purple);
-    }
-    .array-decor {
-      color: var(--planager-text-dark);
-    }
-    #state-container {
-      display: grid;
-      grid-template-columns: auto auto;
-      padding: 0.2rem;
-      font-size: 0.7rem;
-      cursor: pointer;
-    }
-    .key {
-      text-align: right;
-      font-weight: bolder;
-      padding: 0.1rem;
-    }
-    .key:hover {
-      color: var(--planager-text-light);
-      background-color: var(--planager-pink);
-    }
-    .value {
-      margin: 0 0.2rem;
-      vertical-align: top;
-    }
-  `;
+  static styles = [
+    unselectable,
+    css`
+      #header {
+        background-color: var(--planager-gray);
+        color: var(--planager-text-light);
+        font-size: 0.7rem;
+        font-weight: bolder;
+      }
+      #header:hover {
+        background-color: var(--planager-workspace-background);
+        cursor: pointer;
+      }
+      .state-entry {
+        max-width: 20rem;
+        padding: 0.2rem;
+      }
+      .number {
+        color: var(--planager-blue);
+        padding: 0.1rem;
+      }
+      .number:hover {
+        color: var(--planager-text-light);
+        background-color: var(--planager-blue);
+      }
+      .string {
+        color: var(--planager-text-dark);
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 50ch;
+      }
+      .boolean {
+        color: var(--planager-purple);
+      }
+      .array-decor {
+        color: var(--planager-text-dark);
+      }
+      #state-container {
+        display: grid;
+        grid-template-columns: auto auto;
+        padding: 0.2rem;
+        font-size: 0.7rem;
+        cursor: pointer;
+      }
+      .key {
+        text-align: right;
+        font-weight: bolder;
+        padding: 0.1rem;
+      }
+      .key:hover {
+        color: var(--planager-text-light);
+        background-color: var(--planager-pink);
+      }
+      .value {
+        margin: 0 0.2rem;
+        vertical-align: top;
+      }
+    `,
+  ];
 
   constructor() {
     super();
     this.numPrecision = 3;
+    this.expanded = false;
   }
 
   renderObject(val) {
@@ -159,6 +168,10 @@ class StatePane extends LitElement {
     return node;
   }
 
+  toggleCollapse() {
+    this.expanded = !this.expanded;
+  }
+
   renderState() {
     let arr = [];
     for (const [key, value] of Object.entries(this.state)) {
@@ -172,8 +185,12 @@ class StatePane extends LitElement {
 
   render() {
     return html`<div>
-      <div id="header">State</div>
-      <div id="state-container">${this.renderState()}</div>
+      <div id="header" class="unselectable" @click=${this.toggleCollapse}>
+        State
+      </div>
+      ${this.expanded
+        ? html`<div id="state-container">${this.renderState()}</div>`
+        : nothing}
     </div>`;
   }
 }

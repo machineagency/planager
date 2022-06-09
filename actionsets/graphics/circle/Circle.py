@@ -11,4 +11,10 @@ with open(os.path.join(os.path.dirname(__file__), "Circle.tool")) as json_file:
 
 class Circle(Action, config=CONFIG):
     def inports_updated(self, inportID):
-        self.state["diameter"] = self.inports["diameter"]
+        if self.inports["diameter"]:
+            self.state["diameter"] = self.inports["diameter"]
+        if self.inports["color"]:
+            self.state["color"] = self.inports["color"]
+
+    def set_svg_string(self, str):
+        self.outports["circle"] = str

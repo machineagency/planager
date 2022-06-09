@@ -3,6 +3,9 @@
     "inports": {
         "diameter": {
             "displayName": "diameter"
+        },
+        "color": {
+            "displayName": "color"
         }
     },
     "outports": {
@@ -10,6 +13,12 @@
             "displayName": "circle"
         }
     },
-    "state": {"diameter": 100
+    "state": {
+        "diameter": 100,
+        "center": {
+            "x": 0,
+            "y": 0
+        },
+        "color": "#cccccc"
     }
 }
