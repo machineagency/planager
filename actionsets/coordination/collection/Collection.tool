@@ -2,7 +2,10 @@
     "displayName": "Collection",
     "inports": {
         "candidate": {
-            "displayName": "candidate"
+            "displayName": "Value"
+        },
+        "name": {
+            "displayName": "Key"
         }
     },
     "outports": {

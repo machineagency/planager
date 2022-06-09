@@ -11,6 +11,9 @@
         }
     },
     "state": {
-        "locs": []
+        "locs": [],
+        "width": 17,
+        "height": 11,
+        "currentMark": null
     }
 }

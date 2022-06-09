@@ -15,7 +15,9 @@ export default class Collection extends Tool {
   }
 
   render() {
-    return this.renderModule(html`<div>${this.state.candidate}</div>
+    return this.renderModule(html`<div>
+        ${JSON.stringify(this.state.candidate)}
+      </div>
       <div id="controlbox">
         <div @click=${this.grabCandidate} id="grab-button">Grab</div>
       </div>`);

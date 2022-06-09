@@ -98,7 +98,7 @@ export class PlanagerRoot extends LitElement {
       <main style=${styleMap(themes[this.theme])}>
         <planager-toolbar .socket=${this.socket}></planager-toolbar>
         <planager-workspace ${ref(this.canvasRef)} .socket=${this.socket}>
-          <planager-pane
+          <!-- <planager-pane
             slot="floating"
             displayName="Settings"
             style="--dx:1100;--dy:300"
@@ -109,7 +109,7 @@ export class PlanagerRoot extends LitElement {
             displayName="Plan Viewer"
             style="--dx:1100;--dy:500"
             ><plan-viewer .socket=${this.socket}></plan-viewer
-          ></planager-pane>
+          ></planager-pane> -->
           <planager-pane
             slot="floating"
             displayName="Tool Library"

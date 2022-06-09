@@ -9,6 +9,9 @@
         },
         "config": {
             "displayName": "Configuration"
+        },
+        "location": {
+            "displayName": "Go To Location"
         }
     },
     "outports": {

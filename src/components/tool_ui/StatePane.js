@@ -100,7 +100,6 @@ class StatePane extends LitElement {
   }
 
   renderArray(val) {
-    console.log(val);
     let arrHTML = [];
     for (const item of val) {
       arrHTML.push(this.renderValue(item));

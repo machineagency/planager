@@ -26,8 +26,19 @@ class Axi(Action, config=CONFIG):
         self.outports["config"] = self.ad.options.__dict__
 
     def inports_updated(self, inportID):
-        port_handlers = {"live": self.liveMove, "config": self.updateConfig}
+        port_handlers = {
+            "live": self.liveMove,
+            "config": self.updateConfig,
+            "location": self.goto,
+        }
         port_handlers[inportID]()
+
+    def goto(self):
+        loc = self.inports["location"]
+        if not loc:
+            return
+        self.ad.moveto(float(loc["x"]), float(loc["y"]))
+        self.state["position"] = self.ad.current_pos()
 
     def updateConfig(self):
         print(self.inports["config"])

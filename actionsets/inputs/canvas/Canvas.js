@@ -1,5 +1,6 @@
 import { html, css } from "lit";
 import { Tool } from "../../../src/components/tool_ui/Tool";
+import { ToolMouseController } from "../../../src/controllers/ToolMouseController";
 import {
   SVG,
   extend as SVGextend,
@@ -7,19 +8,15 @@ import {
 } from "@svgdotjs/svg.js";
 
 export default class Canvas extends Tool {
-  isCapturing;
-  path;
-  points;
-  allPaths;
+  mouse = new ToolMouseController(this);
 
   static styles = css`
     #drawing {
-      height: 22rem;
-      width: 34rem;
+      width: 20rem;
     }
 
     .resizable-content {
-      resize: both;
+      resize: horizontal;
       overflow: hidden;
     }
     #controlbox {
@@ -27,7 +24,7 @@ export default class Canvas extends Tool {
     }
     .button {
       text-align: center;
-      width: 100%;
+      width: 5rem;
       background-color: var(--planager-blue);
       cursor: pointer;
       color: var(--planager-text-light);
@@ -39,10 +36,23 @@ export default class Canvas extends Tool {
   `;
   constructor() {
     super();
+    this.mouse.mouseDown = this.recordLocation.bind(this);
+  }
+
+  get canvasLocation() {
+    return {
+      x: (this.mouse.pos.xRatio * this.state.width).toPrecision(4),
+      y: (this.mouse.pos.yRatio * this.state.height).toPrecision(4),
+    };
+  }
+
+  recordLocation() {
+    this.state.currentMark = this.canvasLocation;
   }
 
   firstUpdated() {
     this.canvas = this.renderRoot.querySelector("#drawing");
+    this.mouse.setTrackedElement(this.canvas);
     this.draw = SVG().addTo(this.canvas).size("100%", "100%");
   }
 
@@ -53,7 +63,13 @@ export default class Canvas extends Tool {
   render() {
     return this.renderModule(html` <div id="controlbox">
         <span class="button" @click=${this.clear}>Clear</span>
+        <span>X: ${this.canvasLocation.x}</span>
+        <span>Y: ${this.canvasLocation.y}</span>
       </div>
-      <div id="drawing" class="resizable-content"></div>`);
+      <div
+        id="drawing"
+        style="aspect-ratio:${this.state.width} / ${this.state.height}"
+        class="resizable-content"
+      ></div>`);
   }
 }
