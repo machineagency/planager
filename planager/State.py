@@ -22,7 +22,6 @@ class State:
         self.socket.on_event(
             f"{self.parent_id}_set_{state_variable}", self.update_from_socket
         )
-        print("Registered socket for", state_variable)
 
     def update_from_socket(self, message):
         self.__setitem__(message["state"], message["val"])

@@ -19,8 +19,7 @@ class Action:
 
     def __init__(self, overrideConfig=None, socket=None):
         # General information
-        self.outports = PortCollection(self.outports_updated)
-        self.inports = PortCollection(self.inports_updated)
+
         self.coords = None
         self.socket = socket
         self.name = self.__module__.split(".")[-1]
@@ -37,6 +36,9 @@ class Action:
                 self.id,
             )
 
+            self.outports = PortCollection(self.outports_updated, self.socket, self.id)
+            self.inports = PortCollection(self.inports_updated, self.socket, self.id)
+
             for inport_id, inport_config in overrideConfig["inports"].items():
                 self.inports.add_port(Inport(inport_id, self.id, inport_config))
 
@@ -52,6 +54,9 @@ class Action:
                 self.state_updated,
                 self.id,
             )
+
+            self.outports = PortCollection(self.outports_updated, self.socket, self.id)
+            self.inports = PortCollection(self.inports_updated, self.socket, self.id)
 
             for inport_id, inport_config in self.config["inports"].items():
                 # newInport = Inport(inport_id, self.id, inport_config)

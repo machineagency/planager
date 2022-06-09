@@ -14,8 +14,6 @@
         }
     },
     "state": {
-        "collection": {},
-        "candidate": null,
-        "named": true
+        "collection": {}
     }
 }

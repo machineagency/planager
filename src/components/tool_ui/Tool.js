@@ -1,8 +1,11 @@
 import { LitElement, html, css } from "lit";
 import { StateController } from "../../controllers/StateController";
+import { MethodController } from "../../controllers/MethodController";
+import { PortDataController } from "../../controllers/PortDataController";
 import "./StatePane";
 
 export class Tool extends LitElement {
+  ports = new PortDataController(this);
   static properties = {
     info: {},
     state: {},
@@ -17,6 +20,9 @@ export class Tool extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this.state = new StateController(this).state;
+    this.api = new MethodController(this);
+    this.inports = this.ports.inports;
+    this.outports = this.ports.outports;
   }
 
   renderStatePane() {

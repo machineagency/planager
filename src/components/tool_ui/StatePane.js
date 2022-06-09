@@ -74,6 +74,7 @@ class StatePane extends LitElement {
     }
     .value {
       margin: 0 0.2rem;
+      vertical-align: top;
     }
   `;
 
