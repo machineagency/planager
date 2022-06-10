@@ -7,9 +7,9 @@
         }
     },
     "state": {
-        "value": 0,
-        "min": 0,
-        "max": 1000,
+        "value": 20,
+        "min": 1,
+        "max": 150,
         "precision": 1
     }
 }

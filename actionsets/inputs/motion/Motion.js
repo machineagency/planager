@@ -55,6 +55,7 @@ export default class Motion extends Tool {
 
     // The first move of the svg is to the starting point
     this.points = [["m", x, y]];
+    // this.points = [];
 
     // SVG is now drawing a path
     this.path = this.draw.path(this.points);
@@ -79,7 +80,8 @@ export default class Motion extends Tool {
     // Plot the last bit of the path
     this.points.push(["l", e.movementX, e.movementY]);
     this.path.plot(this.points);
-    this.allPaths.push(this.points);
+    this.allPaths.push(this.points.slice(1));
+    console.log(this.allPaths);
     this.state.paths = this.allPaths;
     this.state.svg = this.path.svg();
     // Reset points array
@@ -87,6 +89,7 @@ export default class Motion extends Tool {
   }
   clear(e) {
     this.draw.clear();
+    this.state.paths = [];
   }
   save(e) {
     this.state.paths = this.allPaths;

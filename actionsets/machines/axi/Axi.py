@@ -23,19 +23,23 @@ class Axi(Action, config=CONFIG):
         self.state["connected"] = self.ad.connected
         self.update_position()
         self.state["pen"] = self.ad.current_pen()
-        self.outports["config"] = self.ad.options.__dict__
+        # self.outports["config"] = self.ad.options.__dict__
 
     def update_position(self):
         pos = self.ad.current_pos()
+        pen = self.ad.current_pen()
         self.state["position"] = {"x": pos[0], "y": pos[1]}
+        self.state["pen"] = pen
         self.outports["currentLocation"] = self.state["position"]
+        self.outports["pen"] = self.state["pen"]
 
     def inports_updated(self, inportID):
         port_handlers = {
             "live": self.liveMove,
-            "config": self.updateConfig,
+            # "config": self.updateConfig,
             "location": self.goto,
             "svg": self.draw_svg,
+            "pen": self.set_pen,
         }
         port_handlers[inportID]()
 
@@ -45,9 +49,6 @@ class Axi(Action, config=CONFIG):
             return
         self.ad.moveto(float(loc["x"]), float(loc["y"]))
         self.update_position()
-
-    def updateConfig(self):
-        print(self.inports["config"])
 
     def home(self):
         self.ad.moveto(0, 0)
@@ -74,13 +75,20 @@ class Axi(Action, config=CONFIG):
 
         if command[0] == "m":
             # print(f"Absolute move: {command[1]/100} x {command[2]/100} y")
-            self.ad.moveto(command[1] / 100, command[2] / 100)
+            self.ad.moveto(command[1], command[2])
         if command[0] == "l":
             # print(f"Relative move: {command[1]/100} x {command[2]/100} y")
-            self.ad.line(command[1] / 100, command[2] / 100)
+            self.ad.line(command[1], command[2])
 
         self.update_position()
         self.state["move_buffer"] = buffer[1:]
+
+    def set_pen(self):
+        if self.inports["pen"]:
+            self.ad.penup()
+        elif not self.inports["pen"]:
+            self.ad.pendown()
+        self.update_position()
 
     def do_move(self, arg):
         if not self.state["move_buffer"]:
@@ -89,4 +97,9 @@ class Axi(Action, config=CONFIG):
         while self.state["move_buffer"]:
             self.move_from_buffer()
 
-        self.home()
+        # self.home()
+
+    def align(self, arg):
+        self.ad.plot_setup()
+        self.ad.options.mode = "align"
+        self.ad.plot_run()

@@ -50,8 +50,8 @@ export default class Canvas extends Tool {
 
   recordLocation() {
     this.api.runMethod("capture_position", {
-      converted: this.canvasLocation,
-      normal: { x: this.mouse.pos.x, y: this.mouse.pos.y },
+      x: this.mouse.pos.x,
+      y: this.mouse.pos.y,
     });
   }
 
@@ -69,8 +69,8 @@ export default class Canvas extends Tool {
       }
     }
     return this.renderModule(html` <div id="controlbox">
-        <span>X: ${this.canvasLocation.x}</span>
-        <span>Y: ${this.canvasLocation.y}</span>
+        <span>X: ${this.mouse.pos.x}</span>
+        <span>Y: ${this.mouse.pos.y}</span>
       </div>
       <div
         id="drawing"

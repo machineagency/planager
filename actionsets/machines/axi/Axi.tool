@@ -7,22 +7,22 @@
         "live": {
             "displayName": "live moves"
         },
-        "config": {
-            "displayName": "Configuration"
-        },
         "location": {
             "displayName": "Go To Location"
         },
         "svg": {
             "displayName": "SVG"
+        },
+        "pen": {
+            "displayName": "Pen"
         }
     },
     "outports": {
         "currentLocation": {
             "displayName": "currentLocation"
         },
-        "config": {
-            "displayName": "Configuration"
+        "pen": {
+            "displayName": "Pen State"
         }
     },
     "state": {

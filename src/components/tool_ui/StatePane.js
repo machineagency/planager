@@ -69,6 +69,7 @@ class StatePane extends LitElement {
         padding: 0.2rem;
         font-size: 0.7rem;
         cursor: pointer;
+        width: min-content;
       }
       .key {
         text-align: right;

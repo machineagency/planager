@@ -1,5 +1,5 @@
 {
-    "displayName": "Axidraw Canvas",
+    "displayName": "SVG Canvas",
     "inports": {
         "objects": {
             "displayName": "objects",
@@ -7,11 +7,8 @@
         }
     },
     "outports": {
-        "convertedLocation": {
-            "displayName": "convertedLocation"
-        },
-        "location": {
-            "displayName": "location"
+        "position": {
+            "displayName": "position"
         }
     },
     "state": {
