@@ -2,14 +2,15 @@
     "displayName": "Draw Something",
     "inports": {},
     "outports": {
-        "paths": {
-            "displayName": "paths"
+        "svg": {
+            "displayName": "svg"
         },
         "live": {
             "displayName": "Live"
         }
     },
     "state": {
-        "paths": []
+        "paths": [],
+        "svg": null
     }
 }

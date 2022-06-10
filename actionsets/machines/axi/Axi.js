@@ -3,7 +3,7 @@ import { Tool } from "../../../src/components/tool_ui/Tool";
 
 export default class Axi extends Tool {
   handleClick(e) {
-    this.socket.emit(`${this.info.id}_method`, "do_move");
+    this.api.runMethod("do_move");
   }
 
   render() {

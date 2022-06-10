@@ -81,6 +81,7 @@ export default class Motion extends Tool {
     this.path.plot(this.points);
     this.allPaths.push(this.points);
     this.state.paths = this.allPaths;
+    this.state.svg = this.path.svg();
     // Reset points array
     this.points = [];
   }

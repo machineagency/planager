@@ -6,6 +6,9 @@
         },
         "color": {
             "displayName": "color"
+        },
+        "translate": {
+            "displayName": "translate"
         }
     },
     "outports": {
@@ -15,7 +18,7 @@
     },
     "state": {
         "diameter": 100,
-        "center": {
+        "translate": {
             "x": 0,
             "y": 0
         },

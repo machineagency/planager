@@ -7,8 +7,11 @@
         }
     },
     "outports": {
-        "place": {
-            "displayName": "place"
+        "convertedLocation": {
+            "displayName": "convertedLocation"
+        },
+        "location": {
+            "displayName": "location"
         }
     },
     "state": {

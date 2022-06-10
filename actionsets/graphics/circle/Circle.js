@@ -30,7 +30,10 @@ export default class Circle extends Tool {
       let radius = this.state.diameter / 2;
       this.circle.radius(radius);
       this.circle.fill(this.state.color);
-      this.circle.attr({ cx: radius, cy: radius });
+      this.circle.attr({
+        cx: this.state.translate.x,
+        cy: this.state.translate.y,
+      });
       this.api.runMethod("set_svg_string", this.circle.svg());
     }
     return this.renderModule(html`<div id="drawing-container">

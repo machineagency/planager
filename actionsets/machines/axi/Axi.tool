@@ -12,6 +12,9 @@
         },
         "location": {
             "displayName": "Go To Location"
+        },
+        "svg": {
+            "displayName": "SVG"
         }
     },
     "outports": {
@@ -27,10 +30,6 @@
         "position": null,
         "pen": null,
         "move_buffer": [],
-        "offset": [
-            2,
-            2
-        ],
         "options": {
             "model": 2,
             "pen_pos_up": 60,

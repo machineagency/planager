@@ -11,4 +11,5 @@ with open(os.path.join(os.path.dirname(__file__), "Canvas.tool")) as json_file:
 
 class Canvas(Action, config=CONFIG):
     def capture_position(self, pos):
-        self.outports["place"] = pos
+        self.outports["location"] = pos["normal"]
+        self.outports["convertedLocation"] = pos["converted"]

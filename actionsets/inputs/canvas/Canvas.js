@@ -13,6 +13,8 @@ export default class Canvas extends Tool {
   static styles = css`
     #drawing {
       width: 30rem;
+      /* padding: 1rem;
+      background-color: var(--planager-workspace-background); */
     }
 
     .resizable-content {
@@ -47,7 +49,10 @@ export default class Canvas extends Tool {
   }
 
   recordLocation() {
-    this.api.runMethod("capture_position", this.canvasLocation);
+    this.api.runMethod("capture_position", {
+      converted: this.canvasLocation,
+      normal: { x: this.mouse.pos.x, y: this.mouse.pos.y },
+    });
   }
 
   firstUpdated() {

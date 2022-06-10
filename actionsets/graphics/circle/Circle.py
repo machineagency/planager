@@ -15,6 +15,8 @@ class Circle(Action, config=CONFIG):
             self.state["diameter"] = self.inports["diameter"]
         if self.inports["color"]:
             self.state["color"] = self.inports["color"]
+        if self.inports["translate"]:
+            self.state["translate"] = self.inports["translate"]
 
     def set_svg_string(self, str):
         self.outports["circle"] = str

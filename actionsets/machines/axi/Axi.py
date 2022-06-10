@@ -21,15 +21,21 @@ class Axi(Action, config=CONFIG):
             return
 
         self.state["connected"] = self.ad.connected
-        self.state["position"] = self.ad.current_pos()
+        self.update_position()
         self.state["pen"] = self.ad.current_pen()
         self.outports["config"] = self.ad.options.__dict__
+
+    def update_position(self):
+        pos = self.ad.current_pos()
+        self.state["position"] = {"x": pos[0], "y": pos[1]}
+        self.outports["currentLocation"] = self.state["position"]
 
     def inports_updated(self, inportID):
         port_handlers = {
             "live": self.liveMove,
             "config": self.updateConfig,
             "location": self.goto,
+            "svg": self.draw_svg,
         }
         port_handlers[inportID]()
 
@@ -38,13 +44,19 @@ class Axi(Action, config=CONFIG):
         if not loc:
             return
         self.ad.moveto(float(loc["x"]), float(loc["y"]))
-        self.state["position"] = self.ad.current_pos()
+        self.update_position()
 
     def updateConfig(self):
         print(self.inports["config"])
 
     def home(self):
         self.ad.moveto(0, 0)
+
+    def draw_svg(self):
+        self.ad.plot_setup(self.inports["svg"])
+        self.ad.options.digest = 2
+        output = self.ad.plot_run(True)
+        print(output)
 
     def liveMove(self):
         """Runs when the live move port is updated"""
@@ -59,21 +71,18 @@ class Axi(Action, config=CONFIG):
             return
 
         command = buffer[0]
-        start = self.state["offset"]
 
         if command[0] == "m":
             # print(f"Absolute move: {command[1]/100} x {command[2]/100} y")
-            self.ad.moveto(start[0] + command[1] / 100, start[1] + command[2] / 100)
+            self.ad.moveto(command[1] / 100, command[2] / 100)
         if command[0] == "l":
             # print(f"Relative move: {command[1]/100} x {command[2]/100} y")
             self.ad.line(command[1] / 100, command[2] / 100)
 
-        pos = self.ad.current_pos()
-
-        self.state["position"] = [pos[0], pos[1]]
+        self.update_position()
         self.state["move_buffer"] = buffer[1:]
 
-    def do_move(self):
+    def do_move(self, arg):
         if not self.state["move_buffer"]:
             return
 
