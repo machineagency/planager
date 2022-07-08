@@ -68,17 +68,18 @@ class Axi(Action, config=CONFIG):
 
     def move_from_buffer(self):
         buffer = self.state["move_buffer"]
+        print("WOOOOO")
         if not buffer:
             return
 
-        command = buffer[0]
+        for command in buffer[0]:
 
-        if command[0] == "m":
-            # print(f"Absolute move: {command[1]/100} x {command[2]/100} y")
-            self.ad.moveto(command[1], command[2])
-        if command[0] == "l":
-            # print(f"Relative move: {command[1]/100} x {command[2]/100} y")
-            self.ad.line(command[1], command[2])
+            if command[0] == "m":
+                # print(f"Absolute move: {command[1]/100} x {command[2]/100} y")
+                self.ad.moveto(command[1], command[2])
+            if command[0] == "l":
+                # print(f"Relative move: {command[1]/100} x {command[2]/100} y")
+                self.ad.line(command[1], command[2])
 
         self.update_position()
         self.state["move_buffer"] = buffer[1:]

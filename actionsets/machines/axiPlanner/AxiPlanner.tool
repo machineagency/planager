@@ -1,16 +1,21 @@
 {
     "displayName": "Axidraw Planner",
-    "inports": {},
+    "inports": {
+        "stroke": {
+            "displayName": "stroke"
+        }
+    },
     "outports": {
-        "svg": {
-            "displayName": "svg"
-        },
-        "live": {
-            "displayName": "Live"
+        "paths": {
+            "displayName": "paths"
         }
     },
     "state": {
         "paths": [],
-        "svg": null
+        "svg": null,
+        "bounds": [
+            null,
+            null
+        ]
     }
 }
