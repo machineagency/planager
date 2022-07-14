@@ -11,20 +11,30 @@ export default class Port extends LitElement {
   }
   static styles = css`
     .port {
-      width: 1rem;
+      width: fit-content;
       height: 1rem;
       margin-bottom: 0.2rem;
       background-color: var(--planager-pipe);
       cursor: pointer;
+      color: var(--planager-text-dark);
+      font-size: x-small;
+      font-family: monospace;
+      clear: both;
     }
     .port:hover {
-      filter: invert(0.5);
+      background-color: var(--planager-green);
     }
     .left {
-      border-radius: 50% 0 0 50%;
+      border-radius: 0.5rem 0 0 0.5rem;
+      float: right;
     }
     .right {
-      border-radius: 0 50% 50% 0;
+      border-radius: 0 0.5rem 0.5rem 0;
+      float: left;
+    }
+    .text {
+      vertical-align: sub;
+      margin: auto 0.2rem;
     }
   `;
 
@@ -45,7 +55,9 @@ export default class Port extends LitElement {
         class="${this.side} port"
         @pointerdown=${this.handlePortClick}
         title=${this.info.displayName}
-      ></div>
+      >
+        <span class="text">${this.info.displayName}</span>
+      </div>
     `;
   }
 }

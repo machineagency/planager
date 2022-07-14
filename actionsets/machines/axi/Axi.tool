@@ -1,28 +1,25 @@
 {
     "displayName": "Axi",
     "inports": {
-        "relativeMove": {
-            "displayName": "Relative Move"
-        },
-        "live": {
-            "displayName": "live moves"
-        },
-        "location": {
-            "displayName": "Go To Location"
-        },
-        "svg": {
-            "displayName": "SVG"
+        "move": {
+            "displayName": "move"
         },
         "pen": {
-            "displayName": "Pen"
+            "displayName": "pen"
+        },
+        "location": {
+            "displayName": "go to"
         }
     },
     "outports": {
         "currentLocation": {
-            "displayName": "currentLocation"
+            "displayName": "location"
         },
         "pen": {
-            "displayName": "Pen State"
+            "displayName": "pen state"
+        },
+        "ready": {
+            "displayName": "ready?"
         }
     },
     "state": {
@@ -34,6 +31,7 @@
             "model": 2,
             "pen_pos_up": 60,
             "pen_pos_down": 30
-        }
+        },
+        "scale_factor": 0.035416
     }
 }

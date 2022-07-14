@@ -23,6 +23,8 @@ class Axi(Action, config=CONFIG):
         self.state["connected"] = self.ad.connected
         self.update_position()
         self.state["pen"] = self.ad.current_pen()
+        # self.ad.options.units = 2
+        self.ad.update()
         # self.outports["config"] = self.ad.options.__dict__
 
     def update_position(self):
@@ -30,15 +32,16 @@ class Axi(Action, config=CONFIG):
         pen = self.ad.current_pen()
         self.state["position"] = {"x": pos[0], "y": pos[1]}
         self.state["pen"] = pen
-        self.outports["currentLocation"] = self.state["position"]
+        self.outports["currentLocation"] = {
+            "x": self.state["position"]["x"] / self.state["scale_factor"],
+            "y": self.state["position"]["y"] / self.state["scale_factor"],
+        }
         self.outports["pen"] = self.state["pen"]
 
     def inports_updated(self, inportID):
         port_handlers = {
-            "live": self.liveMove,
-            # "config": self.updateConfig,
+            "move": self.liveMove,
             "location": self.goto,
-            "svg": self.draw_svg,
             "pen": self.set_pen,
         }
         port_handlers[inportID]()
@@ -47,42 +50,43 @@ class Axi(Action, config=CONFIG):
         loc = self.inports["location"]
         if not loc:
             return
-        self.ad.moveto(float(loc["x"]), float(loc["y"]))
+        self.moveto(float(loc["x"]), float(loc["y"]))
+
+    def moveto(self, x, y):
+        self.ad.moveto(x * self.state["scale_factor"], y * self.state["scale_factor"])
+        self.update_position()
+
+    def move(self, x, y):
+        self.ad.move(x * self.state["scale_factor"], y * self.state["scale_factor"])
+        self.update_position()
+
+    def lineto(self, x, y):
+        self.ad.lineto(x * self.state["scale_factor"], y * self.state["scale_factor"])
+        self.update_position()
+
+    def line(self, x, y):
+        self.ad.line(x * self.state["scale_factor"], y * self.state["scale_factor"])
         self.update_position()
 
     def home(self):
-        self.ad.moveto(0, 0)
-
-    def draw_svg(self):
-        self.ad.plot_setup(self.inports["svg"])
-        self.ad.options.digest = 2
-        output = self.ad.plot_run(True)
-        print(output)
+        self.move(0, 0)
 
     def liveMove(self):
         """Runs when the live move port is updated"""
-        command_set = self.inports["live"]
+        command_set = self.inports["move"]
         if not command_set:
             return
-        self.state["move_buffer"] = self.state["move_buffer"] + command_set
 
-    def move_from_buffer(self):
-        buffer = self.state["move_buffer"]
-        print("WOOOOO")
-        if not buffer:
-            return
-
-        for command in buffer[0]:
-
+        for command in command_set:
+            print(command)
             if command[0] == "m":
                 # print(f"Absolute move: {command[1]/100} x {command[2]/100} y")
-                self.ad.moveto(command[1], command[2])
-            if command[0] == "l":
+                self.moveto(command[1], command[2])
+            elif command[0] == "l":
                 # print(f"Relative move: {command[1]/100} x {command[2]/100} y")
-                self.ad.line(command[1], command[2])
+                self.line(command[1], command[2])
 
         self.update_position()
-        self.state["move_buffer"] = buffer[1:]
 
     def set_pen(self):
         if self.inports["pen"]:
@@ -91,16 +95,23 @@ class Axi(Action, config=CONFIG):
             self.ad.pendown()
         self.update_position()
 
-    def do_move(self, arg):
-        if not self.state["move_buffer"]:
-            return
-
-        while self.state["move_buffer"]:
-            self.move_from_buffer()
-
-        # self.home()
-
     def align(self, arg):
         self.ad.plot_setup()
         self.ad.options.mode = "align"
         self.ad.plot_run()
+
+    def motor_status(self, arg):
+        print("Turning off axidraw motors")
+        self.ad.plot_setup()
+        self.ad.options.mode = "manual"
+        self.ad.options.manual_cmd = "disable_xy"
+        self.ad.plot_run()
+
+    def set_home(self, arg):
+        self.ad.plot_setup()
+        self.ad.options.mode = "manual"
+        self.ad.options.manual_cmd = "enable_xy"
+        self.ad.plot_run()
+        self.ad.interactive()
+        self.ad.connect()
+        self.update_position()

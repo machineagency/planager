@@ -12,7 +12,8 @@ export default class Canvas extends Tool {
 
   static styles = css`
     #drawing {
-      width: 30rem;
+      width: 8.5in;
+      height: 5.5in;
       /* padding: 1rem;
       background-color: var(--planager-workspace-background); */
     }
@@ -58,7 +59,24 @@ export default class Canvas extends Tool {
   firstUpdated() {
     this.canvas = this.renderRoot.querySelector("#drawing");
     this.mouse.setTrackedElement(this.canvas);
-    this.draw = SVG().addTo(this.canvas).size("100%", "100%");
+    this.draw = SVG()
+      .addTo(this.canvas)
+      .size("17in", "11in")
+      .viewbox("0 0 34 22");
+
+    this.draw.attr({ preserveAspectRatio: "xMinYMin" });
+
+    let rec = this.draw.rect(17, 11);
+    this.draw.rect(1, 1).fill("#f06").move(2, 2);
+    rec.click((e) => {
+      console.log(e);
+      var p = this.draw.createSVGPoint();
+      p.x = e.clientX;
+      p.y = e.clientY;
+      var ctm = this.draw.getScreenCTM().inverse();
+      var p = p.matrixTransform(ctm);
+      return p;
+    });
   }
 
   render() {
@@ -68,14 +86,21 @@ export default class Canvas extends Tool {
         this.draw.svg(obj);
       }
     }
-    return this.renderModule(html` <div id="controlbox">
+    return this.renderModule(html`
+      <div id="controlbox">
         <span>X: ${this.mouse.pos.x}</span>
         <span>Y: ${this.mouse.pos.y}</span>
       </div>
+      <!-- <div id="drawing" class="resizable-content"></div> -->
+      <!-- <div id="drawing"></div> -->
+
+      <!-- https://www.sitepoint.com/how-to-translate-from-dom-to-svg-coordinates-and-back-again/ -->
+
       <div
         id="drawing"
         style="aspect-ratio:${this.state.width} / ${this.state.height}"
         class="resizable-content"
-      ></div>`);
+      ></div>
+    `);
   }
 }

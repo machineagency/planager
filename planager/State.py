@@ -16,6 +16,10 @@ class State:
         self.socket.emit(f"{self.parent_id}_{key}_update", value)
         self.state_did_update(key)
 
+    def notify(self, key):
+        self.socket.emit(f"{self.parent_id}_{key}_update", self._store[key])
+        self.state_did_update(key)
+
     def open_socket(self, state_variable):
         if not self.socket:
             return

@@ -15,17 +15,32 @@ export class Module extends LitElement {
 
   static styles = css`
     #module {
-      border: 1px solid var(--planager-purple);
-      background-color: var(--planager-module-background);
+      /* border: 1px solid var(--planager-purple); */
+      /* background-color: var(--planager-module-background); */
       color: var(--planager-text-dark);
+      display: grid;
+      grid-template-columns: auto auto auto;
     }
     #leftPortsContainer {
-      position: absolute;
-      left: -1rem;
+      grid-column: 1;
+      grid-row: 2;
+      /* position: absolute; */
+      /* left: -1rem; */
     }
     #rightPortsContainer {
-      position: absolute;
-      right: -1rem;
+      grid-column: 3;
+      grid-row: 2;
+      /* position: absolute;
+      right: -1rem; */
+    }
+    planager-draggable-header {
+      grid-column: 2;
+      grid-row: 1;
+    }
+    #toolContents {
+      grid-column: 2;
+      grid-row: 2;
+      background-color: var(--planager-module-background);
     }
   `;
   constructor() {
@@ -60,6 +75,9 @@ export class Module extends LitElement {
             `
         )}
       </div>
+      <div id="toolContents">
+        <slot></slot>
+      </div>
       <div id="rightPortsContainer">
         ${repeat(
           Object.values(this.info.outports),
@@ -75,7 +93,6 @@ export class Module extends LitElement {
             `
         )}
       </div>
-      <slot></slot>
     </div>`;
   }
 }

@@ -21,7 +21,7 @@ class AxiPlanner(Action, config=CONFIG):
         commands = []
         for x in range(7):
             for y in range(7):
-                commands.append([["m", x * 20, y * 20]] + self.inports["stroke"])
+                commands.append([["m", x * 20, y * 20]] + self.inports["stroke"][0])
         self.state["paths"] = commands
 
     # def bounds(self):
