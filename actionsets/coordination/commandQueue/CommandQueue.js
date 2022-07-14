@@ -17,6 +17,9 @@ export default class CommandQueue extends Tool {
   render() {
     return this.renderModule(html`<div>
       <div class="button" @click=${(e) => this.api.runMethod("send")}>Send</div>
+      <div class="button" @click=${(e) => this.api.runMethod("clear")}>
+        Clear
+      </div>
     </div>`);
   }
 }

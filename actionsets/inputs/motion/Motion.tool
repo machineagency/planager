@@ -1,5 +1,5 @@
 {
-    "displayName": "Draw Something",
+    "displayName": "path",
     "inports": {},
     "outports": {
         "svg": {

@@ -32,6 +32,6 @@
             "pen_pos_up": 60,
             "pen_pos_down": 30
         },
-        "scale_factor": 0.035416
+        "scale_factor": 0.005
     }
 }

@@ -25,6 +25,8 @@ export default class AxiPlanner extends Tool {
 
   render() {
     if (this.draw && this.state.paths) {
+      console.log(this.state.paths);
+      this.draw.clear();
       for (const path of this.state.paths) {
         this.path = this.draw.path([]);
 

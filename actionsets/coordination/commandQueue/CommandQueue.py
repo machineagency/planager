@@ -35,3 +35,6 @@ class CommandQueue(Action, config=CONFIG):
         if len(self.inports["addCommand"]):
             self.state["command_queue"].append(self.inports["addCommand"][-1])
             self.state.notify("command_queue")
+
+    def clear(self, arg):
+        self.state["command_queue"] = []

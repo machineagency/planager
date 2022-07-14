@@ -33,8 +33,8 @@ class Axi(Action, config=CONFIG):
         self.state["position"] = {"x": pos[0], "y": pos[1]}
         self.state["pen"] = pen
         self.outports["currentLocation"] = {
-            "x": self.state["position"]["x"] / self.state["scale_factor"],
-            "y": self.state["position"]["y"] / self.state["scale_factor"],
+            "x": self.state["position"]["x"],  # / self.state["scale_factor"],
+            "y": self.state["position"]["y"],  # / self.state["scale_factor"],
         }
         self.outports["pen"] = self.state["pen"]
 
@@ -81,7 +81,7 @@ class Axi(Action, config=CONFIG):
             print(command)
             if command[0] == "m":
                 # print(f"Absolute move: {command[1]/100} x {command[2]/100} y")
-                self.moveto(command[1], command[2])
+                self.move(command[1], command[2])
             elif command[0] == "l":
                 # print(f"Relative move: {command[1]/100} x {command[2]/100} y")
                 self.line(command[1], command[2])
