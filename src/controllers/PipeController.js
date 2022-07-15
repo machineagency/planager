@@ -19,10 +19,9 @@ export class PipeController {
   }
 
   portCenter(port) {
-    const rect = port.getBoundingClientRect();
     return {
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2,
+      x: port.pipeX,
+      y: port.pipeY,
     };
   }
 
@@ -43,7 +42,6 @@ export class PipeController {
 
   addPermanentPipe(response) {
     let pipe = document.createElement("planager-pipe");
-
     if (this.originPort.side === "right") {
       pipe.start = this.portCenter(this.originPort);
       pipe.end = this.portCenter(this.destinationPort);

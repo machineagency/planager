@@ -63,6 +63,7 @@ export class Workspace extends LitElement {
   }
 
   handleMove(event, type, onMove) {
+    // Type is element, canvas, or none.
     if (this.dragType === type) {
       event.preventDefault();
       const saved = this.pointerMap.get(event.pointerId);

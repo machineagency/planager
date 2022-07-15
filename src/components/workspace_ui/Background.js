@@ -23,7 +23,7 @@ export default class Background extends LitElement {
   `;
 
   render() {
-    return html`<canvas></canvas> `;
+    return html`<canvas></canvas>`;
   }
 }
 customElements.define("planager-background", Background);

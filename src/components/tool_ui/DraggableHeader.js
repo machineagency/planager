@@ -12,6 +12,7 @@ export class DraggableHeader extends LitElement {
         cursor: move;
         padding: 0.2rem;
         min-height: 0.5rem;
+        pointer-events: all;
       }
       #title {
         font-size: 0.7rem;

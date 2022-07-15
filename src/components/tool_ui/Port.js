@@ -4,6 +4,8 @@ export default class Port extends LitElement {
   static properties = {
     side: { reflect: true },
     info: {},
+    pipeX: { reflect: true, type: Number },
+    pipeY: { reflect: true, type: Number },
   };
   constructor() {
     super();
@@ -20,6 +22,7 @@ export default class Port extends LitElement {
       font-size: x-small;
       font-family: monospace;
       clear: both;
+      pointer-events: all;
     }
     .port:hover {
       background-color: var(--planager-green);
@@ -38,9 +41,25 @@ export default class Port extends LitElement {
     }
   `;
 
+  pipeAttachmentPoint() {
+    const rect = this.renderRoot
+      .querySelector("#portui")
+      .getBoundingClientRect();
+
+    let x = rect.left + (this.side == "right" ? rect.width - 5 : 5);
+    let y = rect.top + rect.height / 2;
+
+    this.pipeX = x;
+    this.pipeY = y;
+  }
+
   handlePortClick(e) {
+    this.pipeAttachmentPoint();
     const connectionEvent = new CustomEvent("port-click", {
-      detail: { mouseX: e.pageX, mouseY: e.pageY },
+      detail: {
+        mouseX: e.pageX,
+        mouseY: e.pageY,
+      },
       bubbles: true,
       composed: true,
     });
@@ -50,6 +69,7 @@ export default class Port extends LitElement {
   render() {
     return html`
       <div
+        id="portui"
         side=${this.side}
         parent-id=${this.info.parentID}
         class="${this.side} port"

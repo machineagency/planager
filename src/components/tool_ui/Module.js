@@ -15,8 +15,7 @@ export class Module extends LitElement {
 
   static styles = css`
     #module {
-      /* border: 1px solid var(--planager-purple); */
-      /* background-color: var(--planager-module-background); */
+      pointer-events: none; // Allows you to click through the transparent div layer, however, you need to re-enable pointer events on the children that need them
       color: var(--planager-text-dark);
       display: grid;
       grid-template-columns: auto auto auto;
@@ -24,14 +23,12 @@ export class Module extends LitElement {
     #leftPortsContainer {
       grid-column: 1;
       grid-row: 2;
-      /* position: absolute; */
-      /* left: -1rem; */
+      height: fit-content;
     }
     #rightPortsContainer {
       grid-column: 3;
       grid-row: 2;
-      /* position: absolute;
-      right: -1rem; */
+      height: fit-content;
     }
     planager-draggable-header {
       grid-column: 2;
@@ -41,6 +38,7 @@ export class Module extends LitElement {
       grid-column: 2;
       grid-row: 2;
       background-color: var(--planager-module-background);
+      pointer-events: all;
     }
   `;
   constructor() {
