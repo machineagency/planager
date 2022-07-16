@@ -23,13 +23,14 @@ class Axi(Action, config=CONFIG):
         self.state["connected"] = self.ad.connected
         self.update_position()
         self.state["pen"] = self.ad.current_pen()
-        # self.ad.options.units = 2
+        self.ad.options.model = 2
+        self.ad.options.units = 2
         self.ad.update()
-        # self.outports["config"] = self.ad.options.__dict__
 
     def update_position(self):
         pos = self.ad.current_pos()
         pen = self.ad.current_pen()
+        print(pos)
         self.state["position"] = {"x": pos[0], "y": pos[1]}
         self.state["pen"] = pen
         self.outports["currentLocation"] = {
@@ -53,19 +54,19 @@ class Axi(Action, config=CONFIG):
         self.moveto(float(loc["x"]), float(loc["y"]))
 
     def moveto(self, x, y):
-        self.ad.moveto(x * self.state["scale_factor"], y * self.state["scale_factor"])
+        self.ad.moveto(x, y)
         self.update_position()
 
     def move(self, x, y):
-        self.ad.move(x * self.state["scale_factor"], y * self.state["scale_factor"])
+        self.ad.move(x, y)
         self.update_position()
 
     def lineto(self, x, y):
-        self.ad.lineto(x * self.state["scale_factor"], y * self.state["scale_factor"])
+        self.ad.lineto(x, y)
         self.update_position()
 
     def line(self, x, y):
-        self.ad.line(x * self.state["scale_factor"], y * self.state["scale_factor"])
+        self.ad.line(x, y)
         self.update_position()
 
     def home(self):
@@ -114,4 +115,7 @@ class Axi(Action, config=CONFIG):
         self.ad.plot_run()
         self.ad.interactive()
         self.ad.connect()
+        self.ad.options.model = 2
+        self.ad.options.units = 2
+        self.ad.update()
         self.update_position()

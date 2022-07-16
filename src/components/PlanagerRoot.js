@@ -113,7 +113,7 @@ export class PlanagerRoot extends LitElement {
           <planager-pane
             slot="floating"
             displayName="Tool Library"
-            style="--dx:0;--dy:0"
+            style="--dx:0;--dy:30"
           >
             <planager-library
               .socket=${this.socket}

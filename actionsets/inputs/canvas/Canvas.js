@@ -11,17 +11,16 @@ export default class Canvas extends Tool {
   mouse = new ToolMouseController(this);
 
   static styles = css`
-    #drawing {
-      width: 8.5in;
-      height: 5.5in;
-      /* padding: 1rem;
-      background-color: var(--planager-workspace-background); */
+    #svg-canvas {
+      background-color: var(--planager-module-background);
     }
 
-    .resizable-content {
-      resize: horizontal;
-      overflow: hidden;
+    #svg-container {
+      width: 30rem;
+      padding: 1rem;
+      background-color: var(--planager-workspace-background);
     }
+
     #controlbox {
       display: flex;
     }
@@ -37,46 +36,26 @@ export default class Canvas extends Tool {
       filter: brightness(80%);
     }
   `;
-  constructor() {
-    super();
-    this.mouse.mouseDown = this.recordLocation.bind(this);
-  }
 
-  get canvasLocation() {
-    return {
-      x: (this.mouse.pos.xRatio * this.state.width).toPrecision(4),
-      y: (this.mouse.pos.yRatio * this.state.height).toPrecision(4),
-    };
-  }
-
-  recordLocation() {
+  recordLocation(e) {
+    let svg = this.draw.root().node;
+    let point = new DOMPoint(e.layerX, e.layerY);
+    let coords = point.matrixTransform(svg.getScreenCTM().inverse());
     this.api.runMethod("capture_position", {
-      x: this.mouse.pos.x,
-      y: this.mouse.pos.y,
+      x: coords.x,
+      y: coords.y,
     });
   }
 
   firstUpdated() {
-    this.canvas = this.renderRoot.querySelector("#drawing");
+    this.canvas = this.renderRoot.querySelector("#svg-canvas");
     this.mouse.setTrackedElement(this.canvas);
-    this.draw = SVG()
-      .addTo(this.canvas)
-      .size("17in", "11in")
-      .viewbox("0 0 34 22");
 
-    this.draw.attr({ preserveAspectRatio: "xMinYMin" });
+    this.draw = SVG(this.canvas).viewbox(
+      `0 0 ${this.state.width} ${this.state.height}`
+    );
 
-    let rec = this.draw.rect(17, 11);
-    this.draw.rect(1, 1).fill("#f06").move(2, 2);
-    rec.click((e) => {
-      console.log(e);
-      var p = this.draw.createSVGPoint();
-      p.x = e.clientX;
-      p.y = e.clientY;
-      var ctm = this.draw.getScreenCTM().inverse();
-      var p = p.matrixTransform(ctm);
-      return p;
-    });
+    this.draw.root().click((e) => this.recordLocation(e));
   }
 
   render() {
@@ -87,20 +66,13 @@ export default class Canvas extends Tool {
       }
     }
     return this.renderModule(html`
-      <div id="controlbox">
+      <!-- <div id="controlbox">
         <span>X: ${this.mouse.pos.x}</span>
         <span>Y: ${this.mouse.pos.y}</span>
+      </div> -->
+      <div id="svg-container">
+        <svg id="svg-canvas"></svg>
       </div>
-      <!-- <div id="drawing" class="resizable-content"></div> -->
-      <!-- <div id="drawing"></div> -->
-
-      <!-- https://www.sitepoint.com/how-to-translate-from-dom-to-svg-coordinates-and-back-again/ -->
-
-      <div
-        id="drawing"
-        style="aspect-ratio:${this.state.width} / ${this.state.height}"
-        class="resizable-content"
-      ></div>
     `);
   }
 }

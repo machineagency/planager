@@ -4,6 +4,12 @@
         "objects": {
             "displayName": "objects",
             "multi": true
+        },
+        "width": {
+            "displayName": "width"
+        },
+        "height": {
+            "displayName": "height"
         }
     },
     "outports": {
@@ -12,8 +18,8 @@
         }
     },
     "state": {
-        "width": 17,
-        "height": 11,
-        "units": "inches"
+        "width": 430,
+        "height": 297,
+        "units": "mm"
     }
 }

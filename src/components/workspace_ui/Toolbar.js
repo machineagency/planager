@@ -15,9 +15,10 @@ export class Toolbar extends LitElement {
         background-color: var(--planager-toolbar);
         color: var(--planager-text-light);
         height: 2rem;
-        z-index: 100;
-        position: sticky;
+        position: absolute;
         display: flex;
+        width: -moz-available;
+        z-index: 1000;
       }
       #title {
         font-weight: bold;
