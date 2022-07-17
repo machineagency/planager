@@ -12,7 +12,7 @@ with open(os.path.join(os.path.dirname(__file__), "CommandQueue.tool")) as json_
 class CommandQueue(Action, config=CONFIG):
     def inports_updated(self, inportID):
         port_handlers = {
-            "addCommand": self.add_command,
+            "append": self.append,
             "signal": self.send,
             "batch": self.batch_add,
         }
@@ -26,15 +26,19 @@ class CommandQueue(Action, config=CONFIG):
             self.state.notify("command_queue")
 
     def send(self, key):
-        self.outports["command"] = self.state["command_queue"][0]
+        self.outports["send"] = self.state["command_queue"][0]
         self.state["command_queue"] = self.state["command_queue"][1:]
 
-    def add_command(self):
-        if not self.inports["addCommand"]:
+    def append(self):
+        if not self.inports["append"]:
             return
-        if len(self.inports["addCommand"]):
-            self.state["command_queue"].append(self.inports["addCommand"][-1])
+
+        if len(self.inports["append"]):
+            self.state["command_queue"].append(self.inports["append"])
             self.state.notify("command_queue")
 
     def clear(self, arg):
         self.state["command_queue"] = []
+
+    def set_selected(self, arg):
+        self.outports["selected"] = self.state["command_queue"][arg]

@@ -1,8 +1,8 @@
 {
     "displayName": "Axi",
     "inports": {
-        "move": {
-            "displayName": "move"
+        "pathData": {
+            "displayName": "path data"
         },
         "pen": {
             "displayName": "pen"

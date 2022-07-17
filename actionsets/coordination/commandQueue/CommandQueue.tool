@@ -1,7 +1,7 @@
 {
     "displayName": "Command Queue",
     "inports": {
-        "addCommand": {
+        "append": {
             "displayName": "append"
         },
         "signal": {
@@ -12,8 +12,14 @@
         }
     },
     "outports": {
-        "command": {
-            "displayName": "command"
+        "send": {
+            "displayName": "send"
+        },
+        "selected": {
+            "displayName": "selected"
+        },
+        "next": {
+            "displayName": "next"
         }
     },
     "state": {

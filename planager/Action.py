@@ -1,7 +1,6 @@
 import uuid
 import copy
-import json
-import os.path
+
 
 from planager.Inport import Inport
 from planager.Outport import Outport

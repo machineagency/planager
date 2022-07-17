@@ -9,6 +9,7 @@ with open(os.path.join(os.path.dirname(__file__), "Axi.tool")) as json_file:
     CONFIG = json.load(json_file)
 
 from pyaxidraw import axidraw
+import re
 
 
 class Axi(Action, config=CONFIG):
@@ -30,18 +31,19 @@ class Axi(Action, config=CONFIG):
     def update_position(self):
         pos = self.ad.current_pos()
         pen = self.ad.current_pen()
-        print(pos)
+        # print(pos)
         self.state["position"] = {"x": pos[0], "y": pos[1]}
         self.state["pen"] = pen
-        self.outports["currentLocation"] = {
-            "x": self.state["position"]["x"],  # / self.state["scale_factor"],
-            "y": self.state["position"]["y"],  # / self.state["scale_factor"],
-        }
+
+        self.outports["currentLocation"] = [
+            self.state["position"]["x"],
+            self.state["position"]["y"],
+        ]
         self.outports["pen"] = self.state["pen"]
 
     def inports_updated(self, inportID):
         port_handlers = {
-            "move": self.liveMove,
+            "pathData": self.move_from_path_data,
             "location": self.goto,
             "pen": self.set_pen,
         }
@@ -72,20 +74,18 @@ class Axi(Action, config=CONFIG):
     def home(self):
         self.move(0, 0)
 
-    def liveMove(self):
+    def move_from_path_data(self):
         """Runs when the live move port is updated"""
-        command_set = self.inports["move"]
-        if not command_set:
+        d = self.inports["pathData"]
+        if not d:
             return
+        path = self.inports["pathData"].split(" ")
 
-        for command in command_set:
-            print(command)
-            if command[0] == "m":
-                # print(f"Absolute move: {command[1]/100} x {command[2]/100} y")
-                self.move(command[1], command[2])
-            elif command[0] == "l":
-                # print(f"Relative move: {command[1]/100} x {command[2]/100} y")
-                self.line(command[1], command[2])
+        for i in range(0, len(path), 3):
+            if path[i] == "m":
+                self.move(float(path[i + 1]), float(path[i + 2]))
+            elif path[i] == "l":
+                self.line(float(path[i + 1]), float(path[i + 2]))
 
         self.update_position()
 

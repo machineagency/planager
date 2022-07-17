@@ -62,6 +62,9 @@ export default class Canvas extends Tool {
     if (this.draw && this.inports.objects) {
       this.draw.clear();
       for (const [key, obj] of Object.entries(this.inports.objects)) {
+        // if (typeof obj == Array) {
+
+        // }
         this.draw.svg(obj);
       }
     }
