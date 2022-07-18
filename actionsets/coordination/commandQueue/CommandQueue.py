@@ -22,12 +22,17 @@ class CommandQueue(Action, config=CONFIG):
         if not self.inports["batch"]:
             return
         if len(self.inports["batch"]):
-            self.state["command_queue"].extend(self.inports["batch"])
-            self.state.notify("command_queue")
+            self.state["command_queue"] = self.inports["batch"]
+            # self.state.notify("command_queue")
+        self.update_all()
+
+    def update_all(self):
+        self.outports["all"] = self.state["command_queue"]
 
     def send(self, key):
         self.outports["send"] = self.state["command_queue"][0]
         self.state["command_queue"] = self.state["command_queue"][1:]
+        self.update_all()
 
     def append(self):
         if not self.inports["append"]:
@@ -37,8 +42,11 @@ class CommandQueue(Action, config=CONFIG):
             self.state["command_queue"].append(self.inports["append"])
             self.state.notify("command_queue")
 
+        self.update_all()
+
     def clear(self, arg):
         self.state["command_queue"] = []
+        self.update_all()
 
     def set_selected(self, arg):
         self.outports["selected"] = self.state["command_queue"][arg]

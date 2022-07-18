@@ -28,8 +28,10 @@ export default class SvgTransform extends Tool {
     if (this.drawing && this.inports.element) {
       this.drawing.clear();
       let el = SVG(this.inports.element).addTo(this.drawing);
-      if (this.inports.translate)
+      if (this.inports.translate) {
+        console.log(this.inports.translate);
         el.transform({ translate: this.inports.translate });
+      }
       if (this.inports.scale) el.transform({ scale: this.inports.scale });
       if (this.inports.fill) el.fill(this.inports.fill);
       if (this.inports.stroke) el.stroke(this.inports.stroke);

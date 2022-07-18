@@ -1,6 +1,6 @@
 import { html, css } from "lit";
 import { Tool } from "../../../src/components/tool_ui/Tool";
-import { ToolMouseController } from "../../../src/controllers/ToolMouseController";
+// import { ToolMouseController } from "../../../src/controllers/ToolMouseController";
 import {
   SVG,
   extend as SVGextend,
@@ -8,7 +8,7 @@ import {
 } from "@svgdotjs/svg.js";
 
 export default class Canvas extends Tool {
-  mouse = new ToolMouseController(this);
+  // mouse = new ToolMouseController(this);
 
   static styles = css`
     #svg-canvas {
@@ -49,7 +49,7 @@ export default class Canvas extends Tool {
 
   firstUpdated() {
     this.canvas = this.renderRoot.querySelector("#svg-canvas");
-    this.mouse.setTrackedElement(this.canvas);
+    // this.mouse.setTrackedElement(this.canvas);
 
     this.draw = SVG(this.canvas).viewbox(
       `0 0 ${this.state.width} ${this.state.height}`
@@ -62,17 +62,35 @@ export default class Canvas extends Tool {
     if (this.draw && this.inports.objects) {
       this.draw.clear();
       for (const [key, obj] of Object.entries(this.inports.objects)) {
-        // if (typeof obj == Array) {
+        if (Array.isArray(obj)) {
+          let loc = [0, 0];
+          for (const pathStr of obj) {
+            let pathTemp = SVG(pathStr);
+            console.log(pathTemp);
 
-        // }
-        this.draw.svg(obj);
+            let cmd_arr = pathTemp.array();
+            let cmd = pathTemp.attr("d");
+            console.log(cmd);
+
+            if (cmd[0] == "M") {
+              loc = [cmd_arr[0][1], cmd_arr[0][2]];
+            } else {
+              console.log(pathTemp);
+              // let p = this.draw.path(obj);
+
+              pathTemp.dmove(loc[0], loc[1]);
+              this.draw.add(pathTemp);
+            }
+            // let p = this.draw.path(["m", start[0], start[1]]);
+            // p.plot()
+            // console.log(pathTemp.array());
+          }
+        } else {
+          this.draw.svg(obj);
+        }
       }
     }
     return this.renderModule(html`
-      <!-- <div id="controlbox">
-        <span>X: ${this.mouse.pos.x}</span>
-        <span>Y: ${this.mouse.pos.y}</span>
-      </div> -->
       <div id="svg-container">
         <svg id="svg-canvas"></svg>
       </div>

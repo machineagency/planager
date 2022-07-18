@@ -30,24 +30,30 @@ export default class CommandQueue extends Tool {
       display: flex;
       padding: 0.1rem;
     }
+    #queue-container {
+      max-height: 20rem;
+      overflow: auto;
+    }
   `;
 
   render() {
-    return this.renderModule(html`<div>
-      ${map(
-        this.state.command_queue,
-        (value, index) =>
-          html`<div class="command-container">
-            <span
-              @mouseenter=${(e) => this.api.runMethod("set_selected", index)}
-              class="command-chip"
-              >path</span
-            >
-          </div>`
-      )}
+    return this.renderModule(html`<div id="cont">
       <div class="button" @click=${(e) => this.api.runMethod("send")}>Send</div>
       <div class="button" @click=${(e) => this.api.runMethod("clear")}>
         Clear
+      </div>
+      <div id="queue-container">
+        ${map(
+          this.state.command_queue,
+          (value, index) =>
+            html`<div class="command-container">
+              <span
+                @mouseenter=${(e) => this.api.runMethod("set_selected", index)}
+                class="command-chip"
+                >path</span
+              >
+            </div>`
+        )}
       </div>
     </div>`);
   }

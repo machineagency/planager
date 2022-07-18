@@ -15,6 +15,9 @@
         "send": {
             "displayName": "send"
         },
+        "all": {
+            "displayName": "all"
+        },
         "selected": {
             "displayName": "selected"
         },

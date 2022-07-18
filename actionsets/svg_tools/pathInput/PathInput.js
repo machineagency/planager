@@ -44,6 +44,7 @@ export default class PathInput extends Tool {
   firstUpdated() {
     this.canvas = this.renderRoot.querySelector("#drawing");
     this.draw = SVG().addTo(this.canvas).size("100%", "100%");
+    // .viewbox(0, 0, 50, 50);
   }
 
   style(path) {
@@ -80,6 +81,7 @@ export default class PathInput extends Tool {
   }
   capture(e) {
     if (!this.isCapturing) return;
+
     this.points.push(...["l", e.movementX, e.movementY]);
     this.path.plot(this.points);
   }

@@ -84,8 +84,12 @@ class Axi(Action, config=CONFIG):
         for i in range(0, len(path), 3):
             if path[i] == "m":
                 self.move(float(path[i + 1]), float(path[i + 2]))
+            elif path[i] == "M":
+                self.moveto(float(path[i + 1]), float(path[i + 2]))
             elif path[i] == "l":
                 self.line(float(path[i + 1]), float(path[i + 2]))
+            elif path[i] == "L":
+                self.lineto(float(path[i + 1]), float(path[i + 2]))
 
         self.update_position()
 

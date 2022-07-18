@@ -48,7 +48,10 @@ class Array2d(Action, config=CONFIG):
         self.calculate_array()
 
     def format_absolute_move_path(self, x, y):
-        return f'<path d="M ${x} ${y}"></path>'
+        return f'<path d="M {x} {y}"></path>'
+
+    def format_relative_move_path(self, x, y):
+        return f'<path d="m 0 0 m {x} {y}"></path>'
 
     def calculate_array(self):
         if not self.inports["svg"]:
@@ -66,9 +69,14 @@ class Array2d(Action, config=CONFIG):
                         startx + x * space, starty + y * space
                     )
                 )
+
                 arr.append(self.inports["svg"])
+                # arr.append(self.format_relative_move_path(-end_pos[0], space - end_pos[1]))
+                # arr.append([["m", -end_pos[0], dist - end_pos[1]]])
+        arr.append(self.format_absolute_move_path(startx, starty))
 
         self.outports["svgArray"] = arr
+
         # end_pos = self.bounds()
 
         # if not self.inports["stroke"]:

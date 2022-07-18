@@ -7,7 +7,7 @@
         }
     },
     "state": {
-        "diameter": 50,
+        "diameter": 15,
         "color": "#cccccc"
     }
 }
