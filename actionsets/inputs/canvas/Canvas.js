@@ -59,6 +59,9 @@ export default class Canvas extends Tool {
   }
 
   render() {
+    if (this.draw) {
+      this.draw.viewbox(`0 0 ${this.state.width} ${this.state.height}`);
+    }
     if (this.draw && this.inports.objects) {
       this.draw.clear();
       for (const [key, obj] of Object.entries(this.inports.objects)) {
@@ -66,16 +69,16 @@ export default class Canvas extends Tool {
           let loc = [0, 0];
           for (const pathStr of obj) {
             let pathTemp = SVG(pathStr);
-            console.log(pathTemp);
+            // console.log(pathTemp);
 
             let cmd_arr = pathTemp.array();
             let cmd = pathTemp.attr("d");
-            console.log(cmd);
+            // console.log(cmd);
 
             if (cmd[0] == "M") {
               loc = [cmd_arr[0][1], cmd_arr[0][2]];
             } else {
-              console.log(pathTemp);
+              // console.log(pathTemp);
               // let p = this.draw.path(obj);
 
               pathTemp.dmove(loc[0], loc[1]);

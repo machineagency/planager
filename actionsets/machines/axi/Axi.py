@@ -9,7 +9,10 @@ with open(os.path.join(os.path.dirname(__file__), "Axi.tool")) as json_file:
     CONFIG = json.load(json_file)
 
 from pyaxidraw import axidraw
-import re
+
+
+# MODELS: Axidraw SE: 2, travel 430, 297
+#        Axidraw minikit: 4, travel 160, 101.6
 
 
 class Axi(Action, config=CONFIG):
@@ -22,9 +25,10 @@ class Axi(Action, config=CONFIG):
             return
 
         self.state["connected"] = self.ad.connected
+        self.outports["dimensions"] = [160, 101.6]  # change for different models
         self.update_position()
         self.state["pen"] = self.ad.current_pen()
-        self.ad.options.model = 2
+        self.ad.options.model = 4  # change for different models
         self.ad.options.units = 2
         self.ad.update()
 

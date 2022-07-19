@@ -7,9 +7,6 @@
         "translate": {
             "displayName": "translate"
         },
-        "scale": {
-            "displayName": "scale"
-        },
         "fill": {
             "displayName": "fill"
         },

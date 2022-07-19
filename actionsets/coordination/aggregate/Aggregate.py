@@ -24,6 +24,6 @@ class Aggregate(Action, config=CONFIG):
         self.state["aggregate"].append(self.inports["append"])
         self.state.notify("aggregate")
 
-    def clear(self):
+    def clear(self, arg):
         self.state["aggregate"] = []
         self.outports["aggregate"] = []

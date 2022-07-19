@@ -5,11 +5,8 @@
             "displayName": "objects",
             "multi": true
         },
-        "width": {
-            "displayName": "width"
-        },
-        "height": {
-            "displayName": "height"
+        "dimensions": {
+            "displayName": "dimensions"
         }
     },
     "outports": {
