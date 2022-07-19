@@ -25,10 +25,10 @@ class Axi(Action, config=CONFIG):
             return
 
         self.state["connected"] = self.ad.connected
-        self.outports["dimensions"] = [160, 101.6]  # change for different models
+        self.outports["dimensions"] = [430, 297]  # change for different models
         self.update_position()
         self.state["pen"] = self.ad.current_pen()
-        self.ad.options.model = 4  # change for different models
+        self.ad.options.model = 2  # change for different models
         self.ad.options.units = 2
         self.ad.update()
 

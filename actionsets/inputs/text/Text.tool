@@ -1,12 +1,12 @@
 {
-    "displayName": "Text",
+    "displayName": "input",
     "inports": {},
     "outports": {
         "text": {
-            "displayName": "text"
+            "displayName": "input"
         }
     },
     "state": {
-        "text": "bees"
+        "text": "..."
     }
 }

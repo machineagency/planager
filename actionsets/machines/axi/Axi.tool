@@ -35,7 +35,6 @@
             "pen_pos_up": 60,
             "pen_pos_down": 30
         },
-        "scale_factor": 0.005,
         "dimensions": [
             430,
             297

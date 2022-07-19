@@ -1,13 +1,9 @@
 {
-    "displayName": "Toggle",
-    "inports": {
-        "bool": {
-            "displayName": "Boolean"
-        }
-    },
+    "displayName": "switch",
+    "inports": {},
     "outports": {
         "bool": {
-            "displayName": "Boolean"
+            "displayName": "bool"
         }
     },
     "state": {

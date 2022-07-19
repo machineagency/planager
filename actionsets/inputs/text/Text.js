@@ -9,6 +9,7 @@ export default class PlanagerTextInput extends Tool {
       font-family: inherit;
       padding: 0.25em 0.5em;
       border: none;
+      width: 5rem;
     }
 
     #textInput:focus {
