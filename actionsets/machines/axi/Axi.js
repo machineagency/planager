@@ -20,9 +20,6 @@ export default class Axi extends Tool {
       </div>
       <div class="button" @click=${(e) => this.api.runMethod("set_home")}>
         Set Home
-      </div>
-      <div class="button" @click=${(e) => this.api.runMethod("do_move")}>
-        Move queue
       </div>`);
   }
 }

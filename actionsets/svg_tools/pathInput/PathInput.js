@@ -43,15 +43,17 @@ export default class PathInput extends Tool {
 
   firstUpdated() {
     this.canvas = this.renderRoot.querySelector("#drawing");
-    this.draw = SVG().addTo(this.canvas).size("100%", "100%");
-    // .viewbox(0, 0, 50, 50);
+    this.draw = SVG()
+      .addTo(this.canvas)
+      .size("100%", "100%")
+      .viewbox(0, 0, 50, 50);
   }
 
   style(path) {
     path.fill("none");
     path.stroke({
       color: "var(--planager-pink)",
-      width: 4,
+      width: 1,
       linecap: "round",
       linejoin: "round",
     });
@@ -65,8 +67,8 @@ export default class PathInput extends Tool {
     var rect = this.canvas.getBoundingClientRect();
     var x = e.clientX - rect.left;
     var y = e.clientY - rect.top;
-    this.startx = x;
-    this.starty = y;
+    this.startx = x / 2;
+    this.starty = y / 2;
 
     // The first move of the svg is to the starting point
     this.points = ["m", 0, 0];
@@ -74,31 +76,37 @@ export default class PathInput extends Tool {
     // SVG is now drawing a path
     this.path = this.draw
       .path(this.points)
-      .attr("transform", `translate(${x},${y})`);
+      .attr("transform", `translate(${x / 2},${y / 2})`);
 
     // Style the path
     this.style(this.path);
   }
   capture(e) {
     if (!this.isCapturing) return;
+    // console.log(e.movementX, e.movementY);
+    // let vec = new DOMPoint(e.movementX, e.movementY);
+    // let svg = this.draw.root().node;
+    // vec = vec.matrixTransform(svg.getScreenCTM().inverse());
 
-    this.points.push(...["l", e.movementX, e.movementY]);
+    this.points.push(...["l", e.movementX / 4, e.movementY / 4]);
+    // this.points.push(...["l", vec.x, vec.y]);
     this.path.plot(this.points);
   }
   endCapture(e) {
     if (!this.isCapturing) return;
     this.isCapturing = false;
     // Plot the last bit of the path
-    this.points.push(...["l", e.movementX, e.movementY]);
+    this.points.push(...["l", e.movementX / 4, e.movementY / 4]);
 
     this.draw.clear();
 
-    let final = this.draw
-      .path(this.points.join(" ")) // ok... if we don't join these with a space to make a path data string, it gets converted to absolute coordinates which we DO NOT WANT
-      .attr("transform", `translate(${this.startx},${this.starty})`);
+    let final = this.draw.path(this.points.join(" ")); // ok... if we don't join these with a space to make a path data string, it gets converted to absolute coordinates which we DO NOT WANT
+
     this.style(final);
 
     this.state.svg = final.svg();
+
+    final.attr("transform", `translate(${this.startx},${this.starty})`);
 
     // Reset points array
     this.points = [];
@@ -108,14 +116,11 @@ export default class PathInput extends Tool {
   }
   render() {
     return this.renderModule(html`<div
-        id="drawing"
-        @pointermove=${this.capture}
-        @pointerdown=${this.beginCapture}
-        @pointerup=${this.endCapture}
-        @pointerleave=${this.endCapture}
-      ></div>
-      <div id="controlbox">
-        <span class="button" @click=${this.clear}>Clear</span>
-      </div>`);
+      id="drawing"
+      @pointermove=${this.capture}
+      @pointerdown=${this.beginCapture}
+      @pointerup=${this.endCapture}
+      @pointerleave=${this.endCapture}
+    ></div>`);
   }
 }

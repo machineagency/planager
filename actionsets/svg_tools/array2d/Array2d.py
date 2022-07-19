@@ -20,6 +20,7 @@ class Array2d(Action, config=CONFIG):
             "x_num": self.set_x,
             "y_num": self.set_y,
             "space": self.set_spacing,
+            "start": self.set_start,
         }
         port_handlers[inportID]()
 

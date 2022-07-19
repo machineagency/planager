@@ -16,7 +16,7 @@ export default class Canvas extends Tool {
     }
 
     #svg-container {
-      width: 30rem;
+      width: 40rem;
       padding: 1rem;
       background-color: var(--planager-workspace-background);
     }

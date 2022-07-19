@@ -13,13 +13,19 @@ class CommandQueue(Action, config=CONFIG):
     def inports_updated(self, inportID):
         port_handlers = {
             "append": self.append,
+            "lock": self.lock,
             "signal": self.send,
             "batch": self.batch_add,
         }
         port_handlers[inportID]()
 
+    def lock(self):
+        self.state["locked"] = self.inports["lock"]
+
     def batch_add(self):
         if not self.inports["batch"]:
+            return
+        if self.state["locked"]:
             return
         if len(self.inports["batch"]):
             self.state["command_queue"] = self.inports["batch"]
@@ -35,6 +41,8 @@ class CommandQueue(Action, config=CONFIG):
         self.update_all()
 
     def append(self):
+        if self.state["locked"]:
+            return
         if not self.inports["append"]:
             return
 

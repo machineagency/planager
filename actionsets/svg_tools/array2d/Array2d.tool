@@ -27,7 +27,7 @@
         "svg": null,
         "x_num": 4,
         "y_num": 4,
-        "space": 30,
+        "space": 4,
         "start": [
             0,
             0

@@ -13,9 +13,8 @@ export default class SvgTransform extends Tool {
   allPaths;
 
   static styles = css`
-    #drawing {
-      height: 10rem;
-      width: 10rem;
+    #svg-content {
+      display: none;
     }
   `;
 

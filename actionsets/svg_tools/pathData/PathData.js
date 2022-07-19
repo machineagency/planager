@@ -18,6 +18,6 @@ export default class PathData extends Tool {
       this.api.runMethod("set_d_string", d);
     }
 
-    return this.renderModule(html`<div>${displayText}</div>`);
+    return this.renderModule(html`<div></div>`);
   }
 }

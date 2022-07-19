@@ -30,6 +30,9 @@ export default class Circle extends Tool {
       let radius = this.state.diameter / 2;
       this.circle.radius(radius);
       this.circle.fill(this.state.color);
+      this.circle.cx(0);
+      this.circle.cy(0);
+      this.circle.translate(radius, radius);
 
       this.api.runMethod("set_svg_string", this.circle.svg());
     }

@@ -1,14 +1,17 @@
 {
     "displayName": "Command Queue",
     "inports": {
+        "lock": {
+            "displayName": "lock"
+        },
+        "batch": {
+            "displayName": "batch"
+        },
         "append": {
             "displayName": "append"
         },
         "signal": {
             "displayName": "signal"
-        },
-        "batch": {
-            "displayName": "batch"
         }
     },
     "outports": {
@@ -26,6 +29,7 @@
         }
     },
     "state": {
-        "command_queue": []
+        "command_queue": [],
+        "locked": false
     }
 }
