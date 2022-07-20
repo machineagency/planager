@@ -14,7 +14,7 @@ class CommandQueue(Action, config=CONFIG):
         port_handlers = {
             "append": self.append,
             "lock": self.lock,
-            "signal": self.send,
+            "signal": self.signal,
             "batch": self.batch_add,
         }
         port_handlers[inportID]()
@@ -32,10 +32,21 @@ class CommandQueue(Action, config=CONFIG):
             # self.state.notify("command_queue")
         self.update_all()
 
+    def signal(self):
+        newtime = self.inports["signal"]
+        currtime = self.state["current_time"]
+        if newtime == currtime:
+            return
+        else:
+            self.state["current_time"] = newtime
+            self.send(None)
+
     def update_all(self):
         self.outports["all"] = self.state["command_queue"]
 
     def send(self, key):
+        if not self.state["command_queue"]:
+            return
         self.outports["send"] = self.state["command_queue"][0]
         self.state["command_queue"] = self.state["command_queue"][1:]
         self.update_all()

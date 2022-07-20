@@ -9,6 +9,7 @@ with open(os.path.join(os.path.dirname(__file__), "Axi.tool")) as json_file:
     CONFIG = json.load(json_file)
 
 from pyaxidraw import axidraw
+from time import time
 
 
 # MODELS: Axidraw SE: 2, travel 430, 297
@@ -31,6 +32,7 @@ class Axi(Action, config=CONFIG):
         self.ad.options.model = 2  # change for different models
         self.ad.options.units = 2
         self.ad.update()
+        self.ready()
 
     def update_position(self):
         pos = self.ad.current_pos()
@@ -96,6 +98,10 @@ class Axi(Action, config=CONFIG):
                 self.lineto(float(path[i + 1]), float(path[i + 2]))
 
         self.update_position()
+        self.ready()
+
+    def ready(self):
+        self.outports["ready"] = int(time() * 1000)
 
     def set_pen(self):
         if self.inports["pen"]:

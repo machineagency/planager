@@ -30,6 +30,7 @@
     },
     "state": {
         "command_queue": [],
-        "locked": false
+        "locked": false,
+        "current_time": 0
     }
 }
