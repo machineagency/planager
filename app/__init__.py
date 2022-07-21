@@ -1,20 +1,21 @@
-import redis
-import os
-
 from flask import Flask, render_template
 from flask_session import Session
 from flask_socketio import SocketIO
 
 from app.action_manager import ActionManager
+from app.logging import info, error, debug
 
+import redis, os
 
 app = Flask(
     __name__,
     static_url_path="",
-    static_folder="../src/dist",
-    template_folder="../src/dist",
+    static_folder="../build",
+    template_folder="../build",
 )
-sio = SocketIO(app, async_mode="gevent")
+sio = SocketIO(app, async_mode="gevent", cors_allowed_origins="http://localhost:8000")
+# app, async_mode="gevent", cors_allowed_origins="*"
+# )  # "http://localhost:8000")
 
 PACKAGE_DIR = "actionsets"
 
@@ -43,3 +44,13 @@ server_session = Session(app)
 @app.route("/")
 def index():
     return render_template("index.html")
+
+
+@sio.on("/api/test")
+def test():
+    return "hello"
+
+
+@sio.on("connect")
+def connected():
+    debug("Connected to client")

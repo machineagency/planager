@@ -51,10 +51,9 @@ class ActionManager:
                     # Attempt to import the action
                     try:
                         module = import_module(action_path)
-                    except:
+                    except Exception as e:
                         error("Could not import {}".format(action_path))
-                        debug(action)
-                        debug(action_name)
+                        error(e)
                         continue
 
                     try:

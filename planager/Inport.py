@@ -40,7 +40,6 @@ class Inport:
             "outport": False,
             "parentID": self.parent_id,
             "description": self.description,
-            "value": self.value,
             "multi": self.multi,
             "displayName": self.displayName,
             "connections": {

@@ -1,21 +1,14 @@
 from planager.Action import Action
 
-CONFIG = {
-    "displayName": "Text",
-    "inports": {},
-    "outports": {
-        "text": {
-            "displayName": "text",
-        }
-    },
-    "state": {"textValue": "default value"},
-}
+# importing the module
+import json
+import os.path
+
+# Opening JSON file
+with open(os.path.join(os.path.dirname(__file__), "Text.tool")) as json_file:
+    CONFIG = json.load(json_file)
 
 
 class Text(Action, config=CONFIG):
-    def init(self):
-        self.updateOutports({"text": self.state["textValue"]})
-
-    def updateText(self, newText):
-        self.state["textValue"] = newText
-        self.updateOutports({"text": self.state["textValue"]})
+    def state_updated(self, key):
+        self.outports["text"] = self.state["text"]

@@ -1,21 +1,12 @@
-from typing import Dict
-
-
 class Plan:
     def __init__(
         self,
-        update_handler=None,
-        headless=False,
-        data_handler=None,
-        ports_handler=None,
         action_manager=None,
+        socket=None,
         src=None,
     ):
         self.actions = {}
-        self.update_handler = update_handler
-        self.data_handler = data_handler
-        self.ports_handler = ports_handler
-        self.headless = headless
+        self.socket = socket
         self.action_manager = action_manager
         if src:
             self.build_plan_from_src(src)
@@ -46,18 +37,13 @@ class Plan:
             Action: The instantiated action of type NewActionClass.
         """
         if overrideConfig:
-            new_action = NewActionClass(overrideConfig=overrideConfig)
+            new_action = NewActionClass(
+                overrideConfig=overrideConfig, socket=self.socket
+            )
         else:
-            new_action = NewActionClass()
-        # If there is a place to send updates, register it with the action
-        if self.update_handler:
-            new_action.register_update_handler(self.update_handler)
-        if self.data_handler:
-            new_action.register_data_handler(self.data_handler)
-        if self.ports_handler:
-            new_action.register_ports_handler(self.ports_handler)
+            new_action = NewActionClass(socket=self.socket)
 
-        new_action.init()
+        new_action.setup()
         self.actions[new_action.id] = new_action
         return self.actions[new_action.id]
 
@@ -93,17 +79,19 @@ class Plan:
         Returns:
             tuple: a tuple containing the updated JSON representations of the start and end actions after the link has been created.
         """
-        # print("adding connection between", startPortID, "and", endPortID)
-        self.actions[startActionID].addLinkToOutport(
+
+        self.actions[startActionID].outports.add_connection(
             startPortID, self.actions[endActionID], endPortID
         )
-        self.actions[endActionID].addLinkToInport(endPortID, startActionID, startPortID)
+        self.actions[endActionID].inports.add_connection(
+            endPortID, startActionID, startPortID
+        )
         # Assign the start port contents to the destination port
         self.actions[endActionID].updateInport(
             startActionID,
             startPortID,
             endPortID,
-            self.actions[startActionID].outports[startPortID].value,
+            self.actions[startActionID].outports[startPortID],
         )
         return (
             self.actions[startActionID].toJSON(),
@@ -111,23 +99,21 @@ class Plan:
         )
 
     def removeLink(self, startActionID, startPortID, endActionID, endPortID):
-        # print("removing connection between", startPortID, "and", endPortID)
-        self.actions[startActionID].removeLinkFromOutport(
+
+        self.actions[startActionID].outports.remove_connection(
             startPortID, endActionID, endPortID
         )
-        self.actions[endActionID].removeLinkFromInport(
-            endPortID, startActionID, startPortID
+
+        self.actions[endActionID].inports.remove_connection(
+            endPortID, endActionID, endPortID
         )
         return (
             self.actions[startActionID].toJSON(),
             self.actions[endActionID].toJSON(),
         )
 
-    def updateActionCoords(self, actionID, coords: Dict):
+    def updateActionCoords(self, actionID, coords):
         self.actions[actionID].updateCoords(coords)
-
-    def sendDataToOutport(self, actionID, data: Dict):
-        return self.actions[actionID].updateOutports(data)
 
     def toJSON(self):
         """

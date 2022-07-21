@@ -4,7 +4,7 @@ class Outport:
         self.parent_id = parent_id
         self.displayName = config.get("displayName", id)
         self.description = config.get("description", None)
-        self.value = None
+        self.value = config.get("default", None)
         self.connections = []
 
     def addConnection(self, endAction, endPortID):
@@ -16,23 +16,13 @@ class Outport:
                 if connection["endPortID"] == endPortID:
                     del self.connections[index]
 
-    def update(self, newVal, data_handler):
+    def update(self, newVal):
         # TODO: log the current value to the port history
         self.value = newVal
-        self.updateConnections(data_handler)
+        self.updateConnections()
 
-    def updateConnections(self, data_handler):
+    def updateConnections(self):
         for connection in self.connections:
-            # print(self.id, "sending data to", connection["endPortID"])
-            if data_handler:
-                data_handler(
-                    {
-                        "startActionID": self.parent_id,
-                        "startPortID": self.id,
-                        "endActionID": connection["endAction"].id,
-                        "endPortID": connection["endPortID"],
-                    }
-                )
             connection["endAction"].updateInport(
                 self.parent_id, self.id, connection["endPortID"], self.value
             )
@@ -49,7 +39,6 @@ class Outport:
             "outport": True,
             "parentID": self.parent_id,
             "description": self.description,
-            "value": self.value,
             "displayName": self.displayName,
             "connections": {
                 (connection["endAction"].id): connection["endPortID"]

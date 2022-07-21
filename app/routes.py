@@ -4,36 +4,21 @@ from rich.traceback import install
 
 from planager.Plan import Plan
 from app import action_manager, sio
+from app.logging import info, error, debug
 
 
 install()
 
 
-def update_handler(actionJSON):
-    sio.emit("updateActionJSON", actionJSON)
-
-
-def data_handler(linkInfo):
-    sio.emit("animateLinkDataflow", linkInfo)
-
-
-def ports_handler(actionJSON):
-    sio.emit("portsUpdated", actionJSON)
-
-
 @sio.on("newPlan")
 def home():
     session.pop("plan", None)
-    newPlan = Plan(
-        update_handler=update_handler,
-        data_handler=data_handler,
-        ports_handler=ports_handler,
-    )
+    newPlan = Plan(socket=sio)
     session["plan"] = newPlan
 
 
-@sio.on("savePlan")
-def savePlan():
+@sio.on("getPlan")
+def getPlan():
     """Gets the plan stored in the session.
 
     Checks to see if there is a plan in the session. If not, creates and
@@ -56,9 +41,6 @@ def uploadPlan(planJSON):
     """
     session.pop("plan", None)
     newPlan = Plan(
-        update_handler=update_handler,
-        data_handler=data_handler,
-        ports_handler=ports_handler,
         action_manager=action_manager,
         src=planJSON,
     )
@@ -76,7 +58,7 @@ def clearPlan():
     """
     session.pop("plan", None)
 
-    newPlan = Plan(update_handler=update_handler)
+    newPlan = Plan()
     session["plan"] = newPlan
     session.modified = True
 
@@ -118,8 +100,8 @@ def addAction(req):
     return new_action.toJSON()
 
 
-@sio.on("addLink")
-def addLink(connection):
+@sio.on("addPipe")
+def addPipe(connection):
     """Adds a link between two actions in the current plan.
 
     Unpacks the request JSON containing a dictionary containing startActionID,
@@ -135,8 +117,8 @@ def addLink(connection):
         connection["endActionID"],
         connection["endPortID"],
     )
-
-    return {"linkData": connection}
+    info("Plumbing: ", "Pipe hooked up.")
+    return {"pipe": connection}
 
 
 @sio.on("removeAction")
@@ -161,46 +143,6 @@ def removeLink(link):
 
 
 @sio.on("actionMoved")
-def removeLink(info):
+def actionMoved(info):
     session.get("plan").updateActionCoords(info["actionID"], info["coords"])
     return {"msg": "ok"}
-
-
-@sio.on("sendDataToOutport")
-def sendDataToOutport(data):
-    """Sends data created in the frontend to an action outport
-
-    Returns:
-        dict: A dictionary containing the JSON representation of the plan
-    """
-    actionJSON = session.get("plan").sendDataToOutport(
-        data["actionID"], data["dataDict"]
-    )
-
-    return {"actionJSON": actionJSON}
-
-
-@sio.on("runBackendMethod")
-def runBackendMethod(data):
-    """Runs a method in the backend for an action.
-
-    Raises:
-        NotImplementedError: If the method does not exist, raises NotImplementedError
-
-    Returns:
-        dict: dict containing response from the method
-    """
-    method = None
-    try:
-        method = getattr(session.get("plan").actions[data["actionID"]], data["method"])
-    except AttributeError:
-        raise NotImplementedError(
-            "Class `{}` does not implement `{}`".format(
-                session.get("plan").actions[data["actionID"]].__class__.__name__,
-                data["method"],
-            )
-        )
-
-    res = method(data["args"])
-
-    return {"data": res}
