@@ -1,0 +1,9 @@
+site_name: Planager
+nav:
+    - Home: index.md
+    - Contributing: contributing.md
+    - About: about.md
+theme: readthedocs
+markdown_extensions:
+    - admonition
+    - smarty
