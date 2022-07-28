@@ -2,14 +2,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "firefox",
-            "request": "launch",
-            "type": "firefox",
-            "reAttach": true,
-            "url": "http://localhost:8000",
-            "webRoot": "${workspaceFolder}"
-        },
-        {
             "name": "python",
             "request": "launch",
             "type": "python",

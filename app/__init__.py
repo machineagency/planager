@@ -14,8 +14,6 @@ app = Flask(
     template_folder="../build",
 )
 sio = SocketIO(app, async_mode="gevent", cors_allowed_origins="http://localhost:8000")
-# app, async_mode="gevent", cors_allowed_origins="*"
-# )  # "http://localhost:8000")
 
 PACKAGE_DIR = "actionsets"
 
@@ -25,7 +23,7 @@ action_manager.build_action_dict()
 # NOTE: The secret key is used to cryptographically sign the cookies used for storing
 #       the session identifier.
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
-redis_url = os.getenv("REDISTOGO_URL", "redis://localhost:6379")
+redis_url = os.getenv("REDIS_URL", "redis://127.0.0.1:6379")
 
 # Configure Redis for storing the session data on the server-side
 app.config["SESSION_TYPE"] = "redis"

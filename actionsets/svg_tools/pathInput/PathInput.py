@@ -1,5 +1,4 @@
 from planager.Action import Action
-from svgpathtools import Path, Line, QuadraticBezier, CubicBezier, Arc
 
 # importing the module
 import json
