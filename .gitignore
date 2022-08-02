@@ -4,5 +4,6 @@ node_modules/
 
 dist/
 site/
+flask_session/
 
 .DS_Store

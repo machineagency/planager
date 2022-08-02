@@ -1,7 +1,5 @@
 # Contributing
 
-
-
 ## Project layout
 
     src/
@@ -12,7 +10,9 @@
 
 ## VSCode
 
-Everyone has their preferences when it comes to IDEs and debuggers, but I find VSCode to work well for me. I use the following `launch.json` configuration in the VSCode debugger:
+Everyone has their preferences when it comes to IDEs and debuggers, but I find
+VSCode to work well for me. I use the following `launch.json` configuration in
+the VSCode debugger:
 
 ```json
 {
@@ -58,19 +58,26 @@ Everyone has their preferences when it comes to IDEs and debuggers, but I find V
 }
 ```
 
-The compound rule `full stack` will run both the frontend and backend configurations! One thing to note is that the Python configuration has to be run with the GEVENT_SUPPORT flag set to true, or else some crucial Flask things will not work.
+The compound rule `full stack` will run both the frontend and backend
+configurations! One thing to note is that the Python configuration has to be run
+with the GEVENT_SUPPORT flag set to true, or else some crucial Flask things will
+not work.
 
+## Development
+
+Run the frontend server using web-dev server. An introduction guide is found
+[here](https://modern-web.dev/guides/dev-server/getting-started/).
 
 ## Editing Documentation
 
-We use [mkdocs](https://www.mkdocs.org/) to generate documentation for the Planager.
+We use [mkdocs](https://www.mkdocs.org/) to generate documentation for the
+Planager.
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+- `mkdocs new [dir-name]` - Create a new project.
+- `mkdocs serve` - Start the live-reloading docs server.
+- `mkdocs build` - Build the documentation site.
+- `mkdocs -h` - Print help message and exit.
 
 To deploy to the Github Pages site: `mkdocs gh-deploy`.
 
-!!! note
-    You must be on the main branch to deploy to github pages.
+!!! note You must be on the main branch to deploy to github pages.

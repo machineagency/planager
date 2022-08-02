@@ -5,10 +5,10 @@
             "name": "python",
             "request": "launch",
             "type": "python",
-            "program": "run.py",
-            "env": {
-                "GEVENT_SUPPORT": "True" // This flag needs to be enabled to work with the VSCode debugger
-            }
+            "program": "run.py"
+            // "env": {
+            //     "GEVENT_SUPPORT": "True" // This flag needs to be enabled to work with the VSCode debugger
+            // }
         },
         {
             "name": "javascript",

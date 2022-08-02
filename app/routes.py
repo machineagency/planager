@@ -3,18 +3,27 @@ from rich import print
 from rich.traceback import install
 
 from planager.Plan import Plan
+
 from app import action_manager, sio
+
+# from app import action_manager, app, sock
+
 from app.logging import info, error, debug
 
-
+# sio = sock
 install()
 
 
 @sio.on("newPlan")
 def home():
+    debug(session)
     session.pop("plan", None)
     newPlan = Plan(socket=sio)
+    debug(newPlan)
     session["plan"] = newPlan
+    debug("plan added to session")
+    debug(session["plan"])
+    return {}
 
 
 @sio.on("getPlan")

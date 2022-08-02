@@ -2,7 +2,7 @@
   "name": "@planager/planager",
   "version": "1.0.0",
   "scripts": {
-    "start": "wds"
+    "start": "wds --node-resolve"
   },
   "author": "Hannah Twigg-Smith",
   "repository": {
