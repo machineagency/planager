@@ -12,29 +12,39 @@ class Plan:
             self.build_plan_from_src(src)
 
     def build_plan_from_src(self, src):
+        # This code is disgusting do not look at this
         # Iterates through to add the actions to the plan
-        print("Building from source")
+        print("Building plan from source")
 
-        def ack(s):
-            print("message received", s)
+        tool_list = src["actions"].items()
+        tool_ids = set(src["actions"].keys())
+        added_tools = set()
 
-        for action_id, action_info in src["actions"].items():
-            action_type = action_info["actionType"]
-            action_class = self.action_manager.get_action_class(
-                action_type[-3], action_type[-2]
+        def add_pipes():
+            # Once they're added, we can connect them
+            for tool_id, tool_info in tool_list:
+                for port_id, port_info in tool_info["outports"].items():
+                    for end_tool_id, end_port_id in port_info["connections"].items():
+                        new_pipe = self.addPipe(
+                            tool_id, port_id, end_tool_id, end_port_id
+                        )
+                        self.socket.emit("pipeConnected", new_pipe)
+
+        def tool_added_callback(tool_id):
+            added_tools.add(tool_id)
+            if tool_ids == added_tools:
+                # If all tools have been added, add the pipes
+                add_pipes()
+
+        for tool_id, tool_info in tool_list:
+            tool_type = tool_info["actionType"]
+            tool_class = self.action_manager.get_action_class(
+                tool_type[-3], tool_type[-2]
             )
-            new_tool = self.addAction(action_class, overrideConfig=action_info)
-            self.socket.emit("toolAdded", new_tool.toJSON(), callback=ack)
-
-        # Once they're added, we can connect them
-        for action_id, action_info in src["actions"].items():
-            for port_id, port_info in action_info["outports"].items():
-                for end_action_id, end_port_id in port_info["connections"].items():
-                    new_pipe = self.addPipe(
-                        action_id, port_id, end_action_id, end_port_id
-                    )
-                    print(new_pipe)
-                    self.socket.emit("pipeConnected", new_pipe)
+            new_tool = self.addAction(tool_class, overrideConfig=tool_info)
+            self.socket.emit(
+                "toolAdded", new_tool.toJSON(), callback=tool_added_callback
+            )
 
     def addAction(self, NewActionClass, overrideConfig=None):
         """

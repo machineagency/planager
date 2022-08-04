@@ -162,6 +162,14 @@ export class Workspace extends LitElement {
     }
   }
 
+  getToolByID(toolID) {
+    for (const tool of this._draggable) {
+      if (tool.info.id == toolID) {
+        return tool;
+      }
+    }
+  }
+
   get _pinnedElements() {
     const pinned = this.shadowRoot
       .querySelector("slot[name=draggable]")
@@ -256,7 +264,7 @@ export class Workspace extends LitElement {
     super.connectedCallback();
     this.socket.on("pipeConnected", (pipes, cb) => {
       this.pipeController.addPipe(pipes);
-      console.log(cb);
+      // console.log(cb);
     });
   }
 

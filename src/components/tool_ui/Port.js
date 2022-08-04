@@ -3,13 +3,14 @@ import { LitElement, html, css } from "lit";
 export default class Port extends LitElement {
   static properties = {
     side: { reflect: true },
+    portid: { reflect: true },
     info: {},
-    pipeX: { reflect: true, type: Number },
-    pipeY: { reflect: true, type: Number },
+    pipe: { reflect: true },
   };
   constructor() {
     super();
     this.info = {};
+    this.pipe = { x: null, y: null };
   }
   static styles = css`
     .port {
@@ -41,16 +42,17 @@ export default class Port extends LitElement {
     }
   `;
 
+  firstUpdated() {
+    this.pipeAttachmentPoint();
+  }
+
   pipeAttachmentPoint() {
     const rect = this.renderRoot
       .querySelector("#portui")
       .getBoundingClientRect();
 
-    let x = rect.left + (this.side == "right" ? rect.width - 5 : 5);
-    let y = rect.top + rect.height / 2;
-
-    this.pipeX = x;
-    this.pipeY = y;
+    this.pipe.x = rect.left + (this.side == "right" ? rect.width - 5 : 5);
+    this.pipe.y = rect.top + rect.height / 2;
   }
 
   handlePortClick(e) {

@@ -18,13 +18,6 @@ export class PipeController {
     (this.host = host).addController(this);
   }
 
-  portCenter(port) {
-    return {
-      x: port.pipeX,
-      y: port.pipeY,
-    };
-  }
-
   hostConnected() {
     // When the host is connected, we start listening for pipe events.
     addEventListener("port-click", this.startPipeListener);
@@ -44,11 +37,11 @@ export class PipeController {
     let pipe = document.createElement("planager-pipe");
 
     if (this.originPort.side === "right") {
-      pipe.start = this.portCenter(this.originPort);
-      pipe.end = this.portCenter(this.destinationPort);
+      pipe.start = this.originPort.pipe;
+      pipe.end = this.destinationPort.pipe;
     } else {
-      pipe.end = this.portCenter(this.originPort);
-      pipe.start = this.portCenter(this.destinationPort);
+      pipe.end = this.originPort.pipe;
+      pipe.start = this.destinationPort.pipe;
     }
 
     let result = response.pipe;
@@ -71,7 +64,8 @@ export class PipeController {
     removeEventListener("port-click", this.startPipeListener);
     const target = e.composedPath()[0];
     const mouseLocation = { x: e.detail.mouseX, y: e.detail.mouseY };
-    const portLocation = this.portCenter(target);
+    // const portLocation = this.portCenter(target);
+    const portLocation = target.pipe;
 
     // Right port means the end is loose, left means start.
     if (target.side == "right") {
@@ -178,8 +172,28 @@ export class PipeController {
   }
 
   addPipe(pipeInfo) {
-    console.log(pipeInfo);
+    let startingTool = this.host.getToolByID(pipeInfo.startActionID);
+    let endTool = this.host.getToolByID(pipeInfo.endActionID);
+
+    let originPort = startingTool.renderRoot.querySelector(
+      `planager-port[side=right][portid=${pipeInfo.startPortID}]`
+    );
+
+    let destinationPort = endTool.renderRoot.querySelector(
+      `planager-port[side=left][portid=${pipeInfo.endPortID}]`
+    );
+
     let pipe = document.createElement("planager-pipe");
-    console.log(this.host._draggable);
+    pipe.start = originPort.pipe;
+    pipe.end = destinationPort.pipe;
+    pipe.startparentid = pipeInfo.startActionID;
+    pipe.startportid = pipeInfo.startPortID;
+    pipe.endparentid = pipeInfo.endActionID;
+    pipe.endportid = pipeInfo.endPortID;
+
+    pipe.slot = "undraggable";
+
+    this.host.appendChild(pipe);
+    this.host.requestUpdate();
   }
 }
