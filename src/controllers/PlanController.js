@@ -7,6 +7,10 @@ export class PlanController {
 
   addTool() {}
 
+  addPipe() {}
+
+  removePipe() {}
+
   removeTool() {}
 
   moveTool() {}

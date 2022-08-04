@@ -22,6 +22,7 @@ export class Workspace extends LitElement {
     this.scaleFactor = 1;
     this.viewOffset = { x: 0, y: 0 };
     this.dragType = "none";
+    this.numTools = 0;
   }
 
   static styles = css`
@@ -194,32 +195,38 @@ export class Workspace extends LitElement {
       .assignedElements({ flatten: true });
   }
 
-  // This runs when the contents of the draggable slot change.
+  // This runs when nodes are added or removed from the draggable slot.
   onDraggableSlotChange(e) {
     // Get all of the nodes in the slot.
     const nodes = e.target.assignedNodes({ flatten: true });
-    this.numTools = nodes.length;
+    if (this.numTools > nodes.length) {
+      // A tool has been removed
+      this.numTools = nodes.length;
+    } else {
+      // A tool has been added
+      this.numTools = nodes.length;
 
-    // The last node is the last one added
-    const newTool = nodes[this.numTools - 1];
+      // The last node is the last one added
+      const newTool = nodes[this.numTools - 1];
 
-    // Set the layer (used as the z-index)
-    newTool.layer = this.numTools;
+      // Set the layer (used as the z-index)
+      newTool.layer = this.numTools;
 
-    newTool.handleDown = (e) => {
-      this.handleDown(e, "element");
-    };
+      newTool.handleDown = (e) => {
+        this.handleDown(e, "element");
+      };
 
-    newTool.handleMove = (e) => {
-      this.handleMove(e, "element", (delta) => {
-        // This runs while this element is moving
-        this.updatePosition(newTool, delta);
-        this.pipeController.moveAttachedPipes(newTool.info.id, delta);
-      });
-    };
+      newTool.handleMove = (e) => {
+        this.handleMove(e, "element", (delta) => {
+          // This runs while this element is moving
+          this.updatePosition(newTool, delta);
+          this.pipeController.moveAttachedPipes(newTool.info.id, delta);
+        });
+      };
 
-    // Finally, properly position the element by calling move with no delta
-    this.updatePosition(newTool, { x: 0, y: 0 });
+      // Finally, properly position the element by calling move with no delta
+      this.updatePosition(newTool, { x: 0, y: 0 });
+    }
   }
 
   undraggableSlot(e) {

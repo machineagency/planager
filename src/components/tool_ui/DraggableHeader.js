@@ -9,6 +9,7 @@ export class DraggableHeader extends LitElement {
         background-color: var(--planager-purple);
         color: var(--planager-text-light);
         display: flex;
+        justify-content: space-between;
         cursor: move;
         padding: 0.2rem;
         min-height: 0.5rem;
@@ -23,7 +24,8 @@ export class DraggableHeader extends LitElement {
 
   render() {
     return html`<div id="header" class="unselectable">
-      <span id="title"><slot></slot></span>
+      <span id="title"><slot name="title"></slot></span>
+      <slot name="icons"></slot>
     </div>`;
   }
 }

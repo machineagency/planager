@@ -68,6 +68,14 @@ export class PlanagerRoot extends LitElement {
     this.currentOffset.y += 10;
   }
 
+  handleRemove(e, toolID) {
+    this.socket.emit("remove_tool", toolID);
+    let toolToRemove = this.canvasRef.value.querySelector(
+      `planager-module[toolid="${toolID}"]`
+    );
+    this.canvasRef.value.removeChild(toolToRemove);
+  }
+
   async handleNewModule(module) {
     const elementName = (
       "planager-" + module.actionType.slice(1).join("-")
@@ -85,6 +93,7 @@ export class PlanagerRoot extends LitElement {
     let d = document.createElement("planager-module");
     d.slot = "draggable";
     d.info = module;
+    d.toolid = module.id;
 
     if (d.info.coords) {
       // If the tool includes coordinates, set them as the tool location
@@ -104,6 +113,7 @@ export class PlanagerRoot extends LitElement {
     // Pass it the socket connection
     el.socket = this.socket;
     el.info = module;
+    d.handleRemove = (e) => this.handleRemove(e, d.info.id);
     d.appendChild(el);
     this.canvasRef.value.appendChild(d);
     this.requestUpdate();

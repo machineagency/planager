@@ -67,23 +67,31 @@ class Plan:
         self.actions[new_action.id] = new_action
         return self.actions[new_action.id]
 
-    def removeAction(self, actionID):
-        """Removes the specified action and returns it."""
-        removedAction = self.actions.pop(actionID)
-        # Remove any incoming connections to the inports
-        for inportID, inport in removedAction.inports.items():
-            for connection in inport.connections:
-                action = self.actions[connection["startActionID"]]
-                startPortID = connection["startPortID"]
-                action.removeLinkFromOutport(startPortID, actionID, inportID)
-        # Remove any outgoing connections from the outports
-        for outportID, outport in removedAction.outports.items():
-            for connection in outport.connections:
-                action = self.actions[connection["endAction"].id]
-                endPortID = connection["endPortID"]
-                action.removeLinkFromInport(endPortID, actionID, outportID)
+    def remove_tool(self, tool_id):
+        """Removes the specified tool and returns it."""
+        removed_tool = self.actions[tool_id]
 
-        return removedAction
+        # Remove any incoming connections to the inports
+        for inport_id, inport in removed_tool.inports.items():
+            for connection in inport.connections:
+                self.remove_pipe(
+                    connection["startActionID"],
+                    connection["startPortID"],
+                    tool_id,
+                    inport_id,
+                )
+
+        # Remove any outgoing connections from the outports
+        for outport_id, outport in removed_tool.outports.items():
+            for connection in outport.connections:
+                self.remove_pipe(
+                    tool_id,
+                    outport_id,
+                    connection["endAction"].id,
+                    connection["endPortID"],
+                )
+
+        return self.actions.pop(tool_id)
 
     def addPipe(self, startActionID, startPortID, endActionID, endPortID):
         """Adds a pipe between two actions in the plan.
@@ -120,7 +128,7 @@ class Plan:
             "endPortID": endPortID,
         }
 
-    def removeLink(self, startActionID, startPortID, endActionID, endPortID):
+    def remove_pipe(self, startActionID, startPortID, endActionID, endPortID):
 
         self.actions[startActionID].outports.remove_connection(
             startPortID, endActionID, endPortID

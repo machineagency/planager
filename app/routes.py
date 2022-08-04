@@ -128,14 +128,14 @@ def addPipe(connection):
     return {"pipe": connection}
 
 
-@sio.on("removeAction")
-def removeAction(request):
+@sio.on("remove_tool")
+def remove_tool(toolID):
     """Removes the specified action from the plan.
 
     Removes the specified action from the plan and returns the action that was removed.
     """
-    removed_action = session.get("plan").removeAction(request["actionID"])
-    return removed_action.toJSON()
+    removed_tool = session.get("plan").remove_tool(toolID)
+    return removed_tool.toJSON()
 
 
 @sio.on("removeLink")

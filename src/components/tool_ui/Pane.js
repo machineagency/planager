@@ -13,6 +13,12 @@ export class Pane extends LitElement {
       background-color: var(--planager-module-background);
       box-shadow: 0.2rem 0.2rem;
     }
+    #icon {
+      display: flex;
+    }
+    #icon:hover ::slotted(svg) {
+      fill: var(--planager-orange);
+    }
   `;
 
   constructor() {
@@ -32,7 +38,9 @@ export class Pane extends LitElement {
       <planager-draggable-header
         @pointerdown="${this.handleDown}"
         @pointermove="${this.handleMove}"
-        >${this.displayName}</planager-draggable-header
+        ><span slot="title"
+          >${this.displayName}</span
+        ></planager-draggable-header
       >
       <slot></slot>
     </div>`;

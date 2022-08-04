@@ -2,6 +2,7 @@ import { LitElement, html, css } from "lit";
 import { repeat } from "lit/directives/repeat.js";
 import "./Port";
 import "./DraggableHeader";
+import { close } from "../../ui/icons";
 
 export class Module extends LitElement {
   static properties = {
@@ -15,6 +16,7 @@ export class Module extends LitElement {
     dy: {
       reflect: true,
     },
+    toolid: { reflect: true },
     info: { type: Object },
   };
 
@@ -48,6 +50,20 @@ export class Module extends LitElement {
       background-color: var(--planager-module-background);
       pointer-events: all;
     }
+    #closeIcon {
+      display: flex;
+    }
+    #closeIcon svg:hover {
+      fill: var(--planager-red);
+      cursor: pointer;
+    }
+    #closeIcon svg {
+      fill: var(--planager-text-light);
+      margin: auto;
+      max-height: 1rem;
+      margin-left: 1rem;
+      float: right;
+    }
   `;
   constructor() {
     super();
@@ -64,8 +80,12 @@ export class Module extends LitElement {
         color="orange"
         @pointerdown="${this.handleDown}"
         @pointermove="${this.handleMove}"
-        >${this.info.displayName}</planager-draggable-header
       >
+        <span slot="title">${this.info.displayName}</span>
+        <span slot="icons" id="closeIcon" @click="${this.handleRemove}"
+          >${close}</span
+        >
+      </planager-draggable-header>
       <div id="leftPortsContainer">
         ${repeat(
           Object.values(this.info.inports),
