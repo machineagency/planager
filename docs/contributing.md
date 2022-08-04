@@ -81,3 +81,9 @@ Planager.
 To deploy to the Github Pages site: `mkdocs gh-deploy`.
 
 !!! note You must be on the main branch to deploy to github pages.
+
+## Web Component Analyzer
+
+See the
+[web-component-analyzer](https://runem.github.io/web-component-analyzer/)
+package.

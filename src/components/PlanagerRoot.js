@@ -33,7 +33,11 @@ export class PlanagerRoot extends LitElement {
     super();
     this.modules = [];
     this.socket = io.connect("http://localhost:5000/");
+
     this.socket.emit("newPlan");
+    this.socket.on("toolAdded", (module, callback) => {
+      this.handleNewModule(module).then(() => callback(module.id));
+    });
     this.theme = "dracula";
   }
 
@@ -81,9 +85,21 @@ export class PlanagerRoot extends LitElement {
     let d = document.createElement("planager-module");
     d.slot = "draggable";
     d.info = module;
-    d.style.setProperty("--dx", this.currentOffset.x);
-    d.style.setProperty("--dy", this.currentOffset.y);
-    this.increaseOffset();
+
+    if (d.info.coords) {
+      // If the tool includes coordinates, set them as the tool location
+      d.dx = d.info.coords.x;
+      d.dy = d.info.coords.y;
+    } else {
+      // Otherwise use the default offset and increase it so it is staggered
+      d.dx = this.currentOffset.x;
+      d.dy = this.currentOffset.y;
+      this.increaseOffset();
+    }
+    this.socket.emit("moveTool", {
+      id: d.info.id,
+      coords: { x: d.dx, y: d.dy },
+    });
     let el = document.createElement(elementName);
     // Pass it the socket connection
     el.socket = this.socket;
@@ -91,6 +107,8 @@ export class PlanagerRoot extends LitElement {
     d.appendChild(el);
     this.canvasRef.value.appendChild(d);
     this.requestUpdate();
+
+    return "DONE";
   }
 
   render() {
@@ -113,7 +131,8 @@ export class PlanagerRoot extends LitElement {
           <planager-pane
             slot="floating"
             displayName="Tool Library"
-            style="--dx:0;--dy:30"
+            .dx=${0}
+            .dy=${30}
           >
             <planager-library
               .socket=${this.socket}

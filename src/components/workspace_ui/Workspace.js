@@ -13,6 +13,8 @@ export class Workspace extends LitElement {
     scaleFactor: { type: Number, reflect: true },
     viewOffset: { type: Object, reflect: true },
     dragType: { type: String, reflect: true },
+    socket: {},
+    numTools: { type: Number, state: true },
   };
 
   constructor() {
@@ -40,7 +42,10 @@ export class Workspace extends LitElement {
           <slot name="undraggable" @slotchange=${this.undraggableSlot}></slot>
         </div>
         <div id="draggable-elements-container">
-          <slot name="draggable" @slotchange=${this.draggableSlot}></slot>
+          <slot
+            name="draggable"
+            @slotchange=${this.onDraggableSlotChange}
+          ></slot>
         </div>
         <div id="floating-element-container">
           <slot name="floating" @slotchange=${this.floatingSlot}></slot>
@@ -50,13 +55,19 @@ export class Workspace extends LitElement {
   }
 
   handleDown(event, type) {
+    // If there is not currently a drag happening
     if (this.dragType === "none") {
       event.preventDefault();
+      // Start a drag
       this.dragType = type;
+
+      // Designates the event target as the capture target of future pointer events
       event.target.setPointerCapture(event.pointerId);
+
+      // Initializes a map to track the pointer id and positions
+      // so that we can calculate the delta position
       this.pointerMap.set(event.pointerId, {
         id: event.pointerId,
-        startPos: { x: event.clientX, y: event.clientY },
         currentPos: { x: event.clientX, y: event.clientY },
       });
     }
@@ -66,18 +77,37 @@ export class Workspace extends LitElement {
     // Type is element, canvas, or none.
     if (this.dragType === type) {
       event.preventDefault();
+      // Get info of the pointer id, start, and current position
       const saved = this.pointerMap.get(event.pointerId);
-      const current = { ...saved.currentPos };
+
+      // Copy the current position
+      const lastPos = { ...saved.currentPos };
+
+      // Update the current position in the pointer map to be client locations
       saved.currentPos = { x: event.clientX, y: event.clientY };
+
+      // Calculate the delta, difference between current and last positions
       const delta = {
-        x: saved.currentPos.x - current.x,
-        y: saved.currentPos.y - current.y,
+        x: saved.currentPos.x - lastPos.x,
+        y: saved.currentPos.y - lastPos.y,
       };
+
+      // Do the onMove callback
       onMove(delta);
     }
   }
 
   handleUp(event) {
+    // if (this.dragType == "element" && event.target.info) {
+    //   const element = event.target;
+    //   this.socket.emit("moveTool", {
+    //     id: element.info.id,
+    //     coords: { x: element.dx, y: element.dy },
+    //   });
+    //   console.log("end element drag");
+    //   console.log(event.target);
+    //   console.log(event.target.info.id);
+    // }
     this.dragType = "none";
     event.target.releasePointerCapture(event.pointerId);
   }
@@ -118,21 +148,18 @@ export class Workspace extends LitElement {
     );
   }
 
-  moveElement(child, delta) {
-    const getNumber = (key, fallback) => {
-      const saved = child.style.getPropertyValue(key);
-      if (saved.length > 0) {
-        return parseFloat(saved.replace("px", ""));
-      }
-      return fallback;
-    };
-    const dx = getNumber("--dx", 0) + delta.x * (2 - this.scaleFactor);
-    const dy = getNumber("--dy", 0) + delta.y * (2 - this.scaleFactor);
-    child.dx = dx;
-    child.dy = dy;
-    child.style.transform = `translate(${dx}px, ${dy}px)`;
-    child.style.setProperty("--dx", `${dx}px`);
-    child.style.setProperty("--dy", `${dy}px`);
+  updatePosition(element, delta) {
+    // Update the element's position property and translate it.
+    element.dx = element.dx + delta.x * (2 - this.scaleFactor);
+    element.dy = element.dy + delta.y * (2 - this.scaleFactor);
+    element.style.transform = `translate(${element.dx}px, ${element.dy}px)`;
+
+    if (element.info) {
+      this.socket.emit("moveTool", {
+        id: element.info.id,
+        coords: { x: element.dx, y: element.dy },
+      });
+    }
   }
 
   get _pinnedElements() {
@@ -159,35 +186,32 @@ export class Workspace extends LitElement {
       .assignedElements({ flatten: true });
   }
 
-  // This runs when nodes are added to the draggable slot.
-  draggableSlot(e) {
-    // This is all of the nodes in the slot.
+  // This runs when the contents of the draggable slot change.
+  onDraggableSlotChange(e) {
+    // Get all of the nodes in the slot.
     const nodes = e.target.assignedNodes({ flatten: true });
-    let i = 0;
-    // console.log(nodes);
-    for (const node of nodes) {
-      if (node instanceof SVGElement || node instanceof HTMLElement) {
-        const child = node;
-        child.style.setProperty("--layer", `${i}`);
-        child.style.setProperty("position", "fixed");
+    this.numTools = nodes.length;
 
-        // Pass the child the event handlers from this canvas component.
-        // Allows us to specify what parts of the child will be draggable
-        // (e.g. just the header)
-        child.handleDown = (e) => {
-          this.handleDown(e, "element");
-        };
-        child.handleMove = (e) => {
-          this.handleMove(e, "element", (delta) => {
-            // This runs while this element is moving
-            this.moveElement(child, delta);
-            this.pipeController.moveAttachedPipes(child.info.id, delta);
-          });
-        };
-        i++;
-        this.moveElement(child, { x: 0, y: 0 });
-      }
-    }
+    // The last node is the last one added
+    const newTool = nodes[this.numTools - 1];
+
+    // Set the layer (used as the z-index)
+    newTool.layer = this.numTools;
+
+    newTool.handleDown = (e) => {
+      this.handleDown(e, "element");
+    };
+
+    newTool.handleMove = (e) => {
+      this.handleMove(e, "element", (delta) => {
+        // This runs while this element is moving
+        this.updatePosition(newTool, delta);
+        this.pipeController.moveAttachedPipes(newTool.info.id, delta);
+      });
+    };
+
+    // Finally, properly position the element by calling move with no delta
+    this.updatePosition(newTool, { x: 0, y: 0 });
   }
 
   undraggableSlot(e) {
@@ -196,7 +220,6 @@ export class Workspace extends LitElement {
     for (const node of nodes) {
       if (node instanceof SVGElement || node instanceof HTMLElement) {
         const child = node;
-        child.style.setProperty("--layer", `${i}`);
         child.style.setProperty("position", "fixed");
         i++;
       }
@@ -209,7 +232,6 @@ export class Workspace extends LitElement {
     for (const node of nodes) {
       if (node instanceof SVGElement || node instanceof HTMLElement) {
         const child = node;
-        child.style.setProperty("--layer", `${i}`);
         child.style.setProperty("position", "fixed");
 
         child.handleDown = (e) => {
@@ -219,14 +241,23 @@ export class Workspace extends LitElement {
         child.handleMove = (e) => {
           this.handleMove(e, "element", (delta) => {
             // This runs while this element is moving
-            this.moveElement(child, delta);
+            this.updatePosition(child, delta);
           });
         };
+
         child.requestUpdate();
         i++;
-        this.moveElement(child, { x: 0, y: 0 });
+        this.updatePosition(child, { x: 0, y: 0 });
       }
     }
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.socket.on("pipeConnected", (pipes, cb) => {
+      this.pipeController.addPipe(pipes);
+      console.log(cb);
+    });
   }
 
   async firstUpdated() {
@@ -244,7 +275,7 @@ export class Workspace extends LitElement {
         this.moveBackground(delta);
         for (const node of Array.from(this._pinnedElements)) {
           if (node instanceof SVGElement || node instanceof HTMLElement) {
-            this.moveElement(node, delta);
+            this.updatePosition(node, delta);
           }
         }
       });

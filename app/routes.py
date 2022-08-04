@@ -49,10 +49,7 @@ def uploadPlan(planJSON):
         dict: contains ok message
     """
     session.pop("plan", None)
-    newPlan = Plan(
-        action_manager=action_manager,
-        src=planJSON,
-    )
+    newPlan = Plan(action_manager=action_manager, src=planJSON, socket=sio)
     session["plan"] = newPlan
 
     return newPlan.toJSON()
@@ -115,18 +112,19 @@ def addPipe(connection):
 
     Unpacks the request JSON containing a dictionary containing startActionID,
     startPortID, endActionID, and endPortID. These are passed to the plan's
-    addLink method.
+    addPipe method.
 
     Returns:
         linkdata: the data about the link that was created
     """
-    session.get("plan").addLink(
+    session.get("plan").addPipe(
         connection["startActionID"],
         connection["startPortID"],
         connection["endActionID"],
         connection["endPortID"],
     )
     info("Plumbing: ", "Pipe hooked up.")
+
     return {"pipe": connection}
 
 
@@ -151,7 +149,7 @@ def removeLink(link):
     return {"startActionJSON": startactionJSON, "endActionJSON": endActionJSON}
 
 
-@sio.on("actionMoved")
-def actionMoved(info):
-    session.get("plan").updateActionCoords(info["actionID"], info["coords"])
+@sio.on("moveTool")
+def moveTool(info):
+    session.get("plan").updateActionCoords(info["id"], info["coords"])
     return {"msg": "ok"}

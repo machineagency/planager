@@ -48,7 +48,7 @@ Session(app)
 # sio is the socket instance
 sio = SocketIO(
     app,
-    logger=True,
+    # logger=True,
     # cookie="planager",
     # manage_session=False,
     # engineio_logger=True,

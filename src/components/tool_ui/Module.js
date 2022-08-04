@@ -8,12 +8,20 @@ export class Module extends LitElement {
     socket: {},
     handleDown: {},
     handleMove: {},
-    dx: { reflect: true },
-    dy: { reflect: true },
+    layer: { reflect: true },
+    dx: {
+      reflect: true,
+    },
+    dy: {
+      reflect: true,
+    },
     info: { type: Object },
   };
 
   static styles = css`
+    :host {
+      position: fixed;
+    }
     #module {
       pointer-events: none; // Allows you to click through the transparent div layer, however, you need to re-enable pointer events on the children that need them
       color: var(--planager-text-dark);

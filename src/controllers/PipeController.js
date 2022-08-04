@@ -42,6 +42,7 @@ export class PipeController {
 
   addPermanentPipe(response) {
     let pipe = document.createElement("planager-pipe");
+
     if (this.originPort.side === "right") {
       pipe.start = this.portCenter(this.originPort);
       pipe.end = this.portCenter(this.destinationPort);
@@ -49,15 +50,19 @@ export class PipeController {
       pipe.end = this.portCenter(this.originPort);
       pipe.start = this.portCenter(this.destinationPort);
     }
+
     let result = response.pipe;
 
     pipe.startparentid = result.startActionID;
     pipe.startportid = result.startPortID;
     pipe.endparentid = result.endActionID;
     pipe.endportid = result.endPortID;
+
     pipe.slot = "undraggable";
+
     this.host.appendChild(pipe);
     this.host.requestUpdate();
+
     return pipe;
   }
 
@@ -170,5 +175,11 @@ export class PipeController {
         this.cancelPipe(e);
       }
     );
+  }
+
+  addPipe(pipeInfo) {
+    console.log(pipeInfo);
+    let pipe = document.createElement("planager-pipe");
+    console.log(this.host._draggable);
   }
 }

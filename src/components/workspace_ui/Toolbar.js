@@ -8,6 +8,7 @@ import "./ToolbarButton";
 
 export class Toolbar extends LitElement {
   planController = new PlanController(this);
+
   static styles = [
     unselectable,
     css`
@@ -36,10 +37,12 @@ export class Toolbar extends LitElement {
   render() {
     return html`<div id="toolbar">
       <span id="title" class="unselectable">Planager</span>
-      <planager-toolbar-button @click=${this.planController.downloadPlan}
+      <planager-toolbar-button
+        @click=${(e) => this.planController.downloadPlan(e)}
         >${download}</planager-toolbar-button
       >
-      <planager-toolbar-button @click=${this.planController.uploadPlan}
+      <planager-toolbar-button
+        @click=${(e) => this.planController.uploadPlan(e)}
         >${upload}</planager-toolbar-button
       >
       <planager-toolbar-button>${gear}</planager-toolbar-button>

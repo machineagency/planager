@@ -13,18 +13,28 @@ class Plan:
 
     def build_plan_from_src(self, src):
         # Iterates through to add the actions to the plan
+        print("Building from source")
+
+        def ack(s):
+            print("message received", s)
+
         for action_id, action_info in src["actions"].items():
             action_type = action_info["actionType"]
             action_class = self.action_manager.get_action_class(
                 action_type[-3], action_type[-2]
             )
-            self.addAction(action_class, overrideConfig=action_info)
+            new_tool = self.addAction(action_class, overrideConfig=action_info)
+            self.socket.emit("toolAdded", new_tool.toJSON(), callback=ack)
 
         # Once they're added, we can connect them
         for action_id, action_info in src["actions"].items():
             for port_id, port_info in action_info["outports"].items():
                 for end_action_id, end_port_id in port_info["connections"].items():
-                    self.addLink(action_id, port_id, end_action_id, end_port_id)
+                    new_pipe = self.addPipe(
+                        action_id, port_id, end_action_id, end_port_id
+                    )
+                    print(new_pipe)
+                    self.socket.emit("pipeConnected", new_pipe)
 
     def addAction(self, NewActionClass, overrideConfig=None):
         """
@@ -65,8 +75,8 @@ class Plan:
 
         return removedAction
 
-    def addLink(self, startActionID, startPortID, endActionID, endPortID):
-        """Adds a link between two actions in the plan.
+    def addPipe(self, startActionID, startPortID, endActionID, endPortID):
+        """Adds a pipe between two actions in the plan.
 
         Uses the ids of actions and ports to update the plan data structure. Sets the contents of the starting port to the contents of the destination port.
 
@@ -77,7 +87,7 @@ class Plan:
             endPortID (uid): ID of the destination port
 
         Returns:
-            tuple: a tuple containing the updated JSON representations of the start and end actions after the link has been created.
+            tuple: a tuple containing the updated JSON representations of the start and end actions after the pipe has been created.
         """
 
         self.actions[startActionID].outports.add_connection(
@@ -93,10 +103,12 @@ class Plan:
             endPortID,
             self.actions[startActionID].outports[startPortID],
         )
-        return (
-            self.actions[startActionID].toJSON(),
-            self.actions[endActionID].toJSON(),
-        )
+        return {
+            "startActionID": startActionID,
+            "startPortID": startPortID,
+            "endActionID": endActionID,
+            "endPortID": endPortID,
+        }
 
     def removeLink(self, startActionID, startPortID, endActionID, endPortID):
 
