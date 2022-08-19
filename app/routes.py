@@ -2,11 +2,11 @@ from flask import session
 from rich import print
 from rich.traceback import install
 
-from planager.Plan import Plan
+from planager.Toolchain import Toolchain
 
-from app import action_manager, sio
+from app import tool_library, sio
 
-# from app import action_manager, app, sock
+# from app import tool_library, app, sock
 
 from app.logging import info, error, debug
 
@@ -15,26 +15,26 @@ install()
 
 
 @sio.on("newPlan")
-def home():
+def new_toolchain():
     debug(session)
     session.pop("plan", None)
-    newPlan = Plan(socket=sio)
-    debug(newPlan)
-    session["plan"] = newPlan
-    debug("plan added to session")
+    new_toolchain = Toolchain(socket=sio)
+    debug(new_toolchain)
+    session["plan"] = new_toolchain
+    debug("toolchain added to session")
     debug(session["plan"])
     return {}
 
 
 @sio.on("getPlan")
-def getPlan():
-    """Gets the plan stored in the session.
+def get_toolchain():
+    """Gets the toolchain stored in the session.
 
-    Checks to see if there is a plan in the session. If not, creates and
-    returns a new plan.
+    Checks to see if there is a toolchain in the session. If not, creates and
+    returns a new toolchain.
 
     Returns:
-        JSON: The JSON specification for the planager plan.
+        JSON: The JSON specification for the planager toolchain.
     """
     if "plan" in session:
         return session.get("plan").toJSON()
@@ -42,76 +42,78 @@ def getPlan():
 
 
 @sio.on("uploadPlan")
-def uploadPlan(planJSON):
-    """Adds a plan to the session.
+def upload_toolchain(toolchain_config):
+    """Creates a new Toolchain from a configuration file and adds it to the session.
 
     Returns:
-        dict: contains ok message
+        dict: toolchain JSON formatting
     """
     session.pop("plan", None)
-    newPlan = Plan(action_manager=action_manager, src=planJSON, socket=sio)
-    session["plan"] = newPlan
+    new_toolchain = Toolchain(
+        tool_library=tool_library, src=toolchain_config, socket=sio
+    )
+    session["plan"] = new_toolchain
 
-    return newPlan.toJSON()
+    return new_toolchain.toJSON()
 
 
 @sio.on("clearPlan")
-def clearPlan():
-    """Removes the plan from the session
+def clear_toolchain():
+    """Removes the current toolchain from the session
 
     Returns:
         dict: Dictionary containing the result message.
     """
     session.pop("plan", None)
 
-    newPlan = Plan()
-    session["plan"] = newPlan
+    new_toolchain = Toolchain()
+    session["plan"] = new_toolchain
     session.modified = True
 
     return {"message": "OK"}
 
 
 @sio.on("getAvailableActions")
-def getAvailableActions():
-    """Endpoint for retreiving the available actions.
+def get_tool_library():
+    """Endpoint for retreiving the tool library.
 
     Returns:
-        list: A list of the available actions.
+        list: A list of the tools in the tool library.
     """
-    dropdown, flattened = action_manager.get_available_actions()
+    dropdown, flattened = tool_library.get_available_actions()
     return {"actions": flattened, "dropdown": dropdown}
 
 
 @sio.on("addAction")
-def addAction(req):
-    """Adds an action to the current plan.
+def add_tool(req):
+    """Adds a tool to the current toolchain.
 
-    Retrieves the current plan from the session and calls its addAction()
-    method, passing in the action name from the request JSON.
+    Retrieves the current toolchain from the session and calls its add_tool()
+    method, passing in the tool name from the request JSON.
 
     Returns:
         JSON: a jsonpickle-encoded version of the action that was created.
     """
-    action_class = action_manager.get_action_class(req["actionSet"], req["action"])
-    if not action_class:
-        print("Error! Could not find that action!")
+    tool_class = tool_library.get_action_class(req["actionSet"], req["action"])
+    if not tool_class:
+        print("Error! Could not find that tool!")
         return
 
     try:
-        new_action = session.get("plan").addAction(action_class)
+        new_tool = session.get("plan").add_tool(tool_class)
     except BaseException as err:
-        print(f"Error adding action to plan: Unexpected {err=}, {type(err)=}")
+        print(f"Error adding tool to toolchain: Unexpected {err=}, {type(err)=}")
         raise
 
-    return new_action.toJSON()
+    return new_tool.toJSON()
 
 
 @sio.on("addPipe")
-def addPipe(connection):
-    """Adds a link between two actions in the current plan.
+def add_pipe(connection):
+    """Adds a pipe between two tools in the current toolchain.
 
     Unpacks the request JSON containing a dictionary containing startActionID,
-    startPortID, endActionID, and endPortID. These are passed to the plan's
+    startPortID, endActionID, and endPortID. These are passed to the toolchains's
     addPipe method.
 
     Returns:
@@ -129,17 +131,17 @@ def addPipe(connection):
 
 
 @sio.on("remove_tool")
-def remove_tool(toolID):
-    """Removes the specified action from the plan.
+def remove_tool(tool_id):
+    """Removes the specified tool from the toolchain.
 
-    Removes the specified action from the plan and returns the action that was removed.
+    Removes the specified tool from the toolchain and returns the tool that was removed.
     """
-    removed_tool = session.get("plan").remove_tool(toolID)
+    removed_tool = session.get("plan").remove_tool(tool_id)
     return removed_tool.toJSON()
 
 
 @sio.on("removeLink")
-def removeLink(link):
+def remove_pipe(link):
     startactionJSON, endActionJSON = session.get("plan").removeLink(
         link["startActionID"],
         link["startPortID"],
@@ -150,6 +152,6 @@ def removeLink(link):
 
 
 @sio.on("moveTool")
-def moveTool(info):
+def move_tool(info):
     session.get("plan").updateActionCoords(info["id"], info["coords"])
     return {"msg": "ok"}

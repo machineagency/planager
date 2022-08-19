@@ -5,7 +5,7 @@ from flask_socketio import SocketIO
 
 # from flask_sock import Sock
 
-from app.action_manager import ActionManager
+from planager.ToolLibrary import ToolLibrary
 from app.logging import info, error, debug
 
 import redis, os
@@ -20,8 +20,8 @@ app = Flask(
 
 PACKAGE_DIR = "actionsets"
 
-action_manager = ActionManager(action_set_path=PACKAGE_DIR)
-action_manager.build_action_dict()
+tool_library = ToolLibrary(action_set_path=PACKAGE_DIR)
+tool_library.build_action_dict()
 
 # NOTE: The secret key is used to cryptographically sign the cookies used for storing
 #       the session identifier.

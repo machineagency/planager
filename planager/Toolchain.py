@@ -1,20 +1,20 @@
-class Plan:
+class Toolchain:
     def __init__(
         self,
-        action_manager=None,
+        tool_library=None,
         socket=None,
         src=None,
     ):
         self.actions = {}
         self.socket = socket
-        self.action_manager = action_manager
+        self.tool_library = tool_library
         if src:
-            self.build_plan_from_src(src)
+            self.build_toolchain_from_src(src)
 
-    def build_plan_from_src(self, src):
+    def build_toolchain_from_src(self, src):
         # This code is disgusting do not look at this
-        # Iterates through to add the actions to the plan
-        print("Building plan from source")
+        # Iterates through to add the tools to the toolchain
+        print("Building toolchain from source")
 
         tool_list = src["actions"].items()
         tool_ids = set(src["actions"].keys())
@@ -38,17 +38,17 @@ class Plan:
 
         for tool_id, tool_info in tool_list:
             tool_type = tool_info["actionType"]
-            tool_class = self.action_manager.get_action_class(
+            tool_class = self.tool_library.get_action_class(
                 tool_type[-3], tool_type[-2]
             )
-            new_tool = self.addAction(tool_class, overrideConfig=tool_info)
+            new_tool = self.add_tool(tool_class, overrideConfig=tool_info)
             self.socket.emit(
                 "toolAdded", new_tool.toJSON(), callback=tool_added_callback
             )
 
-    def addAction(self, NewActionClass, overrideConfig=None):
+    def add_tool(self, NewActionClass, overrideConfig=None):
         """
-        Instantiates and adds an unconnected action to the plan.
+        Instantiates and adds an unconnected action to the toolchain.
 
         Args:
             NewActionClass (Action): Child class of Action
@@ -94,9 +94,9 @@ class Plan:
         return self.actions.pop(tool_id)
 
     def addPipe(self, startActionID, startPortID, endActionID, endPortID):
-        """Adds a pipe between two actions in the plan.
+        """Adds a pipe between two tools in the Toolchain.
 
-        Uses the ids of actions and ports to update the plan data structure. Sets the contents of the starting port to the contents of the destination port.
+        Uses the ids of tools and ports to update the Toolchain data structure. Sets the contents of the starting port to the contents of the destination port.
 
         Args:
             startActionID (uid): ID of the start action
@@ -147,10 +147,10 @@ class Plan:
 
     def toJSON(self):
         """
-        Creates a JSON version of a Plan
+        Creates a JSON version of a Toolchain
 
         Returns:
-            json: JSON representation of a Plan
+            json: JSON representation of a Toolchain
         """
         return {
             "actions": {
@@ -161,6 +161,6 @@ class Plan:
     def __str__(self):
         al = "\n".join([a.__str__() for a in self.actions.values()])
 
-        formatted_output = "Plan object. Action list:\n{}".format(al)
+        formatted_output = "Toolchain object. Tool list:\n{}".format(al)
 
         return formatted_output

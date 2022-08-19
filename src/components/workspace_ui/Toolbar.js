@@ -36,7 +36,7 @@ export class Toolbar extends LitElement {
 
   render() {
     return html`<div id="toolbar">
-      <span id="title" class="unselectable">Planager</span>
+      <span id="title" class="unselectable">Dynamic Toolchains</span>
       <planager-toolbar-button
         @click=${(e) => this.planController.downloadPlan(e)}
         >${download}</planager-toolbar-button

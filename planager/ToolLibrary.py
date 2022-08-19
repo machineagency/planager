@@ -7,7 +7,7 @@ from planager.Action import Action
 from app.logging import info, error, debug
 
 
-class ActionManager:
+class ToolLibrary:
     def __init__(self, action_set_path: str):
         self.actions = {}
         self.action_set_path = action_set_path
@@ -89,7 +89,7 @@ class ActionManager:
             action_class = self.action_dict[action_set]["actions"][action_name]["class"]
             return action_class
         except:
-            print("Error: action does not exist.")
+            print("Error: Tool not found in this library.")
             return False
 
     def get_available_actions(self):
