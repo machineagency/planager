@@ -29,3 +29,6 @@ class PortCollection:
 
     def items(self):
         return self._ports.items()
+
+    def ports(self):
+        return self._ports.keys()
