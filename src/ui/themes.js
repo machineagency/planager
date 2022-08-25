@@ -30,6 +30,7 @@ export const themes = {
     "--planager-workspace-background": "#44475a",
     "--planager-toolbar": "#282a36",
     "--planager-module-background": "#f8f8f2",
+    "--planager-module-background-accent": "#d5d5d5",
     "--planager-gray": "#848484",
   },
 };

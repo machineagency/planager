@@ -73,19 +73,19 @@ def clear_toolchain():
     return {"message": "OK"}
 
 
-@sio.on("getAvailableActions")
+@sio.on("getToolLibrary")
 def get_tool_library():
     """Endpoint for retreiving the tool library.
 
     Returns:
-        list: A list of the tools in the tool library.
+        dict: A dictionary of categories of the tools in the tool library.
     """
-    dropdown, flattened = tool_library.get_available_actions()
-    return {"actions": flattened, "dropdown": dropdown}
+    # hierarchy, flattened = tool_library.get_tools()
+    return tool_library.get_tools()
 
 
-@sio.on("addAction")
-def add_tool(req):
+@sio.on("addToolToToolchain")
+def add_tool_to_toolchain(req):
     """Adds a tool to the current toolchain.
 
     Retrieves the current toolchain from the session and calls its add_tool()
@@ -94,7 +94,7 @@ def add_tool(req):
     Returns:
         JSON: a jsonpickle-encoded version of the action that was created.
     """
-    tool_class = tool_library.get_action_class(req["actionSet"], req["action"])
+    tool_class = tool_library.get_tool_class(req["category"], req["tool"])
     if not tool_class:
         print("Error! Could not find that tool!")
         return

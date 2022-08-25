@@ -84,26 +84,27 @@ class ToolLibrary:
                 return obj
         return False
 
-    def get_action_class(self, action_set, action_name):
+    def get_tool_class(self, tool_category, tool_name):
         try:
-            action_class = self.action_dict[action_set]["actions"][action_name]["class"]
-            return action_class
+            tool_class = self.action_dict[tool_category]["actions"][tool_name]["class"]
+            return tool_class
         except:
             print("Error: Tool not found in this library.")
             return False
 
-    def get_available_actions(self):
-        action_hierarchy = {}
-        flattened = {}
+    def get_tools(self):
+        tool_hierarchy = {}
 
-        for action_set in self.action_dict.keys():
-            action_hierarchy[action_set] = [
-                a for a in self.action_dict[action_set]["actions"].keys()
-            ]
-            for action in self.action_dict[action_set]["actions"].keys():
-                flattened[action] = {"component": None, "actionSet": action_set}
+        for tool_category in self.action_dict.keys():
+            category_dict = {"expanded": False, "members": {}}
+            for tool in self.action_dict[tool_category]["actions"].keys():
+                category_dict["members"][tool] = {
+                    "component": None,
+                    "category": tool_category,
+                }
+            tool_hierarchy[tool_category] = category_dict
 
-        return action_hierarchy, flattened
+        return tool_hierarchy
 
     def get_action_resource(self):
         pass

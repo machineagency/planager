@@ -14,7 +14,7 @@ import "./tool_ui/Module";
 import "./tool_ui/Pane";
 
 // Floating Modules
-import "./floating_modules/PlanagerLibrary";
+import "./floating_modules/ToolLibrary";
 import "./floating_modules/PlanagerSettings";
 import "./floating_modules/PlanViewer";
 
@@ -144,10 +144,10 @@ export class PlanagerRoot extends LitElement {
             .dx=${0}
             .dy=${30}
           >
-            <planager-library
+            <tool-library
               .socket=${this.socket}
               .addModule=${this.handleNewModule.bind(this)}
-            ></planager-library>
+            ></tool-library>
           </planager-pane>
         </planager-workspace>
       </main>

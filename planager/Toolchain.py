@@ -38,30 +38,26 @@ class Toolchain:
 
         for tool_id, tool_info in tool_list:
             tool_type = tool_info["actionType"]
-            tool_class = self.tool_library.get_action_class(
-                tool_type[-3], tool_type[-2]
-            )
+            tool_class = self.tool_library.get_tool_class(tool_type[-3], tool_type[-2])
             new_tool = self.add_tool(tool_class, overrideConfig=tool_info)
             self.socket.emit(
                 "toolAdded", new_tool.toJSON(), callback=tool_added_callback
             )
 
-    def add_tool(self, NewActionClass, overrideConfig=None):
+    def add_tool(self, NewToolClass, overrideConfig=None):
         """
-        Instantiates and adds an unconnected action to the toolchain.
+        Instantiates and adds an unconnected tool to the toolchain.
 
         Args:
-            NewActionClass (Action): Child class of Action
+            NewToolClass (Tool): Child class of Tool
 
         Returns:
-            Action: The instantiated action of type NewActionClass.
+            Tool: The instantiated tool of type NewToolClass.
         """
         if overrideConfig:
-            new_action = NewActionClass(
-                overrideConfig=overrideConfig, socket=self.socket
-            )
+            new_action = NewToolClass(overrideConfig=overrideConfig, socket=self.socket)
         else:
-            new_action = NewActionClass(socket=self.socket)
+            new_action = NewToolClass(socket=self.socket)
 
         new_action.setup()
         self.actions[new_action.id] = new_action
