@@ -41,18 +41,12 @@ export class Module extends LitElement {
       grid-row: 2;
       height: fit-content;
     }
-    planager-draggable-header {
-      grid-column: 2;
-      grid-row: 1;
-    }
+
     #toolContents {
       grid-column: 2;
       grid-row: 2;
       background-color: var(--planager-module-background);
       pointer-events: all;
-    }
-    #closeIcon {
-      display: flex;
     }
     #closeIcon svg:hover {
       fill: var(--planager-red);
@@ -61,11 +55,6 @@ export class Module extends LitElement {
     #closeIcon svg {
       fill: var(--planager-text-light);
       max-height: 1rem;
-      margin-left: 0.2rem;
-      float: right;
-    }
-    #minimizeIcon {
-      display: flex;
     }
     #minimizeIcon svg:hover {
       fill: var(--planager-orange);
@@ -74,16 +63,19 @@ export class Module extends LitElement {
     #minimizeIcon svg {
       fill: var(--planager-text-light);
       max-height: 1rem;
-      margin-left: 1rem;
-      float: right;
     }
     .minimized {
       display: none;
     }
     .vertical {
-      /* transform: rotate(90deg) translateX(-20px); */
+      grid-column-start: 2;
+      grid-column-end: 3;
+      grid-row-start: 1;
+      grid-row-end: 4;
+    }
+    .horizontal {
       grid-column: 2;
-      grid-row: 2;
+      grid-row: 1;
     }
   `;
   constructor() {
@@ -93,7 +85,6 @@ export class Module extends LitElement {
 
   toggleMinimize(e) {
     this.minimized = !this.minimized;
-    console.log(this.minimized);
   }
   cancel(e) {
     e.stopPropagation();
@@ -103,13 +94,12 @@ export class Module extends LitElement {
   render() {
     return html`<div @pointerdown="${this.cancel}" id="module">
       <planager-draggable-header
-        color="orange"
-        vertical=${this.minimized}
-        class=${this.minimized ? "vertical" : ""}
+        .vertical=${this.minimized}
+        class=${this.minimized ? "vertical" : "horizontal"}
         @pointerdown="${this.handleDown}"
         @pointermove="${this.handleMove}"
       >
-        <span slot="title">${this.info.displayName}</span>
+        <span slot="title" style="margin: auto;">${this.info.displayName}</span>
         <span slot="icons" id="minimizeIcon" @click="${this.toggleMinimize}"
           >${minimize}</span
         >

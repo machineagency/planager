@@ -1,61 +1,66 @@
-import { LitElement, html, css } from "lit";
+import { LitElement, html, css, adoptStyles } from "lit";
 import { unselectable } from "../../ui/styles";
 
 export class DraggableHeader extends LitElement {
   static properties = {
-    vertical: {},
+    vertical: { type: Boolean },
   };
 
   static styles = [
     unselectable,
     css`
       #horizontalHeader {
-        display: flex;
-        justify-content: space-between;
-        padding: 0.2rem;
         min-height: 0.5rem;
+        writing-mode: horizontal-tb;
       }
       #verticalHeader {
-        /* height: 30rem; */
         writing-mode: vertical-lr;
+        width: 1rem;
       }
       .header {
         background-color: var(--planager-purple);
         color: var(--planager-text-light);
         pointer-events: all;
         cursor: move;
+        display: flex;
+        padding: 0.2rem;
+        justify-content: space-between;
       }
       #title {
         font-size: 0.7rem;
         font-weight: bolder;
+        display: flex;
       }
-      /* .rotated {
-        writing-mode: vertical-lr;
-      } */
+      #icon-container {
+        display: flex;
+      }
+      #icon-slot::slotted(span) {
+        display: flex;
+      }
+
+      #horizontalHeader #icon-slot::slotted(span) {
+        margin-left: 0.2rem;
+      }
+
+      #verticalHeader #icon-slot::slotted(span) {
+        margin-top: 0.2rem;
+      }
     `,
   ];
 
-  renderVertical() {
-    return html`<div id="verticalHeader" class="unselectable header">
-      <div id="title"><slot name="title"></slot></div>
-      <div>
-        <slot name="icons"></slot>
-      </div>
-    </div>`;
+  constructor() {
+    super();
+    this.vertical = false;
   }
 
-  renderHorizontal() {
-    return html`<div id="horizontalHeader" class="unselectable header">
-      <span id="title"><slot name="title"></slot></span>
-      <slot name="icons"></slot>
-    </div>`;
-  }
   render() {
-    if (this.vertical) {
-      return this.renderVertical();
-    } else {
-      return this.renderHorizontal();
-    }
+    return html`<div
+      id=${this.vertical ? "verticalHeader" : "horizontalHeader"}
+      class="unselectable header"
+    >
+      <span id="title"><slot name="title"></slot></span>
+      <span id="icon-container"><slot id="icon-slot" name="icons"></slot></span>
+    </div>`;
   }
 }
 customElements.define("planager-draggable-header", DraggableHeader);
