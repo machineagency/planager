@@ -2,7 +2,7 @@ import { LitElement, html, css } from "lit";
 import { repeat } from "lit/directives/repeat.js";
 import "./Port";
 import "./DraggableHeader";
-import { close } from "../../ui/icons";
+import { minimize, close } from "../../ui/icons";
 
 export class Module extends LitElement {
   static properties = {
@@ -18,6 +18,7 @@ export class Module extends LitElement {
     },
     toolid: { reflect: true },
     info: { type: Object },
+    minimized: false,
   };
 
   static styles = css`
@@ -59,15 +60,40 @@ export class Module extends LitElement {
     }
     #closeIcon svg {
       fill: var(--planager-text-light);
-      margin: auto;
+      max-height: 1rem;
+      margin-left: 0.2rem;
+      float: right;
+    }
+    #minimizeIcon {
+      display: flex;
+    }
+    #minimizeIcon svg:hover {
+      fill: var(--planager-orange);
+      cursor: pointer;
+    }
+    #minimizeIcon svg {
+      fill: var(--planager-text-light);
       max-height: 1rem;
       margin-left: 1rem;
       float: right;
+    }
+    .minimized {
+      display: none;
+    }
+    .vertical {
+      /* transform: rotate(90deg) translateX(-20px); */
+      grid-column: 2;
+      grid-row: 2;
     }
   `;
   constructor() {
     super();
     this.info = {};
+  }
+
+  toggleMinimize(e) {
+    this.minimized = !this.minimized;
+    console.log(this.minimized);
   }
   cancel(e) {
     e.stopPropagation();
@@ -78,10 +104,15 @@ export class Module extends LitElement {
     return html`<div @pointerdown="${this.cancel}" id="module">
       <planager-draggable-header
         color="orange"
+        vertical=${this.minimized}
+        class=${this.minimized ? "vertical" : ""}
         @pointerdown="${this.handleDown}"
         @pointermove="${this.handleMove}"
       >
         <span slot="title">${this.info.displayName}</span>
+        <span slot="icons" id="minimizeIcon" @click="${this.toggleMinimize}"
+          >${minimize}</span
+        >
         <span slot="icons" id="closeIcon" @click="${this.handleRemove}"
           >${close}</span
         >
@@ -101,7 +132,7 @@ export class Module extends LitElement {
             `
         )}
       </div>
-      <div id="toolContents">
+      <div id="toolContents" class=${this.minimized ? "minimized" : ""}>
         <slot></slot>
       </div>
       <div id="rightPortsContainer">
