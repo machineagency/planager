@@ -86,7 +86,11 @@ export class PlanagerRoot extends LitElement {
     if (!customElements.get(elementName)) {
       const modulePath = `../../${module.actionType.join("/")}.js`;
       let moduleElement = await import(modulePath);
-      customElements.define(elementName, moduleElement.default);
+      try {
+        customElements.define(elementName, moduleElement.default);
+      } catch {
+        console.log(elementName, "already defined");
+      }
     }
 
     // Create the element, put it inside a draggable, and append it as a child to the canvas

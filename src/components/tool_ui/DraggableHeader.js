@@ -37,11 +37,9 @@ export class DraggableHeader extends LitElement {
       #icon-slot::slotted(span) {
         display: flex;
       }
-
       #horizontalHeader #icon-slot::slotted(span) {
         margin-left: 0.2rem;
       }
-
       #verticalHeader #icon-slot::slotted(span) {
         margin-top: 0.2rem;
       }

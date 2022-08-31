@@ -1,5 +1,5 @@
 {
-    "displayName": "transform",
+    "displayName": "SVG Transform",
     "inports": {
         "element": {
             "displayName": "element"

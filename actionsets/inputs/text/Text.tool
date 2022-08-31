@@ -1,5 +1,5 @@
 {
-    "displayName": "input",
+    "displayName": "Number",
     "inports": {},
     "outports": {
         "text": {

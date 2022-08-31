@@ -3,7 +3,7 @@ import { Tool } from "../../../src/components/tool_ui/Tool";
 
 import { map } from "lit/directives/map.js";
 
-export default class CommandQueue extends Tool {
+export default class EventQueue extends Tool {
   static styles = css`
     .button {
       background-color: var(--planager-blue);

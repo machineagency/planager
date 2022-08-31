@@ -3,7 +3,7 @@
     "inports": {},
     "outports": {
         "color": {
-            "displayName": "color"
+            "displayName": "hex"
         }
     },
     "state": {

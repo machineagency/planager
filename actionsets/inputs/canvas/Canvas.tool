@@ -1,5 +1,5 @@
 {
-    "displayName": "SVG Canvas",
+    "displayName": "SVG Workspace",
     "inports": {
         "objects": {
             "displayName": "objects",

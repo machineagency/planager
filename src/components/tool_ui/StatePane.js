@@ -81,8 +81,11 @@ class StatePane extends LitElement {
         background-color: var(--planager-pink);
       }
       .value {
-        margin: 0 0.2rem;
-        vertical-align: top;
+        margin: auto 0;
+      }
+      .keyval-container {
+        display: flex;
+        flex-wrap: nowrap;
       }
     `,
   ];
@@ -99,8 +102,10 @@ class StatePane extends LitElement {
     let arr = [];
     for (const [key, value] of Object.entries(val)) {
       arr.push(
-        html`<span class="key">${key}:</span>
-          <span class="value">${this.renderValue(value)}</span><br />`
+        html`<div class="keyval-container">
+          <span class="key">${key}:</span>
+          <span class="value">${this.renderValue(value)}</span>
+        </div>`
       );
     }
     return arr;
@@ -177,8 +182,8 @@ class StatePane extends LitElement {
     let arr = [];
     for (const [key, value] of Object.entries(this.state)) {
       arr.push(
-        html`<div class="key">${key}:</div>
-          <div class="value">${this.renderValue(value)}</div>`
+        html` <span class="key">${key}:</span>
+          <span class="value">${this.renderValue(value)}</span>`
       );
     }
     return arr;

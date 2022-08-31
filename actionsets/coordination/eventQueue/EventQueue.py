@@ -5,11 +5,11 @@ import json
 import os.path
 
 # Opening JSON file
-with open(os.path.join(os.path.dirname(__file__), "CommandQueue.tool")) as json_file:
+with open(os.path.join(os.path.dirname(__file__), "EventQueue.tool")) as json_file:
     CONFIG = json.load(json_file)
 
 
-class CommandQueue(Action, config=CONFIG):
+class EventQueue(Action, config=CONFIG):
     def inports_updated(self, inportID):
         port_handlers = {
             "append": self.append,

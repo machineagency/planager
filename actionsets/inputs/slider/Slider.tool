@@ -1,5 +1,5 @@
 {
-    "displayName": "Slider",
+    "displayName": "Number Slider",
     "inports": {},
     "outports": {
         "value": {

@@ -1,5 +1,5 @@
 {
-    "displayName": "Command Queue",
+    "displayName": "Event Queue",
     "inports": {
         "lock": {
             "displayName": "lock"

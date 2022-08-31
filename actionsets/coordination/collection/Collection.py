@@ -8,7 +8,7 @@ import os.path
 with open(os.path.join(os.path.dirname(__file__), "Collection.tool")) as json_file:
     CONFIG = json.load(json_file)
 
-
+# Rename this as record?
 class Collection(Action, config=CONFIG):
     def grab(self):
         key = self.inports["name"]

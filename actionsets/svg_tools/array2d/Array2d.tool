@@ -1,5 +1,5 @@
 {
-    "displayName": "2d array",
+    "displayName": "2d Array",
     "inports": {
         "svg": {
             "displayName": "svg"

@@ -1,5 +1,5 @@
 {
-    "displayName": "Path Input",
+    "displayName": "Draw a Path!",
     "inports": {},
     "outports": {
         "svg": {

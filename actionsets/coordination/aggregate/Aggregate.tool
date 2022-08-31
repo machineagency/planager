@@ -1,5 +1,5 @@
 {
-    "displayName": "Aggregate",
+    "displayName": "Collection",
     "inports": {
         "append": {
             "displayName": "append"

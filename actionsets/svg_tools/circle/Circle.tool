@@ -1,5 +1,5 @@
 {
-    "displayName": "Circle",
+    "displayName": "SVG Circle",
     "inports": {},
     "outports": {
         "svg": {

@@ -1,5 +1,5 @@
 {
-    "displayName": "Axi",
+    "displayName": "AxiDraw",
     "inports": {
         "pathData": {
             "displayName": "path data"
