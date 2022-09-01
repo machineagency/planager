@@ -8,9 +8,10 @@ class Outport:
         self.connections = []
 
     def addConnection(self, endAction, endPortID):
-        self.connections.append({"endAction": endAction, "endPortID": endPortID})
+        self.connections.append(
+            {"endAction": endAction, "endPortID": endPortID})
 
-    def removeConnection(self, endActionID, endPortID):
+    def remove_pipe(self, endActionID, endPortID):
         for index, connection in enumerate(self.connections):
             if connection["endAction"].id == endActionID:
                 if connection["endPortID"] == endPortID:

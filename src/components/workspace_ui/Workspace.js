@@ -171,6 +171,20 @@ export class Workspace extends LitElement {
     }
   }
 
+  getPipeByIDs(startPortID, startToolID, endPortID, endToolID) {
+    const pipes = this.shadowRoot
+      .querySelector(`slot[name=undraggable]`)
+      .assignedElements({ flatten: true });
+    let obj = pipes.find(
+      (pipe) =>
+        pipe.startportid === startPortID &&
+        pipe.startparentid === startToolID &&
+        pipe.endportid === endPortID &&
+        pipe.endparentid === endToolID
+    );
+    return obj;
+  }
+
   get _pinnedElements() {
     const pinned = this.shadowRoot
       .querySelector("slot[name=draggable]")
@@ -190,6 +204,12 @@ export class Workspace extends LitElement {
   }
 
   get _undraggables() {
+    return this.shadowRoot
+      .querySelector("slot[name=undraggable]")
+      .assignedElements({ flatten: true });
+  }
+
+  get _pipes() {
     return this.shadowRoot
       .querySelector("slot[name=undraggable]")
       .assignedElements({ flatten: true });
@@ -272,6 +292,9 @@ export class Workspace extends LitElement {
     this.socket.on("pipeConnected", (pipes, cb) => {
       this.pipeController.addPipe(pipes);
       // console.log(cb);
+    });
+    this.socket.on("remove_pipe", (info) => {
+      this.pipeController.removePipe(info);
     });
   }
 

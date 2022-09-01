@@ -58,16 +58,10 @@ class Action:
             self.inports = PortCollection(self.inports_updated, self.socket, self.id)
 
             for inport_id, inport_config in self.config["inports"].items():
-                # newInport = Inport(inport_id, self.id, inport_config)
-                # self.inports[inport_id] = newInport
                 self.inports.add_port(Inport(inport_id, self.id, inport_config))
 
             for outport_id, outport_config in self.config["outports"].items():
                 self.outports.add_port(Outport(outport_id, self.id, outport_config))
-                # if outport_config.get("state"):
-                #     self.state[outport_id] = outport_config.get("default", None)
-                # newOutport = Outport(outport_id, self.id, outport_config)
-                # self.outports[outport_id] = newOutport
 
         self.start_method_listener()
 

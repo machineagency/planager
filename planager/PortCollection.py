@@ -11,8 +11,9 @@ class PortCollection:
     def add_connection(self, port_id, action, end_port_id):
         self._ports[port_id].addConnection(action, end_port_id)
 
-    def remove_connection(self, port_id, action_id, end_port_id):
-        self._ports[port_id].removeConnection(action_id, end_port_id)
+    def remove_pipe(self, port_id, tool_id, end_port_id):
+        # TODO: Rename this. remove_pipe should not be the same method name for different classes
+        self._ports[port_id].remove_pipe(tool_id, end_port_id)
 
     def set_inport(self, startActionID, startPortID, port_id, value):
         self._ports[port_id].setValue(startActionID, startPortID, value)
@@ -20,15 +21,15 @@ class PortCollection:
             f"{self.parent_id}_inport_{port_id}", self._ports[port_id].value
         )
 
+    def items(self):
+        return self._ports.items()
+
+    def ports(self):
+        return self._ports.keys()
+
     def __getitem__(self, port_id):
         return self._ports[port_id].value
 
     def __setitem__(self, port_id, value):
         self._ports[port_id].update(value)
         self._callback(port_id)
-
-    def items(self):
-        return self._ports.items()
-
-    def ports(self):
-        return self._ports.keys()

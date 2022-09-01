@@ -196,4 +196,15 @@ export class PipeController {
     this.host.appendChild(pipe);
     this.host.requestUpdate();
   }
+
+  removePipe(info) {
+    let pipeToRemove = this.host.getPipeByIDs(
+      info.start_port_id,
+      info.start_tool_id,
+      info.end_port_id,
+      info.end_tool_id
+    );
+    if (!pipeToRemove) return;
+    pipeToRemove.remove();
+  }
 }

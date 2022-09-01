@@ -119,14 +119,14 @@ def add_pipe(connection):
     Returns:
         linkdata: the data about the link that was created
     """
-    session.get("plan").addPipe(
+    session.get("plan").add_pipe(
         connection["startActionID"],
         connection["startPortID"],
         connection["endActionID"],
         connection["endPortID"],
     )
-    info("Plumbing: ", "Pipe hooked up.")
 
+    info("Plumbing: ", "Pipe hooked up.")
     return {"pipe": connection}
 
 
@@ -137,7 +137,14 @@ def remove_tool(tool_id):
     Removes the specified tool from the toolchain and returns the tool that was removed.
     """
     removed_tool = session.get("plan").remove_tool(tool_id)
+
     return removed_tool.toJSON()
+
+
+@sio.on("remove_pipe")
+def remove_pipe():
+    """Removes a pipe between two tools/ports in the toolchain"""
+    pass
 
 
 @sio.on("removeLink")

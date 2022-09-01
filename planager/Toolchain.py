@@ -25,7 +25,7 @@ class Toolchain:
             for tool_id, tool_info in tool_list:
                 for port_id, port_info in tool_info["outports"].items():
                     for end_tool_id, end_port_id in port_info["connections"].items():
-                        new_pipe = self.addPipe(
+                        new_pipe = self.add_pipe(
                             tool_id, port_id, end_tool_id, end_port_id
                         )
                         self.socket.emit("pipeConnected", new_pipe)
@@ -89,7 +89,7 @@ class Toolchain:
 
         return self.actions.pop(tool_id)
 
-    def addPipe(self, startActionID, startPortID, endActionID, endPortID):
+    def add_pipe(self, startActionID, startPortID, endActionID, endPortID):
         """Adds a pipe between two tools in the Toolchain.
 
         Uses the ids of tools and ports to update the Toolchain data structure. Sets the contents of the starting port to the contents of the destination port.
@@ -124,18 +124,30 @@ class Toolchain:
             "endPortID": endPortID,
         }
 
-    def remove_pipe(self, startActionID, startPortID, endActionID, endPortID):
+    def remove_pipe(self, start_tool_id, start_port_id, end_tool_id, end_port_id):
+        """Removes a pipe between two tools in a Toolchain."""
 
-        self.actions[startActionID].outports.remove_connection(
-            startPortID, endActionID, endPortID
+        self.actions[start_tool_id].outports.remove_pipe(
+            start_port_id, end_tool_id, end_port_id
         )
 
-        self.actions[endActionID].inports.remove_connection(
-            endPortID, endActionID, endPortID
+        self.actions[end_tool_id].inports.remove_pipe(
+            end_port_id, start_tool_id, start_port_id
         )
+
+        self.socket.emit(
+            "remove_pipe",
+            {
+                "start_tool_id": start_tool_id,
+                "end_tool_id": end_tool_id,
+                "start_port_id": start_port_id,
+                "end_port_id": end_port_id,
+            },
+        )
+
         return (
-            self.actions[startActionID].toJSON(),
-            self.actions[endActionID].toJSON(),
+            self.actions[start_tool_id].toJSON(),
+            self.actions[end_tool_id].toJSON(),
         )
 
     def updateActionCoords(self, actionID, coords):

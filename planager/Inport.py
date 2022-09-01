@@ -13,7 +13,7 @@ class Inport:
             {"startActionID": startActionID, "startPortID": startPortID}
         )
 
-    def removeConnection(self, startActionID, startPortID):
+    def remove_pipe(self, startActionID, startPortID):
         valueID = f"{startActionID}_{startPortID}"
         if self.multi:
             del self.value[valueID]
