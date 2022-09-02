@@ -103,6 +103,14 @@ export class PipeController {
     }
   }
 
+  updatePipeEnd(pipe, side, coords) {
+    if (side === "end") {
+      pipe.end = coords;
+    } else {
+      pipe.start = coords;
+    }
+  }
+
   moveAttachedPipes(parentid, delta) {
     const pipes = this.host.shadowRoot
       .querySelector("slot[name=undraggable]")

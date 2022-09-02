@@ -215,6 +215,57 @@ export class Workspace extends LitElement {
       .assignedElements({ flatten: true });
   }
 
+  onResize(entries, observer) {
+    // This is called if a tool ui changes size, which allows us to update the pipe position accordingly
+    let pipes = this._pipes;
+    for (const entry of entries) {
+      let parentid = entry.target.toolid;
+      const toolRoot = entry.target.shadowRoot;
+
+      // Get the pipes attached to this tool
+      const outgoing = pipes.filter((node) =>
+        node.matches(`planager-pipe[startparentid="${parentid}"]`)
+      );
+      const incoming = pipes.filter((node) =>
+        node.matches(`planager-pipe[endparentid="${parentid}"]`)
+      );
+
+      // Update each outgoing pipe
+      for (const pipe of outgoing) {
+        // Query for the port attached to this pipe
+        let port = toolRoot.querySelector(
+          `#rightPortsContainer planager-port[portid=${pipe.startportid}]`
+        );
+        let portui = port.shadowRoot.querySelector("#portui");
+
+        // Update the pipe with the latest port coords
+        let rect = portui.getBoundingClientRect();
+
+        let x = rect.left + rect.width - 5;
+        let y = rect.top + rect.height / 2;
+        let coords = { x: x, y: y };
+        this.pipeController.updatePipeEnd(pipe, "start", coords);
+      }
+
+      // Update each incoming pipe
+      for (const pipe of incoming) {
+        // Query for the port attached to this pipe
+        let port = toolRoot.querySelector(
+          `#leftPortsContainer planager-port[portid=${pipe.endportid}]`
+        );
+        let portui = port.shadowRoot.querySelector("#portui");
+
+        // Update the pipe with the latest port coords
+        let rect = portui.getBoundingClientRect();
+
+        let x = rect.left + 5;
+        let y = rect.top + rect.height / 2;
+        let coords = { x: x, y: y };
+        this.pipeController.updatePipeEnd(pipe, "end", coords);
+      }
+    }
+  }
+
   // This runs when nodes are added or removed from the draggable slot.
   onDraggableSlotChange(e) {
     // Get all of the nodes in the slot.
@@ -243,6 +294,9 @@ export class Workspace extends LitElement {
           this.pipeController.moveAttachedPipes(newTool.info.id, delta);
         });
       };
+
+      const observer = new ResizeObserver(this.onResize.bind(this));
+      observer.observe(newTool);
 
       // Finally, properly position the element by calling move with no delta
       this.updatePosition(newTool, { x: 0, y: 0 });

@@ -88,6 +88,7 @@ export class Module extends LitElement {
   toggleMinimize(e) {
     this.minimized = !this.minimized;
   }
+
   cancel(e) {
     e.stopPropagation();
     return;

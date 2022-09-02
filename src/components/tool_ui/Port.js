@@ -51,8 +51,9 @@ export default class Port extends LitElement {
       .querySelector("#portui")
       .getBoundingClientRect();
 
-    this.pipe.x = rect.left + (this.side == "right" ? rect.width - 5 : 5);
-    this.pipe.y = rect.top + rect.height / 2;
+    let x = rect.left + (this.side == "right" ? rect.width - 5 : 5);
+    let y = rect.top + rect.height / 2;
+    this.pipe = { x: x, y: y };
   }
 
   handlePortClick(e) {
