@@ -24,9 +24,10 @@ class Toolchain:
             # Once they're added, we can connect them
             for tool_id, tool_info in tool_list:
                 for port_id, port_info in tool_info["outports"].items():
-                    for end_tool_id, end_port_id in port_info["connections"].items():
+                    for pipe in port_info["pipes"]:
+                        dest_tool_id, dest_port_id = pipe.split("_")
                         new_pipe = self.add_pipe(
-                            tool_id, port_id, end_tool_id, end_port_id
+                            tool_id, port_id, dest_tool_id, dest_port_id
                         )
                         self.socket.emit("pipeConnected", new_pipe)
 
@@ -67,25 +68,19 @@ class Toolchain:
         """Removes the specified tool and returns it."""
         removed_tool = self.actions[tool_id]
 
-        # Remove any incoming connections to the inports
+        # Remove any incoming pipes to the inports
         for inport_id, inport in removed_tool.inports.items():
-            for connection in inport.connections:
-                self.remove_pipe(
-                    connection["startActionID"],
-                    connection["startPortID"],
-                    tool_id,
-                    inport_id,
-                )
+            pipes = list(inport.pipes.keys())
+            for pipe in pipes:
+                origin_tool_id, origin_port_id = pipe.split("_")
+                self.remove_pipe(origin_tool_id, origin_port_id, tool_id, inport_id)
 
-        # Remove any outgoing connections from the outports
+        # Remove any outgoing pipes from the outports
         for outport_id, outport in removed_tool.outports.items():
-            for connection in outport.connections:
-                self.remove_pipe(
-                    tool_id,
-                    outport_id,
-                    connection["endAction"].id,
-                    connection["endPortID"],
-                )
+            pipes = list(outport.pipes.keys())
+            for pipe in pipes:
+                dest_tool, dest_port = pipe.split("_")
+                self.remove_pipe(tool_id, outport_id, dest_tool, dest_port)
 
         return self.actions.pop(tool_id)
 
@@ -104,10 +99,10 @@ class Toolchain:
             tuple: a tuple containing the updated JSON representations of the start and end actions after the pipe has been created.
         """
 
-        self.actions[startActionID].outports.add_connection(
+        self.actions[startActionID].outports.add_pipe(
             startPortID, self.actions[endActionID], endPortID
         )
-        self.actions[endActionID].inports.add_connection(
+        self.actions[endActionID].inports.add_pipe(
             endPortID, startActionID, startPortID
         )
         # Assign the start port contents to the destination port
@@ -126,6 +121,7 @@ class Toolchain:
 
     def remove_pipe(self, start_tool_id, start_port_id, end_tool_id, end_port_id):
         """Removes a pipe between two tools in a Toolchain."""
+        # TODO: Pipes should be individual objects. Right now, they're managed by both the inports and outports.
 
         self.actions[start_tool_id].outports.remove_pipe(
             start_port_id, end_tool_id, end_port_id

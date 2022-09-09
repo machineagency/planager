@@ -1,21 +1,28 @@
 import "../components/tool_ui/Pipe";
-export class PipeController {
-  host;
 
-  loosePipe = null;
+export class PipeController {
+  host; // Declare the host variable so we can use it later
+
+  loosePipe = null; // This is the reference to a pipe that is in progress of being connected
   originPort = null;
   destinationPort = null;
 
-  // Binding creates new copies of functions, so we must store
-  // them if we are to remove them. You need to give removeEventListener
-  // the exact function, not a copy.
+  // In order to properly remove an event listener, you need to give
+  // removeEventListener the exact function rather than a copy. Binding `this`
+  // creates new copies of functions, so we must store them as variables if we
+  // are to remove them later.
   startPipeListener = this.startPipe.bind(this);
-  movePipeListener = this.movePipe.bind(this);
+  looseEndListener = this.updateLoosePipe.bind(this);
   closePipeListener = this.closePipe.bind(this);
   cancelPipeListener = this.cancelPipe.bind(this);
+  shouldConnect = this.canPipeConnect.bind(this);
+  buildPipe = this.createLoosePipe.bind(this);
 
   constructor(host) {
-    (this.host = host).addController(this);
+    // The host element is passed into the constructor. We store it in this.host
+    // so we can reference it later.
+    this.host = host;
+    this.host.addController(this);
   }
 
   hostConnected() {
@@ -23,25 +30,40 @@ export class PipeController {
     addEventListener("port-click", this.startPipeListener);
   }
 
-  addLoosePipe(start, end) {
-    let pipe = document.createElement("planager-pipe");
-    pipe.start = start;
-    pipe.end = end;
-    pipe.slot = "undraggable";
-    this.host.appendChild(pipe);
-    this.host.requestUpdate();
-    return pipe;
+  canPipeConnect() {
+    // TODO: Replace this with an API call to check connectivity
+    if (this.destinationPort.side === this.originPort.side) return false;
+    if (this.destinationPort.parentid === this.originPort.parentid)
+      return false;
+    return true;
+  }
+
+  calculatePipeEnd(port) {
+    // Calculates where the pipe should attach to a given port
+    let portui = port.shadowRoot.querySelector("#portui");
+    let rect = portui.getBoundingClientRect();
+    let x;
+
+    if (port.side == "left") {
+      x = rect.left + 5;
+    } else {
+      x = rect.left + rect.width - 5;
+    }
+
+    let y = rect.top + rect.height / 2;
+
+    return { x: x, y: y };
   }
 
   addPermanentPipe(response) {
     let pipe = document.createElement("planager-pipe");
 
     if (this.originPort.side === "right") {
-      pipe.start = this.originPort.pipe;
-      pipe.end = this.destinationPort.pipe;
+      pipe.start = this.calculatePipeEnd(this.originPort);
+      pipe.end = this.calculatePipeEnd(this.destinationPort);
     } else {
-      pipe.end = this.originPort.pipe;
-      pipe.start = this.destinationPort.pipe;
+      pipe.start = this.calculatePipeEnd(this.destinationPort);
+      pipe.end = this.calculatePipeEnd(this.originPort);
     }
 
     let result = response.pipe;
@@ -51,7 +73,7 @@ export class PipeController {
     pipe.endparentid = result.endActionID;
     pipe.endportid = result.endPortID;
 
-    pipe.slot = "undraggable";
+    pipe.slot = "pipes";
 
     this.host.appendChild(pipe);
     this.host.requestUpdate();
@@ -59,48 +81,57 @@ export class PipeController {
     return pipe;
   }
 
+  createLoosePipe(side, mouseCoords, portCoords) {
+    let pipe = document.createElement("planager-pipe");
+    if (side == "right") {
+      pipe.start = portCoords;
+      pipe.end = mouseCoords;
+      pipe.freeSide = "end";
+      pipe.hookedSide = "start";
+    } else {
+      pipe.start = mouseCoords;
+      pipe.end = portCoords;
+      pipe.freeSide = "start";
+      pipe.hookedSide = "end";
+    }
+
+    pipe.slot = "pipes";
+    this.host.appendChild(pipe);
+    return pipe;
+  }
+
   startPipe(e) {
     // Now that a connection is in progress, stop listening for new pipe events.
     removeEventListener("port-click", this.startPipeListener);
-    const target = e.composedPath()[0];
-    const mouseLocation = { x: e.detail.mouseX, y: e.detail.mouseY };
-    // const portLocation = this.portCenter(target);
-    const portLocation = target.pipe;
 
-    // Right port means the end is loose, left means start.
-    if (target.side == "right") {
-      this.loosePipe = this.addLoosePipe(portLocation, mouseLocation);
-    } else {
-      this.loosePipe = this.addLoosePipe(mouseLocation, portLocation);
-    }
-    // Add attribute to record which side should track the mouse movements
-    this.loosePipe.freeSide = target.side;
-    this.originPort = target;
+    const targetPort = e.composedPath()[0];
+    const mouseCoords = { x: e.detail.mouseX, y: e.detail.mouseY };
+    const portCoords = this.calculatePipeEnd(targetPort);
+
+    this.loosePipe = this.buildPipe(targetPort.side, mouseCoords, portCoords);
+    this.originPort = targetPort;
 
     // Event listeners for mouse movement and pipe ending
-    addEventListener("pointermove", this.movePipeListener);
+    addEventListener("pointermove", this.looseEndListener);
     addEventListener("port-click", this.closePipeListener);
     addEventListener("contextmenu", this.cancelPipeListener);
   }
 
-  movePipe(e) {
+  updateLoosePipe(e) {
     if (!this.loosePipe) return;
-    if (this.host.dragType == "canvas") return;
-    if (this.loosePipe.freeSide == "right") {
-      this.loosePipe.end = { x: e.clientX, y: e.clientY };
-    } else {
-      this.loosePipe.start = { x: e.clientX, y: e.clientY };
-    }
 
-    this.host.requestUpdate();
-  }
+    // Updates the loose side of the pipe to the pointer location
+    this.updatePipeEnd(this.loosePipe, this.loosePipe.freeSide, {
+      x: e.clientX,
+      y: e.clientY,
+    });
 
-  movePipeEnd(pipe, side, delta) {
-    if (side === "end") {
-      pipe.end = { x: pipe.end.x + delta.x, y: pipe.end.y + delta.y };
-    } else {
-      pipe.start = { x: pipe.start.x + delta.x, y: pipe.start.y + delta.y };
-    }
+    // Updates the connected side of the pipe to the origin port location
+    this.updatePipeEnd(
+      this.loosePipe,
+      this.loosePipe.hookedSide,
+      this.calculatePipeEnd(this.originPort)
+    );
   }
 
   updatePipeEnd(pipe, side, coords) {
@@ -111,45 +142,45 @@ export class PipeController {
     }
   }
 
-  moveAttachedPipes(parentid, delta) {
-    const pipes = this.host.shadowRoot
-      .querySelector("slot[name=undraggable]")
-      .assignedElements();
-    const outgoing = pipes.filter((node) =>
+  updateAttachedPipes(tool) {
+    let pipes = this.host._pipes;
+    let parentid = tool.toolid;
+    let toolRoot = tool.shadowRoot;
+
+    // Get the pipes attached to this tool
+    let outgoing = pipes.filter((node) =>
       node.matches(`planager-pipe[startparentid="${parentid}"]`)
     );
-    const incoming = pipes.filter((node) =>
+    let incoming = pipes.filter((node) =>
       node.matches(`planager-pipe[endparentid="${parentid}"]`)
     );
-    for (const pipe of outgoing) {
-      this.movePipeEnd(pipe, "start", delta);
-    }
-    for (const pipe of incoming) {
-      this.movePipeEnd(pipe, "end", delta);
-    }
-  }
 
-  cancelPipe(e) {
-    e.preventDefault();
-    this.loosePipe.remove();
-    this.loosePipe = null;
-    this.originPort = null;
-    this.destinationPort = null;
-    // Remove move and close listeners, add back the start listener
-    removeEventListener("pointermove", this.movePipeListener);
-    removeEventListener("port-click", this.closePipeListener);
-    removeEventListener("contextmenu", this.cancelPipeListener);
-    addEventListener("port-click", this.startPipeListener);
+    // Update each outgoing pipe
+    for (const pipe of outgoing) {
+      // Query for the port attached to this pipe
+      let port = toolRoot.querySelector(
+        `#rightPortsContainer planager-port[portid=${pipe.startportid}]`
+      );
+
+      let coords = this.calculatePipeEnd(port);
+      this.updatePipeEnd(pipe, "start", coords);
+    }
+
+    // Update each incoming pipe
+    for (const pipe of incoming) {
+      // Query for the port attached to this pipe
+      let port = toolRoot.querySelector(
+        `#leftPortsContainer planager-port[portid=${pipe.endportid}]`
+      );
+
+      let coords = this.calculatePipeEnd(port);
+      this.updatePipeEnd(pipe, "end", coords);
+    }
   }
 
   closePipe(e) {
     this.destinationPort = e.composedPath()[0];
-    if (this.destinationPort.side === this.originPort.side) {
-      // Cancel if ports are the same side
-      this.cancelPipe(e);
-      return;
-    } else if (this.destinationPort.parentid === this.originPort.parentid) {
-      // Cancel if ports have the same parent
+    if (!this.shouldConnect()) {
       this.cancelPipe(e);
       return;
     }
@@ -192,14 +223,19 @@ export class PipeController {
     );
 
     let pipe = document.createElement("planager-pipe");
-    pipe.start = originPort.pipe;
-    pipe.end = destinationPort.pipe;
+
+    // Set pipe start and end coordinates
+    pipe.start = this.calculatePipeEnd(originPort);
+    pipe.end = this.calculatePipeEnd(destinationPort);
+
+    // Assign attributes
     pipe.startparentid = pipeInfo.startActionID;
     pipe.startportid = pipeInfo.startPortID;
     pipe.endparentid = pipeInfo.endActionID;
     pipe.endportid = pipeInfo.endPortID;
 
-    pipe.slot = "undraggable";
+    // Specify that it should be in the pipe slot
+    pipe.slot = "pipes";
 
     this.host.appendChild(pipe);
     this.host.requestUpdate();
@@ -214,5 +250,20 @@ export class PipeController {
     );
     if (!pipeToRemove) return;
     pipeToRemove.remove();
+  }
+
+  cancelPipe(e) {
+    // Cancels drawing the pipe that is in progress
+    e.preventDefault();
+    this.loosePipe.remove();
+    this.loosePipe = null;
+    this.originPort = null;
+    this.destinationPort = null;
+
+    // Remove move and close listeners, add back the start listener
+    removeEventListener("pointermove", this.movePipeListener);
+    removeEventListener("port-click", this.closePipeListener);
+    removeEventListener("contextmenu", this.cancelPipeListener);
+    addEventListener("port-click", this.startPipeListener);
   }
 }

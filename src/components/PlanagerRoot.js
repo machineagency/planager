@@ -42,6 +42,7 @@ export class PlanagerRoot extends LitElement {
   }
 
   handleKeyDown(event) {
+    // TODO: There is a bug where the key combos result in an infinite loop ?
     let charCode = String.fromCharCode(event.which).toLowerCase();
     if ((event.ctrlKey || event.metaKey) && charCode === "s") {
       event.preventDefault();
@@ -69,11 +70,14 @@ export class PlanagerRoot extends LitElement {
   }
 
   handleRemove(e, toolID) {
-    this.socket.emit("remove_tool", toolID);
-    let toolToRemove = this.canvasRef.value.querySelector(
-      `planager-module[toolid="${toolID}"]`
-    );
-    this.canvasRef.value.removeChild(toolToRemove);
+    // TODO: This should instead request a tool's removal, and there should be a listener for tool_removed messages
+    this.socket.emit("remove_tool", toolID, () => {
+      let toolToRemove = this.canvasRef.value.querySelector(
+        `planager-module[toolid="${toolID}"]`
+      );
+      // TODO: Go through and confirm that any attached pipes are removed
+      this.canvasRef.value.removeChild(toolToRemove);
+    });
   }
 
   async handleNewModule(module) {
@@ -93,9 +97,9 @@ export class PlanagerRoot extends LitElement {
       }
     }
 
-    // Create the element, put it inside a draggable, and append it as a child to the canvas
+    // Create the element, put it inside a draggable, and append it as a child to the canvas inside the tool slot
     let d = document.createElement("planager-module");
-    d.slot = "draggable";
+    d.slot = "tools";
     d.info = module;
     d.toolid = module.id;
 
