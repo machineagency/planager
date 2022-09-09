@@ -18,10 +18,10 @@ app = Flask(
 )
 
 
-PACKAGE_DIR = "actionsets"
+TOOL_LIBRARY_PATH = "tools"
 
-tool_library = ToolLibrary(action_set_path=PACKAGE_DIR)
-tool_library.build_action_dict()
+tool_library = ToolLibrary(tool_library_path=TOOL_LIBRARY_PATH)
+tool_library.build_index()
 
 # NOTE: The secret key is used to cryptographically sign the cookies used for storing
 #       the session identifier.
