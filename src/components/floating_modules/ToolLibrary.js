@@ -9,20 +9,23 @@ export class ToolLibrary extends LitElement {
   static styles = css`
     .category {
       cursor: pointer;
-      color: var(--planager-text-dark);
       display: flex;
+    }
+    .category:hover {
+      font-weight: bolder;
     }
     .categoryName {
       font-size: 0.75rem;
+      color: var(--planager-text-dark);
       padding: 0.2rem 0.3rem;
+      margin-right: 1rem;
     }
     .toolDropdown {
       background-color: var(--planager-module-background-accent);
-      padding: 0 0 0.2rem 0;
     }
     .toolEntry {
       font-size: 0.75rem;
-      padding: 0 0 0 0.5rem;
+      padding: 0.2rem 0.5rem;
       cursor: pointer;
     }
     .toolEntry:hover {

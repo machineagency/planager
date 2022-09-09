@@ -8,13 +8,13 @@ from app.logging import info, error, debug
 
 
 class ToolLibrary:
-    def __init__(self, action_set_path: str):
+    def __init__(self, tool_library_path: str):
         self.actions = {}
-        self.action_set_path = action_set_path
+        self.tool_library_path = tool_library_path
         self.ignore = ["__pycache__", "utils", "knitting"]
 
-    def build_action_dict(self):
-        p = Path(self.action_set_path)
+    def build_index(self):
+        p = Path(self.tool_library_path)
 
         action_sets = {}
         # Iterate through the contents of the action set directory
@@ -26,7 +26,7 @@ class ToolLibrary:
                 continue
             # Add the action set to the actions dict with the path
             action_sets[action_set_name] = {
-                "action_set_path": action_set,
+                "tool_library_path": action_set,
                 "actions": {},
             }
 
