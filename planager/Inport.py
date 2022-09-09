@@ -6,31 +6,33 @@ class Inport:
         self.description = config.get("description", None)
         self.multi = config.get("multi", False)
         self.value = config.get("value", {})
-        self.connections = []
+        self.pipes = {}
 
-    def addConnection(self, startActionID, startPortID):
-        self.connections.append(
-            {"startActionID": startActionID, "startPortID": startPortID}
-        )
+    def add_pipe(self, origin_tool_id, origin_port_id):
+        origin_id = f"{origin_tool_id}_{origin_port_id}"
 
-    def remove_pipe(self, startActionID, startPortID):
-        valueID = f"{startActionID}_{startPortID}"
+        self.pipes[origin_id] = {
+            "origin_tool_id": origin_tool_id,
+            "origin_port_id": origin_port_id,
+        }
+
+    def remove_pipe(self, origin_tool_id, origin_port_id):
+        origin_id = f"{origin_tool_id}_{origin_port_id}"
+
         if self.multi:
-            del self.value[valueID]
+            del self.value[origin_id]
         else:
             self.value = None
-        for index, connection in enumerate(self.connections):
-            if connection["startActionID"] == startActionID:
-                if connection["startPortID"] == startPortID:
-                    del self.connections[index]
+
+        del self.pipes[origin_id]
 
     def getValue(self):
         return self.value
 
-    def setValue(self, startActionID, startPortID, value):
-        valueID = f"{startActionID}_{startPortID}"
+    def setValue(self, origin_tool_id, origin_port_id, value):
         if self.multi:
-            self.value[valueID] = value
+            value_id = f"{origin_tool_id}_{origin_port_id}"
+            self.value[value_id] = value
         else:
             self.value = value
 
@@ -42,14 +44,9 @@ class Inport:
             "description": self.description,
             "multi": self.multi,
             "displayName": self.displayName,
-            "connections": {
-                (connection["startActionID"]): connection["startPortID"]
-                for connection in self.connections
-            },
+            "pipes": list(self.pipes.keys()),
         }
 
     def __str__(self):
-        portDesc = "Inport {}, with {} connections".format(
-            self.displayName, len(self.connections)
-        )
+        portDesc = "Inport {}, with {} pipes".format(self.displayName, len(self.pipes))
         return portDesc

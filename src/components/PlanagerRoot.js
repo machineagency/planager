@@ -69,11 +69,14 @@ export class PlanagerRoot extends LitElement {
   }
 
   handleRemove(e, toolID) {
-    this.socket.emit("remove_tool", toolID);
-    let toolToRemove = this.canvasRef.value.querySelector(
-      `planager-module[toolid="${toolID}"]`
-    );
-    this.canvasRef.value.removeChild(toolToRemove);
+    // TODO: This should instead request a tool's removal, and there should be a listener for tool_removed messages
+    this.socket.emit("remove_tool", toolID, () => {
+      let toolToRemove = this.canvasRef.value.querySelector(
+        `planager-module[toolid="${toolID}"]`
+      );
+      // TODO: Go through and confirm that any attached pipes are removed
+      this.canvasRef.value.removeChild(toolToRemove);
+    });
   }
 
   async handleNewModule(module) {

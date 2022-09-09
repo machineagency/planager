@@ -5,6 +5,7 @@ import { PipeController } from "../../controllers/PipeController";
 import "./ContextMenu";
 import "./Background";
 
+// Workspace class handles user interactions with the toolchain
 export class Workspace extends LitElement {
   pipeController = new PipeController(this);
   pointerMap = new Map();
@@ -27,12 +28,6 @@ export class Workspace extends LitElement {
 
   static styles = css`
     .full-size {
-      width: 100%;
-      height: 100%;
-      position: fixed;
-    }
-
-    #pipe-container {
       width: 100%;
       height: 100%;
       position: fixed;
@@ -108,39 +103,9 @@ export class Workspace extends LitElement {
   }
 
   handleUp(event) {
-    // if (this.dragType == "element" && event.target.info) {
-    //   const element = event.target;
-    //   this.socket.emit("moveTool", {
-    //     id: element.info.id,
-    //     coords: { x: element.dx, y: element.dy },
-    //   });
-    //   console.log("end element drag");
-    //   console.log(event.target);
-    //   console.log(event.target.info.id);
-    // }
     this.dragType = "none";
     event.target.releasePointerCapture(event.pointerId);
   }
-
-  // handleZoom(event) {
-  //   if (event.wheelDelta > 0) {
-  //     this.scaleFactor = this.scaleFactor + 0.1;
-  //   } else {
-  //     this.scaleFactor = this.scaleFactor - 0.1;
-  //   }
-  //   let draggables = this.renderRoot.querySelector(
-  //     "#draggable-elements-container"
-  //   );
-
-  //   draggables.style.transform = `scale(${this.scaleFactor})`;
-
-  //   for (const node of Array.from(this._undraggables)) {
-  //     if (node instanceof SVGElement || node instanceof HTMLElement) {
-  //       node.scaleFactor = this.scaleFactor;
-  //     }
-  //   }
-  //   this.background.style.setProperty("--scaleFactor", this.scaleFactor);
-  // }
 
   shiftView(delta) {
     // Calculate the new viewOffset
@@ -161,9 +126,12 @@ export class Workspace extends LitElement {
       `${this.viewOffset.y * this.scaleFactor}px`
     );
 
-    // Transform the tools and pipes
+    // translate the tool container
     this._toolContainer.style.transform = `translate(${this.viewOffset.x}px, ${this.viewOffset.y}px)`;
-    this._pipeContainer.style.transform = `translate(${this.viewOffset.x}px, ${this.viewOffset.y}px)`;
+    // Redraw pipes
+    for (const tool of this._tools) {
+      this.pipeController.updateAttachedPipes(tool);
+    }
   }
 
   updatePosition(element, delta) {
@@ -172,6 +140,9 @@ export class Workspace extends LitElement {
     element.dy = element.dy + delta.y * (2 - this.scaleFactor);
     element.style.transform = `translate(${element.dx}px, ${element.dy}px)`;
 
+    // TODO: Better way of recording tool coordinates than just checking if
+    // it has info. Also, it might be good to just update coordinates when
+    // the drag ends.
     if (element.info) {
       this.socket.emit("moveTool", {
         id: element.info.id,
@@ -234,53 +205,10 @@ export class Workspace extends LitElement {
   }
 
   onResize(entries, observer) {
-    // This is called if a tool ui changes size, which allows us to update the pipe position accordingly
-    let pipes = this._pipes;
+    // This is called if a tool ui changes size, which allows us to update
+    // the pipe position accordingly
     for (const entry of entries) {
-      let parentid = entry.target.toolid;
-      const toolRoot = entry.target.shadowRoot;
-
-      // Get the pipes attached to this tool
-      const outgoing = pipes.filter((node) =>
-        node.matches(`planager-pipe[startparentid="${parentid}"]`)
-      );
-      const incoming = pipes.filter((node) =>
-        node.matches(`planager-pipe[endparentid="${parentid}"]`)
-      );
-
-      // Update each outgoing pipe
-      for (const pipe of outgoing) {
-        // Query for the port attached to this pipe
-        let port = toolRoot.querySelector(
-          `#rightPortsContainer planager-port[portid=${pipe.startportid}]`
-        );
-        let portui = port.shadowRoot.querySelector("#portui");
-
-        // Update the pipe with the latest port coords
-        let rect = portui.getBoundingClientRect();
-
-        let x = rect.left + rect.width - 5;
-        let y = rect.top + rect.height / 2;
-        let coords = { x: x, y: y };
-        this.pipeController.updatePipeEnd(pipe, "start", coords);
-      }
-
-      // Update each incoming pipe
-      for (const pipe of incoming) {
-        // Query for the port attached to this pipe
-        let port = toolRoot.querySelector(
-          `#leftPortsContainer planager-port[portid=${pipe.endportid}]`
-        );
-        let portui = port.shadowRoot.querySelector("#portui");
-
-        // Update the pipe with the latest port coords
-        let rect = portui.getBoundingClientRect();
-
-        let x = rect.left + 5;
-        let y = rect.top + rect.height / 2;
-        let coords = { x: x, y: y };
-        this.pipeController.updatePipeEnd(pipe, "end", coords);
-      }
+      this.pipeController.updateAttachedPipes(entry.target);
     }
   }
 
@@ -309,15 +237,20 @@ export class Workspace extends LitElement {
         this.handleMove(e, "element", (delta) => {
           // This runs while this element is moving
           this.updatePosition(newTool, delta);
-          this.pipeController.moveAttachedPipes(newTool.info.id, delta);
+          this.pipeController.updateAttachedPipes(newTool);
         });
       };
 
       const observer = new ResizeObserver(this.onResize.bind(this));
       observer.observe(newTool);
 
-      // Finally, properly position the element by calling move with no delta
-      this.updatePosition(newTool, { x: 0, y: 0 });
+      // Finally, properly position the element by calling move with negative
+      // view offset. This means the new tool will alway be placed relative to
+      // the current view.
+      this.updatePosition(newTool, {
+        x: -this.viewOffset.x,
+        y: -this.viewOffset.y,
+      });
     }
   }
 
@@ -363,6 +296,7 @@ export class Workspace extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    // TODO: Rename these pipe_added and pipe_removed
     this.socket.on("pipeConnected", (pipes, cb) => {
       this.pipeController.addPipe(pipes);
     });
@@ -389,11 +323,6 @@ export class Workspace extends LitElement {
 
     // Listener for drag stop/pointer up
     this.root.addEventListener("pointerup", (e) => this.handleUp(e));
-
-    // Listener for the mouse wheel for zooming
-    // this.root.addEventListener("wheel", (e) => {
-    //   this.handleZoom(e);
-    // });
   }
 }
 customElements.define("planager-workspace", Workspace);

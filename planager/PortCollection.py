@@ -8,8 +8,8 @@ class PortCollection:
     def add_port(self, port):
         self._ports[port.id] = port
 
-    def add_connection(self, port_id, action, end_port_id):
-        self._ports[port_id].addConnection(action, end_port_id)
+    def add_pipe(self, port_id, tool, end_port_id):
+        self._ports[port_id].add_pipe(tool, end_port_id)
 
     def remove_pipe(self, port_id, tool_id, end_port_id):
         # TODO: Rename this. remove_pipe should not be the same method name for different classes

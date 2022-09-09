@@ -5,27 +5,30 @@ class Outport:
         self.displayName = config.get("displayName", id)
         self.description = config.get("description", None)
         self.value = config.get("default", None)
-        self.connections = []
+        self.pipes = {}
 
-    def addConnection(self, endAction, endPortID):
-        self.connections.append(
-            {"endAction": endAction, "endPortID": endPortID})
+    def add_pipe(self, destination_tool, destination_port_id):
+        destination_id = f"{destination_tool.id}_{destination_port_id}"
+        self.pipes[destination_id] = {
+            "destination_tool": destination_tool,
+            "destination_port": destination_port_id,
+        }
 
-    def remove_pipe(self, endActionID, endPortID):
-        for index, connection in enumerate(self.connections):
-            if connection["endAction"].id == endActionID:
-                if connection["endPortID"] == endPortID:
-                    del self.connections[index]
+    def remove_pipe(self, destination_tool_id, destination_port_id):
+        destination_id = f"{destination_tool_id}_{destination_port_id}"
+        del self.pipes[destination_id]
 
     def update(self, newVal):
         # TODO: log the current value to the port history
         self.value = newVal
-        self.updateConnections()
+        self.update_pipes()
 
-    def updateConnections(self):
-        for connection in self.connections:
-            connection["endAction"].updateInport(
-                self.parent_id, self.id, connection["endPortID"], self.value
+    def update_pipes(self):
+        for destination_id in self.pipes.keys():
+            tool_to_update = self.pipes[destination_id]["destination_tool"]
+            port_to_update = self.pipes[destination_id]["destination_port"]
+            tool_to_update.updateInport(
+                self.parent_id, self.id, port_to_update, self.value
             )
 
     def getValue(self):
@@ -41,14 +44,11 @@ class Outport:
             "parentID": self.parent_id,
             "description": self.description,
             "displayName": self.displayName,
-            "connections": {
-                (connection["endAction"].id): connection["endPortID"]
-                for connection in self.connections
-            },
+            "pipes": list(self.pipes.keys()),
         }
 
     def __str__(self):
         portDesc = "Outport {}, with {} connections".format(
-            self.displayName, len(self.connections)
+            self.displayName, len(self.pipes)
         )
         return portDesc

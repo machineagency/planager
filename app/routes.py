@@ -109,7 +109,7 @@ def add_tool_to_toolchain(req):
 
 
 @sio.on("addPipe")
-def add_pipe(connection):
+def add_pipe(pipe_info):
     """Adds a pipe between two tools in the current toolchain.
 
     Unpacks the request JSON containing a dictionary containing startActionID,
@@ -120,14 +120,14 @@ def add_pipe(connection):
         linkdata: the data about the link that was created
     """
     session.get("plan").add_pipe(
-        connection["startActionID"],
-        connection["startPortID"],
-        connection["endActionID"],
-        connection["endPortID"],
+        pipe_info["startActionID"],
+        pipe_info["startPortID"],
+        pipe_info["endActionID"],
+        pipe_info["endPortID"],
     )
 
     info("Plumbing: ", "Pipe hooked up.")
-    return {"pipe": connection}
+    return {"pipe": pipe_info}
 
 
 @sio.on("remove_tool")
@@ -145,17 +145,6 @@ def remove_tool(tool_id):
 def remove_pipe():
     """Removes a pipe between two tools/ports in the toolchain"""
     pass
-
-
-@sio.on("removeLink")
-def remove_pipe(link):
-    startactionJSON, endActionJSON = session.get("plan").removeLink(
-        link["startActionID"],
-        link["startPortID"],
-        link["endActionID"],
-        link["endPortID"],
-    )
-    return {"startActionJSON": startactionJSON, "endActionJSON": endActionJSON}
 
 
 @sio.on("moveTool")
