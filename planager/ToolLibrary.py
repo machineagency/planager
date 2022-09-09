@@ -4,7 +4,7 @@ from inspect import getmembers, isclass
 from types import ModuleType
 
 from planager.Action import Action
-from app.logging import info, error, debug
+from planager.logging import message, error, debug
 
 
 class ToolLibrary:
@@ -22,7 +22,7 @@ class ToolLibrary:
             action_set_name = action_set.stem
             # Ignore things that aren't directories or that are in the ignore array
             if not action_set.is_dir() or action_set_name in self.ignore:
-                info("Ignoring: ", action_set)
+                debug("Ignoring: ", action_set)
                 continue
             # Add the action set to the actions dict with the path
             action_sets[action_set_name] = {
@@ -36,7 +36,7 @@ class ToolLibrary:
                 action_name = action_dir.stem
                 # Ignore things that aren't directories or that are in the ignore array
                 if not action_dir.is_dir() or action_name in self.ignore:
-                    info("Ignoring: ", action_dir)
+                    debug("Ignoring: ", action_dir)
                     continue
 
                 # Look through the contents of the action directory

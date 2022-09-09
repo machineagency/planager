@@ -5,7 +5,7 @@
             "name": "python",
             "request": "launch",
             "type": "python",
-            "program": "run.py"
+            "program": "server.py"
             // "env": {
             //     "GEVENT_SUPPORT": "True" // This flag needs to be enabled to work with the VSCode debugger
             // }

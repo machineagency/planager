@@ -1,3 +1,6 @@
+from planager.logging import message
+
+
 class Toolchain:
     def __init__(
         self,
@@ -14,7 +17,7 @@ class Toolchain:
     def build_toolchain_from_src(self, src):
         # This code is disgusting do not look at this
         # Iterates through to add the tools to the toolchain
-        print("Building toolchain from source")
+        message("TOOLCHAIN: ", "Building toolchain from source")
 
         tool_list = src["actions"].items()
         tool_ids = set(src["actions"].keys())

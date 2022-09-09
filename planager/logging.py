@@ -8,9 +8,9 @@ install()
 console = Console()
 
 
-def info(prefix, message):
+def message(prefix, message):
     m = Text()
-    m.append(prefix, style="bold yellow")
+    m.append(prefix, style="bold cyan")
     m.append(str(message))
     console.print(m)
 
@@ -23,5 +23,5 @@ def error(message):
 
 
 def debug(message):
-    m = Text(str(message), style="bold cyan")
+    m = Text(str(message), style="bold yellow")
     console.print(m)

@@ -1,28 +1,43 @@
-from flask import session
+from flask import Flask, session
+from flask_session import Session
+from flask_socketio import SocketIO
+
 from rich import print
 from rich.traceback import install
 
+from planager.ToolLibrary import ToolLibrary
 from planager.Toolchain import Toolchain
+from planager.logging import message, error, debug
 
-from app import tool_library, sio
-
-# from app import tool_library, app, sock
-
-from app.logging import info, error, debug
-
-# sio = sock
 install()
+
+app = Flask(__name__)
+
+
+TOOL_LIBRARY_PATH = "tools"
+
+tool_library = ToolLibrary(tool_library_path=TOOL_LIBRARY_PATH)
+tool_library.build_index()
+
+# NOTE: The secret key is used to cryptographically sign the cookies used for
+# storing the session identifier.
+app.config["SECRET_KEY"] = "top-secret!"
+app.config["SESSION_TYPE"] = "filesystem"
+
+# Create and initialize the Flask-Session object.
+# Flask-Session is a flask extension that adds support for server-side
+# sessions, rather than Flask's default client-side sessions. Don't ever access
+# the Session object directly; just use the built in Flask session interface.
+Session(app)
+
+sio = SocketIO(app, async_mode="eventlet", cors_allowed_origins="*")
 
 
 @sio.on("newPlan")
 def new_toolchain():
-    debug(session)
     session.pop("plan", None)
     new_toolchain = Toolchain(socket=sio)
-    debug(new_toolchain)
     session["plan"] = new_toolchain
-    debug("toolchain added to session")
-    debug(session["plan"])
     return {}
 
 
@@ -43,7 +58,8 @@ def get_toolchain():
 
 @sio.on("uploadPlan")
 def upload_toolchain(toolchain_config):
-    """Creates a new Toolchain from a configuration file and adds it to the session.
+    """Creates a new Toolchain from a configuration file and adds it to the
+    session.
 
     Returns:
         dict: toolchain JSON formatting
@@ -96,13 +112,13 @@ def add_tool_to_toolchain(req):
     """
     tool_class = tool_library.get_tool_class(req["category"], req["tool"])
     if not tool_class:
-        print("Error! Could not find that tool!")
+        error("Error! Could not find that tool!")
         return
 
     try:
         new_tool = session.get("plan").add_tool(tool_class)
     except BaseException as err:
-        print(f"Error adding tool to toolchain: Unexpected {err=}, {type(err)=}")
+        error(f"Error adding tool: Unexpected {err=}, {type(err)=}")
         raise
 
     return new_tool.toJSON()
@@ -113,8 +129,8 @@ def add_pipe(pipe_info):
     """Adds a pipe between two tools in the current toolchain.
 
     Unpacks the request JSON containing a dictionary containing startActionID,
-    startPortID, endActionID, and endPortID. These are passed to the toolchains's
-    addPipe method.
+    startPortID, endActionID, and endPortID. These are passed to the
+    toolchains's addPipe method.
 
     Returns:
         linkdata: the data about the link that was created
@@ -126,7 +142,7 @@ def add_pipe(pipe_info):
         pipe_info["endPortID"],
     )
 
-    info("Plumbing: ", "Pipe hooked up.")
+    message("PLUMBING: ", "Pipe hooked up.")
     return {"pipe": pipe_info}
 
 
@@ -134,7 +150,8 @@ def add_pipe(pipe_info):
 def remove_tool(tool_id):
     """Removes the specified tool from the toolchain.
 
-    Removes the specified tool from the toolchain and returns the tool that was removed.
+    Removes the specified tool from the toolchain and returns the tool that was
+    removed.
     """
     removed_tool = session.get("plan").remove_tool(tool_id)
 
@@ -151,3 +168,7 @@ def remove_pipe():
 def move_tool(info):
     session.get("plan").updateActionCoords(info["id"], info["coords"])
     return {"msg": "ok"}
+
+
+if __name__ == "__main__":
+    sio.run(app, use_reloader=True, host="0.0.0.0", port=5000)

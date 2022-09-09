@@ -1,13 +1,6 @@
-# Planager
+# Building Dynamic Toolchains with the Planager
 
-I want to stress that this project is NOT READY for public use. I am putting all
-of the code here up for the world to see and check out if they are interested,
-but it's not intended to be something that you can use just yet. A lot of the
-documentation is wrong and needs to be updated.
-
-## Install Heroku
-
-On WSL2: `curl https://cli-assets.heroku.com/install.sh | sh`
+Welcome to the Planager, a system for building dynamic toolchains!
 
 ## Installation
 
@@ -25,9 +18,9 @@ On WSL2: `curl https://cli-assets.heroku.com/install.sh | sh`
 
 ## Running locally
 
-1. To start the flask server, run `python run.py`.
-2. To run webpack and generate the `bundle.js`, run `npm run dev`. The bundle
-   will automatically regenerate when changes are made to frontend files.
+1. To start the flask server, run `python server.py`.
+2. To start the frontend, run `npm run start`.
+3. Navigate to `localhost:8000` in your browser. It should open automatically.
 
 ## Development
 
@@ -51,7 +44,7 @@ Here is a quick overview of the main technologies used to build Planager:
   - VSCode
   - web dev server
 - Deployment:
-  - Heroku for hosting
+  - ~~Heroku for hosting~~ Figuring out an alternative because Heroku is dying.
   - Cloudflare for DNS management
 
 ### Virtual Environments
@@ -74,79 +67,12 @@ you run `npm install`. To install a new node module, run
 production dependency, and `--save-dev` will save it as a development
 dependency.
 
-### Redis and Docker
-
-Planager uses Redis to manage sessions. When doing development locally, you'll
-need to run your own Redis instance. The easiest way to do this is via Docker,
-where there's a Redis image that works out of the box.
 
 ### Debugging
 
 Everyone has their preferences when it comes to IDEs and debuggers, but I find
-VSCode to work well for me. I use the following `launch.json` configuration in
-the VSCode debugger:
-
-```json
-{
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "name": "Python: Current File",
-      "type": "python",
-      "request": "launch",
-      "program": "${file}",
-      "console": "integratedTerminal"
-    },
-    {
-      "name": "gunicorn",
-      "request": "launch",
-      "command": "python -m gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 run:app",
-      "type": "node-terminal"
-    },
-    {
-      "command": "npm run watch",
-      "name": "frontend",
-      "request": "launch",
-      "type": "node-terminal"
-    },
-    {
-      "name": "python flask backend",
-      "type": "python",
-      "request": "launch",
-      "program": "run.py",
-      "gevent": true,
-      "env": {
-        "GEVENT_SUPPORT": "True"
-      },
-      "console": "integratedTerminal"
-    }
-  ],
-  "compounds": [
-    {
-      "name": "full stack",
-      "configurations": ["frontend", "python flask backend"]
-    }
-  ]
-}
-```
-
+VSCode to work well for me. I included a `launch.json` configuration in `.vscode/`.
 The compound rule `full stack` will run both the frontend and backend
 configurations! One thing to note is that the python configuration has to be run
 with the GEVENT_SUPPORT flag set to true, or else some crucial Flask things will
 not work.
-
-### Deployment Notes
-
-The command to start the app once deployed on Heroku is contained in the
-`Procfile`.
-
-I have deployed this app on Heroku. There are a few gotchas: Ensure that the
-appropriate buildpacks are added. Heroku will automatically detect and use the
-python buildpack, but the nodejs buildpack needs to run first in order to call
-"npm run build" (specified in the package.json postinstall script) and create
-the bundle.js file. To push a build to Heroku, run `git push heroku main`. To
-then open the app in browser, run `heroku open`.
-
-I bought the domain `planager.xyz` through GoDaddy, and redirected it to use
-Cloudflare's DNS servers. In Cloudflare I pointed any requests for
-`planager.xyz` to the heroku app.

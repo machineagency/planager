@@ -7,16 +7,9 @@ export default {
   open: "/",
   port: 8000,
   watch: !hmr,
-  /** Resolve bare module imports */
   nodeResolve: {
     exportConditions: ["browser", "development"],
   },
-
-  /** Compile JS for older browsers. Requires @web/dev-server-esbuild plugin */
-  // esbuildTarget: 'auto'
-
-  /** Set appIndex to enable SPA routing */
-  // appIndex: "index.html",
 
   plugins: [
     /** Use Hot Module Replacement by uncommenting. Requires @open-wc/dev-server-hmr plugin */
