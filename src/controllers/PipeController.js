@@ -1,21 +1,36 @@
 import "../components/tool_ui/Pipe";
-export class PipeController {
-  host;
 
-  loosePipe = null;
+export class PipeController {
+  host; // Declare the host variable so we can use it later
+
+  loosePipe = null; // This is the reference to a pipe that is in progress of being connected
   originPort = null;
   destinationPort = null;
 
-  // Binding creates new copies of functions, so we must store
-  // them if we are to remove them. You need to give removeEventListener
-  // the exact function, not a copy.
+  // In order to properly remove an event listener, you need to give
+  // removeEventListener the exact function rather than a copy. Binding `this`
+  // creates new copies of functions, so we must store them as variables if we
+  // are to remove them later.
   startPipeListener = this.startPipe.bind(this);
   movePipeListener = this.movePipe.bind(this);
   closePipeListener = this.closePipe.bind(this);
   cancelPipeListener = this.cancelPipe.bind(this);
 
   constructor(host) {
-    (this.host = host).addController(this);
+    // The host element is passed into the constructor. We store it in this.host
+    // so we can reference it later.
+    this.host = host;
+    this.host.addController(this);
+  }
+
+  calculatePipeEnd(port) {
+    const rect = port.getBoundingClientRect();
+    const offset = this.host.viewOffset;
+
+    return {
+      x: rect.left + offset.x + (port.side == "right" ? rect.width - 5 : 5),
+      y: rect.top + offset.y + rect.height / 2,
+    };
   }
 
   hostConnected() {
@@ -27,7 +42,7 @@ export class PipeController {
     let pipe = document.createElement("planager-pipe");
     pipe.start = start;
     pipe.end = end;
-    pipe.slot = "undraggable";
+    pipe.slot = "pipes";
     this.host.appendChild(pipe);
     this.host.requestUpdate();
     return pipe;
@@ -37,11 +52,15 @@ export class PipeController {
     let pipe = document.createElement("planager-pipe");
 
     if (this.originPort.side === "right") {
-      pipe.start = this.originPort.pipe;
-      pipe.end = this.destinationPort.pipe;
+      // pipe.start = this.originPort.pipe;
+      pipe.start = this.calculatePipeEnd(this.originPort);
+      // pipe.end = this.destinationPort.pipe;
+      pipe.end = this.calculatePipeEnd(this.destinationPort);
     } else {
-      pipe.end = this.originPort.pipe;
-      pipe.start = this.destinationPort.pipe;
+      // pipe.end = this.originPort.pipe;
+      // pipe.start = this.destinationPort.pipe;
+      pipe.start = this.calculatePipeEnd(this.destinationPort);
+      pipe.end = this.calculatePipeEnd(this.originPort);
     }
 
     let result = response.pipe;
@@ -51,7 +70,7 @@ export class PipeController {
     pipe.endparentid = result.endActionID;
     pipe.endportid = result.endPortID;
 
-    pipe.slot = "undraggable";
+    pipe.slot = "pipes";
 
     this.host.appendChild(pipe);
     this.host.requestUpdate();
@@ -65,7 +84,8 @@ export class PipeController {
     const target = e.composedPath()[0];
     const mouseLocation = { x: e.detail.mouseX, y: e.detail.mouseY };
     // const portLocation = this.portCenter(target);
-    const portLocation = target.pipe;
+    // const portLocation = target.pipe;
+    const portLocation = this.calculatePipeEnd(target);
 
     // Right port means the end is loose, left means start.
     if (target.side == "right") {
@@ -86,6 +106,7 @@ export class PipeController {
   movePipe(e) {
     if (!this.loosePipe) return;
     if (this.host.dragType == "canvas") return;
+
     if (this.loosePipe.freeSide == "right") {
       this.loosePipe.end = { x: e.clientX, y: e.clientY };
     } else {
@@ -113,7 +134,7 @@ export class PipeController {
 
   moveAttachedPipes(parentid, delta) {
     const pipes = this.host.shadowRoot
-      .querySelector("slot[name=undraggable]")
+      .querySelector("slot[name=pipes]")
       .assignedElements();
     const outgoing = pipes.filter((node) =>
       node.matches(`planager-pipe[startparentid="${parentid}"]`)
@@ -192,14 +213,18 @@ export class PipeController {
     );
 
     let pipe = document.createElement("planager-pipe");
-    pipe.start = originPort.pipe;
-    pipe.end = destinationPort.pipe;
+
+    // pipe.start = originPort.pipe;
+    // pipe.end = destinationPort.pipe;
+    pipe.start = this.calculatePipeEnd(originPort);
+    pipe.end = this.calculatePipeEnd(destinationPort);
+
     pipe.startparentid = pipeInfo.startActionID;
     pipe.startportid = pipeInfo.startPortID;
     pipe.endparentid = pipeInfo.endActionID;
     pipe.endportid = pipeInfo.endPortID;
 
-    pipe.slot = "undraggable";
+    pipe.slot = "pipes";
 
     this.host.appendChild(pipe);
     this.host.requestUpdate();
@@ -214,5 +239,9 @@ export class PipeController {
     );
     if (!pipeToRemove) return;
     pipeToRemove.remove();
+  }
+
+  updatePipe() {
+    console.log("pipe");
   }
 }

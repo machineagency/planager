@@ -5,12 +5,12 @@ export default class Port extends LitElement {
     side: { reflect: true },
     portid: { reflect: true },
     info: {},
-    pipe: { reflect: true },
+    // pipe: { reflect: true },
   };
   constructor() {
     super();
     this.info = {};
-    this.pipe = { x: null, y: null };
+    // this.pipe = { x: null, y: null };
   }
   static styles = css`
     .port {
@@ -42,22 +42,21 @@ export default class Port extends LitElement {
     }
   `;
 
-  firstUpdated() {
-    this.pipeAttachmentPoint();
-  }
+  // firstUpdated() {
+  //   this.pipeAttachmentPoint();
+  // }
 
-  pipeAttachmentPoint() {
-    const rect = this.renderRoot
-      .querySelector("#portui")
-      .getBoundingClientRect();
+  // pipeAttachmentPoint() {
+  //   const rect = this.renderRoot
+  //     .querySelector("#portui")
+  //     .getBoundingClientRect();
 
-    let x = rect.left + (this.side == "right" ? rect.width - 5 : 5);
-    let y = rect.top + rect.height / 2;
-    this.pipe = { x: x, y: y };
-  }
+  //   this.pipe.x = rect.left + (this.side == "right" ? rect.width - 5 : 5);
+  //   this.pipe.y = rect.top + rect.height / 2;
+  // }
 
   handlePortClick(e) {
-    this.pipeAttachmentPoint();
+    // this.pipeAttachmentPoint();
     const connectionEvent = new CustomEvent("port-click", {
       detail: {
         mouseX: e.pageX,

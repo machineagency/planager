@@ -93,9 +93,9 @@ export class PlanagerRoot extends LitElement {
       }
     }
 
-    // Create the element, put it inside a draggable, and append it as a child to the canvas
+    // Create the element, put it inside a draggable, and append it as a child to the canvas inside the tool slot
     let d = document.createElement("planager-module");
-    d.slot = "draggable";
+    d.slot = "tools";
     d.info = module;
     d.toolid = module.id;
 

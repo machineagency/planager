@@ -31,6 +31,18 @@ export class Workspace extends LitElement {
       height: 100%;
       position: fixed;
     }
+
+    #pipe-container {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+    }
+
+    #tool-container {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+    }
   `;
 
   render() {
@@ -39,14 +51,11 @@ export class Workspace extends LitElement {
         <planager-background
           style="--offset-x: 0; --offset-y: 0; --scaleFactor: 1;"
         ></planager-background>
-        <div id="undraggable-elements-container">
-          <slot name="undraggable" @slotchange=${this.undraggableSlot}></slot>
+        <div id="pipe-container">
+          <slot name="pipes" @slotchange=${this.pipeSlot}></slot>
         </div>
-        <div id="draggable-elements-container">
-          <slot
-            name="draggable"
-            @slotchange=${this.onDraggableSlotChange}
-          ></slot>
+        <div id="tool-container">
+          <slot name="tools" @slotchange=${this.onToolSlotChange}></slot>
         </div>
         <div id="floating-element-container">
           <slot name="floating" @slotchange=${this.floatingSlot}></slot>
@@ -133,12 +142,16 @@ export class Workspace extends LitElement {
   //   this.background.style.setProperty("--scaleFactor", this.scaleFactor);
   // }
 
-  moveBackground(delta) {
-    let newOffset = {};
-    newOffset.x = this.viewOffset.x + delta.x * (2 - this.scaleFactor);
-    newOffset.y = this.viewOffset.y + delta.y * (2 - this.scaleFactor);
+  shiftView(delta) {
+    // Calculate the new viewOffset
+    let newOffset = {
+      x: this.viewOffset.x + delta.x * (2 - this.scaleFactor),
+      y: this.viewOffset.y + delta.y * (2 - this.scaleFactor),
+    };
+
     this.viewOffset = newOffset;
-    // this.background.requestUpdate();
+
+    // Update the background position
     this.background.style.setProperty(
       "--offset-x",
       `${this.viewOffset.x * this.scaleFactor}px`
@@ -147,10 +160,14 @@ export class Workspace extends LitElement {
       "--offset-y",
       `${this.viewOffset.y * this.scaleFactor}px`
     );
+
+    // Transform the tools and pipes
+    this._toolContainer.style.transform = `translate(${this.viewOffset.x}px, ${this.viewOffset.y}px)`;
+    this._pipeContainer.style.transform = `translate(${this.viewOffset.x}px, ${this.viewOffset.y}px)`;
   }
 
   updatePosition(element, delta) {
-    // Update the element's position property and translate it.
+    // Updates an element's position property and translate it.
     element.dx = element.dx + delta.x * (2 - this.scaleFactor);
     element.dy = element.dy + delta.y * (2 - this.scaleFactor);
     element.style.transform = `translate(${element.dx}px, ${element.dy}px)`;
@@ -164,7 +181,7 @@ export class Workspace extends LitElement {
   }
 
   getToolByID(toolID) {
-    for (const tool of this._draggable) {
+    for (const tool of this._tools) {
       if (tool.info.id == toolID) {
         return tool;
       }
@@ -172,9 +189,7 @@ export class Workspace extends LitElement {
   }
 
   getPipeByIDs(startPortID, startToolID, endPortID, endToolID) {
-    const pipes = this.shadowRoot
-      .querySelector(`slot[name=undraggable]`)
-      .assignedElements({ flatten: true });
+    const pipes = this._pipes;
     let obj = pipes.find(
       (pipe) =>
         pipe.startportid === startPortID &&
@@ -185,33 +200,36 @@ export class Workspace extends LitElement {
     return obj;
   }
 
-  get _pinnedElements() {
-    const pinned = this.shadowRoot
-      .querySelector("slot[name=draggable]")
-      .assignedElements({ flatten: true });
-    const undraggable = this.shadowRoot
-      .querySelector("slot[name=undraggable]")
-      .assignedElements({ flatten: true });
-    pinned.push(...undraggable);
-    return pinned;
+  get _toolContainer() {
+    return this.shadowRoot.querySelector("#tool-container");
   }
 
-  get _draggable() {
-    const pinned = this.shadowRoot
-      .querySelector("slot[name=draggable]")
-      .assignedElements({ flatten: true });
-    return pinned;
+  get _pipeContainer() {
+    return this.shadowRoot.querySelector("#pipe-container");
   }
 
-  get _undraggables() {
-    return this.shadowRoot
-      .querySelector("slot[name=undraggable]")
+  get _toolsAndPipes() {
+    // Selects all of the tools and pipes
+    const tools = this.shadowRoot
+      .querySelector("slot[name=tools]")
       .assignedElements({ flatten: true });
+    const pipes = this.shadowRoot
+      .querySelector("slot[name=pipes]")
+      .assignedElements({ flatten: true });
+    tools.push(...pipes);
+    return tools;
+  }
+
+  get _tools() {
+    const tools = this.shadowRoot
+      .querySelector("slot[name=tools]")
+      .assignedElements({ flatten: true });
+    return tools;
   }
 
   get _pipes() {
     return this.shadowRoot
-      .querySelector("slot[name=undraggable]")
+      .querySelector("slot[name=pipes]")
       .assignedElements({ flatten: true });
   }
 
@@ -266,8 +284,8 @@ export class Workspace extends LitElement {
     }
   }
 
-  // This runs when nodes are added or removed from the draggable slot.
-  onDraggableSlotChange(e) {
+  // This runs when nodes are added or removed from the tool slot.
+  onToolSlotChange(e) {
     // Get all of the nodes in the slot.
     const nodes = e.target.assignedNodes({ flatten: true });
     if (this.numTools > nodes.length) {
@@ -303,9 +321,11 @@ export class Workspace extends LitElement {
     }
   }
 
-  undraggableSlot(e) {
+  pipeSlot(e) {
+    // This runs when pipes are added to the pipe slot
     const nodes = e.target.assignedNodes({ flatten: true });
     let i = 0;
+
     for (const node of nodes) {
       if (node instanceof SVGElement || node instanceof HTMLElement) {
         const child = node;
@@ -345,7 +365,6 @@ export class Workspace extends LitElement {
     super.connectedCallback();
     this.socket.on("pipeConnected", (pipes, cb) => {
       this.pipeController.addPipe(pipes);
-      // console.log(cb);
     });
     this.socket.on("remove_pipe", (info) => {
       this.pipeController.removePipe(info);
@@ -353,30 +372,23 @@ export class Workspace extends LitElement {
   }
 
   async firstUpdated() {
+    // Save references to the workspace and background
     this.root = this.renderRoot.querySelector("#workspace");
     this.background = this.renderRoot.querySelector("planager-background");
 
-    // Add a listener to the worskspace to handle pointerdown events
+    // Add a listener to the workspace to handle pointerdown events
     this.root.addEventListener("pointerdown", (e) => {
       this.handleDown(e, "canvas");
     });
 
-    // Add a listener to the workspace to handle move events
+    // Add a listener to the workspace background to handle move events
     this.root.addEventListener("pointermove", (e) => {
-      this.handleMove(e, "canvas", (delta) => {
-        this.moveBackground(delta);
-        for (const node of Array.from(this._pinnedElements)) {
-          if (node instanceof SVGElement || node instanceof HTMLElement) {
-            this.updatePosition(node, delta);
-          }
-        }
-      });
+      // When the move is a canvas move, we will shift the view.
+      this.handleMove(e, "canvas", (delta) => this.shiftView(delta));
     });
 
     // Listener for drag stop/pointer up
-    this.root.addEventListener("pointerup", (e) => {
-      this.handleUp(e);
-    });
+    this.root.addEventListener("pointerup", (e) => this.handleUp(e));
 
     // Listener for the mouse wheel for zooming
     // this.root.addEventListener("wheel", (e) => {

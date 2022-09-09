@@ -8,8 +8,8 @@ export default class Pipe extends LitElement {
     startportid: { reflect: true },
     endparentid: { reflect: true },
     endportid: { reflect: true },
-    dx: { type: Number },
-    dy: { type: Number },
+    // dx: { type: Number },
+    // dy: { type: Number },
     scaleFactor: { type: Number },
   };
 
@@ -34,8 +34,8 @@ export default class Pipe extends LitElement {
 
   constructor() {
     super();
-    this.dx = 0;
-    this.dy = 0;
+    // this.dx = 0;
+    // this.dy = 0;
     this.scaleFactor = 1;
     this.startparentid = "";
     this.startportid = "";
@@ -53,13 +53,18 @@ export default class Pipe extends LitElement {
   render() {
     return html`
       <svg id="pipe">
-        <path
-          id="pipePath"
-          d=${this.calculateBezier()}
-          transform="translate(${this.dx}, ${this.dy})"
-        />
+        <path id="pipePath" d=${this.calculateBezier()} />
       </svg>
     `;
+    // return html`
+    //   <svg id="pipe">
+    //     <path
+    //       id="pipePath"
+    //       d=${this.calculateBezier()}
+    //       transform="translate(${this.dx}, ${this.dy})"
+    //     />
+    //   </svg>
+    // `;
   }
 }
 customElements.define("planager-pipe", Pipe);
