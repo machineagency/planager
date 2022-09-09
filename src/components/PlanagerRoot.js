@@ -42,6 +42,7 @@ export class PlanagerRoot extends LitElement {
   }
 
   handleKeyDown(event) {
+    // TODO: There is a bug where the key combos result in an infinite loop ?
     let charCode = String.fromCharCode(event.which).toLowerCase();
     if ((event.ctrlKey || event.metaKey) && charCode === "s") {
       event.preventDefault();
