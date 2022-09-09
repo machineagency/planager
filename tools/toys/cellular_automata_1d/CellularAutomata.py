@@ -1,18 +1,15 @@
 from planager.Action import Action
 
-CONFIG = {
-    "displayName": "1D Cellular Automata",
-    "inports": {},
-    "outports": {
-        "automata": {
-            "displayName": "Generated automata",
-            "description": "2D array of pixel values",
-        }
-    },
-}
+# importing the module
+import json
+import os.path
+
+# Opening JSON file
+with open(
+    os.path.join(os.path.dirname(__file__), "CellularAutomata.tool")
+) as json_file:
+    CONFIG = json.load(json_file)
 
 
 class CellularAutomata(Action, config=CONFIG):
-    def main(self):
-        """The main loop; this is what runs when the action is run."""
-        print("main loop")
+    pass

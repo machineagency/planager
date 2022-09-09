@@ -116,9 +116,7 @@ export default class PixelArt extends Tool {
     .sizeInput {
       color: var(--planager-text-dark);
       font-weight: bolder;
-      /* padding: 5px 10px; */
       display: inline;
-      /* vertical-align: middle; */
     }
 
     .numRowCols {
