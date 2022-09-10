@@ -66,12 +66,10 @@ export class PipeController {
       pipe.end = this.calculatePipeEnd(this.originPort);
     }
 
-    let result = response.pipe;
-
-    pipe.startparentid = result.startActionID;
-    pipe.startportid = result.startPortID;
-    pipe.endparentid = result.endActionID;
-    pipe.endportid = result.endPortID;
+    pipe.startparentid = response.origin_tool_id;
+    pipe.startportid = response.origin_port_id;
+    pipe.endparentid = response.destination_tool_id;
+    pipe.endportid = response.destination_port_id;
 
     pipe.slot = "pipes";
 
@@ -196,12 +194,12 @@ export class PipeController {
     }
 
     this.host.socket.emit(
-      "addPipe",
+      "add_pipe",
       {
-        startActionID: start.parentid,
-        startPortID: start.portid,
-        endActionID: end.parentid,
-        endPortID: end.portid,
+        origin_tool_id: start.parentid,
+        origin_port_id: start.portid,
+        destination_tool_id: end.parentid,
+        destination_port_id: end.portid,
       },
       (result) => {
         this.addPermanentPipe(result);
@@ -211,15 +209,15 @@ export class PipeController {
   }
 
   addPipe(pipeInfo) {
-    let startingTool = this.host.getToolByID(pipeInfo.startActionID);
-    let endTool = this.host.getToolByID(pipeInfo.endActionID);
+    let startingTool = this.host.getToolByID(pipeInfo.origin_tool_id);
+    let endTool = this.host.getToolByID(pipeInfo.destination_tool_id);
 
     let originPort = startingTool.renderRoot.querySelector(
-      `planager-port[side=right][portid=${pipeInfo.startPortID}]`
+      `planager-port[side=right][portid=${pipeInfo.origin_port_id}]`
     );
 
     let destinationPort = endTool.renderRoot.querySelector(
-      `planager-port[side=left][portid=${pipeInfo.endPortID}]`
+      `planager-port[side=left][portid=${pipeInfo.destination_port_id}]`
     );
 
     let pipe = document.createElement("planager-pipe");
@@ -229,10 +227,10 @@ export class PipeController {
     pipe.end = this.calculatePipeEnd(destinationPort);
 
     // Assign attributes
-    pipe.startparentid = pipeInfo.startActionID;
-    pipe.startportid = pipeInfo.startPortID;
-    pipe.endparentid = pipeInfo.endActionID;
-    pipe.endportid = pipeInfo.endPortID;
+    pipe.startparentid = pipeInfo.origin_tool_id;
+    pipe.startportid = pipeInfo.origin_port_id;
+    pipe.endparentid = pipeInfo.destination_tool_id;
+    pipe.endportid = pipeInfo.destination_port_id;
 
     // Specify that it should be in the pipe slot
     pipe.slot = "pipes";

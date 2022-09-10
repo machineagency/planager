@@ -1,4 +1,4 @@
-export class PlanController {
+export class ToolchainController {
   host;
   constructor(host) {
     this.host = host;
@@ -26,13 +26,13 @@ export class PlanController {
     // Configure onload behavior, using an arrow function to preserve "this"
     fileReader.onload = () => {
       // On load, get the fileReader result and convert it to JSON
-      let jsonPlan = JSON.parse(fileReader.result);
+      let jsonToolchain = JSON.parse(fileReader.result);
       // Send it to the backend
-      this.host.socket.emit("uploadPlan", jsonPlan);
+      this.host.socket.emit("set_toolchain", jsonToolchain);
     };
   }
 
-  uploadPlan(e) {
+  uploadToolchain(e) {
     // Create a file input element, style it, and add it to the DOM
     let fileInputElement = document.createElement("input");
     fileInputElement.setAttribute("type", "file");
@@ -49,12 +49,12 @@ export class PlanController {
     document.body.removeChild(fileInputElement);
   }
 
-  downloadPlan(e) {
-    console.log(e);
-    this.host.socket.emit("getPlan", (plan) => {
+  downloadToolchain(e) {
+    // console.log(e);
+    this.host.socket.emit("get_toolchain", (plan) => {
       const content = JSON.stringify(plan);
 
-      var element = document.createElement("a");
+      let element = document.createElement("a");
       element.setAttribute(
         "href",
         "data:application/json;charset=utf-8," + encodeURIComponent(content)

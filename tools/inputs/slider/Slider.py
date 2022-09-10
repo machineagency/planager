@@ -1,4 +1,4 @@
-from planager.Action import Action
+from planager.Tool import Tool
 
 # importing the module
 import json
@@ -9,6 +9,6 @@ with open(os.path.join(os.path.dirname(__file__), "Slider.tool")) as json_file:
     CONFIG = json.load(json_file)
 
 
-class Slider(Action, config=CONFIG):
+class Slider(Tool, config=CONFIG):
     def state_updated(self, key):
         self.outports["value"] = self.state["value"]

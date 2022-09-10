@@ -8,11 +8,11 @@ from planager.State import State
 from planager.PortCollection import PortCollection
 
 
-class Action:
-    """This is the base Action class for planager actions."""
+class Tool:
+    """This is the base Tool class for planager tools."""
 
     def __init_subclass__(cls, config: dict, **kwargs) -> None:
-        # takes in the config param from the subclass
+        # Uses the config parameter from the subclass
         cls.config = copy.deepcopy(config)
         super().__init_subclass__(**kwargs)
 
@@ -22,7 +22,7 @@ class Action:
         self.coords = None
         self.socket = socket
         self.name = self.__module__.split(".")[-1]
-        self.actionType = self.__module__.split(".")
+        self.toolType = self.__module__.split(".")
 
         if overrideConfig:
             self.id = overrideConfig["id"]
@@ -79,7 +79,7 @@ class Action:
             if callable(attribute_value):
                 # Filter all dunder (__ prefix) methods
                 if attribute.startswith("__") == False:
-                    if attribute not in dir(Action):
+                    if attribute not in dir(Tool):
                         method_list.append(attribute)
 
         return method_list
@@ -111,10 +111,11 @@ class Action:
     def addOutport(self, outport_id, outport_config):
         self.outports.add_port(Outport(outport_id, self.id, outport_config))
 
-    def updateInport(self, startActionID, startPortID, inportID, value):
-        self.inports.set_inport(startActionID, startPortID, inportID, value)
-
-        self.inports_updated(inportID)
+    def update_inport(self, origin_tool_id, origin_port_id, destination_port_id, value):
+        self.inports.set_inport_value(
+            origin_tool_id, origin_port_id, destination_port_id, value
+        )
+        self.inports_updated(destination_port_id)
         self.updateSelf()
 
     def toJSON(self):
@@ -122,7 +123,7 @@ class Action:
             "id": self.id,
             "displayName": self.displayName,
             "name": self.name,
-            "actionType": self.actionType,
+            "toolType": self.toolType,
             "coords": self.coords,
             "outports": {
                 outportID: outport.toJSON()

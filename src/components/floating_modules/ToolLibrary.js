@@ -50,14 +50,14 @@ export class ToolLibrary extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.socket.emit("getToolLibrary", (result) => {
+    this.socket.emit("get_tool_library", (result) => {
       this.toolLibrary = result;
     });
   }
 
   loadTool(categoryName, toolName) {
     this.socket.emit(
-      "addToolToToolchain",
+      "add_tool",
       {
         tool: toolName,
         category: categoryName,

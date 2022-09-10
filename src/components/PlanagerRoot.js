@@ -3,7 +3,7 @@ import { ref, createRef } from "lit/directives/ref.js";
 import { styleMap } from "lit/directives/style-map.js";
 
 import { themes } from "../ui/themes";
-import { PlanController } from "../controllers/PlanController";
+import { ToolchainController } from "../controllers/ToolchainController";
 
 // Basic workspace things
 import "./workspace_ui/Workspace";
@@ -20,7 +20,7 @@ import "./floating_modules/PlanViewer";
 
 export class PlanagerRoot extends LitElement {
   canvasRef = createRef();
-  planController = new PlanController(this);
+  toolchainController = new ToolchainController(this);
   currentOffset = { x: 100, y: 100 };
 
   static properties = {
@@ -34,8 +34,8 @@ export class PlanagerRoot extends LitElement {
     this.modules = [];
     this.socket = io.connect("http://localhost:5000/");
 
-    this.socket.emit("newPlan");
-    this.socket.on("toolAdded", (module, callback) => {
+    this.socket.emit("new_toolchain");
+    this.socket.on("tool_added", (module, callback) => {
       this.handleNewModule(module).then(() => callback(module.id));
     });
     this.theme = "dracula";
@@ -46,7 +46,7 @@ export class PlanagerRoot extends LitElement {
     let charCode = String.fromCharCode(event.which).toLowerCase();
     if ((event.ctrlKey || event.metaKey) && charCode === "s") {
       event.preventDefault();
-      this.planController.downloadPlan(event);
+      this.toolchainController.downloadToolchain(event);
     } else if ((event.ctrlKey || event.metaKey) && charCode === "c") {
       event.preventDefault();
       console.log("CTRL+C Pressed");
@@ -82,13 +82,13 @@ export class PlanagerRoot extends LitElement {
 
   async handleNewModule(module) {
     const elementName = (
-      "planager-" + module.actionType.slice(1).join("-")
+      "planager-" + module.toolType.slice(1).join("-")
     ).toLowerCase();
 
-    // If the element for the action has not been registered
+    // If the element for the tool has not been registered
     // we import it and define it as a custom element
     if (!customElements.get(elementName)) {
-      const modulePath = `../../${module.actionType.join("/")}.js`;
+      const modulePath = `../../${module.toolType.join("/")}.js`;
       let moduleElement = await import(modulePath);
       try {
         customElements.define(elementName, moduleElement.default);
@@ -113,9 +113,9 @@ export class PlanagerRoot extends LitElement {
       d.dy = this.currentOffset.y;
       this.increaseOffset();
     }
-    this.socket.emit("moveTool", {
-      id: d.info.id,
-      coords: { x: d.dx, y: d.dy },
+    this.socket.emit("update_tool_coordinates", {
+      tool_id: d.info.id,
+      coordinates: { x: d.dx, y: d.dy },
     });
     let el = document.createElement(elementName);
     // Pass it the socket connection

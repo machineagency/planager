@@ -8,7 +8,7 @@ class Toolchain:
         socket=None,
         src=None,
     ):
-        self.actions = {}
+        self.tools = {}
         self.socket = socket
         self.tool_library = tool_library
         if src:
@@ -19,8 +19,8 @@ class Toolchain:
         # Iterates through to add the tools to the toolchain
         message("TOOLCHAIN: ", "Building toolchain from source")
 
-        tool_list = src["actions"].items()
-        tool_ids = set(src["actions"].keys())
+        tool_list = src["tools"].items()
+        tool_ids = set(src["tools"].keys())
         added_tools = set()
 
         def add_pipes():
@@ -32,7 +32,7 @@ class Toolchain:
                         new_pipe = self.add_pipe(
                             tool_id, port_id, dest_tool_id, dest_port_id
                         )
-                        self.socket.emit("pipeConnected", new_pipe)
+                        self.socket.emit("pipe_added", new_pipe)
 
         def tool_added_callback(tool_id):
             added_tools.add(tool_id)
@@ -41,11 +41,11 @@ class Toolchain:
                 add_pipes()
 
         for tool_id, tool_info in tool_list:
-            tool_type = tool_info["actionType"]
+            tool_type = tool_info["toolType"]
             tool_class = self.tool_library.get_tool_class(tool_type[-3], tool_type[-2])
             new_tool = self.add_tool(tool_class, overrideConfig=tool_info)
             self.socket.emit(
-                "toolAdded", new_tool.toJSON(), callback=tool_added_callback
+                "tool_added", new_tool.toJSON(), callback=tool_added_callback
             )
 
     def add_tool(self, NewToolClass, overrideConfig=None):
@@ -59,17 +59,17 @@ class Toolchain:
             Tool: The instantiated tool of type NewToolClass.
         """
         if overrideConfig:
-            new_action = NewToolClass(overrideConfig=overrideConfig, socket=self.socket)
+            new_tool = NewToolClass(overrideConfig=overrideConfig, socket=self.socket)
         else:
-            new_action = NewToolClass(socket=self.socket)
+            new_tool = NewToolClass(socket=self.socket)
 
-        new_action.setup()
-        self.actions[new_action.id] = new_action
-        return self.actions[new_action.id]
+        new_tool.setup()
+        self.tools[new_tool.id] = new_tool
+        return self.tools[new_tool.id]
 
     def remove_tool(self, tool_id):
         """Removes the specified tool and returns it."""
-        removed_tool = self.actions[tool_id]
+        removed_tool = self.tools[tool_id]
 
         # Remove any incoming pipes to the inports
         for inport_id, inport in removed_tool.inports.items():
@@ -85,57 +85,59 @@ class Toolchain:
                 dest_tool, dest_port = pipe.split("_")
                 self.remove_pipe(tool_id, outport_id, dest_tool, dest_port)
 
-        return self.actions.pop(tool_id)
+        return self.tools.pop(tool_id)
 
-    def add_pipe(self, startActionID, startPortID, endActionID, endPortID):
+    def add_pipe(
+        self, origin_tool_id, origin_port_id, destination_tool_id, destination_port_id
+    ):
         """Adds a pipe between two tools in the Toolchain.
 
         Uses the ids of tools and ports to update the Toolchain data structure. Sets the contents of the starting port to the contents of the destination port.
 
         Args:
-            startActionID (uid): ID of the start action
-            startPortID (uid): ID of the starting port
-            endActionID (uid): ID of the end action
-            endPortID (uid): ID of the destination port
+            origin_tool_id (uid): ID of the start tool
+            origin_port_id (uid): ID of the starting port
+            destination_tool_id (uid): ID of the end tool
+            destination_port_id (uid): ID of the destination port
 
         Returns:
-            tuple: a tuple containing the updated JSON representations of the start and end actions after the pipe has been created.
+            tuple: a tuple containing the updated JSON representations of the start and end tools after the pipe has been created.
         """
 
-        self.actions[startActionID].outports.add_pipe(
-            startPortID, self.actions[endActionID], endPortID
+        self.tools[origin_tool_id].outports.add_pipe(
+            origin_port_id, self.tools[destination_tool_id], destination_port_id
         )
-        self.actions[endActionID].inports.add_pipe(
-            endPortID, startActionID, startPortID
+        self.tools[destination_tool_id].inports.add_pipe(
+            destination_port_id, origin_tool_id, origin_port_id
         )
         # Assign the start port contents to the destination port
-        self.actions[endActionID].updateInport(
-            startActionID,
-            startPortID,
-            endPortID,
-            self.actions[startActionID].outports[startPortID],
+        self.tools[destination_tool_id].update_inport(
+            origin_tool_id,
+            origin_port_id,
+            destination_port_id,
+            self.tools[origin_tool_id].outports[origin_port_id],
         )
         return {
-            "startActionID": startActionID,
-            "startPortID": startPortID,
-            "endActionID": endActionID,
-            "endPortID": endPortID,
+            "origin_tool_id": origin_tool_id,
+            "origin_port_id": origin_port_id,
+            "destination_tool_id": destination_tool_id,
+            "destination_port_id": destination_port_id,
         }
 
     def remove_pipe(self, start_tool_id, start_port_id, end_tool_id, end_port_id):
         """Removes a pipe between two tools in a Toolchain."""
         # TODO: Pipes should be individual objects. Right now, they're managed by both the inports and outports.
 
-        self.actions[start_tool_id].outports.remove_pipe(
+        self.tools[start_tool_id].outports.remove_pipe(
             start_port_id, end_tool_id, end_port_id
         )
 
-        self.actions[end_tool_id].inports.remove_pipe(
+        self.tools[end_tool_id].inports.remove_pipe(
             end_port_id, start_tool_id, start_port_id
         )
 
         self.socket.emit(
-            "remove_pipe",
+            "pipe_removed",
             {
                 "start_tool_id": start_tool_id,
                 "end_tool_id": end_tool_id,
@@ -145,28 +147,25 @@ class Toolchain:
         )
 
         return (
-            self.actions[start_tool_id].toJSON(),
-            self.actions[end_tool_id].toJSON(),
+            self.tools[start_tool_id].toJSON(),
+            self.tools[end_tool_id].toJSON(),
         )
 
-    def updateActionCoords(self, actionID, coords):
-        self.actions[actionID].updateCoords(coords)
+    def update_tool_coordinates(self, tool_id, coordinates):
+        self.tools[tool_id].updateCoords(coordinates)
 
     def toJSON(self):
-        """
-        Creates a JSON version of a Toolchain
+        """Creates a JSON version of a Toolchain
 
         Returns:
             json: JSON representation of a Toolchain
         """
         return {
-            "actions": {
-                actionID: action.toJSON() for actionID, action in self.actions.items()
-            }
+            "tools": {tool_id: tool.toJSON() for tool_id, tool in self.tools.items()}
         }
 
     def __str__(self):
-        al = "\n".join([a.__str__() for a in self.actions.values()])
+        al = "\n".join([a.__str__() for a in self.tools.values()])
 
         formatted_output = "Toolchain object. Tool list:\n{}".format(al)
 

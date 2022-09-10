@@ -1,4 +1,4 @@
-from planager.Action import Action
+from planager.Tool import Tool
 
 # importing the module
 import json
@@ -9,7 +9,7 @@ with open(os.path.join(os.path.dirname(__file__), "Scale.tool")) as json_file:
     CONFIG = json.load(json_file)
 
 
-class Scale(Action, config=CONFIG):
+class Scale(Tool, config=CONFIG):
     def inports_updated(self, inportID):
         if self.inports["position"]:
             self.multiply_coords()

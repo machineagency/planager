@@ -2,14 +2,20 @@
     "displayName": "Download",
     "inports": {
         "file": {
-            "displayName": "File",
+            "displayName": "file",
             "description": "File to Download"
+        },
+        "mime": {
+            "displayName": "mime"
+        }, 
+        "name": {
+            "displayName": "name"
         }
     },
     "outports": {
-        "file": {
-            "displayName": "File",
-            "description": "File to Download"
-        }
+    },
+    "state": {
+        "fileName": "file",
+        "mimeType": "bmp"
     }
 }

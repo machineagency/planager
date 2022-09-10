@@ -1,4 +1,4 @@
-from planager.Action import Action
+from planager.Tool import Tool
 
 # importing the module
 import json
@@ -9,7 +9,7 @@ with open(os.path.join(os.path.dirname(__file__), "Scripting.tool")) as json_fil
     CONFIG = json.load(json_file)
 
 
-class Scripting(Action, config=CONFIG):
+class Scripting(Tool, config=CONFIG):
     # def inports_updated(self, inportID):
     #     print(self.inports["vars"])
 

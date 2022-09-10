@@ -1,4 +1,4 @@
-from planager.Action import Action
+from planager.Tool import Tool
 
 # importing the module
 import json
@@ -16,7 +16,7 @@ from time import time
 #        Axidraw minikit: 4, travel 160, 101.6
 
 
-class Axi(Action, config=CONFIG):
+class Axi(Tool, config=CONFIG):
     def setup(self):
         self.ad = axidraw.AxiDraw()
         self.ad.interactive()

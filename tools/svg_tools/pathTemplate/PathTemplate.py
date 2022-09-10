@@ -1,5 +1,5 @@
 from string import Template
-from planager.Action import Action
+from planager.Tool import Tool
 import re
 
 # importing the module
@@ -11,7 +11,7 @@ with open(os.path.join(os.path.dirname(__file__), "PathTemplate.tool")) as json_
     CONFIG = json.load(json_file)
 
 
-class PathTemplate(Action, config=CONFIG):
+class PathTemplate(Tool, config=CONFIG):
     def setup(self):
         self.extract_slots()
 

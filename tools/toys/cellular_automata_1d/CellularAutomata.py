@@ -1,4 +1,4 @@
-from planager.Action import Action
+from planager.Tool import Tool
 
 # importing the module
 import json
@@ -11,8 +11,9 @@ with open(
     CONFIG = json.load(json_file)
 
 
-class CellularAutomata(Action, config=CONFIG):
+class CellularAutomata(Tool, config=CONFIG):
     def inports_updated(self, inportID):
+        print("helloooooooooo")
         if self.inports["rule"]:
             self.state["rule"] = self.inports["rule"]
         if self.inports["border"] is not None:

@@ -1,74 +1,41 @@
 import { html, css } from "lit";
 import { Tool } from "../../../src/components/tool_ui/Tool";
 
-export default class Gate extends Tool {
+export default class Download extends Tool {
   static styles = css`
-    #downloadButton {
-      padding: 5px 10px;
-      background-color: var(--blue);
-      color: var(--base3);
+    #download-button {
+      padding: 0.3rem 0.5rem;
+      background-color: var(--planager-blue);
+      color: var(--planager-text-light);
       text-align: center;
       font-weight: bolder;
+      cursor: pointer;
     }
 
-    #downloadButton:hover {
-      background-color: var(--blueHover);
-    }
-
-    .hidden {
-      display: none;
+    #download-button:hover {
+      background-color: var(--planager-workspace-background);
+      /* filter: brightness(0.6); */
     }
   `;
 
-  static properties = {
-    file: undefined,
-    fileType: "json",
-    fileDownloadUrl: null,
-  };
-
   download(e) {
-    e.preventDefault();
-    // Prepare the file
-    let output = this.props.action.inports.file.value;
-
-    // if (this.state.fileType === "json") {
-    //   output = JSON.stringify({ states: this.state.data }, null, 4);
-    // } else if (this.state.fileType === "csv") {
-    //   // Prepare data:
-    //   let contents = [];
-    //   contents.push(["State", "Electors"]);
-    //   this.state.data.forEach((row) => {
-    //     contents.push([row.state, row.electors]);
-    //   });
-    //   output = this.makeCSV(contents);
-    // } else if (this.state.fileType === "text") {
-    //   // Prepare data:
-    //   output = "";
-    //   this.state.data.forEach((row) => {
-    //     output += `${row.state}: ${row.electors}\n`;
-    //   });
-    // }
-
-    // Download it
-    const blob = new Blob([output]);
-    const fileDownloadUrl = URL.createObjectURL(blob);
-    this.setState({ fileDownloadUrl: fileDownloadUrl }, () => {
-      this.doFileDownload.click();
-      URL.revokeObjectURL(fileDownloadUrl); // free up storage--no longer needed.
-      this.setState({ fileDownloadUrl: "" });
-    });
+    console.log(this.inports);
+    let anchor = document.createElement("a");
+    anchor.setAttribute(
+      "href",
+      "data:application/json;charset=utf-8," +
+        encodeURIComponent(this.inports.fileContent)
+    );
+    anchor.setAttribute("download", this.state.fileName);
+    anchor.style.display = "none";
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
   }
+
   render() {
-    return html`<div className="background">
-      <div id="downloadButton" @click=${(e) => this.download(e)}>Download</div>
-      <a
-        className="hidden"
-        download=${"file"}
-        href="{this.state.fileDownloadUrl}"
-        ref=${(e) => (this.doFileDownload = e)}
-      >
-        download it
-      </a>
+    return html`<div id="download-button" @click=${(e) => this.download(e)}>
+      Download
     </div>`;
   }
 }

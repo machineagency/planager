@@ -1,4 +1,4 @@
-from planager.Action import Action
+from planager.Tool import Tool
 
 # importing the module
 import json
@@ -9,7 +9,7 @@ with open(os.path.join(os.path.dirname(__file__), "JsonViewer.tool")) as json_fi
     CONFIG = json.load(json_file)
 
 
-class JsonViewer(Action, config=CONFIG):
+class JsonViewer(Tool, config=CONFIG):
     def inports_updated(self, inportID):
         self.state["jsonData"] = self.inports["jsonData"]
 

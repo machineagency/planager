@@ -1,4 +1,4 @@
-from planager.Action import Action
+from planager.Tool import Tool
 
 # importing the module
 import json
@@ -9,7 +9,7 @@ with open(os.path.join(os.path.dirname(__file__), "Gate.tool")) as json_file:
     CONFIG = json.load(json_file)
 
 
-class Gate(Action, config=CONFIG):
+class Gate(Tool, config=CONFIG):
     def set_gate(self, state):
         self.state["open"] = state
         self.should_outport_update()

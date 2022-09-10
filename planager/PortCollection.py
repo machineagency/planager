@@ -15,10 +15,10 @@ class PortCollection:
         # TODO: Rename this. remove_pipe should not be the same method name for different classes
         self._ports[port_id].remove_pipe(tool_id, end_port_id)
 
-    def set_inport(self, startActionID, startPortID, port_id, value):
-        self._ports[port_id].setValue(startActionID, startPortID, value)
+    def set_inport_value(self, origin_tool_id, origin_port_id, inport_id, value):
+        self._ports[inport_id].setValue(origin_tool_id, origin_port_id, value)
         self.socket.emit(
-            f"{self.parent_id}_inport_{port_id}", self._ports[port_id].value
+            f"{self.parent_id}_inport_{inport_id}", self._ports[inport_id].value
         )
 
     def items(self):

@@ -27,7 +27,7 @@ class Outport:
         for destination_id in self.pipes.keys():
             tool_to_update = self.pipes[destination_id]["destination_tool"]
             port_to_update = self.pipes[destination_id]["destination_port"]
-            tool_to_update.updateInport(
+            tool_to_update.update_inport(
                 self.parent_id, self.id, port_to_update, self.value
             )
 

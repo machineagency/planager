@@ -1,4 +1,4 @@
-import { html, css, LitElement, nothing } from "lit";
+import { html, css, LitElement } from "lit";
 
 import { PipeController } from "../../controllers/PipeController";
 
@@ -144,9 +144,9 @@ export class Workspace extends LitElement {
     // it has info. Also, it might be good to just update coordinates when
     // the drag ends.
     if (element.info) {
-      this.socket.emit("moveTool", {
-        id: element.info.id,
-        coords: { x: element.dx, y: element.dy },
+      this.socket.emit("update_tool_coordinates", {
+        tool_id: element.info.id,
+        coordinates: { x: element.dx, y: element.dy },
       });
     }
   }
@@ -296,12 +296,11 @@ export class Workspace extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    // TODO: Rename these pipe_added and pipe_removed
-    this.socket.on("pipeConnected", (pipes, cb) => {
-      this.pipeController.addPipe(pipes);
+    this.socket.on("pipe_added", (pipe, cb) => {
+      this.pipeController.addPipe(pipe);
     });
-    this.socket.on("remove_pipe", (info) => {
-      this.pipeController.removePipe(info);
+    this.socket.on("pipe_removed", (pipe) => {
+      this.pipeController.removePipe(pipe);
     });
   }
 

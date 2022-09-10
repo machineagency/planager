@@ -2,12 +2,12 @@ import { LitElement, html, css } from "lit";
 import { gear, upload, download } from "../../ui/icons";
 import { unselectable } from "../../ui/styles";
 
-import { PlanController } from "../../controllers/PlanController";
+import { ToolchainController } from "../../controllers/ToolchainController";
 
 import "./ToolbarButton";
 
 export class Toolbar extends LitElement {
-  planController = new PlanController(this);
+  toolchainController = new ToolchainController(this);
 
   static styles = [
     unselectable,
@@ -38,11 +38,11 @@ export class Toolbar extends LitElement {
     return html`<div id="toolbar">
       <span id="title" class="unselectable">Dynamic Toolchains</span>
       <planager-toolbar-button
-        @click=${(e) => this.planController.downloadPlan(e)}
+        @click=${(e) => this.toolchainController.downloadToolchain(e)}
         >${download}</planager-toolbar-button
       >
       <planager-toolbar-button
-        @click=${(e) => this.planController.uploadPlan(e)}
+        @click=${(e) => this.toolchainController.uploadToolchain(e)}
         >${upload}</planager-toolbar-button
       >
       <planager-toolbar-button>${gear}</planager-toolbar-button>

@@ -1,4 +1,4 @@
-from planager.Action import Action
+from planager.Tool import Tool
 
 # importing the module
 import json
@@ -9,7 +9,7 @@ with open(os.path.join(os.path.dirname(__file__), "SvgViewer.tool")) as json_fil
     CONFIG = json.load(json_file)
 
 
-class SvgViewer(Action, config=CONFIG):
+class SvgViewer(Tool, config=CONFIG):
     pass
     # def inports_updated(self, port):
     #     port_handlers = {"svg": self.svg}

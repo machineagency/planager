@@ -3,56 +3,56 @@ from importlib import import_module
 from inspect import getmembers, isclass
 from types import ModuleType
 
-from planager.Action import Action
+from planager.Tool import Tool
 from planager.logging import message, error, debug
 
 
 class ToolLibrary:
     def __init__(self, tool_library_path: str):
-        self.actions = {}
+        self.tools = {}
         self.tool_library_path = tool_library_path
         self.ignore = ["__pycache__", "utils", "knitting"]
 
     def build_index(self):
         p = Path(self.tool_library_path)
 
-        action_sets = {}
-        # Iterate through the contents of the action set directory
-        for action_set in p.iterdir():
-            action_set_name = action_set.stem
+        tool_sets = {}
+        # Iterate through the contents of the tool set directory
+        for tool_set in p.iterdir():
+            tool_set_name = tool_set.stem
             # Ignore things that aren't directories or that are in the ignore array
-            if not action_set.is_dir() or action_set_name in self.ignore:
-                debug("Ignoring: ", action_set)
+            if not tool_set.is_dir() or tool_set_name in self.ignore:
+                debug("Ignoring: ", tool_set)
                 continue
-            # Add the action set to the actions dict with the path
-            action_sets[action_set_name] = {
-                "tool_library_path": action_set,
-                "actions": {},
+            # Add the tool set to the tools dict with the path
+            tool_sets[tool_set_name] = {
+                "tool_library_path": tool_set,
+                "tools": {},
             }
 
-            # Iterate through the contents of the action set
-            for action_dir in action_set.iterdir():
+            # Iterate through the contents of the tool set
+            for tool_dir in tool_set.iterdir():
 
-                action_name = action_dir.stem
+                tool_name = tool_dir.stem
                 # Ignore things that aren't directories or that are in the ignore array
-                if not action_dir.is_dir() or action_name in self.ignore:
-                    debug("Ignoring: ", action_dir)
+                if not tool_dir.is_dir() or tool_name in self.ignore:
+                    debug("Ignoring: ", tool_dir)
                     continue
 
-                # Look through the contents of the action directory
-                for action in action_dir.iterdir():
+                # Look through the contents of the tool directory
+                for tool in tool_dir.iterdir():
                     # Ignore things that aren't python files
-                    if not action.suffix == ".py":
+                    if not tool.suffix == ".py":
                         continue
 
-                    # The action path is the action parts joined minus the .py suffix
-                    action_path = ".".join(action.parts)[:-3]
+                    # The tool path is the tool parts joined minus the .py suffix
+                    tool_path = ".".join(tool.parts)[:-3]
 
-                    # Attempt to import the action
+                    # Attempt to import the tool
                     try:
-                        module = import_module(action_path)
+                        module = import_module(tool_path)
                     except Exception as e:
-                        error("Could not import {}".format(action_path))
+                        error("Could not import {}".format(tool_path))
                         error(e)
                         continue
 
@@ -61,32 +61,32 @@ class ToolLibrary:
                         for name, obj in getmembers(module):
                             # Check if the member is a class
                             if isclass(obj):
-                                # Check if it is a subclass of Action
-                                if issubclass(obj, Action):
-                                    if name != "Action":
-                                        action_class = obj
+                                # Check if it is a subclass of tool
+                                if issubclass(obj, Tool):
+                                    if name != "Tool":
+                                        tool_class = obj
 
                     except BaseException:
                         continue
 
-                    action_sets[action_set_name]["actions"][action_name] = {
-                        "action_path": action,
+                    tool_sets[tool_set_name]["tools"][tool_name] = {
+                        "tool_path": tool,
                         "module": module,
-                        "class": action_class,
+                        "class": tool_class,
                     }
 
-        self.action_dict = action_sets
-        return action_sets
+        self.tool_dict = tool_sets
+        return tool_sets
 
-    def get_action_subclass(self, module: ModuleType):
+    def get_tool_subclass(self, module: ModuleType):
         for name, obj in getmembers(module):
-            if isclass(obj) and issubclass(obj, Action) and name != "Action":
+            if isclass(obj) and issubclass(obj, Tool) and name != "Tool":
                 return obj
         return False
 
     def get_tool_class(self, tool_category, tool_name):
         try:
-            tool_class = self.action_dict[tool_category]["actions"][tool_name]["class"]
+            tool_class = self.tool_dict[tool_category]["tools"][tool_name]["class"]
             return tool_class
         except:
             print("Error: Tool not found in this library.")
@@ -95,9 +95,9 @@ class ToolLibrary:
     def get_tools(self):
         tool_hierarchy = {}
 
-        for tool_category in self.action_dict.keys():
+        for tool_category in self.tool_dict.keys():
             category_dict = {"expanded": False, "members": {}}
-            for tool in self.action_dict[tool_category]["actions"].keys():
+            for tool in self.tool_dict[tool_category]["tools"].keys():
                 category_dict["members"][tool] = {
                     "component": None,
                     "category": tool_category,
@@ -106,17 +106,17 @@ class ToolLibrary:
 
         return tool_hierarchy
 
-    def get_action_resource(self):
+    def get_tool_resource(self):
         pass
 
-    def get_action_config(self):
+    def get_tool_config(self):
         pass
 
-    def add_action_package(self):
+    def add_tool_package(self):
         pass
 
-    def is_loaded(self, action_set, action_name):
+    def is_loaded(self, tool_set, tool_name):
         pass
 
-    def report_missing_actions(self):
+    def report_missing_tools(self):
         pass
