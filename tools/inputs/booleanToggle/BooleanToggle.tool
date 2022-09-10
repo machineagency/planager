@@ -1,5 +1,5 @@
 {
-    "displayName": "switch",
+    "displayName": "bool",
     "inports": {},
     "outports": {
         "bool": {

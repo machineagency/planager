@@ -1,13 +1,13 @@
 import { html, css, nothing } from "lit";
 import { Tool } from "../../../src/components/tool_ui/Tool";
 
-export default class Toggle extends Tool {
+export default class BooleanToggle extends Tool {
   static styles = css`
     .switch {
       position: relative;
       display: inline-block;
-      width: 60px;
-      height: 34px;
+      width: 5rem;
+      height: 1.5rem;
     }
     .switch input {
       opacity: 0;
@@ -22,25 +22,23 @@ export default class Toggle extends Tool {
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: #ccc;
-      -webkit-transition: 0.4s;
-      transition: 0.4s;
+      background-color: var(--planager-toolbar);
+      -webkit-transition: 0.2s;
+      transition: 0.2s;
     }
 
     .slider:before {
       position: absolute;
       content: "";
-      height: 26px;
-      width: 26px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      -webkit-transition: 0.4s;
-      transition: 0.4s;
+      background-color: var(--planager-text-light);
+      transition: all 0.2s ease 0s;
+      height: 1.5rem;
+      width: 1.5rem;
+      border-radius: 50%;
     }
 
     input:checked + .slider {
-      background-color: #2196f3;
+      background-color: var(--planager-blue);
     }
 
     input:focus + .slider {
@@ -48,14 +46,14 @@ export default class Toggle extends Tool {
     }
 
     input:checked + .slider:before {
-      -webkit-transform: translateX(26px);
-      -ms-transform: translateX(26px);
-      transform: translateX(26px);
+      -webkit-transform: translateX(3.5rem);
+      -ms-transform: translateX(3.5rem);
+      transform: translateX(3.5rem);
     }
   `;
 
   render() {
-    return this.renderModule(html`
+    return html`
       <label class="switch">
         <input
           type="checkbox"
@@ -65,6 +63,6 @@ export default class Toggle extends Tool {
         />
         <span class="slider"></span>
       </label>
-    `);
+    `;
   }
 }

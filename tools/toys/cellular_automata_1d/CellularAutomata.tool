@@ -1,5 +1,5 @@
 {
-    "displayName": "1D Cellular Automata",
+    "displayName": "Cellular Automata",
     "inports": {
         "rule": {
             "displayName": "rule"
@@ -9,6 +9,9 @@
         },
         "iterations": {
             "displayName": "iterations"
+        },
+        "border": {
+            "displayName": "border"
         }
     },
     "outports": {
@@ -18,6 +21,10 @@
         }
     },
     "state": {
-        "rule": 10011001
+        "automata": [],
+        "rule": [1,0,0,1,0,1,1,0],
+        "border": true,
+        "iterations": 100,
+        "startState": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
     }
 }

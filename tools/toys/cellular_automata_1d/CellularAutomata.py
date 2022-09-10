@@ -12,4 +12,15 @@ with open(
 
 
 class CellularAutomata(Action, config=CONFIG):
-    pass
+    def inports_updated(self, inportID):
+        if self.inports["rule"]:
+            self.state["rule"] = self.inports["rule"]
+        if self.inports["border"] is not None:
+            self.state["border"] = self.inports["border"]
+        if self.inports["iterations"]:
+            self.state["iterations"] = self.inports["iterations"]
+        if self.inports["startState"]:
+            self.state["startState"] = self.inports["startState"]
+
+    def state_updated(self, key):
+        self.outports["automata"] = self.state["automata"]
