@@ -1,5 +1,5 @@
 {
-    "displayName": "Number",
+    "displayName": "Text",
     "inports": {},
     "outports": {
         "text": {
@@ -7,6 +7,6 @@
         }
     },
     "state": {
-        "text": "..."
+        "text": null
     }
 }

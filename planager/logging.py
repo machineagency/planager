@@ -7,6 +7,8 @@ install()
 
 console = Console()
 
+# TODO: Investigate ways to build a logger with rich
+
 
 def message(prefix, message):
     m = Text()
