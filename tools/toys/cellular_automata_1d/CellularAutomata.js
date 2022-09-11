@@ -49,7 +49,8 @@ export default class CellularAutomata extends Tool {
       automata.push(automataRow);
       lastRow = [borderState].concat(automataRow).concat([borderState]);
     }
-    this.state.automata = automata;
+
+    this.api.runMethod("set_automata", automata);
     return automata;
   }
 

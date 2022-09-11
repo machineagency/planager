@@ -3,30 +3,37 @@ import { Tool } from "../../../src/components/tool_ui/Tool";
 
 export default class Download extends Tool {
   static styles = css`
-    #download-button {
-      padding: 0.3rem 0.5rem;
+    #button-container {
+      height: 100%;
       background-color: var(--planager-blue);
       color: var(--planager-text-light);
-      text-align: center;
+      display: flex;
       font-weight: bolder;
+      font-size: 0.75rem;
       cursor: pointer;
+      user-select: none;
+      justify-content: space-around;
+      align-items: center;
     }
 
-    #download-button:hover {
+    #button-container:hover {
       background-color: var(--planager-workspace-background);
-      /* filter: brightness(0.6); */
     }
   `;
 
   download(e) {
-    console.log(this.inports);
+    if (!this.inports.mime || !this.inports.file) return;
     let anchor = document.createElement("a");
     anchor.setAttribute(
       "href",
-      "data:application/json;charset=utf-8," +
-        encodeURIComponent(this.inports.fileContent)
+      `data:${this.inports.mime};charset=utf-8,${encodeURIComponent(
+        this.inports.file
+      )}`
     );
-    anchor.setAttribute("download", this.state.fileName);
+    anchor.setAttribute(
+      "download",
+      this.inports.name ? this.inports.name : "file"
+    );
     anchor.style.display = "none";
     document.body.appendChild(anchor);
     anchor.click();
@@ -34,8 +41,8 @@ export default class Download extends Tool {
   }
 
   render() {
-    return html`<div id="download-button" @click=${(e) => this.download(e)}>
-      Download
+    return html`<div id="button-container" @click=${(e) => this.download(e)}>
+      <div id="button-text">Download</div>
     </div>`;
   }
 }

@@ -3,7 +3,7 @@
     "inports": {},
     "outports": {
         "text": {
-            "displayName": "input"
+            "displayName": "text"
         }
     },
     "state": {

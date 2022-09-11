@@ -6,27 +6,40 @@ export default class Text extends Tool {
     #text-input {
       font-size: 0.75rem;
       font-family: inherit;
+      caret-color: var(--planager-workspace-background);
+      background-color: var(--planager-module-background);
+      color: var(--planager-text-dark);
+      min-width: 4rem;
+      max-width: 20rem;
       padding: 0.25rem 0.5rem;
-      border: none;
-      width: 5rem;
+      overflow: auto;
+      resize: both;
+      white-space: pre-line;
     }
 
     #text-input:focus {
-      outline: 0.2rem solid var(--planager-orange);
-      outline-offset: -0.2rem;
+      outline: 0.2rem solid var(--planager-blue);
+      outline-offset: -0.1rem;
+    }
+
+    #text-input:empty:focus::before,
+    #text-input:empty::before {
+      content: "type...";
+      font-style: italic;
+      color: var(--planager-gray);
     }
   `;
 
   render() {
     return html`
-      <input
+      <div
         id="text-input"
-        type="text"
-        value=${this.state.text}
+        role="textbox"
+        contenteditable
         @input=${(e) => {
-          this.state.text = e.target.value;
+          this.state.text = e.target.innerText;
         }}
-      />
+      ></div>
     `;
   }
 }

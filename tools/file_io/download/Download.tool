@@ -15,7 +15,5 @@
     "outports": {
     },
     "state": {
-        "fileName": "file",
-        "mimeType": "bmp"
     }
 }

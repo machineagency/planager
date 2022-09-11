@@ -1,15 +1,16 @@
 {
-    "displayName": "Number Slider",
+    "displayName": "Slider",
     "inports": {},
     "outports": {
         "value": {
-            "displayName": "value"
+            "displayName": "num"
         }
     },
     "state": {
         "value": 10,
         "min": 1,
         "max": 100,
-        "precision": 1
+        "live": false,
+        "step": 1
     }
 }

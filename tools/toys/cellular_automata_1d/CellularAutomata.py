@@ -12,16 +12,15 @@ with open(
 
 
 class CellularAutomata(Tool, config=CONFIG):
-    def inports_updated(self, inportID):
-        print("helloooooooooo")
-        if self.inports["rule"]:
+    def inports_updated(self, inport_id):
+        if inport_id == "rule":
             self.state["rule"] = self.inports["rule"]
-        if self.inports["border"] is not None:
+        if inport_id == "border":
             self.state["border"] = self.inports["border"]
-        if self.inports["iterations"]:
+        if inport_id == "iterations":
             self.state["iterations"] = self.inports["iterations"]
-        if self.inports["startState"]:
+        if inport_id == "startState":
             self.state["startState"] = self.inports["startState"]
 
-    def state_updated(self, key):
-        self.outports["automata"] = self.state["automata"]
+    def set_automata(self, automata):
+        self.outports["automata"] = automata

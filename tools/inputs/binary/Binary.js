@@ -7,22 +7,37 @@ export default class Binary extends Tool {
       display: flex;
       color: var(--planager-text-light);
       font-weight: bolder;
+      user-select: none;
+      align-items: center;
+      height: 2rem;
+    }
+
+    #increment-container {
+      height: 100%;
     }
 
     .increment {
+      background-color: var(--planager-workspace-background);
+      cursor: pointer;
+      height: 50%;
+      justify-content: center;
+      text-align: center;
       width: 1rem;
-      background-color: var(--planager-blue);
+      font-size: 0.6rem;
     }
 
     .increment:hover {
-      background-color: var(--planager-workspace-background);
+      background-color: var(--planager-toolbar);
     }
 
     .bit {
-      padding: 0.25rem;
-      flex-basis: 100%;
       cursor: pointer;
       text-align: center;
+      font-size: 0.75rem;
+      padding: 0px 0.1rem;
+      height: 100%;
+      display: flex;
+      align-items: center;
     }
 
     .alive {
@@ -31,7 +46,7 @@ export default class Binary extends Tool {
     }
 
     .dead {
-      background-color: var(--planager-text-dark);
+      background-color: var(--planager-workspace-background);
       color: var(--planager-text-light);
     }
   `;
@@ -58,7 +73,7 @@ export default class Binary extends Tool {
           class=${`bit ${bit ? "alive" : "dead"}`}
           @click=${(e) => this.flipBit(index)}
         >
-          ${bit}
+          <span>${bit}</span>
         </div>`
       );
     }
@@ -67,9 +82,11 @@ export default class Binary extends Tool {
 
   render() {
     return html`<div id="binary-container">
-      <div class="bit increment" @click=${(e) => this.addBit()}>+</div>
+      <div id="increment-container">
+        <div class="increment" @click=${(e) => this.addBit()}>+</div>
+        <div class="increment" @click=${(e) => this.removeBit()}>-</div>
+      </div>
       ${this.renderBinary()}
-      <div class="bit increment" @click=${(e) => this.removeBit()}>-</div>
     </div> `;
   }
 }
