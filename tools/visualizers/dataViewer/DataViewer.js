@@ -1,5 +1,5 @@
-import { LitElement, html, css, nothing } from "lit";
-import { unselectable } from "../../ui/styles";
+import { html, css } from "lit";
+import { Tool } from "../../../src/components/tool_ui/Tool";
 
 function* intersperse(a, delim) {
   let first = true;
@@ -17,87 +17,74 @@ const openCurlyBrace = html`{`;
 const closeCurlyBrace = html`}`;
 const newLine = html`<br />`;
 
-class StatePane extends LitElement {
+export default class DataViewer extends Tool {
   static properties = {
-    state: { type: Object },
     numPrecision: { type: Number },
     expanded: { type: Boolean },
   };
+  static styles = css`
+    .number {
+      color: var(--planager-blue);
+      padding: 0.1rem;
+    }
+    .number:hover {
+      color: var(--planager-text-light);
+      background-color: var(--planager-blue);
+    }
+    .string {
+      color: var(--planager-text-dark);
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 50ch;
+    }
+    .boolean {
+      color: var(--planager-purple);
+    }
+    .array-decor {
+      color: var(--planager-text-dark);
+    }
+    #data-container {
+      display: grid;
+      grid-template-columns: auto auto;
+      font-size: 0.7rem;
+      cursor: pointer;
+      width: min-content;
+      max-height: 50rem;
+      overflow: auto;
+    }
 
-  static styles = [
-    unselectable,
-    css`
-      #header {
-        background-color: var(--planager-gray);
-        color: var(--planager-text-light);
-        font-size: 0.7rem;
-        font-weight: bolder;
-      }
-      #header:hover {
-        background-color: var(--planager-workspace-background);
-        cursor: pointer;
-      }
-      .number {
-        color: var(--planager-blue);
-        padding: 0.1rem;
-      }
-      .number:hover {
-        color: var(--planager-text-light);
-        background-color: var(--planager-blue);
-      }
-      .string {
-        color: var(--planager-text-dark);
-        display: inline-block;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 50ch;
-      }
-      .boolean {
-        color: var(--planager-purple);
-      }
-      .array-decor {
-        color: var(--planager-text-dark);
-      }
-      #state-container {
-        display: grid;
-        grid-template-columns: auto auto;
-        font-size: 0.7rem;
-        cursor: pointer;
-        width: min-content;
-      }
+    #data-container .key:nth-of-type(4n + 1) {
+      background-color: #2b2d39;
+    }
+    #data-container .value:nth-of-type(4n + 2) {
+      background-color: #dfdfdf;
+    }
+    #data-container .key:nth-of-type(4n + 3) {
+      background-color: #373948;
+    }
+    #data-container .value:nth-of-type(4n + 4) {
+      background-color: #e9e9e9;
+    }
 
-      #state-container .key:nth-of-type(4n + 1) {
-        background-color: #2b2d39;
-      }
-      #state-container .value:nth-of-type(4n + 2) {
-        background-color: #dfdfdf;
-      }
-      #state-container .key:nth-of-type(4n + 3) {
-        background-color: #373948;
-      }
-      #state-container .value:nth-of-type(4n + 4) {
-        background-color: #e9e9e9;
-      }
+    .key {
+      text-align: right;
+      padding: 0.1rem 0.3rem;
+      color: var(--planager-text-light);
+    }
 
-      .key {
-        text-align: right;
-        padding: 0.1rem 0.3rem;
-        color: var(--planager-text-light);
-      }
-
-      .value {
-        padding: 0.1rem 0.3rem;
-      }
-      .keyval-container {
-        display: grid;
-        grid-template-columns: auto auto;
-      }
-      .keyval-container .key {
-        background-color: unset;
-      }
-    `,
-  ];
+    .value {
+      padding: 0.1rem 0.3rem;
+    }
+    .keyval-container {
+      display: grid;
+      grid-template-columns: auto auto;
+    }
+    .keyval-container .key {
+      background-color: unset;
+    }
+  `;
 
   constructor() {
     super();
@@ -188,8 +175,13 @@ class StatePane extends LitElement {
   }
 
   renderState() {
+    if (!this.inports.data) return html`no data!`;
+    if (typeof this.inports.data == "string") {
+      return html`<span class="key">text</span>
+        <span class="value">${this.inports.data}</span>`;
+    }
     let arr = [];
-    for (const [key, value] of Object.entries(this.state)) {
+    for (const [key, value] of Object.entries(this.inports.data)) {
       arr.push(
         html` <span class="key">${key}</span>
           <span class="value">${this.renderValue(value)}</span>`
@@ -199,15 +191,6 @@ class StatePane extends LitElement {
   }
 
   render() {
-    return html`<div>
-      <div id="header" class="unselectable" @click=${this.toggleCollapse}>
-        State
-      </div>
-      ${this.expanded
-        ? html`<div id="state-container">${this.renderState()}</div>`
-        : nothing}
-    </div>`;
+    return html`<div id="data-container">${this.renderState()}</div>`;
   }
 }
-
-customElements.define("state-pane", StatePane);
