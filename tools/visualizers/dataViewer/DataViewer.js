@@ -165,7 +165,6 @@ export default class DataViewer extends Tool {
         renderedValue = this.renderUndefined(value);
         break;
     }
-    // let node = html`<div class="node">${renderedValue}</div>`;
     let node = renderedValue;
     return node;
   }

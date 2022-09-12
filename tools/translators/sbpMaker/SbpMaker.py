@@ -10,7 +10,7 @@ with open(os.path.join(os.path.dirname(__file__), "SbpMaker.tool")) as json_file
 
 
 class SbpMaker(Tool, config=CONFIG):
-    PREFIX = "MS,3.667,1.833,,,\nTR,6112\n"
+    PREFIX = "MS,3.667,1.833,,,\nTR,6112\nC6\n"
     SUFFIX = "\nC7\n"
     DIR_X = "X"
     DIR_Y = "Y"
