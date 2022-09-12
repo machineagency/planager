@@ -31,6 +31,9 @@ class SbpMaker(Tool, config=CONFIG):
     def j2(self, x, y):
         return f"J2,{x},{y}"
 
+    def add_pre_post(self, commands):
+        return self.PREFIX + "\n".join(commands) + self.SUFFIX
+
     def build_sbp(self):
         pixels_2d = self.inports["binary"]
         sbp_commands = []
@@ -52,7 +55,31 @@ class SbpMaker(Tool, config=CONFIG):
                     sbp_commands.append(self.m(self.DIR_Z, self.state["zPass"]))
                 curr_x += step
             curr_y += step
-        return self.PREFIX + "\n".join(sbp_commands) + self.SUFFIX
+        return self.add_pre_post(sbp_commands)
+
+    def build_from_paths(self):
+        sbp_commands = []
+
+        path_data = self.inports["path"]
+        if not path_data:
+            return
+
+        start = self.state["start"]
+        sbp_commands.append(self.j(self.DIR_Z, start[2]))
+
+        path = path_data.split(" ")
+
+        for i in range(0, len(path), 3):
+            if path[i] == "m":
+                sbp_commands.append(self.m2(float(path[i + 1]), float(path[i + 2])))
+            elif path[i] == "M":
+                sbp_commands.append(self.m2(float(path[i + 1]), float(path[i + 2])))
+            elif path[i] == "l":
+                sbp_commands.append(self.m2(float(path[i + 1]), float(path[i + 2])))
+            elif path[i] == "L":
+                sbp_commands.append(self.m2(float(path[i + 1]), float(path[i + 2])))
+
+        return self.add_pre_post(sbp_commands)
 
     def send_sbp(self, command):
         self.outports["command"] = command
@@ -60,3 +87,5 @@ class SbpMaker(Tool, config=CONFIG):
     def inports_updated(self, inport_id):
         if inport_id == "binary":
             self.outports["file"] = self.build_sbp()
+        if inport_id == "path":
+            self.outports["file"] = self.build_from_paths()
