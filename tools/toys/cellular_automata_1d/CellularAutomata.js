@@ -62,7 +62,12 @@ export default class CellularAutomata extends Tool {
       let automataRow = [];
       for (const [pixelIndex, pixel] of row.entries()) {
         automataRow.push(
-          html`<div class=${`bit ${pixel ? "alive" : "dead"}`}></div>`
+          html`<div
+            class=${`bit ${pixel ? "alive" : "dead"}`}
+            style=${`background-color: ${
+              pixel ? this.inports.onHex : this.inports.offHex
+            }`}
+          ></div>`
         );
       }
 
