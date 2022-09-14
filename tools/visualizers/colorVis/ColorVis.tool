@@ -1,12 +1,12 @@
 {
-    "displayName": "Color Viz",
-    "inports": {
-        "color": {
-            "displayName": "color"
-        }
-    },
-    "outports": {},
-    "state": {
-        "color": null
+  "displayName": "Color Viz",
+  "inports": {
+    "color": {
+      "displayName": "hex"
     }
+  },
+  "outports": {},
+  "state": {
+    "color": null
+  }
 }
