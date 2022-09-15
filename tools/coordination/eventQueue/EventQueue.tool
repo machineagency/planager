@@ -1,36 +1,31 @@
 {
-    "displayName": "Event Queue",
-    "inports": {
-        "lock": {
-            "displayName": "lock"
-        },
-        "batch": {
-            "displayName": "batch"
-        },
-        "append": {
-            "displayName": "append"
-        },
-        "signal": {
-            "displayName": "signal"
-        }
+  "displayName": "Event Queue",
+  "inports": {
+    "batch": {
+      "displayName": "batch"
     },
-    "outports": {
-        "send": {
-            "displayName": "send"
-        },
-        "all": {
-            "displayName": "all"
-        },
-        "selected": {
-            "displayName": "selected"
-        },
-        "next": {
-            "displayName": "next"
-        }
+    "append": {
+      "displayName": "append"
     },
-    "state": {
-        "command_queue": [],
-        "locked": false,
-        "current_time": 0
+    "signal": {
+      "displayName": "signal"
     }
+  },
+  "outports": {
+    "send": {
+      "displayName": "send"
+    },
+    "all": {
+      "displayName": "all"
+    },
+    "selected": {
+      "displayName": "selected"
+    },
+    "next": {
+      "displayName": "next"
+    }
+  },
+  "state": {
+    "command_queue": []
+  }
 }

@@ -35,7 +35,7 @@ export default class Axi extends Tool {
     }
   `;
   render() {
-    return this.renderModule(html`<div id="control-container" class="container">
+    return this.renderModule(html`<div id="control-container">
       <span class="label">connected</span
       ><span class="info">${this.state.connected}</span>
       <div class="button" @click=${(e) => this.api.runMethod("connect")}>
