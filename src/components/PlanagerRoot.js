@@ -16,7 +16,7 @@ import "./tool_ui/Pane";
 // Floating Modules
 import "./floating_modules/ToolLibrary";
 import "./floating_modules/PlanagerSettings";
-import "./floating_modules/PlanViewer";
+import "./floating_modules/ToolchainInfo";
 
 export class PlanagerRoot extends LitElement {
   canvasRef = createRef();
@@ -139,13 +139,14 @@ export class PlanagerRoot extends LitElement {
             displayName="Settings"
             style="--dx:1100;--dy:300"
             ><planager-settings></planager-settings
-          ></planager-pane>
+          ></planager-pane> -->
           <planager-pane
             slot="floating"
-            displayName="Plan Viewer"
-            style="--dx:1100;--dy:500"
-            ><plan-viewer .socket=${this.socket}></plan-viewer
-          ></planager-pane> -->
+            displayName="Toolchain Info"
+            .dx=${0}
+            .dy=${500}
+            ><toolchain-info .socket=${this.socket}></toolchain-info
+          ></planager-pane>
           <planager-pane
             slot="floating"
             displayName="Tool Library"

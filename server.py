@@ -33,6 +33,10 @@ Session(app)
 sio = SocketIO(app, async_mode="eventlet", cors_allowed_origins="*")
 
 
+def send_toolchain_info(info):
+    sio.emit("toolchain_info", info)
+
+
 @sio.on("new_toolchain")
 def new_toolchain():
     session.pop("toolchain", None)
@@ -53,6 +57,21 @@ def get_toolchain():
     """
     if "toolchain" in session:
         return session.get("toolchain").toJSON()
+    return {}
+
+
+@sio.on("get_toolchain_info")
+def get_toolchain_info():
+    """Gets the toolchain stored in the session.
+
+    Checks to see if there is a toolchain in the session. If not, creates and
+    returns a new toolchain.
+
+    Returns:
+        JSON: The JSON specification for the toolchain.
+    """
+    if "toolchain" in session:
+        return session.get("toolchain").info()
     return {}
 
 
@@ -119,6 +138,8 @@ def add_tool(req):
     except BaseException as err:
         error(f"Error adding tool: Unexpected {err=}, {type(err)=}")
         raise
+
+    send_toolchain_info(session.get("toolchain").info())
 
     return new_tool.toJSON()
 

@@ -1,0 +1,325 @@
+{
+  "tools": {
+    "27dbc21cc40a46978dc291ba0c09365b": {
+      "id": "27dbc21cc40a46978dc291ba0c09365b",
+      "displayName": "Data Viewer",
+      "name": "DataViewer",
+      "toolType": ["tools", "visualizers", "dataViewer", "DataViewer"],
+      "coords": { "x": 605, "y": 524 },
+      "outports": {},
+      "inports": {
+        "data": {
+          "id": "data",
+          "outport": false,
+          "parentID": "27dbc21cc40a46978dc291ba0c09365b",
+          "description": null,
+          "multi": false,
+          "displayName": "data",
+          "pipes": ["1c90c47853ee4002a030da33761fa8ed_automata"]
+        }
+      },
+      "state": {}
+    },
+    "1c90c47853ee4002a030da33761fa8ed": {
+      "id": "1c90c47853ee4002a030da33761fa8ed",
+      "displayName": "Cellular Automata",
+      "name": "CellularAutomata",
+      "toolType": ["tools", "toys", "cellular_automata_1d", "CellularAutomata"],
+      "coords": { "x": 163, "y": 215 },
+      "outports": {
+        "automata": {
+          "id": "automata",
+          "outport": true,
+          "parentID": "1c90c47853ee4002a030da33761fa8ed",
+          "description": "2D array of pixel values",
+          "displayName": "automata",
+          "pipes": [
+            "27dbc21cc40a46978dc291ba0c09365b_data",
+            "0246bb417647453f90d9d19078b31f07_in"
+          ]
+        }
+      },
+      "inports": {
+        "rule": {
+          "id": "rule",
+          "outport": false,
+          "parentID": "1c90c47853ee4002a030da33761fa8ed",
+          "description": null,
+          "multi": false,
+          "displayName": "rule",
+          "pipes": ["a3fecbc298554cabbc8947de93f5bc0f_val"]
+        },
+        "startState": {
+          "id": "startState",
+          "outport": false,
+          "parentID": "1c90c47853ee4002a030da33761fa8ed",
+          "description": null,
+          "multi": false,
+          "displayName": "start state",
+          "pipes": ["ac76c44678704e0780d7112bd1169843_val"]
+        },
+        "iterations": {
+          "id": "iterations",
+          "outport": false,
+          "parentID": "1c90c47853ee4002a030da33761fa8ed",
+          "description": null,
+          "multi": false,
+          "displayName": "iterations",
+          "pipes": ["6bc6db30eb954a8e94e1d57cfaea8197_value"]
+        },
+        "border": {
+          "id": "border",
+          "outport": false,
+          "parentID": "1c90c47853ee4002a030da33761fa8ed",
+          "description": null,
+          "multi": false,
+          "displayName": "border",
+          "pipes": ["05da479163c24b9da7f9e4ddec5f2d93_bool"]
+        }
+      },
+      "state": {
+        "rule": [1, 0, 0, 1, 0, 0, 1, 0],
+        "border": true,
+        "iterations": 9,
+        "startState": [1, 1, 1, 1, 0, 0, 1, 1, 1, 1]
+      }
+    },
+    "6bc6db30eb954a8e94e1d57cfaea8197": {
+      "id": "6bc6db30eb954a8e94e1d57cfaea8197",
+      "displayName": "Slider",
+      "name": "Slider",
+      "toolType": ["tools", "inputs", "slider", "Slider"],
+      "coords": { "x": -145, "y": 373 },
+      "outports": {
+        "value": {
+          "id": "value",
+          "outport": true,
+          "parentID": "6bc6db30eb954a8e94e1d57cfaea8197",
+          "description": null,
+          "displayName": "num",
+          "pipes": ["1c90c47853ee4002a030da33761fa8ed_iterations"]
+        }
+      },
+      "inports": {},
+      "state": { "value": 9, "min": 1, "max": 100, "live": false, "step": 1 }
+    },
+    "ac76c44678704e0780d7112bd1169843": {
+      "id": "ac76c44678704e0780d7112bd1169843",
+      "displayName": "Binary",
+      "name": "Binary",
+      "toolType": ["tools", "inputs", "binary", "Binary"],
+      "coords": { "x": -93, "y": 298 },
+      "outports": {
+        "val": {
+          "id": "val",
+          "outport": true,
+          "parentID": "ac76c44678704e0780d7112bd1169843",
+          "description": null,
+          "displayName": "binary",
+          "pipes": ["1c90c47853ee4002a030da33761fa8ed_startState"]
+        }
+      },
+      "inports": {},
+      "state": { "val": [1, 1, 1, 1, 0, 0, 1, 1, 1, 1] }
+    },
+    "0246bb417647453f90d9d19078b31f07": {
+      "id": "0246bb417647453f90d9d19078b31f07",
+      "displayName": "Gate",
+      "name": "Gate",
+      "toolType": ["tools", "control_flow", "gate", "Gate"],
+      "coords": { "x": 668, "y": 338 },
+      "outports": {
+        "out": {
+          "id": "out",
+          "outport": true,
+          "parentID": "0246bb417647453f90d9d19078b31f07",
+          "description": null,
+          "displayName": "out",
+          "pipes": ["62c4ac3d0e5d46b48fb33177a50e81fb_binary"]
+        }
+      },
+      "inports": {
+        "in": {
+          "id": "in",
+          "outport": false,
+          "parentID": "0246bb417647453f90d9d19078b31f07",
+          "description": null,
+          "multi": false,
+          "displayName": "in",
+          "pipes": ["1c90c47853ee4002a030da33761fa8ed_automata"]
+        }
+      },
+      "state": { "open": true }
+    },
+    "62c4ac3d0e5d46b48fb33177a50e81fb": {
+      "id": "62c4ac3d0e5d46b48fb33177a50e81fb",
+      "displayName": "to SBP",
+      "name": "SbpMaker",
+      "toolType": ["tools", "translators", "sbpMaker", "SbpMaker"],
+      "coords": { "x": 726, "y": 91 },
+      "outports": {
+        "file": {
+          "id": "file",
+          "outport": true,
+          "parentID": "62c4ac3d0e5d46b48fb33177a50e81fb",
+          "description": null,
+          "displayName": "file",
+          "pipes": [
+            "78489474aa8840e394aacee951741f85_data",
+            "0a896b8f102e4a77926807549408a80e_file"
+          ]
+        },
+        "command": {
+          "id": "command",
+          "outport": true,
+          "parentID": "62c4ac3d0e5d46b48fb33177a50e81fb",
+          "description": null,
+          "displayName": "command",
+          "pipes": []
+        }
+      },
+      "inports": {
+        "path": {
+          "id": "path",
+          "outport": false,
+          "parentID": "62c4ac3d0e5d46b48fb33177a50e81fb",
+          "description": null,
+          "multi": false,
+          "displayName": "path",
+          "pipes": []
+        },
+        "binary": {
+          "id": "binary",
+          "outport": false,
+          "parentID": "62c4ac3d0e5d46b48fb33177a50e81fb",
+          "description": null,
+          "multi": false,
+          "displayName": "binary",
+          "pipes": ["0246bb417647453f90d9d19078b31f07_out"]
+        }
+      },
+      "state": {
+        "start": [1, 1, 1],
+        "step": 0.5,
+        "onDepth": -0.125,
+        "offDepth": -0.375,
+        "zPass": 0.5
+      }
+    },
+    "78489474aa8840e394aacee951741f85": {
+      "id": "78489474aa8840e394aacee951741f85",
+      "displayName": "Data Viewer",
+      "name": "DataViewer",
+      "toolType": ["tools", "visualizers", "dataViewer", "DataViewer"],
+      "coords": { "x": 1076, "y": 21 },
+      "outports": {},
+      "inports": {
+        "data": {
+          "id": "data",
+          "outport": false,
+          "parentID": "78489474aa8840e394aacee951741f85",
+          "description": null,
+          "multi": false,
+          "displayName": "data",
+          "pipes": ["62c4ac3d0e5d46b48fb33177a50e81fb_file"]
+        }
+      },
+      "state": {}
+    },
+    "0a896b8f102e4a77926807549408a80e": {
+      "id": "0a896b8f102e4a77926807549408a80e",
+      "displayName": "Download",
+      "name": "Download",
+      "toolType": ["tools", "file_io", "download", "Download"],
+      "coords": { "x": 909, "y": 346 },
+      "outports": {},
+      "inports": {
+        "file": {
+          "id": "file",
+          "outport": false,
+          "parentID": "0a896b8f102e4a77926807549408a80e",
+          "description": "File to Download",
+          "multi": false,
+          "displayName": "file",
+          "pipes": ["62c4ac3d0e5d46b48fb33177a50e81fb_file"]
+        },
+        "mime": {
+          "id": "mime",
+          "outport": false,
+          "parentID": "0a896b8f102e4a77926807549408a80e",
+          "description": null,
+          "multi": false,
+          "displayName": "mime",
+          "pipes": ["bc9b6e20842d4f2e8c3d411741ffe17d_text"]
+        },
+        "name": {
+          "id": "name",
+          "outport": false,
+          "parentID": "0a896b8f102e4a77926807549408a80e",
+          "description": null,
+          "multi": false,
+          "displayName": "name",
+          "pipes": []
+        }
+      },
+      "state": {}
+    },
+    "bc9b6e20842d4f2e8c3d411741ffe17d": {
+      "id": "bc9b6e20842d4f2e8c3d411741ffe17d",
+      "displayName": "Text",
+      "name": "Text",
+      "toolType": ["tools", "inputs", "text", "Text"],
+      "coords": { "x": 721, "y": 432 },
+      "outports": {
+        "text": {
+          "id": "text",
+          "outport": true,
+          "parentID": "bc9b6e20842d4f2e8c3d411741ffe17d",
+          "description": null,
+          "displayName": "text",
+          "pipes": ["0a896b8f102e4a77926807549408a80e_mime"]
+        }
+      },
+      "inports": {},
+      "state": { "text": "text/plain" }
+    },
+    "a3fecbc298554cabbc8947de93f5bc0f": {
+      "id": "a3fecbc298554cabbc8947de93f5bc0f",
+      "displayName": "Binary",
+      "name": "Binary",
+      "toolType": ["tools", "inputs", "binary", "Binary"],
+      "coords": { "x": -65, "y": 201 },
+      "outports": {
+        "val": {
+          "id": "val",
+          "outport": true,
+          "parentID": "a3fecbc298554cabbc8947de93f5bc0f",
+          "description": null,
+          "displayName": "binary",
+          "pipes": ["1c90c47853ee4002a030da33761fa8ed_rule"]
+        }
+      },
+      "inports": {},
+      "state": { "val": [1, 0, 0, 1, 0, 0, 1, 0] }
+    },
+    "05da479163c24b9da7f9e4ddec5f2d93": {
+      "id": "05da479163c24b9da7f9e4ddec5f2d93",
+      "displayName": "bool",
+      "name": "BooleanToggle",
+      "toolType": ["tools", "inputs", "booleanToggle", "BooleanToggle"],
+      "coords": { "x": 0, "y": 460 },
+      "outports": {
+        "bool": {
+          "id": "bool",
+          "outport": true,
+          "parentID": "05da479163c24b9da7f9e4ddec5f2d93",
+          "description": null,
+          "displayName": "bool",
+          "pipes": ["1c90c47853ee4002a030da33761fa8ed_border"]
+        }
+      },
+      "inports": {},
+      "state": { "bool": true }
+    }
+  }
+}

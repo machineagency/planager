@@ -11,6 +11,9 @@ class Toolchain:
         self.tools = {}
         self.socket = socket
         self.tool_library = tool_library
+        self.name = "toolchain"
+        self.description = ""
+
         if src:
             self.build_toolchain_from_src(src)
 
@@ -153,6 +156,18 @@ class Toolchain:
 
     def update_tool_coordinates(self, tool_id, coordinates):
         self.tools[tool_id].updateCoords(coordinates)
+
+    def info(self):
+        """Creates a JSON version of a Toolchain's info, which does not include state values
+
+        Returns:
+            json: JSON representation of a Toolchain Info
+        """
+        return {
+            "name": self.name,
+            "description": self.description,
+            "tools": {tool_id: tool.info() for tool_id, tool in self.tools.items()},
+        }
 
     def toJSON(self):
         """Creates a JSON version of a Toolchain

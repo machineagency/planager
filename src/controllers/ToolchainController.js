@@ -15,6 +15,10 @@ export class ToolchainController {
 
   moveTool() {}
 
+  setName(name) {
+    console.log("setting name to", name);
+  }
+
   handleUpload(e) {
     // Get the selected file from the event target
     let file = e.target.files[0];

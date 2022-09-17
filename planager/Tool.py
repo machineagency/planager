@@ -118,6 +118,17 @@ class Tool:
         self.inports_updated(destination_port_id)
         self.updateSelf()
 
+    def info(self):
+        return {
+            "id": self.id,
+            "displayName": self.displayName,
+            "name": self.name,
+            "toolType": self.toolType,
+            "coords": self.coords,
+            "outports": list(self.outports.ports()),
+            "inports": list(self.inports.ports()),
+        }
+
     def toJSON(self):
         return {
             "id": self.id,
