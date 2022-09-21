@@ -69,21 +69,21 @@ export default class Canvas extends Tool {
           let loc = [0, 0];
           for (const pathStr of obj) {
             let pathTemp = SVG(pathStr);
-            // console.log(pathTemp);
+            console.log(pathTemp);
 
-            let cmd_arr = pathTemp.array();
-            let cmd = pathTemp.attr("d");
+            // let cmd_arr = pathTemp.array();
+            // let cmd = pathTemp.attr("d");
             // console.log(cmd);
 
-            if (cmd[0] == "M") {
-              loc = [cmd_arr[0][1], cmd_arr[0][2]];
-            } else {
-              // console.log(pathTemp);
-              // let p = this.draw.path(obj);
+            // if (cmd[0] == "M") {
+            //   loc = [cmd_arr[0][1], cmd_arr[0][2]];
+            // } else {
+            // console.log(pathTemp);
+            // let p = this.draw.path(obj);
 
-              pathTemp.dmove(loc[0], loc[1]);
-              this.draw.add(pathTemp);
-            }
+            // pathTemp.dmove(loc[0], loc[1]);
+            this.draw.add(pathTemp);
+            // }
             // let p = this.draw.path(["m", start[0], start[1]]);
             // p.plot()
             // console.log(pathTemp.array());

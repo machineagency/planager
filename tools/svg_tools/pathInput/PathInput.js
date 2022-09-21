@@ -103,8 +103,10 @@ export default class PathInput extends Tool {
     let final = this.draw.path(this.points.join(" ")); // ok... if we don't join these with a space to make a path data string, it gets converted to absolute coordinates which we DO NOT WANT
 
     this.style(final);
+    console.log(final);
 
-    this.state.svg = final.svg();
+    // this.state.svg = final.svg();
+    this.state.svg = final.attr("d");
 
     final.attr("transform", `translate(${this.startx},${this.starty})`);
 
@@ -120,7 +122,6 @@ export default class PathInput extends Tool {
       @pointermove=${this.capture}
       @pointerdown=${this.beginCapture}
       @pointerup=${this.endCapture}
-      @pointerleave=${this.endCapture}
-    ></div>`);
+      @pointerleave=${this.endCapture}></div>`);
   }
 }

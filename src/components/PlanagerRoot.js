@@ -140,23 +140,21 @@ export class PlanagerRoot extends LitElement {
             style="--dx:1100;--dy:300"
             ><planager-settings></planager-settings
           ></planager-pane> -->
-          <planager-pane
+          <!-- <planager-pane
             slot="floating"
             displayName="Toolchain Info"
             .dx=${0}
             .dy=${500}
             ><toolchain-info .socket=${this.socket}></toolchain-info
-          ></planager-pane>
+          ></planager-pane> -->
           <planager-pane
             slot="floating"
             displayName="Tool Library"
             .dx=${0}
-            .dy=${30}
-          >
+            .dy=${30}>
             <tool-library
               .socket=${this.socket}
-              .addModule=${this.handleNewModule.bind(this)}
-            ></tool-library>
+              .addModule=${this.handleNewModule.bind(this)}></tool-library>
           </planager-pane>
         </planager-workspace>
       </main>

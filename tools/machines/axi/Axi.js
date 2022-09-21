@@ -67,17 +67,22 @@ export default class Axi extends Tool {
   `;
   render() {
     return this.renderModule(html`<div id="control-container">
-        <span class="label">connected?</span><span class="info">yes</span>
-        <div class="button" @click=${(e) => this.api.runMethod("disconnect")}>
+        <!-- <span class="label">connected?</span><span class="info">yes</span> -->
+        <!-- <div class="button" @click=${(e) =>
+          this.api.runMethod("disconnect")}>
           connect
+        </div> -->
+        <span class="label">motors?</span
+        ><span class="info">${this.state.motors ? "on" : "off"}</span>
+        <div
+          class="button"
+          @click=${(e) => this.api.runMethod("turn_off_motors")}>
+          turn ${this.state.motors ? "off" : "on"}
         </div>
-        <span class="label">motors?</span><span class="info">on</span>
-        <div class="button" @click=${(e) => this.api.runMethod("motor_status")}>
-          turn off
-        </div>
-        <span class="label">homed?</span><span class="info">yes</span>
+        <span class="label">homed?</span
+        ><span class="info">${this.state.homed ? "yes" : "no"}</span>
         <div class="button" @click=${(e) => this.api.runMethod("set_home")}>
-          toggle
+          set home
         </div>
       </div>
       <div id="divider"></div>

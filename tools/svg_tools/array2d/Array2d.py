@@ -48,8 +48,8 @@ class Array2d(Tool, config=CONFIG):
         self.state["start"] = self.inports["start"]
         self.calculate_array()
 
-    def format_absolute_move_path(self, x, y):
-        return f'<path d="M {x} {y}"></path>'
+    def format_absolute_move_path(self, startx, starty, rest):
+        return f'<path d="M {startx} {starty} {rest}" stroke-width="1" stroke="var(--planager-pink)" fill="none"></path>'
 
     def format_relative_move_path(self, x, y):
         return f'<path d="m 0 0 m {x} {y}"></path>'
@@ -67,14 +67,14 @@ class Array2d(Tool, config=CONFIG):
             for y in range(self.state["y_num"]):
                 arr.append(
                     self.format_absolute_move_path(
-                        startx + x * space, starty + y * space
+                        startx + x * space, starty + y * space, self.inports["svg"]
                     )
                 )
 
-                arr.append(self.inports["svg"])
+                # arr.append(self.inports["svg"])
                 # arr.append(self.format_relative_move_path(-end_pos[0], space - end_pos[1]))
                 # arr.append([["m", -end_pos[0], dist - end_pos[1]]])
-        arr.append(self.format_absolute_move_path(startx, starty))
+        arr.append(self.format_absolute_move_path(startx, starty, ""))
 
         self.outports["svgArray"] = arr
 

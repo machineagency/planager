@@ -12,7 +12,7 @@ export default class EventQueue extends Tool {
       text-align: center;
     }
     .button:hover {
-      background-color: var(--planager-toolbar-background);
+      background-color: var(--planager-toolbar);
       cursor: pointer;
     }
     .clear {
