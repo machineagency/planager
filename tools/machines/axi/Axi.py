@@ -101,7 +101,7 @@ class Axi(Tool, config=CONFIG):
                 self.line(float(path[i + 1]), float(path[i + 2]))
             elif path[i] == "L":
                 self.lineto(float(path[i + 1]), float(path[i + 2]))
-
+        self.ad.penup()
         self.update_position()
         self.ready()
 

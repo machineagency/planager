@@ -63,4 +63,7 @@ class EventQueue(Tool, config=CONFIG):
         self.update_all()
 
     def set_selected(self, arg):
-        self.outports["selected"] = self.state["command_queue"][arg]
+        if arg == None:
+            self.outports["selected"] = None
+        else:
+            self.outports["selected"] = self.state["command_queue"][arg]

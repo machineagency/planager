@@ -50,7 +50,8 @@ export default class DataViewer extends Tool {
       grid-template-columns: auto auto;
       font-size: 0.7rem;
       cursor: pointer;
-      width: min-content;
+      /* width: min-content; */
+      white-space: pre-line;
       max-height: 50rem;
       overflow: auto;
     }

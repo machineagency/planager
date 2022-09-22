@@ -36,6 +36,8 @@ export default class SvgTransform extends Tool {
       if (this.inports.stroke) el.stroke(this.inports.stroke);
 
       this.api.runMethod("set_svg_string", el.svg());
+    } else {
+      this.api.runMethod("set_svg_string", null);
     }
     return html`<div id="drawing">
       <svg id="svg-content"></svg>

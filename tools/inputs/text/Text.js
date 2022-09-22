@@ -14,7 +14,7 @@ export default class Text extends Tool {
       padding: 0.25rem 0.5rem;
       overflow: auto;
       resize: both;
-      white-space: pre-line;
+      /* white-space: pre-line; */
     }
 
     #text-input:focus {
@@ -24,7 +24,6 @@ export default class Text extends Tool {
 
     #text-input:empty:focus::before,
     #text-input:empty::before {
-      content: "type...";
       font-style: italic;
       color: var(--planager-gray);
     }
@@ -38,8 +37,9 @@ export default class Text extends Tool {
         contenteditable
         @input=${(e) => {
           this.state.text = e.target.innerText;
-        }}
-      ></div>
+        }}>
+        ${this.state.text}
+      </div>
     `;
   }
 }

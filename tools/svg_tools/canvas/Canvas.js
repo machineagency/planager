@@ -69,7 +69,7 @@ export default class Canvas extends Tool {
           let loc = [0, 0];
           for (const pathStr of obj) {
             let pathTemp = SVG(pathStr);
-            console.log(pathTemp);
+            // console.log(pathTemp);
 
             // let cmd_arr = pathTemp.array();
             // let cmd = pathTemp.attr("d");
