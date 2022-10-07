@@ -1,5 +1,6 @@
 from pathlib import Path
-from importlib import import_module
+import importlib
+import importlib.resources
 from inspect import getmembers, isclass
 from types import ModuleType
 
@@ -12,6 +13,10 @@ class ToolLibrary:
         self.tools = {}
         self.tool_library_path = tool_library_path
         self.ignore = ["__pycache__", "utils", "knitting"]
+
+    def find_tools(self):
+        print(importlib.resources.files("planager"))
+        print(importlib.resources.contents("planager"))
 
     def build_index(self):
         p = Path(self.tool_library_path)
@@ -48,9 +53,12 @@ class ToolLibrary:
                     # The tool path is the tool parts joined minus the .py suffix
                     tool_path = ".".join(tool.parts)[:-3]
 
+                    spec = importlib.util.find_spec(tool_path)
+                    # print(spec.origin)
+
                     # Attempt to import the tool
                     try:
-                        module = import_module(tool_path)
+                        module = importlib.import_module(tool_path)
                     except Exception as e:
                         error("Could not import {}".format(tool_path))
                         error(e)
@@ -73,6 +81,7 @@ class ToolLibrary:
                         "tool_path": tool,
                         "module": module,
                         "class": tool_class,
+                        # "config":
                     }
 
         self.tool_dict = tool_sets

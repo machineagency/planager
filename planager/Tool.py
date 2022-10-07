@@ -1,6 +1,7 @@
 import uuid
 import copy
-
+import json
+import os.path
 
 from planager.Inport import Inport
 from planager.Outport import Outport
@@ -13,6 +14,10 @@ class Tool:
 
     def __init_subclass__(cls, config: dict, **kwargs) -> None:
         # Uses the config parameter from the subclass
+        # print(cls.__module__)
+        # with open(os.path.join(os.path.dirname(__file__), "Color.tool")) as json_file:
+        #     CONFIG = json.load(json_file)
+
         cls.config = copy.deepcopy(config)
         super().__init_subclass__(**kwargs)
 
