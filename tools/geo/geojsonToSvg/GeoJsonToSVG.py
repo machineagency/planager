@@ -11,4 +11,5 @@ with open(os.path.join(os.path.dirname(__file__), "GeoJsonToSVG.tool")) as json_
 
 
 class GeoJsonToSVG(Tool, config=CONFIG):
-    pass
+    def inports_updated(self, inportID):
+        print(inportID)

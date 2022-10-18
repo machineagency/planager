@@ -43,6 +43,23 @@ const streets = {
       paint: {
         "line-color": "#222222",
       },
+      filter: [
+        "match",
+        ["get", "class"],
+        [
+          "street",
+          "primary",
+          "tertiary",
+          "secondary",
+          "trunk",
+          "major_rail",
+          "ferry",
+          "motorway",
+          "minor_rail",
+        ],
+        true,
+        false,
+      ],
     },
     // {
     //   id: "traffic",
@@ -68,7 +85,7 @@ const streets = {
   ],
 };
 
-export default class ContourMap extends Tool {
+export default class GeoMap extends Tool {
   static styles = css`
     #map-container {
       height: 30rem;
@@ -87,6 +104,7 @@ export default class ContourMap extends Tool {
       style: streets,
       center: [this.state.long, this.state.lat],
       zoom: this.state.zoom,
+      projection: "equirectangular",
     });
 
     this.map.on("move", () => {
@@ -96,14 +114,12 @@ export default class ContourMap extends Tool {
       // console.log(this.map);
     });
 
-    this.map.on("click", (e) => {
-      console.log(this.map);
+    this.map.on("idle", (e) => {
+      // When the map is idled (no more zooming or panning) we query the
+      // rendered features and send them to the outport
       let features = this.map.queryRenderedFeatures({ layers: ["roads"] });
-      console.log(features.length);
-      features.slice(1, 5).forEach((el) => {
-        console.log(el);
-        console.log(el.geometry);
-      });
+      console.log(features);
+      this.api.runMethod("set_geojson", features);
     });
   }
 

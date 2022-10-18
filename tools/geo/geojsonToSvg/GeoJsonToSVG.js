@@ -1,47 +1,52 @@
 import { html, css } from "lit";
 import { Tool } from "../../../src/components/tool_ui/Tool";
-import { createRef, ref } from "lit/directives/ref.js";
 
 import * as d3 from "d3";
 
 export default class GeoJsonToSvg extends Tool {
-  // static styles = css`
-  //   #map-container {
-  //     height: 30rem;
-  //     width: 30rem;
-  //   }
-  // `;
-  mapContainer = createRef();
-  map;
-
-  firstUpdated() {
-    let el = this.shadowRoot.querySelector("#map");
-    this.map = d3
-      .select(el)
-      .append("svg")
-      .attr("width", 200)
-      .attr("height", 200);
-    this.map.append("circle").attr("cx", 100).attr("cy", 100).attr("r", 7);
-  }
+  static styles = css`
+    #map path {
+      stroke: #333;
+      fill: none;
+    }
+  `;
 
   updateMap() {
-    if (!this.map) return;
-    this.map
+    if (!this.inports.geojson) return;
+    let features = this.inports.geojson;
+    let projection = d3.geoEquirectangular();
+    projection.fitExtent(
+      [
+        [0, 0],
+        [400, 400],
+      ],
+      {
+        type: "FeatureCollection",
+        features: features,
+      }
+    );
+    let geoGenerator = d3.geoPath().projection(projection);
+
+    let map = d3.select(this.shadowRoot.querySelector("#map"));
+
+    map.selectAll("g").remove();
+
+    map
       .append("g")
       .selectAll("path")
-      .data(geoJsonObj.features)
+      .data(features)
       .enter()
       .append("path")
-      .attr("d", path);
+      .attr("d", geoGenerator);
   }
 
   render() {
     this.updateMap();
     return this.renderModule(html`<div>
-      <div
-        id="map-container"
-        ${ref(this.mapContainer)}></div>
-      <div id="map"></div>
+      <svg
+        id="map"
+        width="400px"
+        height="400px"></svg>
     </div>`);
   }
 }

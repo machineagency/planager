@@ -6,7 +6,7 @@
     }
   },
   "outports": {
-    "contour": {
+    "geojson": {
       "displayName": "geojson"
     }
   },
