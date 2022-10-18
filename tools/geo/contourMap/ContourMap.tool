@@ -1,5 +1,5 @@
 {
-  "displayName": "Contour",
+  "displayName": "Map",
   "inports": {
     "query": {
       "displayName": "query"
@@ -7,7 +7,7 @@
   },
   "outports": {
     "contour": {
-      "displayName": "contour"
+      "displayName": "geojson"
     }
   },
   "state": {

@@ -21,6 +21,7 @@
   "dependencies": {
     "@alenaksu/json-viewer": "^1.0.0",
     "@svgdotjs/svg.js": "^3.1.2",
+    "d3": "^7.6.1",
     "lit": "^2.2.3",
     "mapbox-gl": "^2.10.0",
     "socket.io-client": "^4.5.0"

@@ -22,9 +22,7 @@ export default class Color extends Tool {
         value=${this.state.color}
         @input=${(e) => {
           this.state.color = e.target.value;
-        }}
-      />
-      <!-- <span id="hexval">Hex: ${this.state.color}</span> -->
+        }} />
     `;
   }
 }
