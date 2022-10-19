@@ -34,10 +34,32 @@ export class PlanagerRoot extends LitElement {
     this.modules = [];
     this.socket = io.connect("http://localhost:5000/");
 
-    this.socket.emit("new_toolchain");
+    this.socket.on("connect", () => {
+      console.log("Connected to backend!");
+      this.socket.emit("message", this.socket.id);
+      console.log("Socket ID:", this.socket.id);
+      const engine = this.socket.io.engine;
+      console.log(engine.transport.name); // in most cases, prints "polling"
+      engine.once("upgrade", () => {
+        // called when the transport is upgraded (i.e. from HTTP long-polling to WebSocket)
+        console.log(engine.transport.name); // in most cases, prints "websocket"
+      });
+    });
+
+    this.socket.on("reconnect", () => {
+      console.log("Reconnected!");
+      console.log("Socket ID:", this.socket.id);
+    });
+
+    this.socket.on("disconnect", (reason) => {
+      console.log("Disconnected:", reason);
+    });
+
     this.socket.on("tool_added", (module, callback) => {
       this.handleNewModule(module).then(() => callback(module.id));
     });
+
+    this.socket.emit("new_toolchain");
     this.theme = "dracula";
   }
 
@@ -133,7 +155,9 @@ export class PlanagerRoot extends LitElement {
     return html`
       <main style=${styleMap(themes[this.theme])}>
         <planager-toolbar .socket=${this.socket}></planager-toolbar>
-        <planager-workspace ${ref(this.canvasRef)} .socket=${this.socket}>
+        <planager-workspace
+          ${ref(this.canvasRef)}
+          .socket=${this.socket}>
           <!-- <planager-pane
             slot="floating"
             displayName="Settings"

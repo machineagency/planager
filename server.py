@@ -1,6 +1,6 @@
 from flask import Flask, session
 from flask_session import Session
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, emit
 
 from rich import print
 from rich.traceback import install
@@ -30,22 +30,45 @@ app.config["SESSION_TYPE"] = "filesystem"
 # the Session object directly; just use the built in Flask session interface.
 Session(app)
 
-sio = SocketIO(app, async_mode="eventlet", cors_allowed_origins="*")
+MANAGE_SESSION = True
+ASYNC_MODE = "eventlet"
+ORIGINS = "*"
+LOGGER = True
+
+sio = SocketIO(
+    app,
+    manage_session=MANAGE_SESSION,
+    async_mode=ASYNC_MODE,
+    cors_allowed_origins=ORIGINS,
+    logger=LOGGER,
+    cookie="planager-cookie",
+)
 
 
 def send_toolchain_info(info):
     sio.emit("toolchain_info", info)
 
 
-@sio.on("new_toolchain")
+@sio.on("connect")
+def test_connect():
+    debug("Connected")
+    emit("woo", {"data": "Connected"})
+
+
+@sio.on("message")
+def handle_message(data):
+    message("Message: ", data)
+
+
+@sio.event
 def new_toolchain():
+    debug("Creating a new toolchain!")
     session.pop("toolchain", None)
     new_toolchain = Toolchain(socket=sio)
     session["toolchain"] = new_toolchain
-    return {}
 
 
-@sio.on("get_toolchain")
+@sio.event
 def get_toolchain():
     """Gets the toolchain stored in the session.
 
@@ -60,7 +83,7 @@ def get_toolchain():
     return {}
 
 
-@sio.on("get_toolchain_info")
+@sio.event
 def get_toolchain_info():
     """Gets the toolchain stored in the session.
 
@@ -75,7 +98,7 @@ def get_toolchain_info():
     return {}
 
 
-@sio.on("set_toolchain")
+@sio.event
 def set_toolchain(toolchain_config):
     """Creates a new Toolchain from a configuration file and adds it to the
     session.
@@ -92,7 +115,7 @@ def set_toolchain(toolchain_config):
     return new_toolchain.toJSON()
 
 
-@sio.on("clear_toolchain")
+@sio.event
 def clear_toolchain():
     """Removes the current toolchain from the session
 
@@ -108,7 +131,7 @@ def clear_toolchain():
     return {"message": "OK"}
 
 
-@sio.on("get_tool_library")
+@sio.event
 def get_tool_library():
     """Endpoint for retreiving the tool library.
 
@@ -118,7 +141,7 @@ def get_tool_library():
     return tool_library.get_tools()
 
 
-@sio.on("add_tool")
+@sio.event
 def add_tool(req):
     """Adds a tool to the current toolchain.
 
@@ -144,7 +167,7 @@ def add_tool(req):
     return new_tool.toJSON()
 
 
-@sio.on("remove_tool")
+@sio.event
 def remove_tool(tool_id):
     """Removes the specified tool from the toolchain.
 
@@ -156,7 +179,7 @@ def remove_tool(tool_id):
     return removed_tool.toJSON()
 
 
-@sio.on("add_pipe")
+@sio.event
 def add_pipe(pipe_info):
     """Adds a pipe between two tools in the current toolchain.
 
@@ -178,19 +201,19 @@ def add_pipe(pipe_info):
     return pipe_info
 
 
-@sio.on("remove_pipe")
+@sio.event
 def remove_pipe():
     """Removes a pipe between two tools/ports in the toolchain"""
     pass
 
 
-@sio.on("update_tool_coordinates")
+@sio.event
 def update_tool_coordinates(msg):
     session.get("toolchain").update_tool_coordinates(msg["tool_id"], msg["coordinates"])
     return {"msg": "ok"}
 
 
-@sio.on("update_view_coordinates")
+@sio.event
 def update_view_coordinates(msg):
     # TODO: How can we separate out the client info (like view and tool coords) from the
     # toolchain info?

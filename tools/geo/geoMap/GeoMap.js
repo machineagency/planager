@@ -7,84 +7,6 @@ import { mapboxAccessToken } from "./secrets";
 
 mapboxgl.accessToken = mapboxAccessToken;
 
-const streets = {
-  version: 8,
-  name: "Mapbox Traffic tileset v1",
-  sources: {
-    "mapbox-traffic": {
-      url: "mapbox://mapbox.mapbox-traffic-v1",
-      type: "vector",
-    },
-    // "mapbox-terrain": {
-    //   type: "vector",
-    //   url: "mapbox://mapbox.mapbox-terrain-v2",
-    // },
-    "mapbox-streets": {
-      type: "vector",
-      url: "mapbox://mapbox.mapbox-streets-v8",
-    },
-  },
-  layers: [
-    {
-      id: "water",
-      source: "mapbox-streets",
-      "source-layer": "water",
-      type: "fill",
-      paint: {
-        "fill-color": "rgba(66,100,251, 0.3)",
-        "fill-outline-color": "rgba(66,100,251, 1)",
-      },
-    },
-    {
-      id: "roads",
-      source: "mapbox-streets",
-      "source-layer": "road",
-      type: "line",
-      paint: {
-        "line-color": "#222222",
-      },
-      filter: [
-        "match",
-        ["get", "class"],
-        [
-          "street",
-          "primary",
-          "tertiary",
-          "secondary",
-          "trunk",
-          "major_rail",
-          "ferry",
-          "motorway",
-          "minor_rail",
-        ],
-        true,
-        false,
-      ],
-    },
-    // {
-    //   id: "traffic",
-    //   source: "mapbox-traffic",
-    //   "source-layer": "traffic",
-    //   type: "line",
-    //   paint: {
-    //     "line-width": 1.5,
-    //     "line-color": [
-    //       "case",
-    //       ["==", "low", ["get", "congestion"]],
-    //       "#aab7ef",
-    //       ["==", "moderate", ["get", "congestion"]],
-    //       "#4264fb",
-    //       ["==", "heavy", ["get", "congestion"]],
-    //       "#ee4e8b",
-    //       ["==", "severe", ["get", "congestion"]],
-    //       "#b43b71",
-    //       "#000000",
-    //     ],
-    //   },
-    // },
-  ],
-};
-
 export default class GeoMap extends Tool {
   static styles = css`
     #map-container {
@@ -101,7 +23,7 @@ export default class GeoMap extends Tool {
 
     this.map = new mapboxgl.Map({
       container: this.mapContainer.value,
-      style: streets,
+      style: this.state.style,
       center: [this.state.long, this.state.lat],
       zoom: this.state.zoom,
       projection: "equirectangular",
@@ -111,14 +33,15 @@ export default class GeoMap extends Tool {
       this.state.long = this.map.getCenter().lng.toFixed(4);
       this.state.lat = this.map.getCenter().lat.toFixed(4);
       this.state.zoom = this.map.getZoom().toFixed(2);
-      // console.log(this.map);
     });
 
     this.map.on("idle", (e) => {
       // When the map is idled (no more zooming or panning) we query the
       // rendered features and send them to the outport
-      let features = this.map.queryRenderedFeatures({ layers: ["roads"] });
-      console.log(features);
+      let features = this.map.queryRenderedFeatures({
+        layers: ["roads", "water-outline"],
+      });
+      // console.log(features);
       this.api.runMethod("set_geojson", features);
     });
   }

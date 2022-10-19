@@ -5,6 +5,9 @@ import * as d3 from "d3";
 
 export default class GeoJsonToSvg extends Tool {
   static styles = css`
+    #map {
+      display: block;
+    }
     #map path {
       stroke: #333;
       fill: none;
