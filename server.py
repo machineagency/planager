@@ -1,6 +1,9 @@
-from flask import Flask, session
-from flask_session import Session
-from flask_socketio import SocketIO, emit
+from flask import Flask  # , session, request
+
+# from flask_session import Session
+
+# from flask_socketio import SocketIO, emit
+import socketio
 
 from rich import print
 from rich.traceback import install
@@ -28,48 +31,90 @@ app.config["SESSION_TYPE"] = "filesystem"
 # Flask-Session is a flask extension that adds support for server-side
 # sessions, rather than Flask's default client-side sessions. Don't ever access
 # the Session object directly; just use the built in Flask session interface.
-Session(app)
+# Session(app)
 
-MANAGE_SESSION = True
+MANAGE_SESSION = False
 ASYNC_MODE = "eventlet"
 ORIGINS = "*"
+SOCKETIO_LOGGER = True
+ENGINEIO_LOGGER = True
 LOGGER = True
 
-sio = SocketIO(
-    app,
-    manage_session=MANAGE_SESSION,
-    async_mode=ASYNC_MODE,
+static_files = {
+    "/": "index.html",
+    "/public": "./public",
+    "/src": "./src",
+    # "/socket.io/socket.io.js": "socket.io/socket.io.js",
+}
+# sio = SocketIO(
+#     app,
+#     manage_session=MANAGE_SESSION,
+#     async_mode=ASYNC_MODE,
+#     cors_allowed_origins=ORIGINS,
+#     # logger=SOCKETIO_LOGGER,
+#     engineio_logger=ENGINEIO_LOGGER,
+#     cookie="planager-cookie",
+# )
+sio = socketio.Server(
     cors_allowed_origins=ORIGINS,
+    async_mode=ASYNC_MODE,
     logger=LOGGER,
-    cookie="planager-cookie",
+    engineio_logger=ENGINEIO_LOGGER,
 )
+app.wsgi_app = socketio.WSGIApp(sio, app.wsgi_app)  # , static_files=static_files)
+
+# sio = socketio.AsyncServer()(
+#     cors_allowed_origins=ORIGINS, async_mode=ASYNC_MODE, engineio_logger=ENGINEIO_LOGGER
+# )
+# app.wsgi_app = socketio.ASGIApp(sio, app.wsgi_app, static_files=static_files)
 
 
 def send_toolchain_info(info):
     sio.emit("toolchain_info", info)
 
 
-@sio.on("connect")
-def test_connect():
-    debug("Connected")
-    emit("woo", {"data": "Connected"})
+# @sio.on_error()  # Handles the default namespace
+# def error_handler(e):
+#     error(e)
 
 
-@sio.on("message")
-def handle_message(data):
+# @sio.on_error_default  # handles all namespaces without an explicit error handler
+# def default_error_handler(e):
+#     error(e)
+
+
+@sio.event
+def connect(sid, environ, auth):
+    message("Connected to ", sid)
+
+
+@sio.event
+def disconnect(sid):
+    message("Disconnected from ", sid)
+
+
+@sio.on("*")
+def handle_message(event, sid, data):
+    debug("Socket " + sid + " received unhandled event type: " + event)
     message("Message: ", data)
 
 
 @sio.event
-def new_toolchain():
+def new_toolchain(sid):
     debug("Creating a new toolchain!")
-    session.pop("toolchain", None)
+    # session = sio.get_session(sid)
+    # print(session)
+
+    # session.pop("toolchain", None)
+
     new_toolchain = Toolchain(socket=sio)
-    session["toolchain"] = new_toolchain
+
+    sio.save_session(sid, {"toolchain": new_toolchain})
+    # session["toolchain"] = new_toolchain
 
 
 @sio.event
-def get_toolchain():
+def get_toolchain(sid):
     """Gets the toolchain stored in the session.
 
     Checks to see if there is a toolchain in the session. If not, creates and
@@ -78,13 +123,14 @@ def get_toolchain():
     Returns:
         JSON: The JSON specification for the toolchain.
     """
-    if "toolchain" in session:
-        return session.get("toolchain").toJSON()
+    with sio.session(sid) as session:
+        if "toolchain" in session:
+            return session.get("toolchain").toJSON()
     return {}
 
 
 @sio.event
-def get_toolchain_info():
+def get_toolchain_info(sid):
     """Gets the toolchain stored in the session.
 
     Checks to see if there is a toolchain in the session. If not, creates and
@@ -93,30 +139,33 @@ def get_toolchain_info():
     Returns:
         JSON: The JSON specification for the toolchain.
     """
-    if "toolchain" in session:
-        return session.get("toolchain").info()
+    with sio.session(sid) as session:
+        if "toolchain" in session:
+            return session.get("toolchain").info()
     return {}
 
 
 @sio.event
-def set_toolchain(toolchain_config):
+def set_toolchain(sid, toolchain_config):
     """Creates a new Toolchain from a configuration file and adds it to the
     session.
 
     Returns:
         dict: toolchain JSON formatting
     """
-    session.pop("toolchain", None)
-    new_toolchain = Toolchain(
-        tool_library=tool_library, src=toolchain_config, socket=sio
-    )
-    session["toolchain"] = new_toolchain
+    with sio.session(sid) as session:
 
-    return new_toolchain.toJSON()
+        # session.pop("toolchain", None)
+        new_toolchain = Toolchain(
+            tool_library=tool_library, src=toolchain_config, socket=sio
+        )
+        session["toolchain"] = new_toolchain
+
+        return new_toolchain.toJSON()
 
 
 @sio.event
-def clear_toolchain():
+def clear_toolchain(sid):
     """Removes the current toolchain from the session
 
     Returns:
@@ -132,7 +181,7 @@ def clear_toolchain():
 
 
 @sio.event
-def get_tool_library():
+def get_tool_library(sid):
     """Endpoint for retreiving the tool library.
 
     Returns:
@@ -142,7 +191,7 @@ def get_tool_library():
 
 
 @sio.event
-def add_tool(req):
+def add_tool(sid, req):
     """Adds a tool to the current toolchain.
 
     Retrieves the current toolchain from the session and calls its add_tool()
@@ -156,6 +205,8 @@ def add_tool(req):
         error("Error! Could not find that tool!")
         return
 
+    session = sio.get_session(sid)
+
     try:
         new_tool = session.get("toolchain").add_tool(tool_class)
     except BaseException as err:
@@ -168,19 +219,20 @@ def add_tool(req):
 
 
 @sio.event
-def remove_tool(tool_id):
+def remove_tool(sid, tool_id):
     """Removes the specified tool from the toolchain.
 
     Removes the specified tool from the toolchain and returns the tool that was
     removed.
     """
-    removed_tool = session.get("toolchain").remove_tool(tool_id)
+    with sio.session(sid) as session:
+        removed_tool = session.get("toolchain").remove_tool(tool_id)
 
-    return removed_tool.toJSON()
+        return removed_tool.toJSON()
 
 
 @sio.event
-def add_pipe(pipe_info):
+def add_pipe(sid, pipe_info):
     """Adds a pipe between two tools in the current toolchain.
 
     Unpacks the request JSON containing a dictionary containing origin_tool_id,
@@ -190,36 +242,48 @@ def add_pipe(pipe_info):
     Returns:
         dict: the data about the link that was created
     """
-    session.get("toolchain").add_pipe(
-        pipe_info["origin_tool_id"],
-        pipe_info["origin_port_id"],
-        pipe_info["destination_tool_id"],
-        pipe_info["destination_port_id"],
-    )
+    with sio.session(sid) as session:
+        session.get("toolchain").add_pipe(
+            pipe_info["origin_tool_id"],
+            pipe_info["origin_port_id"],
+            pipe_info["destination_tool_id"],
+            pipe_info["destination_port_id"],
+        )
 
     message("PLUMBING: ", "Pipe hooked up.")
     return pipe_info
 
 
 @sio.event
-def remove_pipe():
+def remove_pipe(sid):
     """Removes a pipe between two tools/ports in the toolchain"""
     pass
 
 
 @sio.event
-def update_tool_coordinates(msg):
-    session.get("toolchain").update_tool_coordinates(msg["tool_id"], msg["coordinates"])
+def update_tool_coordinates(sid, msg):
+    with sio.session(sid) as session:
+        session.get("toolchain").update_tool_coordinates(
+            msg["tool_id"], msg["coordinates"]
+        )
     return {"msg": "ok"}
 
 
 @sio.event
-def update_view_coordinates(msg):
+def update_view_coordinates(sid, msg):
     # TODO: How can we separate out the client info (like view and tool coords) from the
     # toolchain info?
-    session.get("toolchain").update_tool_coordinates(msg["tool_id"], msg["coordinates"])
+    with sio.session(sid) as session:
+        session.get("toolchain").update_tool_coordinates(
+            msg["tool_id"], msg["coordinates"]
+        )
     return {"msg": "ok"}
 
 
 if __name__ == "__main__":
-    sio.run(app, use_reloader=True, host="0.0.0.0", port=5000)
+    # sio.run(app, use_reloader=True, host="0.0.0.0", port=5000)
+    # app.run()
+    import eventlet
+
+    # wsgi.server(eventlet.listen(('', 8000)), app)
+    eventlet.wsgi.server(eventlet.listen(("", 5000)), app)

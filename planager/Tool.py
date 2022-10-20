@@ -71,7 +71,11 @@ class Tool:
         self.start_method_listener()
 
     def start_method_listener(self):
-        self.socket.on_event(f"{self.id}_method", self.run_method_from_socket)
+        @self.socket.on(f"{self.id}_method")
+        def method_listener(sid, method_name, args):
+            self.run_method_from_socket(method_name, args)
+
+        # self.socket.on_event(f"{self.id}_method", self.run_method_from_socket)
 
     def get_custom_methods(self):
         method_list = []

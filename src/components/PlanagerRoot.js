@@ -32,17 +32,19 @@ export class PlanagerRoot extends LitElement {
   constructor() {
     super();
     this.modules = [];
-    this.socket = io.connect("http://localhost:5000/");
+    // this.socket = io.connect("http://localhost:5000/");
+    // this.socket = io.connect({ transports: ["websocket"] });
+    this.socket = io.connect({ transports: ["websocket", "polling"] });
 
     this.socket.on("connect", () => {
       console.log("Connected to backend!");
       this.socket.emit("message", this.socket.id);
       console.log("Socket ID:", this.socket.id);
       const engine = this.socket.io.engine;
-      console.log(engine.transport.name); // in most cases, prints "polling"
+      console.log("engine transport is", engine.transport.name); // in most cases, prints "polling"
       engine.once("upgrade", () => {
         // called when the transport is upgraded (i.e. from HTTP long-polling to WebSocket)
-        console.log(engine.transport.name); // in most cases, prints "websocket"
+        console.log("upgraded, now", engine.transport.name); // in most cases, prints "websocket"
       });
     });
 
@@ -59,7 +61,7 @@ export class PlanagerRoot extends LitElement {
       this.handleNewModule(module).then(() => callback(module.id));
     });
 
-    this.socket.emit("new_toolchain");
+    // this.socket.emit("new_toolchain");
     this.theme = "dracula";
   }
 
