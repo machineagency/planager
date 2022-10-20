@@ -2,21 +2,21 @@ import { LitElement, html } from "lit";
 import { ref, createRef } from "lit/directives/ref.js";
 import { styleMap } from "lit/directives/style-map.js";
 
-import { themes } from "../ui/themes";
-import { ToolchainController } from "../controllers/ToolchainController";
+import { themes } from "./ui/themes";
+import { ToolchainController } from "./controllers/ToolchainController";
 
 // Basic workspace things
-import "./workspace_ui/Workspace";
-import "./workspace_ui/Toolbar";
+import "./components/workspace_ui/Workspace";
+import "./components/workspace_ui/Toolbar";
 
 // Tool UI
-import "./tool_ui/Module";
-import "./tool_ui/Pane";
+import "./components/tool_ui/Module";
+import "./components/tool_ui/Pane";
 
 // Floating Modules
-import "./floating_modules/ToolLibrary";
-import "./floating_modules/PlanagerSettings";
-import "./floating_modules/ToolchainInfo";
+import "./components/floating_modules/ToolLibrary";
+import "./components/floating_modules/PlanagerSettings";
+import "./components/floating_modules/ToolchainInfo";
 
 export class PlanagerRoot extends LitElement {
   canvasRef = createRef();
@@ -34,7 +34,8 @@ export class PlanagerRoot extends LitElement {
     this.modules = [];
     // this.socket = io.connect("http://localhost:5000/");
     // this.socket = io.connect({ transports: ["websocket"] });
-    this.socket = io.connect({ transports: ["websocket", "polling"] });
+    // this.socket = io.connect({ transports: ["websocket", "polling"] });
+    this.socket = io.connect();
 
     this.socket.on("connect", () => {
       console.log("Connected to backend!");
