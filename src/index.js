@@ -1,11 +1,4 @@
 import "./root.css";
-import "root.js";
+import "./root.js";
 
-function component() {
-  const element = document.createElement("div");
-  console.log("Hello webpack");
-  console.log(":SDFSDFSDF");
-  return element;
-}
-
-document.body.appendChild(component());
+document.body.appendChild(document.createElement("planager-root"));

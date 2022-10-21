@@ -214,4 +214,8 @@ class StatePane extends LitElement {
   }
 }
 
-customElements.define("state-pane", StatePane);
+try {
+  customElements.define("state-pane", StatePane);
+} catch {
+  console.log("state-pane already defined");
+}

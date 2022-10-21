@@ -1,8 +1,5 @@
-from flask import Flask  # , session, request
+from flask import Flask
 
-# from flask_session import Session
-
-# from flask_socketio import SocketIO, emit
 import socketio
 
 from rich import print
@@ -27,11 +24,6 @@ tool_library.build_index()
 app.config["SECRET_KEY"] = "top-secret!"
 app.config["SESSION_TYPE"] = "filesystem"
 
-# Create and initialize the Flask-Session object.
-# Flask-Session is a flask extension that adds support for server-side
-# sessions, rather than Flask's default client-side sessions. Don't ever access
-# the Session object directly; just use the built in Flask session interface.
-# Session(app)
 
 MANAGE_SESSION = False
 ASYNC_MODE = "eventlet"
@@ -42,45 +34,20 @@ LOGGER = True
 
 static_files = {
     "/": "index.html",
-    "/public": "./public",
-    "/src": "./src",
-    # "/socket.io/socket.io.js": "socket.io/socket.io.js",
 }
-# sio = SocketIO(
-#     app,
-#     manage_session=MANAGE_SESSION,
-#     async_mode=ASYNC_MODE,
-#     cors_allowed_origins=ORIGINS,
-#     # logger=SOCKETIO_LOGGER,
-#     engineio_logger=ENGINEIO_LOGGER,
-#     cookie="planager-cookie",
-# )
+
 sio = socketio.Server(
     cors_allowed_origins=ORIGINS,
     async_mode=ASYNC_MODE,
     logger=LOGGER,
     engineio_logger=ENGINEIO_LOGGER,
 )
-app.wsgi_app = socketio.WSGIApp(sio, app.wsgi_app)  # , static_files=static_files)
 
-# sio = socketio.AsyncServer()(
-#     cors_allowed_origins=ORIGINS, async_mode=ASYNC_MODE, engineio_logger=ENGINEIO_LOGGER
-# )
-# app.wsgi_app = socketio.ASGIApp(sio, app.wsgi_app, static_files=static_files)
+app.wsgi_app = socketio.WSGIApp(sio, app.wsgi_app)  # , static_files=static_files)
 
 
 def send_toolchain_info(info):
     sio.emit("toolchain_info", info)
-
-
-# @sio.on_error()  # Handles the default namespace
-# def error_handler(e):
-#     error(e)
-
-
-# @sio.on_error_default  # handles all namespaces without an explicit error handler
-# def default_error_handler(e):
-#     error(e)
 
 
 @sio.event
@@ -281,9 +248,6 @@ def update_view_coordinates(sid, msg):
 
 
 if __name__ == "__main__":
-    # sio.run(app, use_reloader=True, host="0.0.0.0", port=5000)
-    # app.run()
     import eventlet
 
-    # wsgi.server(eventlet.listen(('', 8000)), app)
     eventlet.wsgi.server(eventlet.listen(("", 5000)), app)

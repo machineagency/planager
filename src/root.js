@@ -18,6 +18,14 @@ import "./components/floating_modules/ToolLibrary";
 import "./components/floating_modules/PlanagerSettings";
 import "./components/floating_modules/ToolchainInfo";
 
+import { io } from "socket.io-client";
+const socket = io({ path: "/socket.io", transports: ["websocket"] });
+
+async function getComponent(modulePath) {
+  console.log(modulePath);
+  await import("../tools/inputs/color/Color");
+}
+
 export class PlanagerRoot extends LitElement {
   canvasRef = createRef();
   toolchainController = new ToolchainController(this);
@@ -32,37 +40,23 @@ export class PlanagerRoot extends LitElement {
   constructor() {
     super();
     this.modules = [];
-    // this.socket = io.connect("http://localhost:5000/");
-    // this.socket = io.connect({ transports: ["websocket"] });
-    // this.socket = io.connect({ transports: ["websocket", "polling"] });
-    this.socket = io.connect();
 
-    this.socket.on("connect", () => {
+    socket.on("connect", () => {
       console.log("Connected to backend!");
-      this.socket.emit("message", this.socket.id);
-      console.log("Socket ID:", this.socket.id);
-      const engine = this.socket.io.engine;
+      console.log("Socket ID:", socket.id);
+      const engine = socket.io.engine;
       console.log("engine transport is", engine.transport.name); // in most cases, prints "polling"
-      engine.once("upgrade", () => {
-        // called when the transport is upgraded (i.e. from HTTP long-polling to WebSocket)
-        console.log("upgraded, now", engine.transport.name); // in most cases, prints "websocket"
-      });
     });
 
-    this.socket.on("reconnect", () => {
-      console.log("Reconnected!");
-      console.log("Socket ID:", this.socket.id);
-    });
-
-    this.socket.on("disconnect", (reason) => {
+    socket.on("disconnect", (reason) => {
       console.log("Disconnected:", reason);
     });
 
-    this.socket.on("tool_added", (module, callback) => {
+    socket.on("tool_added", (module, callback) => {
       this.handleNewModule(module).then(() => callback(module.id));
     });
 
-    // this.socket.emit("new_toolchain");
+    socket.emit("new_toolchain");
     this.theme = "dracula";
   }
 
@@ -96,7 +90,7 @@ export class PlanagerRoot extends LitElement {
 
   handleRemove(e, toolID) {
     // TODO: This should instead request a tool's removal, and there should be a listener for tool_removed messages
-    this.socket.emit("remove_tool", toolID, () => {
+    socket.emit("remove_tool", toolID, () => {
       let toolToRemove = this.canvasRef.value.querySelector(
         `planager-module[toolid="${toolID}"]`
       );
@@ -113,8 +107,12 @@ export class PlanagerRoot extends LitElement {
     // If the element for the tool has not been registered
     // we import it and define it as a custom element
     if (!customElements.get(elementName)) {
-      const modulePath = `../../${module.toolType.join("/")}.js`;
+      const modulePath = `../${module.toolType.join("/")}`;
+      // let moduleElement = getComponent(modulePath);
+
+      // let moduleElement = await import("../tools/inputs/color/Color");
       let moduleElement = await import(modulePath);
+
       try {
         customElements.define(elementName, moduleElement.default);
       } catch {
@@ -138,13 +136,13 @@ export class PlanagerRoot extends LitElement {
       d.dy = this.currentOffset.y;
       this.increaseOffset();
     }
-    this.socket.emit("update_tool_coordinates", {
+    socket.emit("update_tool_coordinates", {
       tool_id: d.info.id,
       coordinates: { x: d.dx, y: d.dy },
     });
     let el = document.createElement(elementName);
     // Pass it the socket connection
-    el.socket = this.socket;
+    el.socket = socket;
     el.info = module;
     d.handleRemove = (e) => this.handleRemove(e, d.info.id);
     d.appendChild(el);
@@ -157,10 +155,10 @@ export class PlanagerRoot extends LitElement {
   render() {
     return html`
       <main style=${styleMap(themes[this.theme])}>
-        <planager-toolbar .socket=${this.socket}></planager-toolbar>
+        <planager-toolbar .socket=${socket}></planager-toolbar>
         <planager-workspace
           ${ref(this.canvasRef)}
-          .socket=${this.socket}>
+          .socket=${socket}>
           <!-- <planager-pane
             slot="floating"
             displayName="Settings"
@@ -180,7 +178,7 @@ export class PlanagerRoot extends LitElement {
             .dx=${0}
             .dy=${30}>
             <tool-library
-              .socket=${this.socket}
+              .socket=${socket}
               .addModule=${this.handleNewModule.bind(this)}></tool-library>
           </planager-pane>
         </planager-workspace>
