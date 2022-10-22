@@ -5,7 +5,7 @@ import { createRef, ref } from "lit/directives/ref.js";
 import "mapbox-gl";
 import { mapboxAccessToken } from "./secrets";
 
-mapboxgl.accessToken = mapboxAccessToken;
+// mapboxgl.accessToken = mapboxAccessToken;
 
 export default class GeoMap extends Tool {
   static styles = css`

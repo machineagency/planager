@@ -6,15 +6,12 @@
             "request": "launch",
             "type": "python",
             "program": "server.py"
-            // "env": {
-            //     "GEVENT_SUPPORT": "True" // This flag needs to be enabled to work with the VSCode debugger
-            // }
         },
         {
             "name": "javascript",
             "request": "launch",
             "type": "node-terminal",
-            "command": "npm run start",
+            "command": "npm run dev",
         }
     ],
     "compounds": [

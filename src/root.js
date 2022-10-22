@@ -21,9 +21,25 @@ import "./components/floating_modules/ToolchainInfo";
 import { io } from "socket.io-client";
 const socket = io({ path: "/socket.io", transports: ["websocket"] });
 
-async function getComponent(modulePath) {
-  console.log(modulePath);
-  await import("../tools/inputs/color/Color");
+async function handleToolImport(toolType) {
+  const elementName = ("planager-" + toolType.slice(1).join("-")).toLowerCase();
+
+  // If the element for the tool has not been registered
+  // we import it and define it as a custom element
+  if (!customElements.get(elementName)) {
+    const modulePath = `${toolType.slice(1).join("/")}`;
+
+    let moduleElement = await import(
+      /* webpackChunkName: "tools-[request]" */ `../tools/${modulePath}.js`
+    );
+
+    try {
+      customElements.define(elementName, moduleElement.default);
+    } catch {
+      console.log(elementName, "already defined");
+    }
+  }
+  return document.createElement(elementName);
 }
 
 export class PlanagerRoot extends LitElement {
@@ -100,53 +116,35 @@ export class PlanagerRoot extends LitElement {
   }
 
   async handleNewModule(module) {
-    const elementName = (
-      "planager-" + module.toolType.slice(1).join("-")
-    ).toLowerCase();
-
-    // If the element for the tool has not been registered
-    // we import it and define it as a custom element
-    if (!customElements.get(elementName)) {
-      const modulePath = `../${module.toolType.join("/")}`;
-      // let moduleElement = getComponent(modulePath);
-
-      // let moduleElement = await import("../tools/inputs/color/Color");
-      let moduleElement = await import(modulePath);
-
-      try {
-        customElements.define(elementName, moduleElement.default);
-      } catch {
-        console.log(elementName, "already defined");
-      }
-    }
+    const toolElement = await handleToolImport(module.toolType);
 
     // Create the element, put it inside a draggable, and append it as a child to the canvas inside the tool slot
-    let d = document.createElement("planager-module");
-    d.slot = "tools";
-    d.info = module;
-    d.toolid = module.id;
+    let toolWrapper = document.createElement("planager-module");
+    toolWrapper.slot = "tools";
+    toolWrapper.info = module;
+    toolWrapper.toolid = module.id;
 
-    if (d.info.coords) {
+    if (toolWrapper.info.coords) {
       // If the tool includes coordinates, set them as the tool location
-      d.dx = d.info.coords.x;
-      d.dy = d.info.coords.y;
+      toolWrapper.dx = toolWrapper.info.coords.x;
+      toolWrapper.dy = toolWrapper.info.coords.y;
     } else {
       // Otherwise use the default offset and increase it so it is staggered
-      d.dx = this.currentOffset.x;
-      d.dy = this.currentOffset.y;
+      toolWrapper.dx = this.currentOffset.x;
+      toolWrapper.dy = this.currentOffset.y;
       this.increaseOffset();
     }
     socket.emit("update_tool_coordinates", {
-      tool_id: d.info.id,
-      coordinates: { x: d.dx, y: d.dy },
+      tool_id: toolWrapper.info.id,
+      coordinates: { x: toolWrapper.dx, y: toolWrapper.dy },
     });
-    let el = document.createElement(elementName);
+
     // Pass it the socket connection
-    el.socket = socket;
-    el.info = module;
-    d.handleRemove = (e) => this.handleRemove(e, d.info.id);
-    d.appendChild(el);
-    this.canvasRef.value.appendChild(d);
+    toolElement.socket = socket;
+    toolElement.info = module;
+    toolWrapper.handleRemove = (e) => this.handleRemove(e, toolWrapper.info.id);
+    toolWrapper.appendChild(toolElement);
+    this.canvasRef.value.appendChild(toolWrapper);
     this.requestUpdate();
 
     return "DONE";

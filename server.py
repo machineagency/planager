@@ -19,22 +19,13 @@ TOOL_LIBRARY_PATH = "tools"
 tool_library = ToolLibrary(tool_library_path=TOOL_LIBRARY_PATH)
 tool_library.build_index()
 
-# NOTE: The secret key is used to cryptographically sign the cookies used for
-# storing the session identifier.
-app.config["SECRET_KEY"] = "top-secret!"
-app.config["SESSION_TYPE"] = "filesystem"
-
-
 MANAGE_SESSION = False
 ASYNC_MODE = "eventlet"
 ORIGINS = "*"
-SOCKETIO_LOGGER = True
-ENGINEIO_LOGGER = True
-LOGGER = True
+ENGINEIO_LOGGER = False
+LOGGER = False
 
-static_files = {
-    "/": "index.html",
-}
+static_files = {"/": "./dist/"}  # Static files are served from the dist folder
 
 sio = socketio.Server(
     cors_allowed_origins=ORIGINS,
@@ -43,7 +34,7 @@ sio = socketio.Server(
     engineio_logger=ENGINEIO_LOGGER,
 )
 
-app.wsgi_app = socketio.WSGIApp(sio, app.wsgi_app)  # , static_files=static_files)
+app.wsgi_app = socketio.WSGIApp(sio, app.wsgi_app, static_files=static_files)
 
 
 def send_toolchain_info(info):
@@ -69,15 +60,10 @@ def handle_message(event, sid, data):
 @sio.event
 def new_toolchain(sid):
     debug("Creating a new toolchain!")
-    # session = sio.get_session(sid)
-    # print(session)
-
-    # session.pop("toolchain", None)
 
     new_toolchain = Toolchain(socket=sio)
 
     sio.save_session(sid, {"toolchain": new_toolchain})
-    # session["toolchain"] = new_toolchain
 
 
 @sio.event
@@ -122,7 +108,6 @@ def set_toolchain(sid, toolchain_config):
     """
     with sio.session(sid) as session:
 
-        # session.pop("toolchain", None)
         new_toolchain = Toolchain(
             tool_library=tool_library, src=toolchain_config, socket=sio
         )

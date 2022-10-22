@@ -59,14 +59,11 @@ the VSCode debugger:
 ```
 
 The compound rule `full stack` will run both the frontend and backend
-configurations! One thing to note is that the Python configuration has to be run
-with the GEVENT_SUPPORT flag set to true, or else some crucial Flask things will
-not work.
+configurations!
 
 ## Development
 
-Run the frontend server using web-dev server. An introduction guide is found
-[here](https://modern-web.dev/guides/dev-server/getting-started/).
+Run the frontend server using webpack dev server.
 
 ## Editing Documentation
 
