@@ -1,11 +1,8 @@
 import { html, css } from "lit";
 import { Tool } from "../../../src/components/tool_ui/Tool";
 
-import * as d3 from "d3";
-
-// import {geo}
-
-// import
+import { geoEquirectangular, geoPath, geoClipRectangle } from "d3-geo";
+import { select } from "d3";
 
 export default class GeoJsonToSvg extends Tool {
   static styles = css`
@@ -19,45 +16,38 @@ export default class GeoJsonToSvg extends Tool {
   `;
 
   updateMap() {
-    if (!this.inports.geojson) return;
-    if (!this.inports.bounds) return;
-
-    let features = this.inports.geojson;
+    // Ensure features and bounds are defined
+    const features = this.inports.geojson;
     const bounds = this.inports.bounds;
+    if (!features || !bounds) return;
 
-    let projection = d3
-      .geoEquirectangular()
-      .center([
-        (bounds._sw.lng - bounds._ne.lng) / 2,
-        (bounds._sw.lat - bounds._ne.lat) / 2,
-      ]);
-    // projection.fitExtent(
-    //   [
-    //     [0, 0],
-    //     [400, 400],
-    //   ],
-    //   {
-    //     type: "FeatureCollection",
-    //     features: features,
-    //   }
-    // );
+    const lngCenter = (bounds._sw.lng - bounds._ne.lng) / 2 + bounds._ne.lng;
+    const latCenter = (bounds._sw.lat - bounds._ne.lat) / 2 + bounds._ne.lat;
 
-    let xMinPix, xMaxPix, yMinPix, yMaxPix;
+    console.log("bounds:", bounds);
+    console.log("lat:", latCenter, "lng:", lngCenter);
+
+    let projection = geoEquirectangular()
+      .center([lngCenter, latCenter])
+      .translate([200, 200]);
+
     // assign our pixel coordinates. Remember that y is flipped, up is down.
+    let xMinPix, xMaxPix, yMinPix, yMaxPix;
     [xMinPix, yMaxPix] = projection([bounds._sw.lng, bounds._sw.lat]);
     [xMaxPix, yMinPix] = projection([bounds._ne.lng, bounds._ne.lat]);
 
-    console.log(xMinPix, xMaxPix, yMinPix, yMaxPix);
-    // projection.postclip(
-    //   d3.geoClipRectangle(xMinPix, yMinPix, xMaxPix, yMaxPix)
-    // );
-    projection.clipExtent([
-      [xMinPix, yMinPix],
-      [xMaxPix, yMaxPix],
-    ]);
+    console.log("Pixels:", xMinPix, xMaxPix, yMinPix, yMaxPix);
+    projection.postclip(geoClipRectangle(xMinPix, yMinPix, xMaxPix, yMaxPix));
 
-    let geoGenerator = d3.geoPath().projection(projection);
-    let map = d3.select(this.shadowRoot.querySelector("#map"));
+    // projection.clipExtent([
+    //   [xMinPix, yMinPix],
+    //   [xMaxPix, yMaxPix],
+    // ]);
+    projection.fitExtent;
+
+    let geoGenerator = geoPath().projection(projection);
+
+    let map = select(this.shadowRoot.querySelector("#map"));
 
     map.selectAll("g").remove();
     map

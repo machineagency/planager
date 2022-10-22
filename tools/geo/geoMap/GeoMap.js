@@ -41,11 +41,9 @@ export default class GeoMap extends Tool {
       let features = this.map.queryRenderedFeatures({
         layers: ["roads", "water-outline"],
       });
-      // console.log(features);
       this.api.runMethod("set_geojson", features);
 
       const bounds = this.map.getBounds();
-      console.log(bounds);
       this.api.runMethod("set_bounds", bounds);
     });
   }
