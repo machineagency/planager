@@ -12,7 +12,7 @@ class ToolLibrary:
     def __init__(self, tool_library_path: str):
         self.tools = {}
         self.tool_library_path = tool_library_path
-        self.ignore = ["__pycache__", "utils", "knitting"]
+        self.ignore = ["__pycache__", "utils", "ignore"]
 
     def find_tools(self):
         print(importlib.resources.files("planager"))
@@ -27,7 +27,7 @@ class ToolLibrary:
             tool_set_name = tool_set.stem
             # Ignore things that aren't directories or that are in the ignore array
             if not tool_set.is_dir() or tool_set_name in self.ignore:
-                debug("Ignoring: ", tool_set)
+                message("Ignoring: ", str(tool_set))
                 continue
             # Add the tool set to the tools dict with the path
             tool_sets[tool_set_name] = {

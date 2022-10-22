@@ -19,11 +19,11 @@ TOOL_LIBRARY_PATH = "tools"
 tool_library = ToolLibrary(tool_library_path=TOOL_LIBRARY_PATH)
 tool_library.build_index()
 
-MANAGE_SESSION = False
 ASYNC_MODE = "eventlet"
 ORIGINS = "*"
 ENGINEIO_LOGGER = False
 LOGGER = False
+BUFFER = 10000000
 
 static_files = {"/": "./dist/"}  # Static files are served from the dist folder
 
@@ -32,6 +32,7 @@ sio = socketio.Server(
     async_mode=ASYNC_MODE,
     logger=LOGGER,
     engineio_logger=ENGINEIO_LOGGER,
+    max_http_buffer_size=BUFFER,
 )
 
 app.wsgi_app = socketio.WSGIApp(sio, app.wsgi_app, static_files=static_files)

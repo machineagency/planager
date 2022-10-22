@@ -2,10 +2,10 @@ import { html, css } from "lit";
 import { Tool } from "../../../src/components/tool_ui/Tool";
 import { createRef, ref } from "lit/directives/ref.js";
 
-import "mapbox-gl";
+import mapboxGl from "mapbox-gl";
 import { mapboxAccessToken } from "./secrets";
 
-// mapboxgl.accessToken = mapboxAccessToken;
+mapboxGl.accessToken = mapboxAccessToken;
 
 export default class GeoMap extends Tool {
   static styles = css`
@@ -21,7 +21,7 @@ export default class GeoMap extends Tool {
   firstUpdated() {
     if (this.map) return; // initialize map only once
 
-    this.map = new mapboxgl.Map({
+    this.map = new mapboxGl.Map({
       container: this.mapContainer.value,
       style: this.state.style,
       center: [this.state.long, this.state.lat],
@@ -48,8 +48,8 @@ export default class GeoMap extends Tool {
 
   render() {
     return this.renderModule(
-      html`<link
-          href="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css"
+      html` <link
+          href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css"
           rel="stylesheet" />
         <div>
           <div

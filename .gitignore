@@ -1,6 +1,7 @@
 __pycache__/
 node_modules/
 .venv/
+.vscode/
 
 dist/
 site/

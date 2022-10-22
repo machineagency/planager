@@ -30,7 +30,8 @@ async function handleToolImport(toolType) {
     const modulePath = `${toolType.slice(1).join("/")}`;
 
     let moduleElement = await import(
-      /* webpackChunkName: "tools-[request]" */ `../tools/${modulePath}.js`
+      /* webpackChunkName: "tools-[request]" */
+      /* webpackExclude: /ignore/ */ `../tools/${modulePath}.js`
     );
 
     try {
@@ -59,9 +60,8 @@ export class PlanagerRoot extends LitElement {
 
     socket.on("connect", () => {
       console.log("Connected to backend!");
-      console.log("Socket ID:", socket.id);
-      const engine = socket.io.engine;
-      console.log("engine transport is", engine.transport.name); // in most cases, prints "polling"
+      console.info("Socket ID:", socket.id);
+      console.info("Current transport:", socket.io.engine.transport.name); // in most cases, prints "polling"
     });
 
     socket.on("disconnect", (reason) => {

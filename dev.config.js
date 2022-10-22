@@ -16,7 +16,7 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      title: "DEVELOPMENT Planager",
+      title: "DEV Planager",
       favicon: "./src/public/favicon.ico",
     }),
   ],
@@ -36,7 +36,6 @@ module.exports = {
   devServer: {
     open: true, // Opens browser automatically
     port: 8000, // Port that listens for requests
-    // hot: true, // hot module reloading
     proxy: {
       "/socket.io/*": { target: "ws://0.0.0.0:5000", ws: true }, // Proxy any requests to socket.io to the backend
     },
