@@ -42,18 +42,25 @@ export class Workspace extends LitElement {
 
   render() {
     return html`
-      <div id="workspace" class="full-size">
+      <div
+        id="workspace"
+        class="full-size">
         <planager-background
-          style="--offset-x: 0; --offset-y: 0; --scaleFactor: 1;"
-        ></planager-background>
+          style="--offset-x: 0; --offset-y: 0; --scaleFactor: 1;"></planager-background>
         <div id="pipe-container">
-          <slot name="pipes" @slotchange=${this.pipeSlot}></slot>
+          <slot
+            name="pipes"
+            @slotchange=${this.pipeSlot}></slot>
         </div>
         <div id="tool-container">
-          <slot name="tools" @slotchange=${this.onToolSlotChange}></slot>
+          <slot
+            name="tools"
+            @slotchange=${this.onToolSlotChange}></slot>
         </div>
         <div id="floating-element-container">
-          <slot name="floating" @slotchange=${this.floatingSlot}></slot>
+          <slot
+            name="floating"
+            @slotchange=${this.floatingSlot}></slot>
         </div>
       </div>
     `;
@@ -104,7 +111,17 @@ export class Workspace extends LitElement {
 
   handleUp(event) {
     this.dragType = "none";
-    event.target.releasePointerCapture(event.pointerId);
+    const element = event.target;
+    element.releasePointerCapture(event.pointerId);
+
+    // TODO: Better way of recording tool coordinates than just checking if
+    // it has info
+    if (element.info) {
+      this.socket.emit("update_tool_coordinates", {
+        tool_id: element.info.id,
+        coordinates: { x: element.dx, y: element.dy },
+      });
+    }
   }
 
   shiftView(delta) {
@@ -135,20 +152,10 @@ export class Workspace extends LitElement {
   }
 
   updatePosition(element, delta) {
-    // Updates an element's position property and translate it.
+    // Updates an element's position property and translates it.
     element.dx = element.dx + delta.x * (2 - this.scaleFactor);
     element.dy = element.dy + delta.y * (2 - this.scaleFactor);
     element.style.transform = `translate(${element.dx}px, ${element.dy}px)`;
-
-    // TODO: Better way of recording tool coordinates than just checking if
-    // it has info. Also, it might be good to just update coordinates when
-    // the drag ends.
-    if (element.info) {
-      this.socket.emit("update_tool_coordinates", {
-        tool_id: element.info.id,
-        coordinates: { x: element.dx, y: element.dy },
-      });
-    }
   }
 
   getToolByID(toolID) {

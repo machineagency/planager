@@ -29,6 +29,7 @@ class Axi(Tool, config=CONFIG):
         self.outports["dimensions"] = [430, 297]  # change for different models
         self.update_position()
         self.state["pen"] = self.ad.current_pen()
+        self.state["motors"] = True
         self.ad.options.model = 2  # change for different models
         self.ad.options.units = 2
         self.ad.update()
@@ -36,16 +37,16 @@ class Axi(Tool, config=CONFIG):
 
     def update_position(self):
         pos = self.ad.current_pos()
-        pen = self.ad.current_pen()
+        # pen = self.ad.current_pen()
         # print(pos)
         self.state["position"] = {"x": pos[0], "y": pos[1]}
-        self.state["pen"] = pen
+        # self.state["pen"] = pen
 
         self.outports["currentLocation"] = [
             self.state["position"]["x"],
             self.state["position"]["y"],
         ]
-        self.outports["pen"] = self.state["pen"]
+        # self.outports["pen"] = self.state["pen"]
 
     def inports_updated(self, inportID):
         port_handlers = {
@@ -62,18 +63,22 @@ class Axi(Tool, config=CONFIG):
         self.moveto(float(loc["x"]), float(loc["y"]))
 
     def moveto(self, x, y):
+        self.ad.penup()
         self.ad.moveto(x, y)
         self.update_position()
 
     def move(self, x, y):
+        self.ad.penup()
         self.ad.move(x, y)
         self.update_position()
 
     def lineto(self, x, y):
+        self.ad.pendown()
         self.ad.lineto(x, y)
         self.update_position()
 
     def line(self, x, y):
+        self.ad.pendown()
         self.ad.line(x, y)
         self.update_position()
 
@@ -96,7 +101,7 @@ class Axi(Tool, config=CONFIG):
                 self.line(float(path[i + 1]), float(path[i + 2]))
             elif path[i] == "L":
                 self.lineto(float(path[i + 1]), float(path[i + 2]))
-
+        self.ad.penup()
         self.update_position()
         self.ready()
 
@@ -115,12 +120,13 @@ class Axi(Tool, config=CONFIG):
         self.ad.options.mode = "align"
         self.ad.plot_run()
 
-    def motor_status(self, arg):
+    def turn_off_motors(self, arg):
         print("Turning off axidraw motors")
         self.ad.plot_setup()
         self.ad.options.mode = "manual"
         self.ad.options.manual_cmd = "disable_xy"
         self.ad.plot_run()
+        self.state["motors"] = False
 
     def set_home(self, arg):
         self.ad.plot_setup()
@@ -132,4 +138,6 @@ class Axi(Tool, config=CONFIG):
         self.ad.options.model = 2
         self.ad.options.units = 2
         self.ad.update()
+        self.state["homed"] = True
+        self.state["motors"] = True
         self.update_position()

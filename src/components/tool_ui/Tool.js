@@ -25,6 +25,14 @@ export class Tool extends LitElement {
     this.outports = this.ports.outports;
   }
 
+  // constructor() {
+  //   super();
+  //   this.state = new StateController(this).state;
+  //   this.api = new MethodController(this);
+  //   this.inports = this.ports.inports;
+  //   this.outports = this.ports.outports;
+  // }
+
   renderStatePane() {
     return html`<state-pane .state=${{ ...this.state }}></state-pane>`;
   }

@@ -1,5 +1,6 @@
 from pathlib import Path
-from importlib import import_module
+import importlib
+import importlib.resources
 from inspect import getmembers, isclass
 from types import ModuleType
 
@@ -11,7 +12,11 @@ class ToolLibrary:
     def __init__(self, tool_library_path: str):
         self.tools = {}
         self.tool_library_path = tool_library_path
-        self.ignore = ["__pycache__", "utils", "knitting"]
+        self.ignore = ["__pycache__", "utils", "ignore"]
+
+    def find_tools(self):
+        print(importlib.resources.files("planager"))
+        print(importlib.resources.contents("planager"))
 
     def build_index(self):
         p = Path(self.tool_library_path)
@@ -22,7 +27,7 @@ class ToolLibrary:
             tool_set_name = tool_set.stem
             # Ignore things that aren't directories or that are in the ignore array
             if not tool_set.is_dir() or tool_set_name in self.ignore:
-                debug("Ignoring: ", tool_set)
+                message("Ignoring: ", str(tool_set))
                 continue
             # Add the tool set to the tools dict with the path
             tool_sets[tool_set_name] = {
@@ -48,9 +53,12 @@ class ToolLibrary:
                     # The tool path is the tool parts joined minus the .py suffix
                     tool_path = ".".join(tool.parts)[:-3]
 
+                    spec = importlib.util.find_spec(tool_path)
+                    # print(spec.origin)
+
                     # Attempt to import the tool
                     try:
-                        module = import_module(tool_path)
+                        module = importlib.import_module(tool_path)
                     except Exception as e:
                         error("Could not import {}".format(tool_path))
                         error(e)
@@ -73,6 +81,7 @@ class ToolLibrary:
                         "tool_path": tool,
                         "module": module,
                         "class": tool_class,
+                        # "config":
                     }
 
         self.tool_dict = tool_sets

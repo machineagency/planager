@@ -19,7 +19,7 @@ Welcome to the Planager, a system for building dynamic toolchains!
 ## Running locally
 
 1. To start the flask server, run `python server.py`.
-2. To start the frontend, run `npm run start`.
+2. To start the frontend development server, run `npm run dev`.
 3. Navigate to `localhost:8000` in your browser. It should open automatically.
 
 ## Development
@@ -34,16 +34,19 @@ of course free to choose any development environment you wish.
 Here is a quick overview of the main technologies used to build Planager:
 
 - Backend:
-  - Python/Flask
-  - Flask SocketIO
+  - Planager - Python library for creating toolchains
+  - Flask for webapp
+  - Python-SocketIO for websocket server
 - Frontend:
   - Javascript
+  - socketio-client for websocket client
   - Lit for creating web components
   - npm for managing dependencies
 - Local Development:
   - VSCode
-  - web dev server
+  - webpack dev server
 - Deployment:
+  - webpack for building and bundling
   - ~~Heroku for hosting~~ Figuring out an alternative because Heroku is dying.
   - Cloudflare for DNS management
 
@@ -67,12 +70,7 @@ you run `npm install`. To install a new node module, run
 production dependency, and `--save-dev` will save it as a development
 dependency.
 
-
 ### Debugging
 
 Everyone has their preferences when it comes to IDEs and debuggers, but I find
 VSCode to work well for me. I included a `launch.json` configuration in `.vscode/`.
-The compound rule `full stack` will run both the frontend and backend
-configurations! One thing to note is that the python configuration has to be run
-with the GEVENT_SUPPORT flag set to true, or else some crucial Flask things will
-not work.

@@ -11,19 +11,19 @@ with open(os.path.join(os.path.dirname(__file__), "Aggregate.tool")) as json_fil
 
 class Aggregate(Tool, config=CONFIG):
     def state_updated(self, key):
-        self.outports["aggregate"] = self.state["aggregate"]
+        self.outports["arr"] = self.state["arr"]
 
     def inports_updated(self, inportID):
-        port_handlers = {"append": self.append}
+        port_handlers = {"add": self.append}
         port_handlers[inportID]()
 
     def append(self):
-        val = self.inports["append"]
+        val = self.inports["add"]
         if not val:
             return
-        self.state["aggregate"].append(self.inports["append"])
-        self.state.notify("aggregate")
+        self.state["arr"].append(self.inports["add"])
+        self.state.notify("arr")
 
     def clear(self, arg):
-        self.state["aggregate"] = []
-        self.outports["aggregate"] = []
+        self.state["arr"] = []
+        self.outports["arr"] = []

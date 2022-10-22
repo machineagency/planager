@@ -1,16 +1,16 @@
 {
-    "displayName": "Collection",
-    "inports": {
-        "append": {
-            "displayName": "append"
-        }
-    },
-    "outports": {
-        "aggregate": {
-            "displayName": "aggregate"
-        }
-    },
-    "state": {
-        "aggregate": []
+  "displayName": "Collection",
+  "inports": {
+    "add": {
+      "displayName": "add"
     }
+  },
+  "outports": {
+    "arr": {
+      "displayName": "arr"
+    }
+  },
+  "state": {
+    "arr": []
+  }
 }

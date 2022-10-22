@@ -52,6 +52,7 @@ class StatePane extends LitElement {
         overflow: hidden;
         text-overflow: ellipsis;
         max-width: 50ch;
+        padding-left: 0.3rem;
       }
       .boolean {
         color: var(--planager-purple);
@@ -64,7 +65,7 @@ class StatePane extends LitElement {
         grid-template-columns: auto auto;
         font-size: 0.7rem;
         cursor: pointer;
-        width: min-content;
+        /* width: min-content; */
       }
 
       #state-container .key:nth-of-type(4n + 1) {
@@ -87,7 +88,7 @@ class StatePane extends LitElement {
       }
 
       .value {
-        padding: 0.1rem 0.3rem;
+        /* padding: 0.1rem 0.3rem; */
       }
       .keyval-container {
         display: grid;
@@ -200,7 +201,10 @@ class StatePane extends LitElement {
 
   render() {
     return html`<div>
-      <div id="header" class="unselectable" @click=${this.toggleCollapse}>
+      <div
+        id="header"
+        class="unselectable"
+        @click=${this.toggleCollapse}>
         State
       </div>
       ${this.expanded
@@ -210,4 +214,8 @@ class StatePane extends LitElement {
   }
 }
 
-customElements.define("state-pane", StatePane);
+try {
+  customElements.define("state-pane", StatePane);
+} catch {
+  console.log("state-pane already defined");
+}

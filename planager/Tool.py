@@ -1,6 +1,7 @@
 import uuid
 import copy
-
+import json
+import os.path
 
 from planager.Inport import Inport
 from planager.Outport import Outport
@@ -13,6 +14,10 @@ class Tool:
 
     def __init_subclass__(cls, config: dict, **kwargs) -> None:
         # Uses the config parameter from the subclass
+        # print(cls.__module__)
+        # with open(os.path.join(os.path.dirname(__file__), "Color.tool")) as json_file:
+        #     CONFIG = json.load(json_file)
+
         cls.config = copy.deepcopy(config)
         super().__init_subclass__(**kwargs)
 
@@ -66,7 +71,11 @@ class Tool:
         self.start_method_listener()
 
     def start_method_listener(self):
-        self.socket.on_event(f"{self.id}_method", self.run_method_from_socket)
+        @self.socket.on(f"{self.id}_method")
+        def method_listener(sid, method_name, args):
+            self.run_method_from_socket(method_name, args)
+
+        # self.socket.on_event(f"{self.id}_method", self.run_method_from_socket)
 
     def get_custom_methods(self):
         method_list = []
@@ -117,6 +126,17 @@ class Tool:
         )
         self.inports_updated(destination_port_id)
         self.updateSelf()
+
+    def info(self):
+        return {
+            "id": self.id,
+            "displayName": self.displayName,
+            "name": self.name,
+            "toolType": self.toolType,
+            "coords": self.coords,
+            "outports": list(self.outports.ports()),
+            "inports": list(self.inports.ports()),
+        }
 
     def toJSON(self):
         return {

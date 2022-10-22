@@ -8,19 +8,18 @@ import {
 
 export default class Circle extends Tool {
   static styles = css`
-    #drawing-container {
+    #drawing {
+      padding: 0.5rem;
       display: flex;
       background-color: var(--planager-workspace-background);
-      padding: 0.5rem;
-    }
-    #drawing {
-      margin: auto;
     }
   `;
 
   firstUpdated() {
     this.canvas = this.renderRoot.querySelector("#drawing");
-    this.draw = SVG().addTo(this.canvas).size("100%", "100%");
+    this.draw = SVG()
+      .addTo(this.canvas)
+      .size(`${this.state.diameter}px`, `${this.state.diameter}px`);
     this.circle = this.draw.circle(this.state.diameter).fill(this.state.color);
     this.update();
   }
@@ -36,11 +35,6 @@ export default class Circle extends Tool {
 
       this.api.runMethod("set_svg_string", this.circle.svg());
     }
-    return this.renderModule(html`<div id="drawing-container">
-      <div
-        id="drawing"
-        style="width:${this.state.diameter}px; height: ${this.state.diameter}px"
-      ></div>
-    </div>`);
+    return this.renderModule(html` <div id="drawing"></div> `);
   }
 }

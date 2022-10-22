@@ -26,6 +26,7 @@
     }
   },
   "state": {
-    "command_queue": []
+    "command_queue": [],
+    "current_time": 0
   }
 }

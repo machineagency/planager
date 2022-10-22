@@ -11,6 +11,7 @@
 ### Frontend dependencies
 
 #### Install nvm and node
+
 I recommend using [`nvm`](https://github.com/nvm-sh/nvm) to manage node versions. `nvm` allows you to install and maintain many different independent versions of Node.js and their associated packages. If you're on Windows, you can use `nvm-windows` instead. This is optional; you can use whatever node installation method you'd like, but `nvm` has worked for me.
 
 At time of writing, we are using `node` version 16.x and `npm` version 8.x. These can be seen in `package.json` section `engine`. Install node 16: `nvm install 16`, and select it for use: `npm use 16`. Ensure that you're running the right version: `node -v` should return `v16.x.x`. Similarly, `npm --version` should return `v8.x.x`.
@@ -18,7 +19,6 @@ At time of writing, we are using `node` version 16.x and `npm` version 8.x. Thes
 #### Install npm packages
 
 From the top-level directory, run `npm install`.
-
 
 ## Set up VSCodium
 
@@ -36,4 +36,30 @@ From the top-level directory, run `npm install`.
 
 ## Run
 
-I have created launch configurations for VSCode, found in `.vscode/launch.json`. In VSCodium they should be detected automatically.
+I have created launch configurations for VSCode, found in `.vscode/launch.json`. In VSCodium they should be detected automatically
+
+```json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "python",
+      "request": "launch",
+      "type": "python",
+      "program": "server.py"
+    },
+    {
+      "name": "javascript",
+      "request": "launch",
+      "type": "node-terminal",
+      "command": "npm run dev"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "full stack",
+      "configurations": ["python", "javascript"]
+    }
+  ]
+}
+```

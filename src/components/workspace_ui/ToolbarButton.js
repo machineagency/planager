@@ -6,6 +6,7 @@ export class ToolbarButton extends LitElement {
       fill: var(--planager-text-light);
       margin: auto;
       max-height: 1rem;
+      height: 1rem;
     }
     :host {
       cursor: pointer;

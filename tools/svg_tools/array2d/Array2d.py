@@ -17,23 +17,23 @@ class Array2d(Tool, config=CONFIG):
     def inports_updated(self, inportID):
         port_handlers = {
             "svg": self.calculate_array,
-            "x_num": self.set_x,
-            "y_num": self.set_y,
+            "xNum": self.set_x,
+            "yNum": self.set_y,
             "space": self.set_spacing,
             "start": self.set_start,
         }
         port_handlers[inportID]()
 
     def set_x(self):
-        if not self.inports["x_num"]:
+        if not self.inports["xNum"]:
             return
-        self.state["x_num"] = int(self.inports["x_num"])
+        self.state["xNum"] = int(self.inports["xNum"])
         self.calculate_array()
 
     def set_y(self):
-        if not self.inports["y_num"]:
+        if not self.inports["yNum"]:
             return
-        self.state["y_num"] = int(self.inports["y_num"])
+        self.state["yNum"] = int(self.inports["yNum"])
         self.calculate_array()
 
     def set_spacing(self):
@@ -48,8 +48,8 @@ class Array2d(Tool, config=CONFIG):
         self.state["start"] = self.inports["start"]
         self.calculate_array()
 
-    def format_absolute_move_path(self, x, y):
-        return f'<path d="M {x} {y}"></path>'
+    def format_absolute_move_path(self, startx, starty, rest):
+        return f'<path d="M {startx} {starty} {rest}" stroke-width="1" stroke="var(--planager-pink)" fill="none"></path>'
 
     def format_relative_move_path(self, x, y):
         return f'<path d="m 0 0 m {x} {y}"></path>'
@@ -63,18 +63,18 @@ class Array2d(Tool, config=CONFIG):
         space = self.state["space"]
         arr = []
 
-        for x in range(self.state["x_num"]):
-            for y in range(self.state["y_num"]):
+        for x in range(self.state["xNum"]):
+            for y in range(self.state["yNum"]):
                 arr.append(
                     self.format_absolute_move_path(
-                        startx + x * space, starty + y * space
+                        startx + x * space, starty + y * space, self.inports["svg"]
                     )
                 )
 
-                arr.append(self.inports["svg"])
+                # arr.append(self.inports["svg"])
                 # arr.append(self.format_relative_move_path(-end_pos[0], space - end_pos[1]))
                 # arr.append([["m", -end_pos[0], dist - end_pos[1]]])
-        arr.append(self.format_absolute_move_path(startx, starty))
+        arr.append(self.format_absolute_move_path(startx, starty, ""))
 
         self.outports["svgArray"] = arr
 

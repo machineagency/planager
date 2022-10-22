@@ -1,9 +1,12 @@
 __pycache__/
 node_modules/
 .venv/
+.vscode/
 
 dist/
 site/
 flask_session/
 
 .DS_Store
+
+secrets.js

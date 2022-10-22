@@ -12,7 +12,7 @@ export default class EventQueue extends Tool {
       text-align: center;
     }
     .button:hover {
-      background-color: var(--planager-toolbar-background);
+      background-color: var(--planager-toolbar);
       cursor: pointer;
     }
     .clear {
@@ -45,6 +45,7 @@ export default class EventQueue extends Tool {
     #controls {
       display: grid;
       grid-template-columns: auto auto;
+      user-select: none;
     }
   `;
 
@@ -57,7 +58,9 @@ export default class EventQueue extends Tool {
           Clear
         </div>
       </div>
-      <div id="queue-container">
+      <div
+        id="queue-container"
+        @mouseout=${(e) => this.api.runMethod("set_selected", null)}>
         ${map(
           this.state.command_queue,
           (value, index) =>

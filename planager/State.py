@@ -23,9 +23,14 @@ class State:
     def open_socket(self, state_variable):
         if not self.socket:
             return
-        self.socket.on_event(
-            f"{self.parent_id}_set_{state_variable}", self.update_from_socket
-        )
+
+        @self.socket.on(f"{self.parent_id}_set_{state_variable}")
+        def state_listener(sid, args):
+            self.update_from_socket(args)
+
+        # self.socket.on_event(
+        #     f"{self.parent_id}_set_{state_variable}", self.update_from_socket
+        # )
 
     def update_from_socket(self, message):
         self.__setitem__(message["state"], message["val"])

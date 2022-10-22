@@ -20,7 +20,7 @@ export default class CommandQueue extends Tool {
       <div class="button" @click=${(e) => this.api.runMethod("clear")}>
         Clear
       </div>
-      Length: ${this.state.aggregate.length}
+      Length: ${this.state.arr.length}
     </div>`);
   }
 }
