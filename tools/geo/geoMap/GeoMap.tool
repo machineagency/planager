@@ -4,6 +4,9 @@
   "outports": {
     "geojson": {
       "displayName": "geojson"
+    },
+    "bounds": {
+      "displayName": "bounds"
     }
   },
   "state": {

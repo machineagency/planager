@@ -3,6 +3,10 @@ import { Tool } from "../../../src/components/tool_ui/Tool";
 
 import * as d3 from "d3";
 
+// import {geo}
+
+// import
+
 export default class GeoJsonToSvg extends Tool {
   static styles = css`
     #map {
@@ -16,24 +20,46 @@ export default class GeoJsonToSvg extends Tool {
 
   updateMap() {
     if (!this.inports.geojson) return;
-    let features = this.inports.geojson;
-    let projection = d3.geoEquirectangular();
-    projection.fitExtent(
-      [
-        [0, 0],
-        [400, 400],
-      ],
-      {
-        type: "FeatureCollection",
-        features: features,
-      }
-    );
-    let geoGenerator = d3.geoPath().projection(projection);
+    if (!this.inports.bounds) return;
 
+    let features = this.inports.geojson;
+    const bounds = this.inports.bounds;
+
+    let projection = d3
+      .geoEquirectangular()
+      .center([
+        (bounds._sw.lng - bounds._ne.lng) / 2,
+        (bounds._sw.lat - bounds._ne.lat) / 2,
+      ]);
+    // projection.fitExtent(
+    //   [
+    //     [0, 0],
+    //     [400, 400],
+    //   ],
+    //   {
+    //     type: "FeatureCollection",
+    //     features: features,
+    //   }
+    // );
+
+    let xMinPix, xMaxPix, yMinPix, yMaxPix;
+    // assign our pixel coordinates. Remember that y is flipped, up is down.
+    [xMinPix, yMaxPix] = projection([bounds._sw.lng, bounds._sw.lat]);
+    [xMaxPix, yMinPix] = projection([bounds._ne.lng, bounds._ne.lat]);
+
+    console.log(xMinPix, xMaxPix, yMinPix, yMaxPix);
+    // projection.postclip(
+    //   d3.geoClipRectangle(xMinPix, yMinPix, xMaxPix, yMaxPix)
+    // );
+    projection.clipExtent([
+      [xMinPix, yMinPix],
+      [xMaxPix, yMaxPix],
+    ]);
+
+    let geoGenerator = d3.geoPath().projection(projection);
     let map = d3.select(this.shadowRoot.querySelector("#map"));
 
     map.selectAll("g").remove();
-
     map
       .append("g")
       .selectAll("path")

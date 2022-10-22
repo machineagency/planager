@@ -3,6 +3,9 @@
   "inports": {
     "geojson": {
       "displayName": "geojson"
+    },
+    "bounds": {
+      "displayName": "bounds"
     }
   },
   "outports": {

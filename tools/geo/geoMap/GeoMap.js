@@ -43,6 +43,10 @@ export default class GeoMap extends Tool {
       });
       // console.log(features);
       this.api.runMethod("set_geojson", features);
+
+      const bounds = this.map.getBounds();
+      console.log(bounds);
+      this.api.runMethod("set_bounds", bounds);
     });
   }
 
