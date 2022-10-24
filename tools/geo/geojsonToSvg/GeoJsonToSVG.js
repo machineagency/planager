@@ -9,10 +9,10 @@ export default class GeoJsonToSvg extends Tool {
     #map {
       display: block;
     }
-    #map path {
+    /* #map path {
       stroke: #333;
       fill: none;
-    }
+    } */
   `;
 
   updateMap() {
@@ -74,7 +74,9 @@ export default class GeoJsonToSvg extends Tool {
       .data(features)
       .enter()
       .append("path")
-      .attr("d", geoGenerator);
+      .attr("d", geoGenerator)
+      .attr("stroke", "#333")
+      .attr("fill", "none");
 
     let paths = map.selectAll("path").nodes();
     let pathList = [];
