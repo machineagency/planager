@@ -12,6 +12,7 @@ export default class GeoMap extends Tool {
     #map-container {
       height: 30rem;
       width: 30rem;
+      resize: both;
     }
   `;
 
@@ -26,7 +27,7 @@ export default class GeoMap extends Tool {
       style: this.state.style,
       center: [this.state.long, this.state.lat],
       zoom: this.state.zoom,
-      projection: "equirectangular",
+      projection: "mercator",
     });
 
     this.map.on("move", () => {
@@ -46,6 +47,17 @@ export default class GeoMap extends Tool {
       const bounds = this.map.getBounds();
       this.api.runMethod("set_bounds", bounds);
     });
+
+    // If the map container changes size, call the mapbox map resize method
+    const observer = new ResizeObserver(() => {
+      this.map.resize();
+      let map = this.mapContainer.value;
+      this.api.runMethod("set_view", {
+        width: map.clientWidth,
+        height: map.clientHeight,
+      });
+    });
+    observer.observe(this.mapContainer.value);
   }
 
   render() {

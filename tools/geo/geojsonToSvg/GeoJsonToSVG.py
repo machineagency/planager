@@ -11,5 +11,5 @@ with open(os.path.join(os.path.dirname(__file__), "GeoJsonToSVG.tool")) as json_
 
 
 class GeoJsonToSVG(Tool, config=CONFIG):
-    def set_svg(self, svg):
-        self.outports["svg"] = svg
+    def set_svg(self, paths):
+        self.outports["paths"] = paths

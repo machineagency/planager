@@ -16,3 +16,6 @@ class GeoMap(Tool, config=CONFIG):
 
     def set_bounds(self, bounds):
         self.outports["bounds"] = bounds
+
+    def set_view(self, view):
+        self.outports["view"] = view

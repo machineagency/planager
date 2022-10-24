@@ -7,6 +7,9 @@
     },
     "bounds": {
       "displayName": "bounds"
+    },
+    "view": {
+      "displayName": "view"
     }
   },
   "state": {

@@ -6,11 +6,14 @@
     },
     "bounds": {
       "displayName": "bounds"
+    },
+    "view": {
+      "displayName": "view"
     }
   },
   "outports": {
-    "svg": {
-      "displayName": "svg"
+    "paths": {
+      "displayName": "svg paths"
     }
   },
   "state": {}
