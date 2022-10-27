@@ -4,6 +4,9 @@
     "pathData": {
       "displayName": "path data"
     },
+    "svg": {
+      "displayName": "svg"
+    },
     "pen": {
       "displayName": "pen"
     },
@@ -38,8 +41,8 @@
       "pen_pos_down": 30
     },
     "dimensions": [
-      430,
-      297
+      160,
+      101.6
     ]
   }
 }

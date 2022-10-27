@@ -25,8 +25,8 @@
   "state": {
     "paths": [],
     "svg": null,
-    "x_num": 4,
-    "y_num": 4,
+    "xNum": 4,
+    "yNum": 4,
     "space": 4,
     "start": [
       0,

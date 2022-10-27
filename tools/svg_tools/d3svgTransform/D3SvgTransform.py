@@ -11,4 +11,4 @@ with open(os.path.join(os.path.dirname(__file__), "D3SvgTransform.tool")) as jso
 
 class D3SvgTransform(Tool, config=CONFIG):
     def set_svg_string(self, str):
-        self.outports["element"] = str
+        self.outports["svg"] = str

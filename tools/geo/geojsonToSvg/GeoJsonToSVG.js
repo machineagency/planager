@@ -84,8 +84,6 @@ export default class GeoJsonToSvg extends Tool {
       pathList.push(path.outerHTML);
     }
     this.api.runMethod("set_svg", pathList);
-    // console.log(pathList);
-    // console.log(paths[0].outerHTML);
   }
 
   render() {

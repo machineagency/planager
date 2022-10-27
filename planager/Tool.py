@@ -24,7 +24,7 @@ class Tool:
     def __init__(self, overrideConfig=None, socket=None):
         # General information
 
-        self.coords = None
+        self.coords = {"x": 0, "y": 0}
         self.socket = socket
         self.name = self.__module__.split(".")[-1]
         self.toolType = self.__module__.split(".")
@@ -32,7 +32,14 @@ class Tool:
         if overrideConfig:
             self.id = overrideConfig["id"]
             self.displayName = overrideConfig.get("displayName", "unnamed")
-            self.coords = overrideConfig.get("coords", [100, 100])
+
+            # If coords dict is empty, we set coords to be 0
+            coords = overrideConfig["coords"]
+            if not bool(coords):
+                self.coords = {"x": 0, "y": 0}
+            else:
+                self.coords = coords
+
             self.state = State(
                 copy.deepcopy(overrideConfig.get("state", {})),
                 self.socket,

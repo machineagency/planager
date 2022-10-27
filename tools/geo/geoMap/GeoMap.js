@@ -7,6 +7,64 @@ import { mapboxAccessToken } from "./secrets";
 
 mapboxGl.accessToken = mapboxAccessToken;
 
+const defaultStyle = {
+  version: 8,
+  name: "Mapbox Style",
+  sources: {
+    "mapbox-streets": {
+      type: "vector",
+      url: "mapbox://mapbox.mapbox-streets-v8",
+    },
+  },
+  layers: [
+    {
+      id: "water-fill",
+      source: "mapbox-streets",
+      "source-layer": "water",
+      type: "fill",
+      paint: {
+        "fill-color": "#bbc6e7",
+        "fill-outline-color": "#ffffff",
+      },
+    },
+    {
+      id: "water-outline",
+      source: "mapbox-streets",
+      "source-layer": "water",
+      type: "line",
+      paint: {
+        "line-color": "#0983f6",
+      },
+    },
+    {
+      id: "roads",
+      source: "mapbox-streets",
+      "source-layer": "road",
+      type: "line",
+      paint: {
+        "line-color": "#282a36",
+      },
+      filter: [
+        "match",
+        ["get", "class"],
+        [
+          "street",
+          "primary",
+          "tertiary",
+          "secondary",
+          "trunk",
+          "major_rail",
+          "ferry",
+          "motorway",
+          "minor_rail",
+        ],
+        true,
+        false,
+      ],
+    },
+  ],
+};
+
 export default class GeoMap extends Tool {
   static styles = css`
     #map-container {
@@ -24,7 +82,7 @@ export default class GeoMap extends Tool {
 
     this.map = new mapboxGl.Map({
       container: this.mapContainer.value,
-      style: this.state.style,
+      style: defaultStyle,
       center: [this.state.long, this.state.lat],
       zoom: this.state.zoom,
       projection: "mercator",
@@ -39,9 +97,14 @@ export default class GeoMap extends Tool {
     this.map.on("idle", (e) => {
       // When the map is idled (no more zooming or panning) we query the
       // rendered features and send them to the outport
-      let features = this.map.queryRenderedFeatures({
-        layers: ["roads", "water-outline"],
-      });
+
+      // This is how you query only some layers
+      // let features = this.map.queryRenderedFeatures({
+      //   layers: ["roads", "water-outline"],
+      // });
+
+      let features = this.map.queryRenderedFeatures();
+
       this.api.runMethod("set_geojson", features);
 
       const bounds = this.map.getBounds();
@@ -61,6 +124,13 @@ export default class GeoMap extends Tool {
   }
 
   render() {
+    if (this.inports.config) {
+      try {
+        this.map.setStyle(this.inports.config);
+      } catch {
+        console.log("Invalid map style");
+      }
+    }
     return this.renderModule(
       html` <link
           href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css"

@@ -19,3 +19,6 @@ class GeoMap(Tool, config=CONFIG):
 
     def set_view(self, view):
         self.outports["view"] = view
+
+    def inports_updated(self, inportID):
+        self.state["style"] = self.inports["config"]

@@ -134,10 +134,6 @@ export class PlanagerRoot extends LitElement {
       toolWrapper.dy = this.currentOffset.y;
       this.increaseOffset();
     }
-    socket.emit("update_tool_coordinates", {
-      tool_id: toolWrapper.info.id,
-      coordinates: { x: toolWrapper.dx, y: toolWrapper.dy },
-    });
 
     // Pass it the socket connection
     toolElement.socket = socket;
@@ -145,8 +141,11 @@ export class PlanagerRoot extends LitElement {
     toolWrapper.handleRemove = (e) => this.handleRemove(e, toolWrapper.info.id);
     toolWrapper.appendChild(toolElement);
     this.canvasRef.value.appendChild(toolWrapper);
-    this.requestUpdate();
-
+    // this.requestUpdate();
+    socket.emit("update_tool_coordinates", {
+      tool_id: toolWrapper.info.id,
+      coordinates: { x: toolWrapper.dx, y: toolWrapper.dy },
+    });
     return "DONE";
   }
 

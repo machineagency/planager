@@ -71,49 +71,6 @@ class Array2d(Tool, config=CONFIG):
                     )
                 )
 
-                # arr.append(self.inports["svg"])
-                # arr.append(self.format_relative_move_path(-end_pos[0], space - end_pos[1]))
-                # arr.append([["m", -end_pos[0], dist - end_pos[1]]])
         arr.append(self.format_absolute_move_path(startx, starty, ""))
 
         self.outports["svgArray"] = arr
-
-        # end_pos = self.bounds()
-
-        # if not self.inports["stroke"]:
-        #     self.state["paths"] = []
-        #     return
-        # commands = [[["m", 10, 10]]]
-        # dist = self.state["space"]
-        # x_repeat = self.state["x_num"]
-        # y_repeat = self.state["y_num"]
-        # for x in range(x_repeat):
-        #     for _ in range(y_repeat):
-        #         commands[0].extend(self.inports["stroke"][0])
-        #         commands[0].extend([["m", -end_pos[0], dist - end_pos[1]]])
-        #     commands[0].extend([["m", dist, -y_repeat * dist]])
-        # self.state["paths"] = commands
-
-    # def bounds(self):
-    #     if not self.inports["svg"]:
-    #         return
-    #     mins = [0, 0]
-    #     maxes = [0, 0]
-    #     pos = [0, 0]
-    #     for command in self.inports["svg"][0]:
-    #         pos[0] += command[1]
-    #         pos[1] += command[2]
-    #         if pos[0] < mins[0]:
-    #             mins[0] = pos[0]
-    #         if pos[1] < mins[1]:
-    #             mins[1] = pos[1]
-    #         if pos[0] > maxes[0]:
-    #             maxes[0] = pos[0]
-    #         if pos[1] > maxes[1]:
-    #             maxes[1] = pos[1]
-
-    #     # print("BOUNDS:", mins, maxes)
-    #     # print("rel", pos[0], pos[1])
-    #     self.state["bounds"] = [mins, maxes]
-
-    #     return pos
