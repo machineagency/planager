@@ -6,17 +6,9 @@
     }
   },
   "outports": {
-    "dimensions": {
-      "displayName": "dimensions"
-    },
     "preview": {
       "displayName": "preview"
     }
   },
-  "state": {
-    "dimensions": [
-      430,
-      297
-    ]
-  }
+  "state": {}
 }

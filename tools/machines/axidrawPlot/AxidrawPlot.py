@@ -13,15 +13,14 @@ from pyaxidraw import axidraw
 # MODELS: Axidraw SE: 2, travel 430, 297
 #        Axidraw minikit: 4, travel 160, 101.6
 
-#        xmlns:svg="http://www.w3.org/2000/svg"
-
 
 class AxidrawPlot(Tool, config=CONFIG):
     def setup(self):
         self.ad = axidraw.AxiDraw()
-        self.outports["dimensions"] = self.state[
-            "dimensions"
-        ]  # change for different models
+
+    def plot_common(self):
+        self.ad.options.model = 2
+        self.ad.options.reordering = 2
 
     def preview(self, arg):
         if not self.ad or not self.inports["svg"]:
@@ -29,8 +28,8 @@ class AxidrawPlot(Tool, config=CONFIG):
 
         self.ad.plot_setup(self.inports["svg"])
         self.ad.options.preview = True
-        self.ad.options.model = 2
-        # self.ad.options.report_time = True
+        self.plot_common()
+
         output_svg = self.ad.plot_run(True)
         self.outports["preview"] = output_svg
 
@@ -39,5 +38,5 @@ class AxidrawPlot(Tool, config=CONFIG):
             return
 
         self.ad.plot_setup(self.inports["svg"])
-        self.ad.options.model = 2
+        self.plot_common()
         self.ad.plot_run()

@@ -95,8 +95,8 @@ export default class GeoMap extends Tool {
     });
 
     this.map.on("idle", (e) => {
-      // When the map is idled (no more zooming or panning) we query the
-      // rendered features and send them to the outport
+      // When the map is idled (no more zooming, panning, or resizing) we query
+      // the rendered features and send them to the outport
 
       // This is how you query only some layers
       // let features = this.map.queryRenderedFeatures({
@@ -109,16 +109,17 @@ export default class GeoMap extends Tool {
 
       const bounds = this.map.getBounds();
       this.api.runMethod("set_bounds", bounds);
-    });
 
-    // If the map container changes size, call the mapbox map resize method
-    const observer = new ResizeObserver(() => {
-      this.map.resize();
       let map = this.mapContainer.value;
       this.api.runMethod("set_view", {
         width: map.clientWidth,
         height: map.clientHeight,
       });
+    });
+
+    // If the map container changes size, call the mapbox map resize method
+    const observer = new ResizeObserver(() => {
+      this.map.resize();
     });
     observer.observe(this.mapContainer.value);
   }

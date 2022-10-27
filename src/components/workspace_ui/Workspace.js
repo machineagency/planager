@@ -254,43 +254,6 @@ export class Workspace extends LitElement {
         y: -this.viewOffset.y,
       });
     }
-
-    // if (this.numTools > nodes.length) {
-    //   // A tool has been removed
-    //   this.numTools = nodes.length;
-    // } else {
-    //   // A tool has been added
-    //   this.numTools = nodes.length;
-
-    //   // The last node is the last one added
-    //   const newTool = nodes[this.numTools - 1];
-    //   // Set the layer (used as the z-index)
-    //   newTool.layer = this.numTools;
-
-    //   newTool.handleDown = (e) => {
-    //     console.log("DOWN");
-    //     this.handleDown(e, "element");
-    //   };
-
-    //   newTool.handleMove = (e) => {
-    //     this.handleMove(e, "element", (delta) => {
-    //       // This runs while this element is moving
-    //       this.updatePosition(newTool, delta);
-    //       this.pipeController.updateAttachedPipes(newTool);
-    //     });
-    //   };
-
-    //   const observer = new ResizeObserver(this.onResize.bind(this));
-    //   observer.observe(newTool);
-
-    //   // Finally, properly position the element by calling move with negative
-    //   // view offset. This means the new tool will alway be placed relative to
-    //   // the current view.
-    //   this.updatePosition(newTool, {
-    //     x: -this.viewOffset.x,
-    //     y: -this.viewOffset.y,
-    //   });
-    // }
   }
 
   pipeSlot(e) {
