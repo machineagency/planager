@@ -1,7 +1,7 @@
 import { html, css } from "lit";
 import { Tool } from "../../../src/components/tool_ui/Tool";
 
-export default class Axi extends Tool {
+export default class AxidrawInteractive extends Tool {
   // static styles = css`
   //   .button {
   //     background-color: var(--planager-blue);
@@ -81,7 +81,9 @@ export default class Axi extends Tool {
         </div>
         <span class="label">homed?</span
         ><span class="info">${this.state.homed ? "yes" : "no"}</span>
-        <div class="button" @click=${(e) => this.api.runMethod("set_home")}>
+        <div
+          class="button"
+          @click=${(e) => this.api.runMethod("set_home")}>
           set home
         </div>
       </div>
