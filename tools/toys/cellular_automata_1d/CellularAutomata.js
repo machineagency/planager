@@ -5,7 +5,7 @@ export default class CellularAutomata extends Tool {
   static styles = css`
     #automata-container {
       width: 20rem;
-      max-height: 40rem;
+      max-height: 70rem;
       overflow: auto;
     }
 
@@ -66,8 +66,7 @@ export default class CellularAutomata extends Tool {
             class=${`bit ${pixel ? "alive" : "dead"}`}
             style=${`background-color: ${
               pixel ? this.inports.onHex : this.inports.offHex
-            }`}
-          ></div>`
+            }`}></div>`
         );
       }
 
