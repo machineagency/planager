@@ -1,6 +1,4 @@
 async-timeout==4.0.2
-axicli==3.5.0
-axidrawinternal @ file:///tmp/pip-req-build-k_9u73wg/prebuilt_dependencies/axidrawinternal-3.5.0-py2.py3-none-any.whl
 bidict==0.22.0
 black==22.3.0
 cachelib==0.7.0

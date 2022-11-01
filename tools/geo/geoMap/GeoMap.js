@@ -3,9 +3,9 @@ import { Tool } from "../../../src/components/tool_ui/Tool";
 import { createRef, ref } from "lit/directives/ref.js";
 
 import mapboxGl from "mapbox-gl";
-import { mapboxAccessToken } from "./secrets";
 
-mapboxGl.accessToken = mapboxAccessToken;
+mapboxGl.accessToken =
+  "pk.eyJ1IjoiYnJhbmNod2VsZGVyIiwiYSI6ImNsOHhvYjBvcDA4ZHgzb25uYjMzencweHcifQ.e7wGWbItecKpUZNHlBDD-w";
 
 const defaultStyle = {
   version: 8,
