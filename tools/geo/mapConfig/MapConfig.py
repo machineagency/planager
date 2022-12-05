@@ -1,5 +1,4 @@
 from planager.Tool import Tool
-import requests
 
 # importing the module
 import json

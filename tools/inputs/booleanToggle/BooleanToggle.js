@@ -1,4 +1,4 @@
-import { html, css, nothing } from "lit";
+import { html, css } from "lit";
 import { Tool } from "../../../src/components/tool_ui/Tool";
 
 export default class BooleanToggle extends Tool {
@@ -59,8 +59,7 @@ export default class BooleanToggle extends Tool {
           type="checkbox"
           @change=${(e) => {
             this.state.bool = e.target.checked;
-          }}
-        />
+          }} />
         <span class="slider"></span>
       </label>
     `;
