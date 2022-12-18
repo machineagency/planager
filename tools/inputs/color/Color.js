@@ -15,14 +15,15 @@ export default class Color extends Tool {
     }
   `;
   render() {
-    return html`
+    return this.renderModule(html`
       <input
         id="color-input"
         type="color"
         value=${this.state.color}
         @input=${(e) => {
           this.state.color = e.target.value;
-        }} />
-    `;
+        }}
+      />
+    `);
   }
 }

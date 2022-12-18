@@ -1,5 +1,3 @@
-from planager.Tool import Tool
-
 # importing the module
 import json
 import os.path
@@ -8,6 +6,7 @@ import os.path
 with open(os.path.join(os.path.dirname(__file__), "AxidrawPlot.tool")) as json_file:
     CONFIG = json.load(json_file)
 
+from planager.Tool import Tool
 from pyaxidraw import axidraw
 
 # MODELS: Axidraw SE: 2, travel 430, 297
