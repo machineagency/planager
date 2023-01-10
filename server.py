@@ -19,7 +19,7 @@ TOOL_LIBRARY_PATH = "tools"
 tool_library = ToolLibrary(tool_library_path=TOOL_LIBRARY_PATH)
 tool_library.build_index()
 
-ASYNC_MODE = "eventlet"
+ASYNC_MODE = "gevent"
 ORIGINS = "*"
 ENGINEIO_LOGGER = False
 LOGGER = False
