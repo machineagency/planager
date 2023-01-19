@@ -10,3 +10,5 @@ flask_session/
 .DS_Store
 
 secrets.js
+
+.directory

@@ -9,11 +9,11 @@ export class DraggableHeader extends LitElement {
   static styles = [
     unselectable,
     css`
-      #horizontalHeader {
+      .horizontalHeader {
         min-height: 0.5rem;
         writing-mode: horizontal-tb;
       }
-      #verticalHeader {
+      .verticalHeader {
         writing-mode: vertical-lr;
         width: 1rem;
       }
@@ -33,14 +33,15 @@ export class DraggableHeader extends LitElement {
       }
       #icon-container {
         display: flex;
+        align-items: center;
       }
       #icon-slot::slotted(span) {
         display: flex;
       }
-      #horizontalHeader #icon-slot::slotted(span) {
+      .horizontalHeader slot::slotted(span) {
         margin-left: 0.2rem;
       }
-      #verticalHeader #icon-slot::slotted(span) {
+      .verticalHeader slot::slotted(span) {
         margin-top: 0.2rem;
       }
     `,
@@ -53,11 +54,12 @@ export class DraggableHeader extends LitElement {
 
   render() {
     return html`<div
-      id=${this.vertical ? "verticalHeader" : "horizontalHeader"}
-      class="unselectable header"
+      class="unselectable header ${this.vertical
+        ? "verticalHeader"
+        : "horizontalHeader"}"
     >
       <span id="title"><slot name="title"></slot></span>
-      <span id="icon-container"><slot id="icon-slot" name="icons"></slot></span>
+      <span id="icon-container"><slot name="icons"></slot></span>
     </div>`;
   }
 }

@@ -1,13 +1,13 @@
-import { LitElement, html } from "lit";
-import { ref, createRef } from "lit/directives/ref.js";
-import { styleMap } from "lit/directives/style-map.js";
+import {LitElement, html} from "lit";
+import {ref, createRef} from "lit/directives/ref.js";
+import {styleMap} from "lit/directives/style-map.js";
 
-import { themes } from "./ui/themes";
-import { ToolchainController } from "./controllers/ToolchainController";
+import {themes} from "./ui/themes";
+import {ToolchainController} from "./controllers/ToolchainController";
 
 // Basic workspace things
 import "./components/workspace_ui/Workspace";
-import "./components/workspace_ui/Toolbar";
+import {renderToolbar} from "./components/workspace_ui/Toolbar";
 
 // Tool UI
 import "./components/tool_ui/Module";
@@ -18,8 +18,8 @@ import "./components/floating_modules/ToolLibrary";
 import "./components/floating_modules/PlanagerSettings";
 import "./components/floating_modules/ToolchainInfo";
 
-import { io } from "socket.io-client";
-const socket = io({ path: "/socket.io", transports: ["websocket"] });
+import {io} from "socket.io-client";
+const socket = io({path: "/socket.io", transports: ["websocket"]});
 
 async function handleToolImport(toolType) {
   const elementName = ("planager-" + toolType.slice(1).join("-")).toLowerCase();
@@ -45,8 +45,8 @@ async function handleToolImport(toolType) {
 
 export class PlanagerRoot extends LitElement {
   canvasRef = createRef();
-  toolchainController = new ToolchainController(this);
-  currentOffset = { x: 100, y: 100 };
+  toolchainController = new ToolchainController(this, socket);
+  currentOffset = {x: 100, y: 100};
 
   static properties = {
     socket: {},
@@ -144,7 +144,7 @@ export class PlanagerRoot extends LitElement {
     // this.requestUpdate();
     socket.emit("update_tool_coordinates", {
       tool_id: toolWrapper.info.id,
-      coordinates: { x: toolWrapper.dx, y: toolWrapper.dy },
+      coordinates: {x: toolWrapper.dx, y: toolWrapper.dy},
     });
     return "DONE";
   }
@@ -152,23 +152,9 @@ export class PlanagerRoot extends LitElement {
   render() {
     return html`
       <main style=${styleMap(themes[this.theme])}>
-        <planager-toolbar .socket=${socket}></planager-toolbar>
-        <planager-workspace
-          ${ref(this.canvasRef)}
-          .socket=${socket}>
-          <!-- <planager-pane
-            slot="floating"
-            displayName="Settings"
-            style="--dx:1100;--dy:300"
-            ><planager-settings></planager-settings
-          ></planager-pane> -->
-          <!-- <planager-pane
-            slot="floating"
-            displayName="Toolchain Info"
-            .dx=${0}
-            .dy=${500}
-            ><toolchain-info .socket=${this.socket}></toolchain-info
-          ></planager-pane> -->
+        <!-- <planager-toolbar .socket=${socket}></planager-toolbar> -->
+        ${renderToolbar(this.toolchainController)}
+        <planager-workspace ${ref(this.canvasRef)} .socket=${socket}>
           <planager-pane
             slot="floating"
             displayName="Tool Library"

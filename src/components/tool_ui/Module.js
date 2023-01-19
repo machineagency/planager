@@ -81,6 +81,10 @@ export class Module extends LitElement {
       grid-row: 1;
       outline: 1px solid var(--planager-purple);
     }
+    .icon {
+      display: flex;
+      align-items: center;
+    }
   `;
   constructor() {
     super();
@@ -97,24 +101,25 @@ export class Module extends LitElement {
   }
 
   render() {
-    return html`<div
-      @pointerdown="${this.cancel}"
-      id="module">
+    return html`<div @pointerdown="${this.cancel}" id="module">
       <planager-draggable-header
         .vertical=${this.minimized}
         class=${this.minimized ? "vertical" : "horizontal"}
         @pointerdown="${this.handleDown}"
-        @pointermove="${this.handleMove}">
+        @pointermove="${this.handleMove}"
+      >
         <span slot="title">${this.info.displayName}</span>
         <span
           slot="icons"
           id="minimizeIcon"
+          class="icon"
           @click="${this.toggleMinimize}"
           >${minimize}</span
         >
         <span
           slot="icons"
           id="closeIcon"
+          class="icon"
           @click="${this.handleRemove}"
           >${close}</span
         >
@@ -129,13 +134,12 @@ export class Module extends LitElement {
                 side="left"
                 .info=${inport}
                 .portid=${inport.id}
-                .parentid=${inport.parentID}></planager-port>
+                .parentid=${inport.parentID}
+              ></planager-port>
             `
         )}
       </div>
-      <div
-        id="toolContents"
-        class=${this.minimized ? "minimized" : ""}>
+      <div id="toolContents" class=${this.minimized ? "minimized" : ""}>
         <slot></slot>
       </div>
       <div id="rightPortsContainer">
@@ -148,7 +152,8 @@ export class Module extends LitElement {
                 side="right"
                 .info=${outport}
                 .portid=${outport.id}
-                .parentid=${outport.parentID}></planager-port>
+                .parentid=${outport.parentID}
+              ></planager-port>
             `
         )}
       </div>

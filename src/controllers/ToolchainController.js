@@ -1,7 +1,9 @@
 export class ToolchainController {
   host;
-  constructor(host) {
+  socket;
+  constructor(host, socket) {
     this.host = host;
+    this.socket = socket;
     host.addController(this);
   }
 
@@ -21,6 +23,7 @@ export class ToolchainController {
 
   handleUpload(e) {
     // Get the selected file from the event target
+    console.log(this.host);
     let file = e.target.files[0];
 
     // Create a file reader and read it as text because it should be json
@@ -32,7 +35,7 @@ export class ToolchainController {
       // On load, get the fileReader result and convert it to JSON
       let jsonToolchain = JSON.parse(fileReader.result);
       // Send it to the backend
-      this.host.socket.emit("set_toolchain", jsonToolchain);
+      this.socket.emit("set_toolchain", jsonToolchain);
     };
   }
 
@@ -55,7 +58,7 @@ export class ToolchainController {
 
   downloadToolchain(e) {
     // console.log(e);
-    this.host.socket.emit("get_toolchain", (plan) => {
+    this.socket.emit("get_toolchain", (plan) => {
       const content = JSON.stringify(plan);
 
       let element = document.createElement("a");

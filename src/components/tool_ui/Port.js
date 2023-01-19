@@ -22,6 +22,7 @@ export default class Port extends LitElement {
       font-family: monospace;
       clear: both;
       pointer-events: all;
+      user-select: none;
     }
     .port:hover {
       background-color: var(--planager-green);
