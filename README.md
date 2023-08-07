@@ -1,4 +1,4 @@
-# Building Dynamic Toolchains with the Planager
+# Dynamic Toolchains
 
 ![](docs/images/watercolor.png)
 ![](docs/images/automata.png)
