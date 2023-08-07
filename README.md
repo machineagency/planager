@@ -3,7 +3,6 @@
 ![](docs/images/watercolor.png)
 ![](docs/images/automata.png)
 
-Welcome to the Planager, a system for building dynamic toolchains!
 
 ## Installation
 
